@@ -1,0 +1,57 @@
+
+# Binaries
+bin/
+obj/
+
+# Visual Studio Code
+.vscode/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet packages
+*.nuget.props
+*.paket.*
+*.paket/
+paket-files/
+
+# .NET Core
+*.dotnetcli/
+*.dotsettings
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.vscode/
+
+# Test Results
+[Tt]est[Rr]esult*/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# Rider
+.idea/
+*.sln.iml
+
+# Resharper
+_ReSharper*/
+*.resharper*
+*.DotSettings.user
+
+# Other
+*.bak
+*.cache
+*.sqlite
+*.log
