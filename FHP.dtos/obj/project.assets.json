@@ -8146,11 +8146,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FHP-BackEnd\\FHP\\FHP.dtos\\FHP.dtos.csproj",
+      "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj",
       "projectName": "FHP.dtos",
-      "projectPath": "D:\\FHP-BackEnd\\FHP\\FHP.dtos\\FHP.dtos.csproj",
+      "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\FHP-BackEnd\\FHP\\FHP.dtos\\obj\\",
+      "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -8167,14 +8167,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FHP-BackEnd\\FHP\\FHP.entity\\FHP.entity.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP\\FHP.entity\\FHP.entity.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
             },
-            "D:\\FHP-BackEnd\\FHP\\FHP.models\\FHP.models.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP\\FHP.models\\FHP.models.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj"
             },
-            "D:\\FHP-BackEnd\\FHP\\FHP.utilities\\FHP.utilities.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP\\FHP.utilities\\FHP.utilities.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
             }
           }
         }

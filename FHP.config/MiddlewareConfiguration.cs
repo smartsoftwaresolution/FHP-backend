@@ -1,4 +1,10 @@
 ﻿using FHP.datalayer;
+using FHP.datalayer.Repository.UserManagement;
+using FHP.infrastructure.Manager.UserManagement;
+using FHP.infrastructure.Repository.UserManagement;
+using FHP.infrastructure.Service;
+using FHP.manager.UserManagement;
+using FHP.services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -22,19 +28,22 @@ namespace FHP.config
         }
         public static void ConfigureManager(IServiceCollection services)
         {
-           
+            services.AddScoped<ICompanyManager, CompanyManager>();
+            services.AddScoped<IUserRoleManager, UserRoleManager>();    
         }
 
         public static void ConfigureRepository(IServiceCollection services)
         {
-          
+            services.AddScoped<ICompanyRepository, CompanyRepository>(); 
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
         }
 
         public static void ConfigureServices(IServiceCollection services)
         {
-           
+            services.AddScoped<IExceptionHandleService, ExceptionHandleService>();
+
         }
 
-        
+
     }
 }

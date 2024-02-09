@@ -17,8 +17,4 @@
     <ProjectReference Include="..\FHP.infrastructure\FHP.infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UserManagement\" />
-  </ItemGroup>
-
 </Project>

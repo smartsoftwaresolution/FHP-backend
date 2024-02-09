@@ -8031,11 +8031,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FHP-BackEnd\\FHP\\FHP.utilities\\FHP.utilities.csproj",
+      "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj",
       "projectName": "FHP.utilities",
-      "projectPath": "D:\\FHP-BackEnd\\FHP\\FHP.utilities\\FHP.utilities.csproj",
+      "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\FHP-BackEnd\\FHP\\FHP.utilities\\obj\\",
+      "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",

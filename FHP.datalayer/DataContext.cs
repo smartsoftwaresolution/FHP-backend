@@ -19,11 +19,13 @@ namespace FHP.datalayer
         }
         
         public DbSet<Company> Companies { get; set; }
+        public DbSet<UserRole> UserRole { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
             
         }
 

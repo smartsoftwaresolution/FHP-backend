@@ -10344,11 +10344,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FHP-BackEnd\\FHP\\FHP.datalayer\\FHP.datalayer.csproj",
+      "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj",
       "projectName": "FHP.datalayer",
-      "projectPath": "D:\\FHP-BackEnd\\FHP\\FHP.datalayer\\FHP.datalayer.csproj",
+      "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\FHP-BackEnd\\FHP\\FHP.datalayer\\obj\\",
+      "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.datalayer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -10365,17 +10365,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FHP-BackEnd\\FHP\\FHP.dtos\\FHP.dtos.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP\\FHP.dtos\\FHP.dtos.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj"
             },
-            "D:\\FHP-BackEnd\\FHP\\FHP.entity\\FHP.entity.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP\\FHP.entity\\FHP.entity.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
             },
-            "D:\\FHP-BackEnd\\FHP\\FHP.infrastructure\\FHP.infrastructure.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP\\FHP.infrastructure\\FHP.infrastructure.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj"
             },
-            "D:\\FHP-BackEnd\\FHP\\FHP.utilities\\FHP.utilities.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP\\FHP.utilities\\FHP.utilities.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
             }
           }
         }

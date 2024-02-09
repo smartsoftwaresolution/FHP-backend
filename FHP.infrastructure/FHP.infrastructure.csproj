@@ -19,9 +19,6 @@
 
   <ItemGroup>
     <Folder Include="DataLayer\" />
-    <Folder Include="Manager\UserManagement\" />
-    <Folder Include="Repository\UserManagement\" />
-    <Folder Include="Service\" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7J72fh51PfH9g6yrFkbGkX2KK8wrMFo2/NKElp+1xuIe5ngWUNQPV0HQKSbyIemPMonPWunl0aBx5aNLBpAvzA==",
+  "dgSpecHash": "UX2OEA1CZgy0Z4Vq5gSTIvHKBBcR/upPb2ZN843gykpy96HT7pxUrJlAgXG+EHNUZ0dUc6MYbSmz6qfKIowqOQ==",
   "success": true,
-  "projectFilePath": "D:\\FHP-BackEnd\\FHP\\FHP.services\\FHP.services.csproj",
+  "projectFilePath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HP\\.nuget\\packages\\bcrypt.net-core\\1.6.0\\bcrypt.net-core.1.6.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",

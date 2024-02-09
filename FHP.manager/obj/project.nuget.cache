@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yWBePMUBZqc5pm/LNIZjU/rRBAtfLD9hAr+OG2xQdguLs6XLIaAbKB4GAW1qWhpBvglmi17z7Q+A93hbfxCvuw==",
+  "dgSpecHash": "Ws+OfA8L5vmPTlCzZqaZ6dA97lkYomaR+A3BWt2+PQGPcKSLRvPrHB6HhRTVbGcf87umOkse4n7Bfcm0xiDaRQ==",
   "success": true,
-  "projectFilePath": "D:\\FHP-BackEnd\\FHP\\FHP.manager\\FHP.manager.csproj",
+  "projectFilePath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.manager\\FHP.manager.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HP\\.nuget\\packages\\bcrypt.net-core\\1.6.0\\bcrypt.net-core.1.6.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512",

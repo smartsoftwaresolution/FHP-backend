@@ -27,7 +27,7 @@ paket-files/
 *.cache
 *.log
 *.vscode/
-
+.vs
 # Test Results
 [Tt]est[Rr]esult*/
 
@@ -55,3 +55,6 @@ _ReSharper*/
 *.cache
 *.sqlite
 *.log
+
+
+*.jfm
