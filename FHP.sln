@@ -3,27 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP", "FHP\FHP.csproj", "{7AC9852E-412A-41BD-8F57-2DFC4BDD698B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP", "FHP\FHP.csproj", "{7AC9852E-412A-41BD-8F57-2DFC4BDD698B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP.config", "FHP.config\FHP.config.csproj", "{39B4C2C5-1DD9-4991-B73F-D7CA56CB6FC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP.config", "FHP.config\FHP.config.csproj", "{39B4C2C5-1DD9-4991-B73F-D7CA56CB6FC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP.datalayer", "FHP.datalayer\FHP.datalayer.csproj", "{3E035849-7D44-4537-96CF-8FF4D42B6B28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP.datalayer", "FHP.datalayer\FHP.datalayer.csproj", "{3E035849-7D44-4537-96CF-8FF4D42B6B28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP.dtos", "FHP.dtos\FHP.dtos.csproj", "{DFF7327C-17EF-4469-9537-1E3CB5C49F84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP.dtos", "FHP.dtos\FHP.dtos.csproj", "{DFF7327C-17EF-4469-9537-1E3CB5C49F84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP.entity", "FHP.entity\FHP.entity.csproj", "{A84A645B-D3F6-4C93-A580-BF72040AE519}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP.entity", "FHP.entity\FHP.entity.csproj", "{A84A645B-D3F6-4C93-A580-BF72040AE519}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP.factories", "FHP.factories\FHP.factories.csproj", "{94A27847-7AD5-4377-A76F-2854DC3CFF16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP.factories", "FHP.factories\FHP.factories.csproj", "{94A27847-7AD5-4377-A76F-2854DC3CFF16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP.infrastructure", "FHP.infrastructure\FHP.infrastructure.csproj", "{FDD49659-9E84-48D1-AC28-8B2216AA5C97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP.infrastructure", "FHP.infrastructure\FHP.infrastructure.csproj", "{FDD49659-9E84-48D1-AC28-8B2216AA5C97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP.manager", "FHP.manager\FHP.manager.csproj", "{52562B7E-EC0B-41E3-A740-DEBC2CB47523}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP.manager", "FHP.manager\FHP.manager.csproj", "{52562B7E-EC0B-41E3-A740-DEBC2CB47523}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP.models", "FHP.models\FHP.models.csproj", "{FE5CC66D-6483-410A-8F18-6DDCA576352E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP.models", "FHP.models\FHP.models.csproj", "{FE5CC66D-6483-410A-8F18-6DDCA576352E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP.services", "FHP.services\FHP.services.csproj", "{C691784C-99F0-4796-8097-5461680F9F71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP.services", "FHP.services\FHP.services.csproj", "{C691784C-99F0-4796-8097-5461680F9F71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHP.utilities", "FHP.utilities\FHP.utilities.csproj", "{CEE499E2-B2C3-4C0A-91AC-937D2B9D7D77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHP.utilities", "FHP.utilities\FHP.utilities.csproj", "{CEE499E2-B2C3-4C0A-91AC-937D2B9D7D77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

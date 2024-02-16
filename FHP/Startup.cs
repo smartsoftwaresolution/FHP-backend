@@ -1,9 +1,4 @@
-﻿//using FHP.config;
-//using FHP.Controllers;
-//using FHP.DataLayer;
-//using FHP.infrastructure.Services;
-//using FHP.models.Deal;
-//using FHP.services;
+﻿
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -42,7 +37,7 @@ namespace FHP
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            //LogManager.Configuration = new XmlLoggingConfiguration("nlog.config"); // Loading NLog configuration from a file only defined log level
+           //LogManager.Configuration = new XmlLoggingConfiguration("nlog.config"); // Loading NLog configuration from a file only defined log level
         }
 
         public IConfiguration Configuration { get; }
@@ -54,26 +49,6 @@ namespace FHP
               .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information));
 
 
-
-            //services.AddHttpClient<ITwilioRestClient, TwilioClient>();
-            //services.AddIdentity<AppUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<DataContext>()
-            //    .AddDefaultTokenProviders();
-            ////services.AddScoped<ITwilioService, TwilioService>();
-
-            //services.AddScoped<ContactLogFilter<AddDealModel>>();
-            //services.AddScoped<AudioConverter>();
-            //services.AddScoped<VoskRecognizer>(_ =>
-            //{
-            //    Vosk.Vosk.SetLogLevel(0);
-            //    var model = new Model("model-vosk");
-            //    var spkModel = new SpkModel("model-spk");
-            //    var recognizer = new VoskRecognizer(model, 16000.0f);
-            //    recognizer.SetSpkModel(spkModel);
-            //    recognizer.SetMaxAlternatives(0);
-            //    recognizer.SetWords(true);
-            //    return recognizer;
-            //});
             services.AddControllers()
                    .AddJsonOptions(options =>
                    {
@@ -104,7 +79,7 @@ namespace FHP
             {
                 // setup.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Main API v1.0", Version = "v1.0" });
               //  services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }); });
-                //setup.OperationFilter<CustomHeader>();
+                setup.OperationFilter<CustomHeader>();
                 // Include 'SecurityScheme' to use JWT Authentication
                 var jwtSecurityScheme = new OpenApiSecurityScheme
                 {
@@ -129,7 +104,7 @@ namespace FHP
                          {
                              jwtSecurityScheme, Array.Empty<string>()
                          }
-                     });
+                });
 
             });
 
@@ -146,6 +121,7 @@ namespace FHP
                     x.RequireHttpsMetadata = false;
                     x.SaveToken = true;
                     x.TokenValidationParameters = new TokenValidationParameters
+
                     {
                         ValidIssuer = Configuration.GetValue<string>("Jwt:Issuer"),
                         ValidAudience = Configuration.GetValue<string>("Jwt:Audience"),
@@ -162,25 +138,7 @@ namespace FHP
             });
             services.AddCors(options =>
             {
-                //options.AddPolicy("CorsPolicy", policy =>
-                //{
-                //    //policy.AllowAnyHeader()
-                //    //    .AllowAnyMethod()
-                //    //    .AllowAnyOrigin()
-                //    //.WithOrigins("http://localhost:3000",
-                //    //"http://localhost:3001",
-                //    //"http://localhost:3002",
-                //    //"http://localhost:3003",
 
-                //    //"https://contactaholic.com/",
-
-                //    //    "https://contactaholic.com:5001",
-                //    //"https://www.contactaholic.com",
-                //    //"https://www.contactaholic.com",//with www
-                //    //"https://www.contactaholic.com:5001",//with www,
-                //    //"https://www.contactaholic.com:4100")//for email-client
-                //    .AllowCredentials();
-                //});
             });
 
 
@@ -204,7 +162,6 @@ namespace FHP
 
 
          //   services.AddSingleton<IImapService, ImapService>();
-
 
             /*services.AddTransient<IImapService>(provider =>
             {
@@ -233,17 +190,10 @@ namespace FHP
             );
 
 
-            //services.AddSingleton<ITwilioRestClient>(s =>
-            //         new TwilioRestClient(
-            //             Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID"),
-            //             Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN")
-            //         )
-            //     );
-
 
             services.AddHangfireServer();
 
-            //services.AddScoped<IEmailService, EmailService>();//27-7
+            //services.AddScoped<IEmailService, EmailService>();
 
 
         }
@@ -258,7 +208,7 @@ namespace FHP
                     app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
                     // c.SwaggerEndpoint("/swagger/v1/swagger.json", "Versioned API v1.0");
                     // c.DocExpansion("none");
-                    c.DocumentTitle = "ecall-crm";
+                    c.DocumentTitle = " ";
                     c.DocExpansion(DocExpansion.None);
                 });
                 app.UseDeveloperExceptionPage();
@@ -313,7 +263,7 @@ namespace FHP
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-              //  endpoints.MapHub<Controllers.ChatHub>(pattern: "/hubs/chat");     // path will look like this https://localhost:44379/chatsocket 
+              //endpoints.MapHub<Controllers.ChatHub>(pattern: "/hubs/chat");     // path will look like this https://localhost:44379/chatsocket 
             });
 
         }

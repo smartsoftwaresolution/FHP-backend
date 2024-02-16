@@ -12,37 +12,6 @@ namespace FHP.utilities
 
         public const int DefaultPageSize = 10;
 
-        //public const string baseUrl = "https://localhost:5001/attachments/";
-        //public const string baseSiteUrl = "https://localhost:5001/api/";
-
-
-
-
-        // development server 5000
-        //public const string baseUrl = "https://www.contactaholic.com:5000/attachments/";
-        //public const string baseSiteUrl = "https://www.contactaholic.com:5000/api/";
-        //public static string siteUrl = "https://www.contactaholic.com:5000/";
-        //public static string pixelTrackingUrl = "https://www.contactaholic.com:5000/pixel.gif";
-
-
-        //public const string baseUrl = "https://contactaholic.com:5000/attachments/";
-        //public const string baseSiteUrl = "https://contactaholic.com:5000/api/";
-        //public static string siteUrl = "https://contactaholic.com:5000/";
-        //public static string pixelTrackingUrl = "https://contactaholic.com:5000/pixel.gif";
-
-
-        //for contactaholic(client) 4000
-        //public const string baseUrl = "https://www.contactaholic.com:4000/attachments/";
-        //public const string baseSiteUrl = "https://www.contactaholic.com:4000/api/";
-        //public static string siteUrl = "https://www.contactaholic.com:4000/";
-        //public static string pixelTrackingUrl = "https://www.contactaholic.com:4000/pixel.gif";
-
-        //public const string baseUrl = "https://contactaholic.com:4000/attachments/";
-        //public const string baseSiteUrl = "https://contactaholic.com:4000/api/";
-        //public static string siteUrl = "https://contactaholic.com:4000/";
-        //public static string pixelTrackingUrl = "https://contactaholic.com:4000/pixel.gif";
-
-
 
         public const string deleted = "record(s) deleted successfully!!";
         public const string added = "record added successfully!!";
@@ -105,17 +74,6 @@ namespace FHP.utilities
         }
         public const string SessionKeyName = "CompanyTenantId";
         public string SessionInfo_Name { get; private set; }
-
-        public class TwilioCallStatus
-        {
-            public const string Initiated = "initiated";
-            public const string Ringing = "ringing";
-            public const string InProgress = "in-progress";
-            public const string Completed = "completed";
-        }
-
-
-
 
 
         /*public static class Global

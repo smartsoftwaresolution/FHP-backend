@@ -1,6 +1,8 @@
 ﻿using FHP.datalayer;
+using FHP.datalayer.Repository;
 using FHP.datalayer.Repository.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;
+using FHP.infrastructure.Repository;
 using FHP.infrastructure.Repository.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.manager.UserManagement;
@@ -29,13 +31,19 @@ namespace FHP.config
         public static void ConfigureManager(IServiceCollection services)
         {
             services.AddScoped<ICompanyManager, CompanyManager>();
-            services.AddScoped<IUserRoleManager, UserRoleManager>();    
+            services.AddScoped<IUserRoleManager, UserRoleManager>();
+            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<IScreenManager, ScreenManager>();
+            services.AddScoped<IEmailSettingManager, EmailSettingManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
         {
             services.AddScoped<ICompanyRepository, CompanyRepository>(); 
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IScreenRepository, ScreenRepository>();
+            services.AddScoped<IEmailSettingRepository,EmailSettingRepository>();
         }
 
         public static void ConfigureServices(IServiceCollection services)
