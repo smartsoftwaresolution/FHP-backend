@@ -11847,6 +11847,7 @@
       "FHP.infrastructure >= 1.0.0",
       "FHP.models >= 1.0.0",
       "FHP.services >= 1.0.0",
+      "FHP.utilities >= 1.0.0",
       "Faker.Net >= 1.5.138",
       "FirebaseAdmin >= 2.3.0",
       "Google.Apis >= 1.60.0",
@@ -11912,6 +11913,9 @@
             },
             "D:\\FHP-BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj": {
               "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj"
+            },
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
             }
           }
         }

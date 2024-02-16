@@ -43,6 +43,7 @@
     <ProjectReference Include="..\FHP.infrastructure\FHP.infrastructure.csproj" />
     <ProjectReference Include="..\FHP.models\FHP.models.csproj" />
     <ProjectReference Include="..\FHP.services\FHP.services.csproj" />
+    <ProjectReference Include="..\FHP.utilities\FHP.utilities.csproj" />
   </ItemGroup>
 
 </Project>

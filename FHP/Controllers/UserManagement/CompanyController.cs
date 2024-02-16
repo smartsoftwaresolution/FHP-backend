@@ -35,7 +35,9 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                if (model.Id == 0 && model.UserId != 0 && !string.IsNullOrEmpty(model.Name) && !string.IsNullOrEmpty(model.Description))
+                if (model.Id == 0 && model.UserId != 0 && 
+                    !string.IsNullOrEmpty(model.Name)  && 
+                    !string.IsNullOrEmpty(model.Description))
                 {
                     await _manager.AddAsync(model);
                     response.StatusCode = 200;
