@@ -1,8 +1,6 @@
 ﻿using FHP.datalayer;
-using FHP.datalayer.Repository;
 using FHP.datalayer.Repository.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;
-using FHP.infrastructure.Repository;
 using FHP.infrastructure.Repository.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.manager.UserManagement;

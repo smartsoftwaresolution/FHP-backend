@@ -14,5 +14,7 @@ namespace FHP.infrastructure.Repository.UserManagement
         void Edit(UserScreenAccess entity);
         Task<UserScreenAccess> GetAsync(int id);
         Task<(List<UserScreenAccessDto> userScreenAccess, int totalCount)> GetAllAsync(int page, int pageSize, int roleId);
+        Task<UserScreenAccessDto> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
     }
 }

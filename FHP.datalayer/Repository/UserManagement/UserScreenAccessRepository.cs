@@ -1,7 +1,8 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+﻿
 using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
+using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,32 @@ namespace FHP.datalayer.Repository.UserManagement
 
             return (userScreenAccess, totalCount);
             
+        }
+
+        public async Task<UserScreenAccessDto> GetByIdAsync(int id)
+        {
+            return await (from s in _dataContext.UserScreenAccess
+                          where s.Status != utilities.Constants.RecordStatus.Deleted &&
+                          s.Id == id
+                          select new UserScreenAccessDto
+                          {
+                              Id = s.Id,
+                              RoleId = s.RoleId,
+                              ScreenId = s.ScreenId,
+                              ScreenName = s.Screen.ScreenName,
+                              UserRoleName = s.UserRole.RoleName,
+                              CreatedOn = s.CreatedOn,
+                              Status = s.Status,
+                          }).AsNoTracking().FirstOrDefaultAsync();
+
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var data = await _dataContext.UserScreenAccess.Where(s => s.Id == id).FirstOrDefaultAsync();
+            data.Status = Constants.RecordStatus.Deleted;
+            _dataContext.Update(data);
+            await _dataContext.SaveChangesAsync();  
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.ExtendedProperties;
+﻿using Castle.Core.Logging;
+using DocumentFormat.OpenXml.ExtendedProperties;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement;
@@ -107,6 +108,66 @@ namespace FHP.Controllers.UserManagement
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
+            }
+            catch(Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+
+        [HttpGet("getbyid")]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+                var data = await _manager.GetByIdAsync(id);
+                if(data != null)
+                {
+                    response.StatusCode = 200;
+                    response.Data = data;
+                    return Ok(response);
+                }
+
+                response.StatusCode = 400;
+                response.Message = Constants.error;
+                return BadRequest(response);
+            }
+            catch(Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if(id <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message= "Id required.";
+                    return BadRequest(response);
+                }
+                await _manager.DeleteAsync(id);
+                response.StatusCode=200;
+                response.Message = Constants.deleted;
+                return Ok(response);
             }
             catch(Exception ex)
             {

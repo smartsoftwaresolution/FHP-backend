@@ -36,5 +36,16 @@ namespace FHP.manager.UserManagement
         {
             return await _repository.GetAllAsync( page,pageSize,roleId);
         }
+
+        public async Task<UserScreenAccessDto> GetByIdAsync(int id)
+        {
+            return await _repository.GetByIdAsync(id);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _repository.DeleteAsync(id);
+        }
+
     }
 }
