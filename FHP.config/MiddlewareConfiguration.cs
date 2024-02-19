@@ -35,6 +35,8 @@ namespace FHP.config
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IScreenManager, ScreenManager>();
             services.AddScoped<IEmailSettingManager, EmailSettingManager>();
+            services.AddScoped<IPermissionManager, PermissionManager>();
+            services.AddScoped<IUserScreenAccessManager, UserScreenAccessManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -44,6 +46,8 @@ namespace FHP.config
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IScreenRepository, ScreenRepository>();
             services.AddScoped<IEmailSettingRepository,EmailSettingRepository>();
+            services.AddScoped<IPermissionRepository, PermissionRepository>();
+            services.AddScoped<IUserScreenAccessRepository, UserScreenAccessRepository>();
         }
 
         public static void ConfigureServices(IServiceCollection services)

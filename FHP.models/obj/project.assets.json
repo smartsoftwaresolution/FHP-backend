@@ -2760,6 +2760,20 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
+      "FHP.entity/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "FHP.utilities": "1.0.0",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.21"
+        },
+        "compile": {
+          "bin/placeholder/FHP.entity.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FHP.entity.dll": {}
+        }
+      },
       "FHP.utilities/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -8078,6 +8092,11 @@
         "system.xml.xdocument.nuspec"
       ]
     },
+    "FHP.entity/1.0.0": {
+      "type": "project",
+      "path": "../FHP.entity/FHP.entity.csproj",
+      "msbuildProject": "../FHP.entity/FHP.entity.csproj"
+    },
     "FHP.utilities/1.0.0": {
       "type": "project",
       "path": "../FHP.utilities/FHP.utilities.csproj",
@@ -8086,6 +8105,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "FHP.entity >= 1.0.0",
       "FHP.utilities >= 1.0.0",
       "Microsoft.AspNetCore.Http.Features >= 5.0.10",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.21"
@@ -8118,6 +8138,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
+            },
             "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
               "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
             }
