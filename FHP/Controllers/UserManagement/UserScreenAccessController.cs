@@ -158,14 +158,14 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                if(id <= 0)
+                if (id <= 0)
                 {
                     response.StatusCode = 400;
-                    response.Message= "Id required.";
+                    response.Message = "Id required.";
                     return BadRequest(response);
                 }
                 await _manager.DeleteAsync(id);
-                response.StatusCode=200;
+                response.StatusCode = 200;
                 response.Message = Constants.deleted;
                 return Ok(response);
             }

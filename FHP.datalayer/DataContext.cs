@@ -26,6 +26,9 @@ namespace FHP.datalayer
         public DbSet<LoginModule> LoginModule { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<UserScreenAccess> UserScreenAccess { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<State> States { get; set; }
+        public DbSet<City> Cities { get; set; } 
 
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,6 +41,9 @@ namespace FHP.datalayer
             modelBuilder.ApplyConfiguration(new EmailSettingConfiguration());  
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
             modelBuilder.ApplyConfiguration(new UserScreenAccessConfiguration());
+            modelBuilder.ApplyConfiguration(new CountryConfiguration());
+            modelBuilder.ApplyConfiguration(new StateConfiguration());
+            modelBuilder.ApplyConfiguration(new CityConfiguration());
         }
 
     }
