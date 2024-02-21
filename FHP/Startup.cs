@@ -37,7 +37,7 @@ namespace FHP
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-           //LogManager.Configuration = new XmlLoggingConfiguration("nlog.config"); // Loading NLog configuration from a file only defined log level
+          //LogManager.Configuration = new XmlLoggingConfiguration("nlog.config"); // Loading NLog configuration from a file only defined log level
         }
 
         public IConfiguration Configuration { get; }
@@ -45,8 +45,8 @@ namespace FHP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("DataConnection"))
-              .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information));
+            options.UseSqlServer(Configuration.GetConnectionString("DataConnection"))
+            .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information));
 
 
             services.AddControllers()
@@ -69,6 +69,7 @@ namespace FHP
             {
                 c.DefaultRequestHeaders.Add("X-Custom-Env", "TEST");
             });
+
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddControllers(options => options.EnableEndpointRouting = false);
             services.AddControllersWithViews(options => options.EnableEndpointRouting = false);
@@ -77,10 +78,10 @@ namespace FHP
 
             services.AddSwaggerGen(setup =>
             {
-                // setup.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Main API v1.0", Version = "v1.0" });
-              //  services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }); });
+              //setup.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Main API v1.0", Version = "v1.0" });
+              //services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }); });
                 setup.OperationFilter<CustomHeader>();
-                // Include 'SecurityScheme' to use JWT Authentication
+              //Include 'SecurityScheme' to use JWT Authentication
                 var jwtSecurityScheme = new OpenApiSecurityScheme
                 {
                     Scheme = "bearer",
@@ -131,11 +132,13 @@ namespace FHP
                         ValidateAudience = false
                     };
                 });
+
             services.AddSignalR((options) =>
             {
                 options.KeepAliveInterval = TimeSpan.FromSeconds(15);
                 options.MaximumReceiveMessageSize = 102400000;
             });
+
             services.AddCors(options =>
             {
 
@@ -193,7 +196,7 @@ namespace FHP
 
             services.AddHangfireServer();
 
-            //services.AddScoped<IEmailService, EmailService>();
+          //services.AddScoped<IEmailService, EmailService>();
 
 
         }
@@ -206,8 +209,8 @@ namespace FHP
                 app.UseSwaggerUI(c =>
                 {
                     app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
-                    // c.SwaggerEndpoint("/swagger/v1/swagger.json", "Versioned API v1.0");
-                    // c.DocExpansion("none");
+                  //c.SwaggerEndpoint("/swagger/v1/swagger.json", "Versioned API v1.0");
+                  //c.DocExpansion("none");
                     c.DocumentTitle = " ";
                     c.DocExpansion(DocExpansion.None);
                 });
@@ -242,14 +245,14 @@ namespace FHP
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                // c.SwaggerEndpoint("/swagger/v1/swagger.json", "Versioned API v1.0");
+              //c.SwaggerEndpoint("/swagger/v1/swagger.json", "Versioned API v1.0");
                 app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
-                // c.DocExpansion("none");
+              //c.DocExpansion("none");
                 c.DocumentTitle = "Title Documentation";
                 c.DocExpansion(DocExpansion.None);
             });
             app.UseAuthentication();
-            // app.UseSession();
+          //app.UseSession();
             app.UseMvc();
 
 
@@ -272,8 +275,8 @@ namespace FHP
         {
             var headerName = "OnResultExecuting";
             context.HttpContext.Response.Headers.Add(
-                headerName, new string[] { "ResultExecutingSuccessfully" });
-            //_logger.LogInformation("Header added: {HeaderName}", headerName);
+            headerName, new string[] { "ResultExecutingSuccessfully" });
+          //_logger.LogInformation("Header added: {HeaderName}", headerName);
         }
     }
 }

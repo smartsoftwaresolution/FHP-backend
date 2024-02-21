@@ -6,15 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FHP.infrastructure.Repository
+namespace FHP.infrastructure.Repository.UserManagement
 {
-    public  interface IScreenRepository
+    public interface IScreenRepository
     {
         Task AddAsync(Screen entity);
         Task<Screen> GetAsync(int id);
         void Edit(Screen entity);
         Task<List<ScreenDetailDto>> GetAllAsync(int CompanyId);
-        Task<ScreenDetailDto> GetByIdAsync(int id,int CompanyId);
+        Task<ScreenDetailDto> GetByIdAsync(int id, int CompanyId);
         Task DeleteAsync(int id, int CompanyId);
     }
 }

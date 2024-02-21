@@ -1,6 +1,6 @@
 ﻿using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
-using FHP.infrastructure.Repository;
+using FHP.infrastructure.Repository.UserManagement;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 using System;

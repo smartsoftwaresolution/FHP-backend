@@ -49,3 +49,5 @@ D:\FHP-BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.dll
 D:\FHP-BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\refint\FHP.manager.dll
 D:\FHP-BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.pdb
 D:\FHP-BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\ref\FHP.manager.dll
+D:\FHP-BackEnd\FHP-backend\FHP.manager\bin\Debug\net6.0\FHP.datalayer.dll
+D:\FHP-BackEnd\FHP-backend\FHP.manager\bin\Debug\net6.0\FHP.datalayer.pdb

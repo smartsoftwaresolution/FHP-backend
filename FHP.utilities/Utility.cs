@@ -147,6 +147,7 @@ namespace FHP.utilities
                 return path;
             }
 
+
             public static string GetInvoiceFolder(string basePath)
             {
                 var path = $"{basePath}\\invoice\\";
@@ -176,7 +177,7 @@ namespace FHP.utilities
 
             public static string Encrypt(string plainText)
             {
-                if (plainText == null) throw new ArgumentNullException("plainText");
+            if (plainText == null) throw new ArgumentNullException("plainText");
 
                 //encrypt data
                 //var data = Encoding.Unicode.GetBytes(plainText);
@@ -214,13 +215,13 @@ namespace FHP.utilities
                 {
                     throw ex;
                 }
+
                 //parse base64 string
                 //byte[] data = Convert.FromBase64String(cipher);
 
                 //decrypt data
                 // byte[] decrypted = ProtectedData.Unprotect(data, null, DataProtectionScope.CurrentUser);
                 //return Encoding.Unicode.GetString(decrypted);
-
             }
 
             public static List<string> GetSrcInHTMLImgString(string htmlString)
