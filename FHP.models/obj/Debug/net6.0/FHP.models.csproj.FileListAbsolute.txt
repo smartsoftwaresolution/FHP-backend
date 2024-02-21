@@ -29,3 +29,5 @@ D:\FHP-BackEnd\FHP-backend\FHP.models\obj\Debug\net6.0\FHP.models.dll
 D:\FHP-BackEnd\FHP-backend\FHP.models\obj\Debug\net6.0\refint\FHP.models.dll
 D:\FHP-BackEnd\FHP-backend\FHP.models\obj\Debug\net6.0\FHP.models.pdb
 D:\FHP-BackEnd\FHP-backend\FHP.models\obj\Debug\net6.0\ref\FHP.models.dll
+D:\FHP-BackEnd\FHP-backend\FHP.models\bin\Debug\net6.0\FHP.entity.dll
+D:\FHP-BackEnd\FHP-backend\FHP.models\bin\Debug\net6.0\FHP.entity.pdb

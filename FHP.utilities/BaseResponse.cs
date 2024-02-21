@@ -90,7 +90,8 @@ namespace FHP.utilities
             public int AgentsPaused { get; set; }
             #endregion
 
-            //public int DialLevel { get; set; }
+          
+          //public int DialLevel { get; set; }
             public int DialableLeads { get; set; }
             public decimal ContactRate { get; set; }
             public int WaitingCalls { get; set; }
