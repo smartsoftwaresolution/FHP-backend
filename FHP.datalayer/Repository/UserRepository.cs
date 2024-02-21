@@ -27,6 +27,7 @@ namespace FHP.datalayer.Repository
             entity.RoleId = roleId;
             await _dataContext.User.AddAsync(entity);
             await _dataContext.SaveChangesAsync();
+
         }
 
         public async Task<User> GetAsync(int id)
