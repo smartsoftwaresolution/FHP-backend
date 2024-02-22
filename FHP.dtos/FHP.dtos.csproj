@@ -17,8 +17,4 @@
     <ProjectReference Include="..\FHP.utilities\FHP.utilities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="FHP\" />
-  </ItemGroup>
-
 </Project>

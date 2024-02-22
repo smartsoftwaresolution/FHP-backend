@@ -33,8 +33,4 @@
     <ProjectReference Include="..\FHP.utilities\FHP.utilities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\FHP\" />
-  </ItemGroup>
-
 </Project>

@@ -1,8 +1,12 @@
 ﻿using FHP.datalayer;
+using FHP.datalayer.Repository.FHP;
 using FHP.datalayer.Repository.UserManagement;
+using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
+using FHP.infrastructure.Repository.FHP;
 using FHP.infrastructure.Repository.UserManagement;
 using FHP.infrastructure.Service;
+using FHP.manager.FHP;
 using FHP.manager.UserManagement;
 using FHP.services;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +42,7 @@ namespace FHP.config
             services.AddScoped<ICountryManager, CountryManager>();
             services.AddScoped<IStateManager, StateManager>();
             services.AddScoped<ICityManager, CityManager>();
+            services.AddScoped<IEmployeeDetailManager, EmployeeDetailManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -52,7 +57,7 @@ namespace FHP.config
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IStateRepository,StateRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
-
+            services.AddScoped<IEmployeeDetailRepository,EmployeeDetailRepository>();
         }
 
 

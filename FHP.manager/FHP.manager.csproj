@@ -18,8 +18,4 @@
     <ProjectReference Include="..\FHP.infrastructure\FHP.infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="FHP\" />
-  </ItemGroup>
-
 </Project>
