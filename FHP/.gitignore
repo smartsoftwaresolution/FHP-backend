@@ -21,11 +21,18 @@ bin/
 bld/
 [Bb]in/
 [Oo]bj/
-/bin/
-/obj/
+
 
 # Visual Studio 2015 cache/options directory
 .vs/
+/bin/
+/obj/
+
+#Visual Studio Code
+.vscode/
+.vs/
+/bin/
+/obj/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
@@ -235,3 +242,8 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+/FHP/Migrations
+/FHP/wwwroot
+
+
