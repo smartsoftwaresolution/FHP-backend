@@ -1,4 +1,4 @@
-﻿using FHP.datalayer.Migrations;
+﻿
 using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using Microsoft.EntityFrameworkCore;
@@ -41,86 +41,84 @@ namespace FHP.datalayer.Repository
             _dataContext.SaveChanges();
         }
 
-        public async Task<List<UserDetailDto>> GetAllAsync( int companyId)
+        public async Task<List<UserDetailDto>> GetAllAsync( )
         {
             return await (from s in _dataContext.User
                           join t in _dataContext.UserRole 
                           on s.RoleId equals t.Id
                           where s.Status != utilities.Constants.RecordStatus.Deleted 
-                          && (companyId == 0 || s.CompanyId == companyId)
+                        
                           
                           select new UserDetailDto
                           {
-                              Id=s.Id,
-                              CompanyId=s.CompanyId,
-                            //CompanyName = _dataContext.Companies.Where(e => e.Id == s.CompanyId).Select(q=> q.Name).FirstOrDefault(),
-                              CompanyName = (from i in _dataContext.Companies where s.CompanyId == i.Id select   i.Name ).FirstOrDefault(),
+                              Id=s.Id,   
                               RoleId = s.RoleId,
                               RoleName = t.RoleName,
-                              GovernmentId=s.GovernmentId,
-                              FullName=s.FullName,
+                              FirstName=s.FirstName,
+                              LastName=s.LastName,
                               Email=s.Email,
-                              Address=s.Address,
                               Password=s.Password,
-                              MobileNumber=s.MobileNumber,
+                              GovernmentId=s.GovernmentId,
                               Status=s.Status,
                               CreatedOn = s.CreatedOn,
                               UpdatedOn = s.UpdatedOn,  
                           }).ToListAsync();
         }
 
-        public async Task<UserDetailDto> GetByIdAsync(int id, int companyId)
+        public async Task<UserDetailDto> GetByIdAsync(int id)
         {
 
             return await (from s in _dataContext.User
+                          join t in _dataContext.UserRole
+                         on s.RoleId equals t.Id
                           where s.Status != utilities.Constants.RecordStatus.Deleted && s.Id == id 
-                          && s.CompanyId==companyId
+                         
                           select new UserDetailDto
                           {
-                              Id=s.Id,
-                              CompanyId=s.CompanyId,
-                              RoleId=s.RoleId,
-                              GovernmentId=s.GovernmentId,
-                              FullName=s.FullName,
-                              Email=s.Email,
-                              Address=s.Address,
-                              Password=s.Password,
-                              MobileNumber=s.MobileNumber,
-                              Status=s.Status,
+                              Id = s.Id,
+                              RoleId = s.RoleId,
+                              RoleName = t.RoleName,
+                              FirstName = s.FirstName,
+                              LastName = s.LastName,
+                              Email = s.Email,
+                              Password = s.Password,
+                              GovernmentId = s.GovernmentId,
+                              Status = s.Status,
                               CreatedOn = s.CreatedOn,
                               UpdatedOn = s.UpdatedOn,
                           }).FirstOrDefaultAsync();
 
         }
 
-        public async Task DeleteAsync(int id, int companyId)
+        public async Task DeleteAsync(int id)
         {
-         var data=   await _dataContext.User.Where(s => s.Id == id && s.CompanyId == companyId).FirstOrDefaultAsync();
+         var data=   await _dataContext.User.Where(s => s.Id == id ).FirstOrDefaultAsync();
             data.Status=Constants.RecordStatus.Deleted;
             _dataContext.User.Update(data);
             await _dataContext.SaveChangesAsync();
 
         }
 
-        public async Task<UserDetailDto> GetUserByEmail(string email, int companyId)
+        public async Task<UserDetailDto> GetUserByEmail(string email)
         {
             
                 return await (from s in _dataContext.User
+                              join t in _dataContext.UserRole
+                                 on s.RoleId equals t.Id
                               where s.Status != utilities.Constants.RecordStatus.Deleted
                               && s.Email == email
-                              && s.CompanyId == companyId
+                            
 
                               select new UserDetailDto
                               {
                                   Id = s.Id,
-                                  CompanyId = s.CompanyId,
                                   RoleId = s.RoleId,
-                                  GovernmentId = s.GovernmentId,
-                                  FullName = s.FullName,
+                                  RoleName = t.RoleName,
+                                  FirstName = s.FirstName,
+                                  LastName = s.LastName,
                                   Email = s.Email,
-                                  Address = s.Address,
                                   Password = s.Password,
-                                  MobileNumber = s.MobileNumber,
+                                  GovernmentId = s.GovernmentId,
                                   Status = s.Status,
                                   CreatedOn = s.CreatedOn,
                                   UpdatedOn = s.UpdatedOn,
@@ -129,28 +127,26 @@ namespace FHP.datalayer.Repository
         }
 
 
-       public async Task<UserDetailDto> GetUserByGovernmentId(string  governmentId,int companyId)
+       public async Task<UserDetailDto> GetUserByGovernmentId(string  governmentId)
         {
           return  await (from s in _dataContext.User 
                          join t in _dataContext.UserRole on s.RoleId equals t.Id
                    where s.Status != utilities.Constants.RecordStatus.Deleted
                    && s.GovernmentId == governmentId
-                   && s.CompanyId == companyId
+                  
                    select new UserDetailDto
                    {
-                       Id=s.Id,
-                       CompanyId=s.CompanyId,
-                       RoleId=s.RoleId,
-                       RoleName=t.RoleName,
-                       GovernmentId=s.GovernmentId,
-                       FullName=s.FullName,
-                       Email=s.Email,
-                       Address=s.Address,
-                       Password=s.Password,
-                       MobileNumber=s.MobileNumber,
-                       Status=s.Status,
-                       CreatedOn=s.CreatedOn,
-                       UpdatedOn=s.UpdatedOn,
+                       Id = s.Id,
+                       RoleId = s.RoleId,
+                       RoleName = t.RoleName,
+                       FirstName = s.FirstName,
+                       LastName = s.LastName,
+                       Email = s.Email,
+                       Password = s.Password,
+                       GovernmentId = s.GovernmentId,
+                       Status = s.Status,
+                       CreatedOn = s.CreatedOn,
+                       UpdatedOn = s.UpdatedOn,
                    }).AsNoTracking().FirstOrDefaultAsync();      
         }
 
@@ -169,7 +165,7 @@ namespace FHP.datalayer.Repository
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task UserLogOut(int userId,int companyId)
+        public async Task UserLogOut(int userId)
         {
             var data = await _dataContext.LoginModule.Where(x => x.UserId == userId ).FirstOrDefaultAsync();
             if (data != null )

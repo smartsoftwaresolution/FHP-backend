@@ -14,7 +14,6 @@ namespace FHP.factories.UserManagement
         {
             var data = new Company
             {
-                Id = model.Id,
                 UserId = model.UserId,
                 Name = model.Name,
                 Description = model.Description,

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FHP.entity.UserManagement;
+using FHP.entity.FHP;
+using FHP.datalayer.EntityConfiguration.FHP;
 
 namespace FHP.datalayer
 {
@@ -28,12 +30,26 @@ namespace FHP.datalayer
         public DbSet<UserScreenAccess> UserScreenAccess { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> States { get; set; }
-        public DbSet<City> Cities { get; set; } 
+        public DbSet<City> Cities { get; set; }
+
+        #endregion
+
+        #region FHP
+        public DbSet<SkillsDetail> SkillsDetails { get; set; }
+        public DbSet<EmployeeDetail> EmployeeDetails { get; set; }
+        public DbSet<EmployerDetail> EmployerDetails { get; set; }
+        public DbSet<JobPosting> JobPostings { get; set; }
+        public DbSet<EmployeeEducationalDetail> EmployeeEducationalDetails { get; set; }
+        public DbSet<EmployeeProfessionalDetail> EmployeeProfessionalDetails { get; set; }
+        public DbSet<AdminSelectEmployee> AdminSelectEmployees { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
 
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            #region UserManagement
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
@@ -44,6 +60,20 @@ namespace FHP.datalayer
             modelBuilder.ApplyConfiguration(new CountryConfiguration());
             modelBuilder.ApplyConfiguration(new StateConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
+            #endregion
+
+            #region FHP
+           
+            modelBuilder.ApplyConfiguration(new SkillsDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployerDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new JobPostingConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeEducationalDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeProfessionalDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new AdminSelectEmployeeConfiguration());
+            modelBuilder.ApplyConfiguration(new ContractConfiguration());
+
+            #endregion
         }
 
     }

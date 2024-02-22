@@ -35,7 +35,7 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                if (model.Id == 0 && model.CreatedBy != 0 && 
+                if (model.Id == 0  && 
                     !string.IsNullOrEmpty(model.RoleName))
                 {
                     await _manager.AddAsync(model);
@@ -66,7 +66,7 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                if (model.Id >= 0 && model != null)
+                if (model.Id >= 0 )
                 {
                     await _manager.EditAsync(model);
                     response.StatusCode = 200;
@@ -83,8 +83,10 @@ namespace FHP.Controllers.UserManagement
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
+       
+        
         [HttpGet("getall")]
-        public async Task<IActionResult> GetAllAsync(int CreatedBy)
+        public async Task<IActionResult> GetAllAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -94,7 +96,7 @@ namespace FHP.Controllers.UserManagement
             var response = new BaseResponseAddResponse<object>();
             try
             {
-                var data = await _manager.GetAllAsync(CreatedBy);
+                var data = await _manager.GetAllAsync();
 
                 if (data != null)
                 {
@@ -160,7 +162,7 @@ namespace FHP.Controllers.UserManagement
                 {
                     response.Message = "Id Required";
                     response.StatusCode = 400;
-                    return Ok(response);
+                    return BadRequest(response);
                 }
 
                 await _manager.DeleteAsync(id);

@@ -12,7 +12,7 @@ namespace FHP.infrastructure.Manager.UserManagement
     {
         Task AddAsync(AddUserRoleModel model);
         Task EditAsync(AddUserRoleModel model);
-        Task<List<UserRoleDetailDto>> GetAllAsync(int id);
+        Task<List<UserRoleDetailDto>> GetAllAsync();
         Task<UserRoleDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }

@@ -15,7 +15,6 @@ namespace FHP.factories.UserManagement
         {
             var data = new City
             {
-                Id = model.Id,
                 CityName = model.CityName,
                 CountryId = model.CountryId,
                 StateId = model.StateId,

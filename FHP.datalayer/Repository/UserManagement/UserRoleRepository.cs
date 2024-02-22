@@ -37,14 +37,13 @@ namespace FHP.datalayer.Repository.UserManagement
             return await _dataContext.UserRole.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<UserRoleDetailDto>> GetAllAsync(int id)
+        public async Task<List<UserRoleDetailDto>> GetAllAsync()
         {
            return  await (from s in _dataContext.UserRole
-                   where s.Status != utilities.Constants.RecordStatus.Deleted && (s.Id == id || s.Id == 0)
+                   where s.Status != utilities.Constants.RecordStatus.Deleted 
                    select new UserRoleDetailDto
                    {
                        Id=s.Id,
-                       CreatedBy=s.CreatedBy,
                        RoleName =s.RoleName,
                        Status = s.Status,
                        CreatedOn = s.CreatedOn, 
@@ -59,7 +58,6 @@ namespace FHP.datalayer.Repository.UserManagement
                    select new UserRoleDetailDto
                    {
                        Id=s.Id,
-                       CreatedBy=s.CreatedBy,
                        RoleName =s.RoleName,
                        Status=s.Status,
                        CreatedOn=s.CreatedOn,

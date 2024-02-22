@@ -13,9 +13,8 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task AddAsync(UserRole entity);
         Task<UserRole> GetAsync(int id);
         void Edit(UserRole entity);
-        Task<List<UserRoleDetailDto>> GetAllAsync(int CreatedBy);
+        Task<List<UserRoleDetailDto>> GetAllAsync();
         Task<UserRoleDetailDto> GetByIdAsync(int id);
-
         Task DeleteAsync(int id);
     }
 }

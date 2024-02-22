@@ -15,7 +15,6 @@ namespace FHP.factories.UserManagement
         {
             var data = new Country
             {
-                Id = model.Id,
                 CountryName = model.CountryName,
                 Status = Constants.RecordStatus.Active,
                 CreatedOn=Utility.GetDateTime()

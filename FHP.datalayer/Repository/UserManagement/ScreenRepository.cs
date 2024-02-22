@@ -36,16 +36,15 @@ namespace FHP.datalayer.Repository.UserManagement
            return await _dataContext.Screen.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<ScreenDetailDto>> GetAllAsync(int CompanyId)
+        public async Task<List<ScreenDetailDto>> GetAllAsync()
         {
           return   await (from s in _dataContext.Screen
                    where
-                   s.Status != utilities.Constants.RecordStatus.Deleted &&
-                   (s.CompanyId == CompanyId || CompanyId == 0)
+                   s.Status != utilities.Constants.RecordStatus.Deleted 
+                 
                    select new ScreenDetailDto
                    {
                        Id = s.Id,
-                       CompanyId = s.CompanyId,
                        ScreenName = s.ScreenName,
                        ScreenCode = s.ScreenCode,
                        Status = s.Status,
@@ -54,16 +53,15 @@ namespace FHP.datalayer.Repository.UserManagement
                    }).ToListAsync();
         }
 
-        public async Task<ScreenDetailDto> GetByIdAsync(int id,int CompanyId)
+        public async Task<ScreenDetailDto> GetByIdAsync(int id)
         {
            return  await (from s in _dataContext.Screen
                    where
                    s.Status != utilities.Constants.RecordStatus.Deleted &&
-                   s.Id == id && s.CompanyId == CompanyId
+                   s.Id == id
                    select new ScreenDetailDto
                    {
                        Id = s.Id,
-                       CompanyId = s.CompanyId,
                        ScreenName = s.ScreenName,
                        ScreenCode = s.ScreenCode,
                        Status = s.Status,
@@ -72,9 +70,9 @@ namespace FHP.datalayer.Repository.UserManagement
                    }).FirstOrDefaultAsync();
         }
 
-        public async Task DeleteAsync(int id,int CompanyId)
+        public async Task DeleteAsync(int id)
         {
-            var data = await _dataContext.Screen.Where(s => s.Id == id && s.CompanyId == CompanyId).FirstOrDefaultAsync();
+            var data = await _dataContext.Screen.Where(s => s.Id == id).FirstOrDefaultAsync();
             data.Status = Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
