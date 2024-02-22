@@ -37,17 +37,10 @@ namespace FHP.Controllers.FHP
                 if(model.Id ==0 && model.UserId !=0 && model.CountryId !=0 && model.StateId!=0 && model.CityId !=0
                    && !string.IsNullOrEmpty(model.MaritalStatus)
                    && !string.IsNullOrEmpty(model.Gender)
-                   && !string.IsNullOrEmpty(model.ResumeURL)
-                   && !string.IsNullOrEmpty(model.ProfileImgURL)
                    && !string.IsNullOrEmpty(model.Hobby)
                    && !string.IsNullOrEmpty(model.PermanentAddress)
-                   && !string.IsNullOrEmpty(model.AlternateAddress)
-                   && !string.IsNullOrEmpty(model.Mobile)
-                   && !string.IsNullOrEmpty(model.Phone)
-                   && !string.IsNullOrEmpty(model.AlternatePhone)
-                   && !string.IsNullOrEmpty(model.AlternateEmail)
-                   && !string.IsNullOrEmpty(model.EmergencyContactNumber)
-                   && !string.IsNullOrEmpty(model.EmergencyContactName))
+                   && !string.IsNullOrEmpty(model.Mobile))
+                   
                 {
                     await _manager.AddAsync(model);
                     response.StatusCode = 200;
