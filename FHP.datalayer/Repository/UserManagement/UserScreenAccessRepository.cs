@@ -51,6 +51,9 @@ namespace FHP.datalayer.Repository.UserManagement
             {
                 query = query.Where(s => s.userScreenAccess.RoleId == roleId);
             }
+
+
+
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
