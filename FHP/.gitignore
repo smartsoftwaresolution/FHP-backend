@@ -245,5 +245,10 @@ _Pvt_Extensions
 
 /FHP/Migrations
 /FHP/wwwroot
+/FHP/obj
+/FHP.config/obj
+/FHP.datalayer/obj
+/obj/
+/bin/
 
 
