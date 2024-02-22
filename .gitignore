@@ -1,10 +1,66 @@
+# Visual Studio files
+.vs/
+*.vscode/
+# *.sln
+*.suo
+*.user
+*.userprefs
+*_i.c
+*_p.c
+*.pidb
+*.log
+*.iobj
+*.dbmdl
+*.pch
+*.ipch
+*.obj
+*.pdb
+*.cache
+*.ilk
+*.msi
+*.resources
+*.snk
+*.dll
+*.exe
+*.manifest
+*.deploy
+*.xml
+*.log
+*.txt
 
-# Binaries
-bin/
-obj/
+# NuGet packages
+*.nupkg
+packages/
+*.nuspec
 
-# Visual Studio Code
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/Properties/launchSettings.json
+
+# Visual Studio Code files
 .vscode/
+*.code-workspace
+
+# Rider files
+.idea/
+*.sln.iml
 
 # User-specific files
 *.suo
@@ -12,49 +68,8 @@ obj/
 *.userosscache
 *.sln.docstates
 
-# NuGet packages
-*.nuget.props
-*.paket.*
-*.paket/
-paket-files/
-
-# .NET Core
-*.dotnetcli/
-*.dotsettings
-*.dll
-*.exe
-*.pdb
-*.cache
-*.log
-*.vscode/
-.vs
-# Test Results
-[Tt]est[Rr]esult*/
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# macOS
-.DS_Store
-
-# Linux
-*~
-
-# Rider
-.idea/
-*.sln.iml
-
-# Resharper
-_ReSharper*/
-*.resharper*
-*.DotSettings.user
-
-# Other
-*.bak
-*.cache
-*.sqlite
-*.log
-
-FHP\bin
-*.jfm
+# Unity generated files
+Temp/
+Library/
+Build/
+*.csproj.user
