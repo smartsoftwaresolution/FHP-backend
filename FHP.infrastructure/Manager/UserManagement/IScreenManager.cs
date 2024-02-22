@@ -10,10 +10,10 @@ namespace FHP.infrastructure.Manager.UserManagement
 {
     public interface IScreenManager
     {
-        Task AddAsync(AddScreenModel model, int CompanyId);
-        Task EditAsync(AddScreenModel model, int CompanyId);
-        Task<List<ScreenDetailDto>> GetAllAsync(int CompanyId);
-        Task<ScreenDetailDto> GetByIdAsync(int id,int CompanyId);
-        Task DeleteAsync(int id, int CompanyId);
+        Task AddAsync(AddScreenModel model);
+        Task EditAsync(AddScreenModel model);
+        Task<List<ScreenDetailDto>> GetAllAsync();
+        Task<ScreenDetailDto> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
     }
 }

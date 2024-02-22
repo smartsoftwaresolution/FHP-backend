@@ -15,7 +15,6 @@ namespace FHP.factories.UserManagement
         {
             var data = new Permission
             {
-                Id = model.Id,
                 CompanyId = companyId,
                 Permissions = model.Permissions,
                 PermissionDescription = model.PermissionDescription,

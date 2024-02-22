@@ -15,7 +15,6 @@ namespace FHP.factories.UserManagement
         {
             var data = new State
             {
-                Id = model.Id,
                 StateName = model.StateName,
                 CountryId = model.CountryId,
                 Status = Constants.RecordStatus.Active,
