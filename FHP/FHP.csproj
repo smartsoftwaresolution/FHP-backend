@@ -46,4 +46,8 @@
     <ProjectReference Include="..\FHP.utilities\FHP.utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\FHP\" />
+  </ItemGroup>
+
 </Project>
