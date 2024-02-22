@@ -10,7 +10,6 @@ namespace FHP.dtos.UserManagement
     public class UserRoleDetailDto
     {
         public int Id { get; set; }
-        public int CreatedBy { get; set; }
         public string RoleName { get; set; }
         public Constants.RecordStatus Status { get; set; }
         public DateTime CreatedOn { get; set; }

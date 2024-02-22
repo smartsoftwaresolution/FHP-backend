@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FHP.entity\FHP.entity.csproj" />
     <ProjectReference Include="..\FHP.utilities\FHP.utilities.csproj" />
   </ItemGroup>
 

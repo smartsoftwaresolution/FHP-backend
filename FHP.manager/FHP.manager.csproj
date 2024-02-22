@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FHP.datalayer\FHP.datalayer.csproj" />
     <ProjectReference Include="..\FHP.dtos\FHP.dtos.csproj" />
     <ProjectReference Include="..\FHP.factories\FHP.factories.csproj" />
     <ProjectReference Include="..\FHP.infrastructure\FHP.infrastructure.csproj" />

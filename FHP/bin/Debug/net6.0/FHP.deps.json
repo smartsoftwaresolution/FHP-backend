@@ -2495,6 +2495,7 @@
       },
       "FHP.manager/1.0.0": {
         "dependencies": {
+          "FHP.datalayer": "1.0.0",
           "FHP.dtos": "1.0.0",
           "FHP.factories": "1.0.0",
           "FHP.infrastructure": "1.0.0",
@@ -2507,6 +2508,7 @@
       },
       "FHP.models/1.0.0": {
         "dependencies": {
+          "FHP.entity": "1.0.0",
           "FHP.utilities": "1.0.0",
           "Microsoft.AspNetCore.Http.Features": "5.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.21"
