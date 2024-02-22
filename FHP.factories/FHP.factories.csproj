@@ -19,8 +19,4 @@
     <ProjectReference Include="..\FHP.models\FHP.models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="FHP\" />
-  </ItemGroup>
-
 </Project>
