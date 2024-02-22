@@ -46,12 +46,7 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-
-                if (companyId>0)
-                {
-                    var data = await _manager.GetUserByEmail(model.Email,companyId);
+                    var data = await _manager.GetUserByEmail(model.Email);
                     if(data != null)
                     {
                         if (!string.IsNullOrEmpty(data.Password) && utilities.Utility.Decrypt(model.Password, data.Password) == false)
@@ -70,8 +65,8 @@ namespace FHP.Controllers.UserManagement
                                    new Claim("id", data.Id.ToString()),
                                    new Claim("Email", data.Email.ToString()),
                                    new Claim("RoleId", data.RoleId.ToString()),
-                                   new Claim("FullName", data.FullName.ToString()),
-                                   new Claim("CompanyId", data.CompanyId.ToString()),
+                                   new Claim("FirstName", data.FirstName.ToString()),
+                                   new Claim("RoleName", data.RoleName.ToString()),
                                }),
 
                             Audience = _configuration.GetValue<string>("Jwt:Audience"),
@@ -86,7 +81,7 @@ namespace FHP.Controllers.UserManagement
                         login.CreatedOn = DateTime.UtcNow;
                         login.UserId = data.Id;
                         login.RoleId  = data.RoleId;
-                        login.CompanyId = data.CompanyId;
+                      
                       
                         await _manager.UserLogIn(login);
 
@@ -103,11 +98,9 @@ namespace FHP.Controllers.UserManagement
                         return BadRequest(response);
                     }
 
-                }
+                
 
-                response.StatusCode = 400;
-                response.Message = Constants.provideValues;
-                return BadRequest(response);
+               
             }
 
             catch (Exception ex)
@@ -129,12 +122,8 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-
-                if (companyId > 0)
-                {
-                   var data = await _manager.GetUserByGovernmentId(model.GovernmentId, companyId);
+               
+                   var data = await _manager.GetUserByGovernmentId(model.GovernmentId);
 
                     if (data != null)
                     {
@@ -157,8 +146,8 @@ namespace FHP.Controllers.UserManagement
                                 new Claim("GovernmentId", data.GovernmentId.ToString()),
                                 new Claim("RoleId", data.RoleId.ToString()),
                                 new Claim("RoleName",data.RoleName.ToString()),
-                                new Claim("FullName", data.FullName.ToString()),
-                                new Claim("CompanyId", data.CompanyId.ToString()),
+                                new Claim("FirstName", data.FirstName.ToString()),
+                               
                             }),
 
                             Audience = _configuration.GetValue<string>("Jwt:Audience"),
@@ -173,7 +162,7 @@ namespace FHP.Controllers.UserManagement
                         login.CreatedOn = DateTime.UtcNow;
                         login.UserId = data.Id;
                         login.RoleId = data.RoleId;
-                        login.CompanyId= data.CompanyId;
+                       
 
                         await _manager.UserLogIn(login);
 
@@ -188,11 +177,7 @@ namespace FHP.Controllers.UserManagement
                         response.Message = "Invalid Government ID";
                         return BadRequest(response);
                     }
-                }
-
-                response.StatusCode = 400;
-                response.Message= Constants.provideValues;
-                return BadRequest(response);
+               
             }
             catch(Exception ex)
             {
@@ -217,7 +202,7 @@ namespace FHP.Controllers.UserManagement
 
                 if(userId >=0)
                 {
-                    await _manager.UserLogOut(userId, companyId);
+                    await _manager.UserLogOut(userId);
                     response.StatusCode= (int)HttpStatusCode.OK;
                     response.Message = "User logged out Sucessfully. ";
                     return Ok(response);

@@ -13,8 +13,8 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task AddAsync(Screen entity);
         Task<Screen> GetAsync(int id);
         void Edit(Screen entity);
-        Task<List<ScreenDetailDto>> GetAllAsync(int CompanyId);
-        Task<ScreenDetailDto> GetByIdAsync(int id, int CompanyId);
-        Task DeleteAsync(int id, int CompanyId);
+        Task<List<ScreenDetailDto>> GetAllAsync();
+        Task<ScreenDetailDto> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
     }
 }

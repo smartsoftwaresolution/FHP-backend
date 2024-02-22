@@ -15,7 +15,6 @@ namespace FHP.factories.UserManagement
         {
             var data = new EmailSetting
             {
-                Id = model.Id,
                 CompanyId = compnayId,
                 Email = model.Email,
                 Password = model.Password,

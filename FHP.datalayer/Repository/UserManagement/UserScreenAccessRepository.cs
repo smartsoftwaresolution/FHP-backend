@@ -60,16 +60,16 @@ namespace FHP.datalayer.Repository.UserManagement
             }
 
             var userScreenAccess =    await query.Select(s => new UserScreenAccessDto{
-                                                                    Id = s.userScreenAccess.Id,
-                                                                    RoleId = s.userScreenAccess.RoleId,
-                                                                    ScreenId = s.userScreenAccess.ScreenId,
-                                                                    ScreenName = s.userScreenAccess.Screen.ScreenName,
-                                                                    UserRoleName = s.userScreenAccess.UserRole.RoleName,
-                                                                    CreatedOn = s.userScreenAccess.CreatedOn,
-                                                                    Status = s.userScreenAccess.Status,
-                                                                    })
-                                                                      .AsNoTracking()
-                                                                      .ToListAsync();
+                                                                                        Id = s.userScreenAccess.Id,
+                                                                                        RoleId = s.userScreenAccess.RoleId,
+                                                                                        ScreenId = s.userScreenAccess.ScreenId,
+                                                                                        ScreenName = s.userScreenAccess.Screen.ScreenName,
+                                                                                        UserRoleName = s.userScreenAccess.UserRole.RoleName,
+                                                                                        CreatedOn = s.userScreenAccess.CreatedOn,
+                                                                                        Status = s.userScreenAccess.Status,
+                                                                                        })
+                                                                                        .AsNoTracking()
+                                                                                        .ToListAsync();
 
             return (userScreenAccess, totalCount);
             

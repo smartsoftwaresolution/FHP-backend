@@ -34,18 +34,16 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-
-                if (model.Id ==0  &&  companyId !=0  &&
-                    !string.IsNullOrEmpty(model.GovernmentId)&&
-                    !string.IsNullOrEmpty(model.FullName) && 
-                    !string.IsNullOrEmpty(model.Address) &&  
+                
+                if (model.Id ==0   &&
+                   
+                    !string.IsNullOrEmpty(model.FirstName) && 
+                   
                     !string.IsNullOrEmpty(model.Email) && 
                     !string.IsNullOrEmpty(model.Password) && 
-                    !string.IsNullOrEmpty(model.MobileNumber))
+                    !string.IsNullOrEmpty(model.LastName))
                 {
-                    await _manager.AddAsync(model,companyId);
+                    await _manager.AddAsync(model);
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                   
@@ -73,13 +71,12 @@ namespace FHP.Controllers.UserManagement
 
             var response = new BaseResponseAdd();
 
-            var header = Request.Headers["CompanyId"];
-            int companyId = Convert.ToInt32(header);
+           
             try
             {
                 if(model.Id>=0 && model != null)
                 {
-                    await _manager.EditAsync(model,companyId);
+                    await _manager.EditAsync(model);
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -105,11 +102,10 @@ namespace FHP.Controllers.UserManagement
 
             var response = new BaseResponseAddResponse<object>();
 
-            var header = Request.Headers["CompanyId"];
-            int companyId = Convert.ToInt32(header);
+           
             try
             {
-                var data = await _manager.GetAllAsync(companyId);
+                var data = await _manager.GetAllAsync();
                 if (data != null)
                 {
                     response.StatusCode = 200;
@@ -141,9 +137,8 @@ namespace FHP.Controllers.UserManagement
             try
             {
 
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-                var data = await _manager.GetByIdAsync(id, companyId);
+              
+                var data = await _manager.GetByIdAsync(id);
                 if (data != null)
                 {
                     response.StatusCode = 200;
@@ -173,17 +168,13 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-
                 if (id <= 0)
                 {
                     response.StatusCode = 400;
                     response.Message = "ID Required";
                     return BadRequest(response);
                 }
-                await _manager.DeleteAsync(id, companyId);
+                await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
                 return Ok(response);

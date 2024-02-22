@@ -15,7 +15,6 @@ namespace FHP.factories.UserManagement
         {
             var data = new UserScreenAccess
             {
-                Id = model.Id,
                 RoleId = model.RoleId,
                 ScreenId = model.ScreenId,
                 Status = Constants.RecordStatus.Active,

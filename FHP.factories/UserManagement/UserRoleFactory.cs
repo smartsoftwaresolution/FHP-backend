@@ -16,7 +16,6 @@ namespace FHP.factories.UserManagement
             var data = new UserRole
             {
                 Id = model.Id,
-                CreatedBy = model.CreatedBy,
                 RoleName = model.RoleName,
                 Status = utilities.Constants.RecordStatus.Active,
                 CreatedOn = Utility.GetDateTime(),
@@ -25,7 +24,7 @@ namespace FHP.factories.UserManagement
         }
         public static void Update(UserRole entity,AddUserRoleModel model)
         {
-            entity.CreatedBy = model.CreatedBy;
+           
             entity.RoleName = model.RoleName;
             entity.UpdatedOn= Utility.GetDateTime();
         }

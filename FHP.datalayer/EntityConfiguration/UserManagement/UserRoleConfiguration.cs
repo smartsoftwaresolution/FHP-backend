@@ -18,7 +18,6 @@ namespace FHP.datalayer.EntityConfiguration.UserManagement
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.Property(x => x.CreatedBy).IsRequired();
             builder.Property(x => x.RoleName).IsRequired();
             builder.Property(x => x.Status).IsRequired();
             builder.Property(x=>x.CreatedOn).IsRequired();

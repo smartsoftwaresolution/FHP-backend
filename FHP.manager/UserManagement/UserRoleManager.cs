@@ -34,9 +34,9 @@ namespace FHP.manager.UserManagement
 
         }
 
-        public async Task<List<UserRoleDetailDto>> GetAllAsync(int id)
+        public async Task<List<UserRoleDetailDto>> GetAllAsync()
         {
-          return  await _repository.GetAllAsync(id);
+          return  await _repository.GetAllAsync();
         }
 
         public async Task<UserRoleDetailDto> GetByIdAsync(int id)

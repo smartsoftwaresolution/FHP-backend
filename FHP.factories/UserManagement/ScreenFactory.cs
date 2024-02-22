@@ -11,12 +11,10 @@ namespace FHP.factories.UserManagement
 {
     public class ScreenFactory
     {
-        public static Screen Create(AddScreenModel model, int CompanyId)
+        public static Screen Create(AddScreenModel model)
         {
             var data = new Screen
             {
-                Id = model.Id,
-                CompanyId = CompanyId,
                 ScreenName = model.ScreenName,
                 ScreenCode = model.ScreenCode,
                 Status = utilities.Constants.RecordStatus.Active,
@@ -24,9 +22,8 @@ namespace FHP.factories.UserManagement
             };
             return data;
         }
-        public static void Update(Screen entity,AddScreenModel model, int CompanyId)
+        public static void Update(Screen entity,AddScreenModel model)
         {
-            entity.CompanyId = CompanyId;
             entity.ScreenName = model.ScreenName;
             entity.ScreenCode = model.ScreenCode;
             entity.UpdatedOn= Utility.GetDateTime();
