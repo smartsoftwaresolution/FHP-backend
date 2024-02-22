@@ -56,5 +56,5 @@ _ReSharper*/
 *.sqlite
 *.log
 
-
+FHP\bin
 *.jfm
