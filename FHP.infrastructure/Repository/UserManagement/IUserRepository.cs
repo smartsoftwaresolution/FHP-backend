@@ -14,7 +14,7 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task AddAsync(User entity,string roleName);
         Task<User> GetAsync(int id);
         void Edit(User entity);
-        Task<List<UserDetailDto>> GetAllAsync( );
+        Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page,int pageSize,string? search,string? roleName);
         Task<UserDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);   
         Task<UserDetailDto> GetUserByEmail(string Email);

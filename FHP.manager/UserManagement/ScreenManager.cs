@@ -30,9 +30,9 @@ namespace FHP.manager.UserManagement
             ScreenFactory.Update(data, model);
             _repository.Edit(data);
         }
-        public async Task<List<ScreenDetailDto>> GetAllAsync()
+        public async Task<(List<ScreenDetailDto> screen,int totalCount)> GetAllAsync(int page,int pageSize,string search)
         {
-            return await _repository.GetAllAsync();
+            return await _repository.GetAllAsync(page,pageSize,search);
         }
 
         public async Task<ScreenDetailDto> GetByIdAsync(int id )

@@ -32,9 +32,9 @@ namespace FHP.manager.UserManagement
             _repository.Edit(data);
         }
 
-        public async Task<List<UserDetailDto>> GetAllAsync( )
+        public async Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page ,int pageSize,string? search,string? roleName)
         {
-            return await _repository.GetAllAsync();
+            return await _repository.GetAllAsync(page,pageSize,search,roleName);
         }
 
         public async Task<UserDetailDto> GetByIdAsync(int id)

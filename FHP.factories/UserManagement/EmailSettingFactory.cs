@@ -11,11 +11,10 @@ namespace FHP.factories.UserManagement
 {
     public class EmailSettingFactory
     {
-        public static EmailSetting Create(AddEmailSettingModel model, int compnayId)
+        public static EmailSetting Create(AddEmailSettingModel model)
         {
             var data = new EmailSetting
             {
-                CompanyId = compnayId,
                 Email = model.Email,
                 Password = model.Password,
                 AppPassword = model.AppPassword,
@@ -30,9 +29,9 @@ namespace FHP.factories.UserManagement
 
             return data;
         }
-        public static void Update(EmailSetting entity, AddEmailSettingModel model, int compnayId)
+        public static void Update(EmailSetting entity, AddEmailSettingModel model)
         {
-            entity.CompanyId = compnayId;
+ 
             entity.Email=model.Email;
             entity.Password=model.Password;
             entity.AppPassword=model.AppPassword;

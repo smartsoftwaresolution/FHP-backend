@@ -39,17 +39,39 @@ namespace FHP.datalayer.Repository.UserManagement
            return await _dataContext.Countries.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<CountryDetailDto>> GetAllAsync()
+        public async Task<(List<CountryDetailDto> country,int totalCount)> GetAllAsync(int page,int pageSize,string? search)
         {
-          return await (from s in _dataContext.Countries where 
-                   s.Status!=utilities.Constants.RecordStatus.Deleted select new CountryDetailDto
-                   {
-                       Id=s.Id,
-                       CountryName=s.CountryName,
-                       Status=s.Status,
-                       CreatedOn=s.CreatedOn,
-                       UpdatedOn=s.UpdatedOn,
-                   }).AsNoTracking().ToListAsync(); 
+            var query = from s in _dataContext.Countries
+                        where
+                        s.Status != Constants.RecordStatus.Deleted
+                        select new { country = s };
+
+            var totalCount = await _dataContext.Countries.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.country.CountryName.Contains(search));
+            }
+
+            if(page > 0 && pageSize > 0)
+            {
+                query =query.Skip((page -1) * pageSize).Take(pageSize);
+            }
+
+            query = query.OrderByDescending(s => s.country.Id);
+
+            var data = await query.Select(s => new CountryDetailDto
+                                              {
+                                                 Id = s.country.Id,
+                                                 CountryName = s.country.CountryName,
+                                                 Status = s.country.Status,
+                                                 CreatedOn = s.country.CreatedOn,
+                                                 UpdatedOn = s.country.UpdatedOn,
+                                              })
+                                             .AsNoTracking()
+                                             .ToListAsync();
+
+            return(data, totalCount);
         }
 
         public async Task<CountryDetailDto> GetByIdAsync(int id)

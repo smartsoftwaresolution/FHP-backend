@@ -84,7 +84,7 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-        [HttpGet("getall")]
+        [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int roleId,int page,int pageSize)
         {
             if (!ModelState.IsValid)

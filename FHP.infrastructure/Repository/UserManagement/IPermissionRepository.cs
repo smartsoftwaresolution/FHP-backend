@@ -13,9 +13,8 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task AddAsync(Permission entity);
         Task<Permission> GetAsync(int id);
         void Edit(Permission entity);
-        Task<List<PermissionDetailDto>> GetAllAsync(int companyId);
-       
-        Task<PermissionDetailDto> GetByIdAsync(int id, int companyId);
-        Task DeleteAsync(int id, int companyId);
+        Task<(List<PermissionDetailDto> permission, int totalCount)> GetAllAsync(int page, int pageSize, string search);
+        Task<PermissionDetailDto> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
     }
 }

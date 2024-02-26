@@ -13,7 +13,7 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task AddAsync(Country entity);
         Task<Country> GetAsync(int id);
         void Edit(Country entity);
-        Task<List<CountryDetailDto>> GetAllAsync();
+        Task<(List<CountryDetailDto> country,int totalCount)> GetAllAsync(int page,int pageSize,string? search);
         Task<CountryDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }

@@ -22,31 +22,31 @@ namespace FHP.manager.UserManagement
             _repository=repository;
         }
 
-        public async Task AddAsync(AddPermissionModel model, int companyId)
+        public async Task AddAsync(AddPermissionModel model)
         {
-            await _repository.AddAsync(PermissionFactory.Create(model, companyId));
+            await _repository.AddAsync(PermissionFactory.Create(model));
         }
 
-        public async Task EditAsync(AddPermissionModel model, int companyId)
+        public async Task EditAsync(AddPermissionModel model)
         {
             var data = await _repository.GetAsync(model.Id);
-            PermissionFactory.Update(data,model,companyId);
+            PermissionFactory.Update(data,model);
             _repository.Edit(data);
         }
 
-        public async Task<List<PermissionDetailDto>> GetAllAsync(int companyId)
+        public async Task<(List<PermissionDetailDto> permission, int totalCount)> GetAllAsync(int page,int pageSize,string search)
         {
-           return  await _repository.GetAllAsync(companyId);
+           return  await _repository.GetAllAsync(page,pageSize,search);
         }
-        public  async Task<PermissionDetailDto> GetByIdAsync(int id, int companyId)
+        public  async Task<PermissionDetailDto> GetByIdAsync(int id)
         {
-           return  await _repository.GetByIdAsync(id,companyId);
+           return  await _repository.GetByIdAsync(id);
 
         }
 
-        public async Task DeleteAsync(int id,int companyId)
+        public async Task DeleteAsync(int id)
         {
-            await _repository.DeleteAsync(id,companyId);
+            await _repository.DeleteAsync(id);
         }
 
         

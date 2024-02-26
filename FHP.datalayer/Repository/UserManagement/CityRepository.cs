@@ -40,20 +40,40 @@ namespace FHP.datalayer.Repository.UserManagement
         }
 
 
-        public async Task<List<CityDetailDto>> GetAllAsync()
-        {
-           return await (from s in _dataContext.Cities
-                   where s.Status != utilities.Constants.RecordStatus.Deleted
-                   select new CityDetailDto
-                   {
-                       Id=s.Id,
-                       CityName=s.CityName,
-                       CountryId=s.CountryId,
-                       StateId=s.StateId,
-                       Status=s.Status,
-                       CreatedOn = s.CreatedOn, 
-                       UpdatedOn = s.UpdatedOn
-                   }).AsNoTracking().ToListAsync();
+        public async Task<(List<CityDetailDto>city,int totalCount)> GetAllAsync(int page,int pageSize,string? search)
+         {
+            var query = from s in _dataContext.Cities
+                        where s.Status != utilities.Constants.RecordStatus.Deleted
+                        select new { city = s };
+
+            var totalCount = await _dataContext.Cities.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.city.CityName.Contains(search));
+            }
+            if(page > 0 && pageSize > 0)
+            {
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            }
+                
+            query = query.OrderByDescending(s => s.city.Id);
+
+           var data =  await query.Select( s => new CityDetailDto
+                                               {
+                                                   Id = s.city.Id,
+                                                   CityName = s.city.CityName,
+                                                   CountryId = s.city.CountryId,
+                                                   CountryName = s.city.State.StateName,
+                                                   StateId = s.city.StateId,
+                                                   StateName = s.city.State.StateName,
+                                                   Status = s.city.Status,
+                                                   CreatedOn = s.city.CreatedOn,
+                                                   UpdatedOn = s.city.UpdatedOn
+                                               })
+                                                .AsNoTracking()
+                                                .ToListAsync();
+            return (data, totalCount);
         }
 
         public async Task<CityDetailDto> GetByIdAsync(int id)
@@ -66,7 +86,9 @@ namespace FHP.datalayer.Repository.UserManagement
                               Id = s.Id,
                               CityName = s.CityName,
                               CountryId = s.CountryId,
+                              CountryName = s.Country.CountryName,
                               StateId = s.StateId,
+                              StateName = s.State.StateName,
                               Status = s.Status,
                               CreatedOn = s.CreatedOn,
                               UpdatedOn = s.UpdatedOn

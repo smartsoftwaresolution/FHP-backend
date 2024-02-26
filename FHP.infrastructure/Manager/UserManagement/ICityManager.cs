@@ -1,4 +1,5 @@
-﻿using FHP.dtos.UserManagement;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using FHP.dtos.UserManagement;
 using FHP.models.UserManagement;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace FHP.infrastructure.Manager.UserManagement
     {
         Task AddAsync(AddCityModel model);
         Task Edit(AddCityModel model);
-        Task<List<CityDetailDto>> GetAllAsync();
+        Task<(List<CityDetailDto>city,int totalCount)> GetAllAsync(int page,int pageSize,string? search);
         Task<CityDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);   
     }
