@@ -12,7 +12,7 @@ namespace FHP.infrastructure.Manager.UserManagement
     {
         Task AddAsync(AddScreenModel model);
         Task EditAsync(AddScreenModel model);
-        Task<List<ScreenDetailDto>> GetAllAsync();
+        Task<(List<ScreenDetailDto> screen,int totalCount)> GetAllAsync(int page ,int pageSize,string search);
         Task<ScreenDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }

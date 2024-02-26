@@ -13,7 +13,7 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task AddAsync(State entity);
         Task<State> GetAsync(int id);
         void Edit(State entity);
-        Task<List<StateDetailDto>> GetAllAsync();
+        Task<(List<StateDetailDto> state,int totalCount)> GetAllAsync(int page ,int pageSize, string search);
         Task<StateDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }

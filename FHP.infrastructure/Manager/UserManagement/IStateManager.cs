@@ -12,7 +12,7 @@ namespace FHP.infrastructure.Manager.UserManagement
     {
         Task AddAsync(AddStateModel model);
         Task Edit(AddStateModel model);
-        Task<List<StateDetailDto>> GetAllAsync();
+        Task<(List<StateDetailDto> state, int totalCount)> GetAllAsync(int page,int pageSize,string search);
         Task<StateDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);   
     }
