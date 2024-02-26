@@ -15,11 +15,14 @@ namespace FHP.Controllers.UserManagement
     {
         private readonly IUserManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
-
-        public UserController(IUserManager manager,IExceptionHandleService exceptionHandleService)
+        private readonly IEmailService _emailService;
+        public UserController(IUserManager manager,
+                              IExceptionHandleService exceptionHandleService,
+                              IEmailService emailService)
         {
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
+            _emailService = emailService;
         }
 
         [HttpPost("add")]
@@ -34,19 +37,23 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                
-                if (model.Id ==0   &&
-                   
-                    !string.IsNullOrEmpty(model.FirstName) && 
-                   
-                    !string.IsNullOrEmpty(model.Email) && 
-                    !string.IsNullOrEmpty(model.Password) && 
+
+                if (model.Id == 0 &&
+
+                    !string.IsNullOrEmpty(model.FirstName) &&
+                    !string.IsNullOrEmpty(model.RoleName) &&
+
+                    !string.IsNullOrEmpty(model.Email) &&
+                    !string.IsNullOrEmpty(model.Password) &&
                     !string.IsNullOrEmpty(model.LastName))
                 {
-                    await _manager.AddAsync(model);
+                    int userid = 0;
+                    userid = await _manager.AddAsync(model);
+                    await _emailService.SendverificationEmail(model.Email, userid);
+
                     response.StatusCode = 200;
                     response.Message = Constants.added;
-                  
+
                     return Ok(response);
                 }
 
@@ -55,11 +62,13 @@ namespace FHP.Controllers.UserManagement
                 return BadRequest(response);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
+
+
 
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddUserModel model)
@@ -71,10 +80,10 @@ namespace FHP.Controllers.UserManagement
 
             var response = new BaseResponseAdd();
 
-           
+
             try
             {
-                if(model.Id>=0 && model != null)
+                if (model.Id >= 0 && model != null)
                 {
                     await _manager.EditAsync(model);
                     response.StatusCode = 200;
@@ -86,14 +95,14 @@ namespace FHP.Controllers.UserManagement
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-               return  await _exceptionHandleService.HandleException(ex); 
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,string? roleName)
+        public async Task<IActionResult> GetAllAsync(int page, int pageSize, string? search, string? roleName)
         {
             if (!ModelState.IsValid)
             {
@@ -102,10 +111,10 @@ namespace FHP.Controllers.UserManagement
 
             var response = new BaseResponsePagination<object>();
 
-           
+
             try
             {
-                var data = await _manager.GetAllAsync(page,pageSize,search,roleName);
+                var data = await _manager.GetAllAsync(page, pageSize, search, roleName);
                 if (data.user != null)
                 {
                     response.StatusCode = 200;
@@ -118,7 +127,7 @@ namespace FHP.Controllers.UserManagement
                 response.Message = Constants.error;
                 return BadRequest(response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return await _exceptionHandleService.HandleException(ex);
             }
@@ -138,7 +147,7 @@ namespace FHP.Controllers.UserManagement
             try
             {
 
-              
+
                 var data = await _manager.GetByIdAsync(id);
                 if (data != null)
                 {
@@ -151,18 +160,18 @@ namespace FHP.Controllers.UserManagement
                 response.Message = Constants.error;
                 return BadRequest(response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-            return await _exceptionHandleService.HandleException(ex);   
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());   
+                return BadRequest(ModelState.GetErrorList());
             }
 
             var response = new BaseResponseAdd();
@@ -180,10 +189,40 @@ namespace FHP.Controllers.UserManagement
                 response.Message = Constants.deleted;
                 return Ok(response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return await _exceptionHandleService.HandleException(ex);
             }
-        } 
+        }
+
+
+        [HttpPatch("verify-user")]
+        public async Task<IActionResult> VerifyUserAsync(int userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+            try
+            {
+                if(userId > 0)
+                {
+                    await _manager.VerifyUser(userId);
+                    response.StatusCode = 200;
+                    response.Message = "User Verified Successfully!!";
+                    return Ok(response);
+                }
+                response.StatusCode = 400;
+                response.Message = Constants.provideValues;
+                return BadRequest(response);
+            }
+            catch(Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+
+            }
+        }
     }
 }

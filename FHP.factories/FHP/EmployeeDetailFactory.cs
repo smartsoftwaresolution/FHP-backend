@@ -23,7 +23,7 @@ namespace FHP.factories.FHP
                 StateId = model.StateId,
                 CityId = model.CityId,
                 ResumeURL = model.ResumeURL,
-                ProfileImgURL = model.ProfileImgURL,
+                ProfileImgURL = model.ProfileImgURL.ToString(),
                 IsAvailable = model.IsAvailable,
                 Hobby = model.Hobby,
                 PermanentAddress = model.PermanentAddress,
@@ -50,7 +50,7 @@ namespace FHP.factories.FHP
             entity.StateId= model.StateId;
             entity.CityId= model.CityId;
             entity.ResumeURL= model.ResumeURL;
-            entity.ProfileImgURL= model.ProfileImgURL;
+            entity.ProfileImgURL= model.ProfileImgURL.ToString();
             entity.IsAvailable= model.IsAvailable;
             entity.Hobby= model.Hobby;
             entity.PermanentAddress= model.PermanentAddress;

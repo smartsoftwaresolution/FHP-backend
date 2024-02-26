@@ -15,6 +15,8 @@ namespace FHP.entity.UserManagement
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set;}
+        public string ContactName { get; set;}
+        public string CompanyName { get; set; }
         public int RoleId { get; set; }
         public string? GovernmentId { get; set; }
         public DateTime? LastLogInTime { get; set; }
@@ -22,5 +24,6 @@ namespace FHP.entity.UserManagement
         public Constants.RecordStatus Status { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
+        public bool? IsVerify { get; set; }
     }
 }

@@ -18,8 +18,12 @@ namespace FHP.dtos.UserManagement
         public string Password { get; set; }
         public string? GovernmentId { get; set; }
         public string RoleName { get; set; }
+        public string CompanyName { get; set; }
+        public string ContactName { get; set; }
+        public bool? IsVerify { get; set; }
         public Constants.RecordStatus Status { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
+
     }
 }
