@@ -14,7 +14,7 @@ namespace FHP.infrastructure.Manager.UserManagement
     {
         Task AddAsync(AddUserModel model);
         Task EditAsync(AddUserModel model);
-        Task<List<UserDetailDto>> GetAllAsync();
+        Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page,int pageSize,string? search,string? roleName);
         Task<UserDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
         Task<UserDetailDto> GetUserByEmail(string Email);

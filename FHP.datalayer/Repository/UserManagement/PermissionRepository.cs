@@ -38,42 +38,62 @@ namespace FHP.datalayer.Repository.UserManagement
            return await _dataContext.Permissions.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<PermissionDetailDto>> GetAllAsync(int companyId)
+        public async Task<(List<PermissionDetailDto> permission,int totalCount)> GetAllAsync(int page ,int pageSize,string search)
         {
-            return await (from s in _dataContext.Permissions
-                          where
-                          s.Status != utilities.Constants.RecordStatus.Deleted &&
-                          (s.CompanyId == companyId || companyId == 0)
+            var query = from s in _dataContext.Permissions
+                        where s.Status != Constants.RecordStatus.Deleted
+                        select new  { permission = s };
 
-                          select new PermissionDetailDto
-                          {
-                              Id=s.Id,
-                              CompanyId=s.CompanyId,
-                              Permissions = s.Permissions,
-                              PermissionDescription = s.PermissionDescription,
-                              PermissionCode = s.PermissionCode,    
-                              ScreenCode = s.ScreenCode,
-                              ScreenUrl = s.ScreenUrl,  
-                              ScreenId = s.ScreenId,
-                              Screen=s.Screen,
-                              Status= s.Status,
-                              CreatedOn = s.CreatedOn,  
-                              UpdatedOn = s.UpdatedOn,
-                              CreatedBy= s.CreatedBy,   
 
-                          }).AsNoTracking().ToListAsync();
+            var totalCount = await _dataContext.Permissions.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.permission.PermissionDescription.Contains(search) || 
+                                         s.permission.PermissionCode.Contains(search) ||
+                                         s.permission.Permissions.Contains(search));
+
+            }
+
+
+            if (page > 0 && pageSize > 0)
+            {
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            }
+
+            query = query.OrderByDescending(s => s.permission.Id);
+
+            var data = await query.Select(s => new PermissionDetailDto
+            {
+                Id = s.permission.Id,
+                Permissions = s.permission.Permissions,
+                PermissionDescription = s.permission.PermissionDescription,
+                PermissionCode = s.permission.PermissionCode,
+                ScreenCode = s.permission.ScreenCode,
+                ScreenUrl = s.permission.ScreenUrl,
+                ScreenId = s.permission.ScreenId,
+                Screen = s.permission.Screen,
+                Status = s.permission.Status,
+                CreatedOn = s.permission.CreatedOn,
+                UpdatedOn = s.permission.UpdatedOn,
+                CreatedBy = s.permission.CreatedBy,
+            }).AsNoTracking().ToListAsync();
+
+
+            return (data, totalCount);
         }
 
-        public async Task<PermissionDetailDto> GetByIdAsync(int id, int companyId)
+        public async Task<PermissionDetailDto> GetByIdAsync(int id)
         {
             return await (from s in _dataContext.Permissions
                           where
                           s.Status != utilities.Constants.RecordStatus.Deleted &&
-                          s.Id == id && s.CompanyId == companyId
+                          s.Id == id 
                           select new PermissionDetailDto
                           {
                               Id = s.Id,
-                              CompanyId = s.CompanyId,
+                           
                               Permissions = s.Permissions,
                               PermissionDescription = s.PermissionDescription,
                               PermissionCode = s.PermissionCode,
@@ -88,9 +108,9 @@ namespace FHP.datalayer.Repository.UserManagement
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public async Task DeleteAsync(int id, int companyId)
+        public async Task DeleteAsync(int id)
         {
-            var data = await _dataContext.Permissions.Where(s => s.Id == id && s.CompanyId==companyId).FirstOrDefaultAsync();
+            var data = await _dataContext.Permissions.Where(s => s.Id == id ).FirstOrDefaultAsync();
             data.Status = Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();

@@ -10,10 +10,10 @@ namespace FHP.infrastructure.Manager.UserManagement
 {
     public interface IPermissionManager
     {
-        Task AddAsync(AddPermissionModel model, int companyId);
-        Task EditAsync(AddPermissionModel model, int companyId);
-        Task<List<PermissionDetailDto>> GetAllAsync(int companyId);
-        Task<PermissionDetailDto> GetByIdAsync(int id,int companyId);
-        Task DeleteAsync(int id, int companyId);
+        Task AddAsync(AddPermissionModel model);
+        Task EditAsync(AddPermissionModel model);
+        Task<(List<PermissionDetailDto> permission, int totalCount)> GetAllAsync(int page ,int pageSize,string search);
+        Task<PermissionDetailDto> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
     }
 }

@@ -92,24 +92,25 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        [HttpGet("getall")]
-        public async Task<IActionResult> GetAllAsync()
+        [HttpGet("getall-pagination")]
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,string? roleName)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.GetErrorList());
             }
 
-            var response = new BaseResponseAddResponse<object>();
+            var response = new BaseResponsePagination<object>();
 
            
             try
             {
-                var data = await _manager.GetAllAsync();
-                if (data != null)
+                var data = await _manager.GetAllAsync(page,pageSize,search,roleName);
+                if (data.user != null)
                 {
                     response.StatusCode = 200;
-                    response.Data = data;
+                    response.Data = data.user;
+                    response.TotalCount = data.totalCount;
                     return Ok(response);
                 }
 

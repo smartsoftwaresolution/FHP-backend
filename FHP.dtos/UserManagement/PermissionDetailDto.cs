@@ -11,7 +11,6 @@ namespace FHP.dtos.UserManagement
     public class PermissionDetailDto
     {
         public int Id { get; set; }
-        public int CompanyId { get; set; }
         public string Permissions { get; set; }
         public string PermissionDescription { get; set; }
         public string PermissionCode { get; set; }

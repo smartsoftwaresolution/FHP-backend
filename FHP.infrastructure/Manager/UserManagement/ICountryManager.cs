@@ -13,7 +13,7 @@ namespace FHP.infrastructure.Manager.UserManagement
     {
         Task AddAsync(AddCountryModel model);
         Task Edit(AddCountryModel model);
-        Task<List<CountryDetailDto>> GetAllAsync();
+        Task<(List<CountryDetailDto>country,int totalCount)> GetAllAsync(int page,int pageSize,string search);
         Task<CountryDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }

@@ -13,8 +13,8 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task AddAsync(EmailSetting entity);
         Task<EmailSetting> GetAsync(int id);
         void Edit(EmailSetting entity);
-        Task<List<EmailSettingDetailDto>> GetAllAsync(int CompanyId);
-        Task<EmailSettingDetailDto> GetByIdAsync(int id,int CompanyId);
-        Task DeleteAsync(int id,int CompanyId);
+        Task<(List<EmailSettingDetailDto> emailSetting, int totalCount)> GetAllAsync(int page, int pageSize, string search);
+        Task<EmailSettingDetailDto> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
     }
 }

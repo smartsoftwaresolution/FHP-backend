@@ -11,11 +11,11 @@ namespace FHP.factories.UserManagement
 {
     public class PermissionFactory
     {
-        public static Permission Create(AddPermissionModel model,int companyId)
+        public static Permission Create(AddPermissionModel model)
         {
             var data = new Permission
             {
-                CompanyId = companyId,
+              
                 Permissions = model.Permissions,
                 PermissionDescription = model.PermissionDescription,
                 PermissionCode = model.PermissionCode,
@@ -29,9 +29,9 @@ namespace FHP.factories.UserManagement
             return data;
         }
 
-        public static void Update(Permission entity, AddPermissionModel model, int companyId)
+        public static void Update(Permission entity, AddPermissionModel model)
         {
-            entity.CompanyId = companyId;
+           
             entity.Permissions = model.Permissions;
             entity.PermissionDescription = model.PermissionDescription;
             entity.PermissionCode = model.PermissionCode;
