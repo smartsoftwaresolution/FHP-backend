@@ -55,6 +55,13 @@ namespace FHP.Controllers.UserManagement
                             response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             return BadRequest(response);
                         }
+    
+                        if(data.IsVerify == null || data.IsVerify == false)
+                        {
+                            response.Message = "email is send to your account,Plz verify the account first";
+                            response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            return BadRequest(response);
+                        }
 
                         var tokenHandler = new JwtSecurityTokenHandler();
                         var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:secret"));
@@ -134,11 +141,16 @@ namespace FHP.Controllers.UserManagement
                             response.Message = "Invalid password. Please enter your current valid password. ";
                             return BadRequest(response);
                         }
+                        if (data.IsVerify == null || data.IsVerify == false)
+                        {
+                            response.Message = "email is send to your account,Plz verify the account first";
+                            response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            return BadRequest(response);
+                        }
+                          var tokenHandler =  new JwtSecurityTokenHandler();
+                          var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:secret"));
 
-                      var tokenHandler =  new JwtSecurityTokenHandler();
-                      var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:secret"));
-
-                        var tokenDescription = new SecurityTokenDescriptor
+                          var tokenDescription = new SecurityTokenDescriptor
                         {
                             Subject = new ClaimsIdentity(new[]
                             {
@@ -156,15 +168,15 @@ namespace FHP.Controllers.UserManagement
                             SigningCredentials=new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature)
                         };
 
-                        var token = tokenHandler.CreateToken(tokenDescription);
+                          var token = tokenHandler.CreateToken(tokenDescription);
 
-                        LoginModule login = new LoginModule();
-                        login.CreatedOn = DateTime.UtcNow;
-                        login.UserId = data.Id;
-                        login.RoleId = data.RoleId;
+                            LoginModule login = new LoginModule();
+                            login.CreatedOn = DateTime.UtcNow;
+                            login.UserId = data.Id;
+                            login.RoleId = data.RoleId;
                        
 
-                        await _manager.UserLogIn(login);
+                         await _manager.UserLogIn(login);
 
                         response.StatusCode = (int)HttpStatusCode.OK;
                         response.Message = "User logged in Successfully!!";
