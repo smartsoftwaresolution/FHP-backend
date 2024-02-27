@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using FHP.dtos.UserManagement;
 using FHP.utilities;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using FHP.entity.FHP;
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -21,13 +22,39 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext = dataContext;
         }
 
-        public async Task AddAsync(User entity, string roleName)
+        public async Task<int> AddAsync(User entity, string roleName)
         {
             int roleId = await _dataContext.UserRole.Where(s => s.RoleName.ToUpper() == roleName.ToUpper()).Select(s => s.Id).FirstOrDefaultAsync();
             entity.RoleId = roleId;
             await _dataContext.User.AddAsync(entity);
             await _dataContext.SaveChangesAsync();
 
+            if(roleName.ToLower() == "employer")
+            {
+                try
+                {
+
+
+                    EmployeeDetail emp = new EmployeeDetail();
+                    emp.UserId = entity.Id;
+                    emp.MaritalStatus = "";
+                    emp.Mobile = "";
+                    emp.Gender = "";
+                    emp.DOB = null;
+                    emp.IsAvailable = false;
+                    emp.PermanentAddress = "";
+                    emp.CreatedOn = DateTime.Now;
+                    emp.Status = Constants.RecordStatus.Active;
+
+                    await _dataContext.EmployeeDetails.AddAsync(emp);
+                    await _dataContext.SaveChangesAsync();
+                }
+                catch(Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return entity.Id;
         }
 
         public async Task<User> GetAsync(int id)
@@ -82,8 +109,11 @@ namespace FHP.datalayer.Repository.UserManagement
                 Email = s.user.Email,
                 Password = s.user.Password,
                 GovernmentId = s.user.GovernmentId,
+                CompanyName = s.user.CompanyName,
+                ContactName = s.user.ContactName,
                 Status = s.user.Status,
                 CreatedOn = s.user.CreatedOn,
+                IsVerify = s.user.IsVerify,
                 UpdatedOn = s.user.UpdatedOn,
             }).AsNoTracking().ToListAsync();
 
@@ -109,8 +139,11 @@ namespace FHP.datalayer.Repository.UserManagement
                               Email = s.Email,
                               Password = s.Password,
                               GovernmentId = s.GovernmentId,
+                              CompanyName = s.CompanyName,
+                              ContactName = s.ContactName,
                               Status = s.Status,
                               CreatedOn = s.CreatedOn,
+                              IsVerify = s.IsVerify,
                               UpdatedOn = s.UpdatedOn,
                           }).FirstOrDefaultAsync();
 
@@ -145,8 +178,11 @@ namespace FHP.datalayer.Repository.UserManagement
                               Email = s.Email,
                               Password = s.Password,
                               GovernmentId = s.GovernmentId,
+                              CompanyName = s.CompanyName,
+                              ContactName = s.ContactName,
                               Status = s.Status,
                               CreatedOn = s.CreatedOn,
+                              IsVerify = s.IsVerify,
                               UpdatedOn = s.UpdatedOn,
                           }).AsNoTracking().FirstOrDefaultAsync();
 
@@ -170,9 +206,12 @@ namespace FHP.datalayer.Repository.UserManagement
                               Email = s.Email,
                               Password = s.Password,
                               GovernmentId = s.GovernmentId,
+                              CompanyName = s.CompanyName,
+                              ContactName = s.ContactName,
                               Status = s.Status,
                               CreatedOn = s.CreatedOn,
                               UpdatedOn = s.UpdatedOn,
+                              IsVerify = s.IsVerify,
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 
@@ -207,6 +246,17 @@ namespace FHP.datalayer.Repository.UserManagement
                 _dataContext.User.Update(user);
                 await _dataContext.SaveChangesAsync();
             }
+
+        }
+
+        public async Task VerifyUser(int userId)
+        {
+            var data = await _dataContext.User
+                                         .Where(s => s.Id == userId)
+                                         .FirstOrDefaultAsync();
+            data.IsVerify = true;
+            _dataContext.User.Update(data);
+            await _dataContext.SaveChangesAsync();
 
         }
     }

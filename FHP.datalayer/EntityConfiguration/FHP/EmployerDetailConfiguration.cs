@@ -21,8 +21,6 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.Id).ValueGeneratedOnAdd(); // Auto-generated ID
            
             builder.Property(x => x.UserId).IsRequired(); 
-            builder.Property(x => x.CompanyName).IsRequired(); 
-            builder.Property(x => x.CompanyEmail).IsRequired();
             builder.Property(x => x.NationalAddress).IsRequired(); 
             builder.Property(x => x.CertificateRegistrationURL).IsRequired(); 
             builder.Property(x => x.VATCertificateURL).IsRequired(); 

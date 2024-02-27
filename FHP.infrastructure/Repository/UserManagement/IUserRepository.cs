@@ -11,7 +11,7 @@ namespace FHP.infrastructure.Repository.UserManagement
 {
     public interface IUserRepository
     {
-        Task AddAsync(User entity,string roleName);
+        Task<int> AddAsync(User entity,string roleName);
         Task<User> GetAsync(int id);
         void Edit(User entity);
         Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page,int pageSize,string? search,string? roleName);
@@ -21,5 +21,6 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task<UserDetailDto> GetUserByGovernmentId(string governmentId);
         Task UserLogIn(LoginModule entity);
         Task UserLogOut(int userId);
+        Task VerifyUser(int userId);
     }
 }

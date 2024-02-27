@@ -214,16 +214,16 @@ namespace FHP.datalayer.Migrations
                     b.Property<string>("AlternatePhone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CityId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CountryId")
+                    b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DOB")
+                    b.Property<DateTime?>("DOB")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmergencyContactName")
@@ -263,7 +263,7 @@ namespace FHP.datalayer.Migrations
                     b.Property<string>("ResumeURL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StateId")
+                    b.Property<int?>("StateId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -396,15 +396,7 @@ namespace FHP.datalayer.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CompanyEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CompanyLogoURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -851,6 +843,12 @@ namespace FHP.datalayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -864,6 +862,9 @@ namespace FHP.datalayer.Migrations
 
                     b.Property<string>("GovernmentId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsVerify")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastLogInTime")
                         .HasColumnType("datetime2");

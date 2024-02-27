@@ -20,6 +20,8 @@ namespace FHP.factories.UserManagement
                 LastName = model.LastName,
                 Email = model.Email,
                 Password = Utility.Encrypt(model.Password),
+                CompanyName = model.CompanyName,
+                ContactName = model.ContactName,
                 Status = utilities.Constants.RecordStatus.Active,
                 CreatedOn = Utility.GetDateTime()
             };
@@ -34,6 +36,8 @@ namespace FHP.factories.UserManagement
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
             entity.Email = model.Email;
+            entity.CompanyName = model.CompanyName;
+            entity.ContactName = model.ContactName;
             entity.Password = Utility.Encrypt(model.Password);
             entity.UpdatedOn= Utility.GetDateTime();
         }

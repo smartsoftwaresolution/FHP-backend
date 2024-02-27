@@ -373,12 +373,6 @@ D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\refint\FHP.dll
 D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.pdb
 D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.genruntimeconfig.cache
 D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\ref\FHP.dll
-C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.csproj.AssemblyReference.cache
-C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.GeneratedMSBuildEditorConfig.editorconfig
-C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.AssemblyInfoInputs.cache
-C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.AssemblyInfo.cs
-C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.csproj.CoreCompileInputs.cache
-C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.MvcApplicationPartsAssemblyInfo.cache
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\appsettings.Development.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\appsettings.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.exe
@@ -545,7 +539,13 @@ C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.utilities.pdb
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.entity.pdb
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.factories.pdb
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.manager.pdb
+C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.csproj.AssemblyReference.cache
+C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.AssemblyInfoInputs.cache
+C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.AssemblyInfo.cs
+C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.csproj.CoreCompileInputs.cache
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.MvcApplicationPartsAssemblyInfo.cs
+C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.MvcApplicationPartsAssemblyInfo.cache
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\staticwebassets\msbuild.FHP.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\staticwebassets\msbuild.build.FHP.props
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.FHP.props
@@ -560,3 +560,4 @@ C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\refint\FHP.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.pdb
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.genruntimeconfig.cache
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\ref\FHP.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.staticwebassets.runtime.json

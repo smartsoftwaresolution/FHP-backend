@@ -14,11 +14,11 @@ namespace FHP.dtos.FHP
 
         public string MaritalStatus { get; set; }
         public string Gender { get; set; }
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
 
-        public int CountryId { get; set; }
-        public int StateId { get; set; }
-        public int CityId { get; set; }
+        public int? CountryId { get; set; }
+        public int? StateId { get; set; }
+        public int? CityId { get; set; }
         public string ResumeURL { get; set; }
         public string ProfileImgURL { get; set; }
         public bool IsAvailable { get; set; }

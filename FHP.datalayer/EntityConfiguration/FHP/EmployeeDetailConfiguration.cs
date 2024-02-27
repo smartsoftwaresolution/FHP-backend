@@ -23,10 +23,10 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.UserId).IsRequired(); 
             builder.Property(x => x.MaritalStatus).IsRequired(); 
             builder.Property(x => x.Gender).IsRequired(); 
-            builder.Property(x => x.DOB).IsRequired();
-            builder.Property(x => x.CountryId).IsRequired(); 
-            builder.Property(x => x.StateId).IsRequired(); 
-            builder.Property(x => x.CityId).IsRequired(); 
+            builder.Property(x => x.DOB).IsRequired(false);
+            builder.Property(x => x.CountryId).IsRequired(false); 
+            builder.Property(x => x.StateId).IsRequired(false); 
+            builder.Property(x => x.CityId).IsRequired(false); 
             builder.Property(x => x.ResumeURL).IsRequired(false); 
             builder.Property(x => x.ProfileImgURL).IsRequired(false); 
             builder.Property(x => x.IsAvailable).IsRequired(); 

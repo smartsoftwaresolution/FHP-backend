@@ -11,8 +11,6 @@ namespace FHP.entity.FHP
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public string CompanyName { get; set; }
-        public string CompanyEmail { get; set; }
         public string NationalAddress { get; set; }
         public string CertificateRegistrationURL { get; set; }
         public string VATCertificateURL { get; set; }

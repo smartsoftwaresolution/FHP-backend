@@ -72,7 +72,9 @@ namespace FHP.config
 
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IExceptionHandleService, ExceptionHandleService>();           
+            services.AddScoped<IExceptionHandleService, ExceptionHandleService>();
+            services.AddScoped<IEmailService, EmailService>();
+
         }
 
     }

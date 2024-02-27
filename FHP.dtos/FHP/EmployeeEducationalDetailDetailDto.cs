@@ -11,6 +11,7 @@ namespace FHP.dtos.FHP
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public string UserName { get; set; }
         public string Education { get; set; }
         public string NameOfBoardOrUniversity { get; set; }
         public int YearOfCompletion { get; set; }
