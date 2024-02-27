@@ -21,9 +21,9 @@ namespace FHP.manager.UserManagement
         {
             _repository=repository;
         }
-        public async Task AddAsync(AddUserModel model)
+        public async Task<int> AddAsync(AddUserModel model)
         {
-           await _repository.AddAsync(UserFactory.Create(model),model.RoleName);
+          return await _repository.AddAsync(UserFactory.Create(model),model.RoleName);
         }
         public async Task EditAsync(AddUserModel model)
         {
@@ -67,6 +67,11 @@ namespace FHP.manager.UserManagement
         public async Task UserLogOut(int userId)
         {
             await _repository.UserLogOut(userId);
+        }
+
+        public async Task VerifyUser(int userId)
+        {
+            await _repository.VerifyUser(userId);
         }
     }
 }

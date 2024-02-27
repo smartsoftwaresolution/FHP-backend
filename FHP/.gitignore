@@ -18,13 +18,23 @@ x64/
 x86/
 build/
 bin/
-obj/
+/bin/
+/obj/
 bld/
 [Bb]in/
 [Oo]bj/
 
+
 # Visual Studio 2015 cache/options directory
 .vs/
+/bin/
+/obj/
+
+#Visual Studio Code
+.vscode/
+.vs/
+/bin/
+/obj/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
@@ -109,12 +119,13 @@ _TeamCity*
 *.dotCover
 
 # NCrunch
-NCrunch*
-.crunch.local.xml
+_NCrunch_*
+.*crunch*.local.xml
 nCrunchTemp_*
 
+
 # MightyMoose
-.mm.
+*.mm.*
 AutoTest.Net/
 
 # Web workbench (sass)
@@ -147,11 +158,11 @@ publish/
 # NuGet Packages
 *.nupkg
 # The packages folder can be ignored because of Package Restore
-*/packages/
+**/packages/*
 # except build/, which is used as an MSBuild target.
-!/packages/build/
+!**/packages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
-#!/packages/repositories.config
+#!**/packages/repositories.config
 
 # Microsoft Azure Build Output
 csx/
@@ -203,7 +214,7 @@ UpgradeLog*.htm
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout
-.bim_.settings
+*.bim_*.settings
 
 # Microsoft Fakes
 FakesAssemblies/
@@ -221,11 +232,11 @@ FakesAssemblies/
 *.opt
 
 # Visual Studio LightSwitch build output
-*/.HTMLClient/GeneratedArtifacts
-*/.DesktopClient/GeneratedArtifacts
-*/.DesktopClient/ModelManifest.xml
-*/.Server/GeneratedArtifacts
-*/.Server/ModelManifest.xml
+**/*.HTMLClient/GeneratedArtifacts
+**/*.DesktopClient/GeneratedArtifacts
+**/*.DesktopClient/ModelManifest.xml
+**/*.Server/GeneratedArtifacts
+**/*.Server/ModelManifest.xml
 _Pvt_Extensions
 
 # Paket dependency manager
@@ -234,9 +245,15 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 
-/FHP.datalayer/Migrations
-/ecall-crm/wwwroot/Attachments
-/ecall-crm/MyTemplate
-/ecall-crm/repo.cs
-/ecall-crm/MyTemplate
-/FHP/obj/
+/FHP/Migrations
+/FHP/wwwroot
+/FHP/obj
+/FHP.config/obj
+/FHP.datalayer/obj
+/obj/
+/bin/
+
+FHP\obj\
+\bin\
+
+

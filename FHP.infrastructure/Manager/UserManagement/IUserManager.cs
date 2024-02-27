@@ -12,7 +12,7 @@ namespace FHP.infrastructure.Manager.UserManagement
 {
     public interface IUserManager
     {
-        Task AddAsync(AddUserModel model);
+        Task<int> AddAsync(AddUserModel model);
         Task EditAsync(AddUserModel model);
         Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page,int pageSize,string? search,string? roleName);
         Task<UserDetailDto> GetByIdAsync(int id);
@@ -21,5 +21,6 @@ namespace FHP.infrastructure.Manager.UserManagement
         Task<UserDetailDto> GetUserByGovernmentId(string governmentId);
         Task UserLogIn(LoginModule entity);
         Task UserLogOut(int userId);
+        Task VerifyUser(int userId);
     }
 }

@@ -40,8 +40,9 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<(List<EmployeeEducationalDetailDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
         {
             var query = from s in _dataContext.EmployeeEducationalDetails
+                        join t in _dataContext.User on s.UserId equals t.Id
                         where s.Status != utilities.Constants.RecordStatus.Deleted
-                        select new { employeeeducationaldetail = s };
+                        select new { employeeeducationaldetail = s , user = t };
 
 
             var totalCount = await _dataContext.EmployeeEducationalDetails.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
@@ -66,6 +67,7 @@ namespace FHP.datalayer.Repository.FHP
             {
                 Id = s.employeeeducationaldetail.Id,
                 UserId = s.employeeeducationaldetail.UserId,
+                UserName = s.user.FirstName + " " + s.user.LastName,
                 Education = s.employeeeducationaldetail.Education,
                 NameOfBoardOrUniversity = s.employeeeducationaldetail.NameOfBoardOrUniversity,
                 YearOfCompletion = s.employeeeducationaldetail.YearOfCompletion,
@@ -85,21 +87,23 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task<EmployeeEducationalDetailDetailDto> GetByIdAsync(int id)
         {
-          return  await (from s in _dataContext.EmployeeEducationalDetails where 
-                   s.Status != utilities.Constants.RecordStatus.Deleted && s.Id==id
+          return  await (from s in _dataContext.EmployeeEducationalDetails
+                         join t in _dataContext.User on s.UserId equals t.Id
+                         where s.Status != utilities.Constants.RecordStatus.Deleted && s.Id==id
 
                    select new EmployeeEducationalDetailDetailDto
                    {
-                       Id=s.Id,
-                       UserId=s.UserId,
-                       Education=s.Education,
-                       NameOfBoardOrUniversity=s.NameOfBoardOrUniversity,
-                       YearOfCompletion=s.YearOfCompletion,
-                       MarksObtained=s.MarksObtained,   
-                       GPA=s.GPA,
-                       CreatedOn=s.CreatedOn,
-                       UpdatedOn=s.UpdatedOn,
-                       Status=s.Status,
+                       Id = s.Id,
+                       UserId = s.UserId,
+                       UserName = t.FirstName + " " + t.LastName,
+                       Education = s.Education,
+                       NameOfBoardOrUniversity = s.NameOfBoardOrUniversity,
+                       YearOfCompletion = s.YearOfCompletion,
+                       MarksObtained = s.MarksObtained,   
+                       GPA = s.GPA,
+                       CreatedOn = s.CreatedOn,
+                       UpdatedOn = s.UpdatedOn,
+                       Status = s.Status,
                    }).AsNoTracking().FirstOrDefaultAsync();
         }
 

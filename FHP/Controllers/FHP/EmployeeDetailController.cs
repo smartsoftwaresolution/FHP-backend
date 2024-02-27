@@ -5,6 +5,7 @@ using FHP.models.FHP;
 using FHP.utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FHP.Controllers.FHP
@@ -15,15 +16,17 @@ namespace FHP.Controllers.FHP
     {
         private readonly IEmployeeDetailManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
-
-        public EmployeeDetailController(IEmployeeDetailManager manager, IExceptionHandleService exceptionHandleService)
+        private readonly IFileUploadService _fileUploadService;
+        public EmployeeDetailController(IEmployeeDetailManager manager,
+                                        IExceptionHandleService exceptionHandleService,
+                                        IFileUploadService fileUploadService)
         {
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddAsync(AddEmployeeDetailModel model)
+        public async Task<IActionResult> AddAsync([FromForm]AddEmployeeDetailModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -42,6 +45,11 @@ namespace FHP.Controllers.FHP
                    && !string.IsNullOrEmpty(model.Mobile))
                    
                 {
+                    string profileImg = string.Empty;
+                    if(model.ProfileImgURL != null)
+                    {
+                      profileImg =  await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL);
+                    }
                     await _manager.AddAsync(model);
                     response.StatusCode = 200;
                     response.Message = Constants.added;
