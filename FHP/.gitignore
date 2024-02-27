@@ -246,7 +246,7 @@ _Pvt_Extensions
 .fake/
 
 /FHP/Migrations
-/FHP/wwwroot
+
 /FHP/obj
 /FHP.config/obj
 /FHP.datalayer/obj
