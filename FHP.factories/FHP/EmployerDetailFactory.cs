@@ -17,8 +17,6 @@ namespace FHP.factories.FHP
             var data = new EmployerDetail
             {
                 UserId = model.UserId,
-                CompanyName=model.CompanyName,
-                CompanyEmail=model.CompanyEmail,
                 NationalAddress=model.NationalAddress,  
                 CertificateRegistrationURL=model.CertificateRegistrationURL,
                 VATCertificateURL=model.VATCertificateURL,
@@ -43,8 +41,6 @@ namespace FHP.factories.FHP
         public static void Update(EmployerDetail entity,AddEmployerDetailModel model)
         {
             entity.UserId= model.UserId;    
-            entity.CompanyName= model.CompanyName;
-            entity.CompanyEmail= model.CompanyEmail;
             entity.NationalAddress= model.NationalAddress;
             entity.CertificateRegistrationURL= model.CertificateRegistrationURL;
             entity.VATCertificateURL= model.VATCertificateURL;

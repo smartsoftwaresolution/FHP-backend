@@ -50,8 +50,7 @@ namespace FHP.datalayer.Repository.FHP
 
             if (!string.IsNullOrEmpty(search))
             {
-                query =query.Where(s=>s.employerDetail.CompanyName.Contains(search) ||
-                                       s.employerDetail.CompanyEmail.Contains(search) ||
+                query =query.Where(s=>
                                        s.employerDetail.NationalAddress.Contains(search) ||
                                        s.employerDetail.TypeOfBusiness.Contains(search) ||
                                        s.employerDetail.WebAddress.Contains(search));   
@@ -69,8 +68,6 @@ namespace FHP.datalayer.Repository.FHP
             {
                 Id = s.employerDetail.Id,
                 UserId = s.employerDetail.UserId,
-                CompanyName = s.employerDetail.CompanyName,
-                CompanyEmail = s.employerDetail.CompanyEmail,
                 NationalAddress = s.employerDetail.NationalAddress,
                 CertificateRegistrationURL = s.employerDetail.CertificateRegistrationURL,
                 VATCertificateURL = s.employerDetail.VATCertificateURL,
@@ -106,8 +103,6 @@ namespace FHP.datalayer.Repository.FHP
                    {
                        Id=s.Id,
                        UserId=s.UserId,
-                       CompanyName=s.CompanyName,
-                       CompanyEmail=s.CompanyEmail,
                        NationalAddress=s.NationalAddress,
                        CertificateRegistrationURL=s.CertificateRegistrationURL,
                        VATCertificateURL=s.VATCertificateURL,
