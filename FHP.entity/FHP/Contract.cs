@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FHP.entity.FHP
 {
-    public class Contract
+    public class Contract   
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }

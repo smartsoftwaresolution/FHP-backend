@@ -27,6 +27,7 @@ namespace FHP.services
                 {
                     throw new ArgumentException("File size exceeds the limit of 60MB.");
                 }
+
                 string fileExtension = Path.GetExtension(file.FileName);
 
                 uploadsFolder = FileExtensionMap.GetCategoryForExtension(fileExtension.ToLower());
@@ -49,7 +50,6 @@ namespace FHP.services
             return uploadsFolder + "/" + uniqueFileName;
 
         }
-
 
     }
 }
