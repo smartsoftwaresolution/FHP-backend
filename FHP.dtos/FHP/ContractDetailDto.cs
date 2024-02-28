@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FHP.entity.FHP
+namespace FHP.dtos.FHP
 {
-    public class Contract   
+    public class ContractDetailDto
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }
@@ -26,5 +26,4 @@ namespace FHP.entity.FHP
         public DateTime? UpdatedOn { get; set; }
         public Constants.RecordStatus Status { get; set; }
     }
-
 }

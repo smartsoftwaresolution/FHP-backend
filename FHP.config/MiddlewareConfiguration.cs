@@ -48,6 +48,9 @@ namespace FHP.config
             services.AddScoped<IEmployeeProfessionalDetailManager, EmployeeProfessionalDetailManager>();
             services.AddScoped<IEmployerDetailManager,EmployerDetailManager>();
             services.AddScoped<IEmployerDetailManager, EmployerDetailManager>();
+            services.AddScoped<IJobPostingManager, JobPostingManager>();
+            services.AddScoped<IContractManager, ContractManager>();
+            services.AddScoped<IAdminSelectEmployeeManager, AdminSelectEmployeeManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -67,6 +70,9 @@ namespace FHP.config
             services.AddScoped<IEmployeeEducationalDetailRepository, EmployeeEducationalDetailRepository>();
             services.AddScoped<IEmployeeProfessionalDetailRepository, EmployeeProfessionalDetailRepository>();
             services.AddScoped<IEmployerDetailRepository,EmployerDetailRepository>();
+            services.AddScoped<IJobPostingRepoitory, JobPostingRepository>();
+            services.AddScoped<IContractRepository, ContractRepository>();
+            services.AddScoped<IAdminSelectEmployeeRepository, AdminSelectEmployeeRepository>();    
         }
 
 
