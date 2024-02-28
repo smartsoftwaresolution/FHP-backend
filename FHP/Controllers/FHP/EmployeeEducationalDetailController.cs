@@ -1,5 +1,4 @@
-﻿
-using FHP.infrastructure.Manager.FHP;
+﻿using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
 using FHP.services;
@@ -89,7 +88,7 @@ namespace FHP.Controllers.FHP
         }
 
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,int userId,string? search)
         {
             if (!ModelState.IsValid)
             {
@@ -100,7 +99,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                var data = await _manager.GetAllAsync(page, pageSize,search);
+                var data = await _manager.GetAllAsync(page, pageSize,userId,search);
 
                 if (data.employeeeducationaldetail != null)
                 {
@@ -142,13 +141,10 @@ namespace FHP.Controllers.FHP
                     response.Data = data;
                     return Ok(response);
                 }
-
-
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
             }
-
             catch(Exception ex)
             {
               return  await _exceptionHandleService.HandleException(ex);  

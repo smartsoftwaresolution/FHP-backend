@@ -16,5 +16,7 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task<(List<StateDetailDto> state,int totalCount)> GetAllAsync(int page ,int pageSize, string search);
         Task<StateDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
+        Task<List<StateDetailDto>> GetByCountryIdAsync(int countryId);
+
     }
 }

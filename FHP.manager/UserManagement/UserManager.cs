@@ -73,5 +73,10 @@ namespace FHP.manager.UserManagement
         {
             await _repository.VerifyUser(userId);
         }
+
+        public async Task AddUserPic(int userId,string picUrl,string roleName)
+        {
+            await _repository.AddUserPic(userId, picUrl, roleName);
+        }
     }
 }

@@ -80,9 +80,14 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(model.Id>=0)
+                if(model.Id >= 0)
                 {
-                    await _manager.Edit(model);
+                    string resumeUrl = string.Empty;
+                    if (model.ResumeURL != null)
+                    {
+                        resumeUrl = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL);
+                    }
+                    await _manager.Edit(model,resumeUrl);
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -90,7 +95,7 @@ namespace FHP.Controllers.FHP
 
 
                 response.StatusCode = 400;
-                response.Message= Constants.error;
+                response.Message = Constants.provideValues;
                 return BadRequest(response);
 
             }
@@ -101,7 +106,7 @@ namespace FHP.Controllers.FHP
         }
 
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page,int pagesize,string? search)
+        public async Task<IActionResult> GetAllAsync(int page,int pagesize,int userId,string? search)
         {
             if (!ModelState.IsValid)
             {
@@ -112,7 +117,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                var data = await _manager.GetAllAsync(page,pagesize,search);
+                var data = await _manager.GetAllAsync(page,pagesize,userId,search);
                 if(data.employee != null)
                 {
                     response.StatusCode = 200;

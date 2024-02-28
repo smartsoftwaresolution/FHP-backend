@@ -13,7 +13,7 @@ namespace FHP.infrastructure.Repository.FHP
         Task AddAsync(EmployeeEducationalDetail entity);
         Task<EmployeeEducationalDetail> GetAsync(int id);
         void Edit(EmployeeEducationalDetail entity);
-        Task<(List<EmployeeEducationalDetailDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize, string? search);
+        Task<(List<EmployeeEducationalDetailDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search);
         Task<EmployeeEducationalDetailDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }

@@ -345,9 +345,6 @@ namespace FHP.datalayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Duration")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("EmploymentStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -379,6 +376,34 @@ namespace FHP.datalayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmployeeProfessionalDetail", (string)null);
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.EmployeeSkillDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeeSkillDetail", (string)null);
                 });
 
             modelBuilder.Entity("FHP.entity.FHP.EmployerDetail", b =>

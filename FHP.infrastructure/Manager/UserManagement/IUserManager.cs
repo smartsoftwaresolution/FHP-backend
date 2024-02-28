@@ -22,5 +22,6 @@ namespace FHP.infrastructure.Manager.UserManagement
         Task UserLogIn(LoginModule entity);
         Task UserLogOut(int userId);
         Task VerifyUser(int userId);
+        Task AddUserPic(int userId, string picUrl, string roleName);
     }
 }

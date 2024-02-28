@@ -11,8 +11,8 @@ namespace FHP.infrastructure.Manager.FHP
     public interface IEmployeeDetailManager
     {
         Task AddAsync(AddEmployeeDetailModel model);
-        Task Edit(AddEmployeeDetailModel model);
-        Task<(List<EmployeeDetailDto>employee, int totalCount)> GetAllAsync(int page,int pagesize,string? search);
+        Task Edit(AddEmployeeDetailModel model,string resumeUrl);
+        Task<(List<EmployeeDetailDto>employee, int totalCount)> GetAllAsync(int page,int pagesize,int userId, string? search);
         Task<EmployeeDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }

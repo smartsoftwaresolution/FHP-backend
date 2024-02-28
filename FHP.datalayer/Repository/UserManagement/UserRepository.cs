@@ -1,5 +1,4 @@
-﻿
-using FHP.entity.UserManagement;
+﻿using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,6 +9,7 @@ using FHP.dtos.UserManagement;
 using FHP.utilities;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using FHP.entity.FHP;
+using FHP.dtos.FHP;
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -29,31 +29,7 @@ namespace FHP.datalayer.Repository.UserManagement
             await _dataContext.User.AddAsync(entity);
             await _dataContext.SaveChangesAsync();
 
-            if(roleName.ToLower() == "employer")
-            {
-                try
-                {
-
-
-                    EmployeeDetail emp = new EmployeeDetail();
-                    emp.UserId = entity.Id;
-                    emp.MaritalStatus = "";
-                    emp.Mobile = "";
-                    emp.Gender = "";
-                    emp.DOB = null;
-                    emp.IsAvailable = false;
-                    emp.PermanentAddress = "";
-                    emp.CreatedOn = DateTime.Now;
-                    emp.Status = Constants.RecordStatus.Active;
-
-                    await _dataContext.EmployeeDetails.AddAsync(emp);
-                    await _dataContext.SaveChangesAsync();
-                }
-                catch(Exception ex)
-                {
-                    throw ex;
-                }
-            }
+           
             return entity.Id;
         }
 
@@ -73,6 +49,7 @@ namespace FHP.datalayer.Repository.UserManagement
 
             var query = from s in _dataContext.User
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
+                        
                         where s.Status != Constants.RecordStatus.Deleted 
                         select new { user = s, t };
 
@@ -115,6 +92,34 @@ namespace FHP.datalayer.Repository.UserManagement
                 CreatedOn = s.user.CreatedOn,
                 IsVerify = s.user.IsVerify,
                 UpdatedOn = s.user.UpdatedOn,
+                EmployeeDetails = (from e in _dataContext.EmployeeDetails
+                                  where e.UserId == s.user.Id
+                                  select new EmployeeDetailDto 
+                                  {
+                                      Id = e.Id,
+                                      UserId = e.UserId,
+                                      MaritalStatus = e.MaritalStatus,
+                                      Gender = e.Gender,
+                                      DOB = e.DOB,
+                                      CountryId = e.CountryId,
+                                      StateId = e.StateId,
+                                      CityId = e.CityId,
+                                      ResumeURL = e.ResumeURL,
+                                      ProfileImgURL = e.ProfileImgURL,
+                                      IsAvailable = e.IsAvailable,
+                                      Hobby = e.Hobby,
+                                      PermanentAddress = e.PermanentAddress,
+                                      AlternateAddress = e.AlternateAddress,
+                                      Mobile = e.Mobile,
+                                      Phone = e.Phone,
+                                      AlternateEmail = e.AlternateEmail,
+                                      AlternatePhone = e.AlternatePhone,
+                                      EmergencyContactName = e.EmergencyContactName,
+                                      EmergencyContactNumber = e.EmergencyContactNumber,
+                                      CreatedOn = e.CreatedOn,
+                                      UpdatedOn = e.UpdatedOn,
+                                      Status = e.Status,
+                                  }).AsNoTracking().ToList(),
             }).AsNoTracking().ToListAsync();
 
             return (data, totalCount);
@@ -258,6 +263,24 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext.User.Update(data);
             await _dataContext.SaveChangesAsync();
 
+        }
+
+        public async Task AddUserPic(int userId, string picUrl, string roleName)
+        {
+            if(roleName.ToLower() == "employee")
+            {
+                var data = await _dataContext.EmployeeDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+                data.ProfileImgURL = picUrl;
+                _dataContext.EmployeeDetails.Update(data);
+                await _dataContext.SaveChangesAsync();
+            }
+            if (roleName.ToLower() == "employer")
+            {
+                var data = await _dataContext.EmployerDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+                data.CompanyLogoURL = picUrl;
+                _dataContext.EmployerDetails.Update(data);
+                await _dataContext.SaveChangesAsync();
+            }
         }
     }
 }

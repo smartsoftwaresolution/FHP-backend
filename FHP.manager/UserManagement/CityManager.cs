@@ -46,5 +46,11 @@ namespace FHP.manager.UserManagement
         {
             await _repository.DeleteAsync(id);
         }
+
+        public async Task<List<CityDetailDto>> GetByStateIdAsync(int stateId)
+        {
+            return await  _repository.GetByStateIdAsync(stateId);
+        }
+
     }
 }

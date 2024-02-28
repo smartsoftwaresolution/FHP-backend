@@ -19,7 +19,6 @@ namespace FHP.factories.FHP
                 JobDescription = model.JobDescription,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
-                Duration = Utility.GetDateTime(),
                 CompanyName = model.CompanyName,
                 CompanyLocation = model.CompanyLocation,
                 Designation = model.Designation,
@@ -43,7 +42,6 @@ namespace FHP.factories.FHP
             entity.Designation= model.Designation;
             entity.EmploymentStatus= model.EmploymentStatus;    
             entity.YearsOfExperience= model.YearsOfExperience;
-            entity.Duration = Utility.GetDateTime();
             entity.UpdatedOn = Utility.GetDateTime();
         }
     }

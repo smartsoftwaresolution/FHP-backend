@@ -3,6 +3,7 @@ using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,16 +27,16 @@ namespace FHP.manager.FHP
         }
 
   
-        public async Task Edit(AddEmployeeDetailModel model)
+        public async Task Edit(AddEmployeeDetailModel model,string resumeUrl)
         {
             var data = await _repository.GetAsync(model.Id);
-            EmployeeDetailFactory.Update(data,model);
+            EmployeeDetailFactory.Update(data,model,resumeUrl);
             _repository.Edit(data);
         }
 
-        public async Task<(List<EmployeeDetailDto>employee, int totalCount)> GetAllAsync(int page,int pageSize,string? search)
+        public async Task<(List<EmployeeDetailDto>employee, int totalCount)> GetAllAsync(int page,int pageSize,int userId, string? search)
         {
-          return  await _repository.GetAllAsync(page,pageSize,search);
+          return  await _repository.GetAllAsync(page,pageSize,userId,search);
         }
 
         public async Task<EmployeeDetailDto> GetByIdAsync(int id)

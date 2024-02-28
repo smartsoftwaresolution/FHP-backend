@@ -41,6 +41,7 @@ namespace FHP.datalayer
         public DbSet<JobPosting> JobPostings { get; set; }
         public DbSet<EmployeeEducationalDetail> EmployeeEducationalDetails { get; set; }
         public DbSet<EmployeeProfessionalDetail> EmployeeProfessionalDetails { get; set; }
+        public DbSet<EmployeeSkillDetail> EmployeeSkillDetails { get; set; }
         public DbSet<AdminSelectEmployee> AdminSelectEmployees { get; set; }
         public DbSet<Contract> Contracts { get; set; }
 
@@ -72,6 +73,7 @@ namespace FHP.datalayer
             modelBuilder.ApplyConfiguration(new EmployeeProfessionalDetailConfiguration());
             modelBuilder.ApplyConfiguration(new AdminSelectEmployeeConfiguration());
             modelBuilder.ApplyConfiguration(new ContractConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeSkillDetailsConfiguration());
 
             #endregion
         }

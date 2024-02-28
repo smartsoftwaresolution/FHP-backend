@@ -34,9 +34,9 @@ namespace FHP.manager.FHP
             _repository.Edit(data);
         }
 
-        public async Task<(List<EmployeeProfessionalDetailDto> employeeProfessionalDetail, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<EmployeeProfessionalDetailDto> employeeProfessionalDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
         {
-         return  await _repository.GetAllAsync(page, pageSize, search);
+         return  await _repository.GetAllAsync(page, pageSize,userId, search);
         }
 
         public async Task<EmployeeProfessionalDetailDto> GetByIdAsync(int id)

@@ -12,7 +12,7 @@ namespace FHP.infrastructure.Manager.FHP
     {
         Task AddAsync(AddEmployerDetailModel model);
         Task Edit(AddEmployerDetailModel model);
-        Task<(List<EmployerDetailDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize, string? search);
+        Task<(List<EmployerDetailDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search);
         Task<EmployerDetailDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }
