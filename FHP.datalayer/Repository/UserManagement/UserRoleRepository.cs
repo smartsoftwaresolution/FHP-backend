@@ -37,19 +37,39 @@ namespace FHP.datalayer.Repository.UserManagement
             return await _dataContext.UserRole.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<UserRoleDetailDto>> GetAllAsync(int id)
+        public async Task<(List<UserRoleDetailDto> userRole, int totalCount)> GetAllAsync(int page, int pageSize, string search)
         {
-           return  await (from s in _dataContext.UserRole
-                   where s.Status != utilities.Constants.RecordStatus.Deleted && (s.Id == id || s.Id == 0)
-                   select new UserRoleDetailDto
-                   {
-                       Id=s.Id,
-                       CreatedBy=s.CreatedBy,
-                       RoleName =s.RoleName,
-                       Status = s.Status,
-                       CreatedOn = s.CreatedOn, 
-                       UpdatedOn = s.UpdatedOn,
-                   }).ToListAsync();
+            var query = from s in _dataContext.UserRole
+                        where s.Status != Constants.RecordStatus.Deleted
+                        select new { userRole = s };
+
+
+            var totalCount = await _dataContext.UserRole.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.userRole.RoleName.Contains(search));
+            }
+
+            if (page > 0 && pageSize > 0)
+            {
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            }
+
+
+            query = query.OrderByDescending(s => s.userRole.Id);
+
+            var data = await query.Select(s => new UserRoleDetailDto
+            {
+                Id = s.userRole.Id,
+                RoleName = s.userRole.RoleName,
+                Status = s.userRole.Status,
+                CreatedOn = s.userRole.CreatedOn,
+                UpdatedOn = s.userRole.UpdatedOn,
+            }).AsNoTracking().ToListAsync();
+                                           
+            return (data, totalCount);
         }
 
         public async Task<UserRoleDetailDto> GetByIdAsync(int id)
@@ -59,7 +79,6 @@ namespace FHP.datalayer.Repository.UserManagement
                    select new UserRoleDetailDto
                    {
                        Id=s.Id,
-                       CreatedBy=s.CreatedBy,
                        RoleName =s.RoleName,
                        Status=s.Status,
                        CreatedOn=s.CreatedOn,

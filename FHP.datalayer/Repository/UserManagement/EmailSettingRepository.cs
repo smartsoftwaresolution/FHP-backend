@@ -37,38 +37,57 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext.SaveChanges();
         }
 
-        public async Task<List<EmailSettingDetailDto>> GetAllAsync(int CompnayId)
+        public async Task<(List<EmailSettingDetailDto> emailSetting,int totalCount)> GetAllAsync(int page,int pageSize,string search)
         {
-           return await (from s in _dataContext.EmailSetting where 
-                   s.Status!=utilities.Constants.RecordStatus.Deleted && 
-                   (s.CompanyId==CompnayId || CompnayId==0) 
-                   select new EmailSettingDetailDto
-                   {
-                       Id=s.Id,
-                       CompanyId=s.CompanyId,
-                       Email=s.Email,
-                       Password=s.Password,
-                       AppPassword=s.AppPassword,
-                       IMapHost=s.IMapHost,
-                       IMapPort=s.IMapPort,
-                       SmtpHost=s.SmtpHost,
-                       SmtpPort=s.SmtpPort,
-                       Status=s.Status,
-                       CreatedOn=s.CreatedOn,
-                       UpdatedOn=s.UpdatedOn,
-                   }).ToListAsync();
+            var query = from s in _dataContext.EmailSetting
+                        where s.Status != Constants.RecordStatus.Deleted
+                        select new { emailSetting = s };
+
+
+            var totalCount = await _dataContext.EmailSetting.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.emailSetting.Email.Contains(search));
+            }
+
+            if (page > 0 && pageSize > 0)
+            {
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            }
+
+            query = query.OrderByDescending(s => s.emailSetting.Id);
+
+            var data = await query.Select(s => new EmailSettingDetailDto
+            {
+                Id = s.emailSetting.Id,
+                Email = s.emailSetting.Email,
+                Password = s.emailSetting.Password,
+                AppPassword = s.emailSetting.AppPassword,
+                IMapHost = s.emailSetting.IMapHost,
+                IMapPort = s.emailSetting.IMapPort,
+                SmtpHost = s.emailSetting.SmtpHost,
+                SmtpPort = s.emailSetting.SmtpPort,
+                Status = s.emailSetting.Status,
+                CreatedOn = s.emailSetting.CreatedOn,
+                UpdatedOn = s.emailSetting.UpdatedOn,
+            }).AsNoTracking().ToListAsync();
+
+
+            return (data, totalCount);
+
         }
 
-        public async Task<EmailSettingDetailDto> GetByIdAsync(int id,int CompanyId)
+        public async Task<EmailSettingDetailDto> GetByIdAsync(int id)
         {
             return await (from s in _dataContext.EmailSetting
                    where
                    s.Status != utilities.Constants.RecordStatus.Deleted &&
-                   s.Id == id && s.CompanyId == CompanyId
+                   s.Id == id 
                    select new EmailSettingDetailDto
                    {
                        Id = s.Id,
-                       CompanyId = s.CompanyId,
                        Email = s.Email,
                        Password = s.Password,
                        AppPassword = s.AppPassword,
@@ -80,12 +99,12 @@ namespace FHP.datalayer.Repository.UserManagement
                        CreatedOn = s.CreatedOn,
                        UpdatedOn = s.UpdatedOn,
 
-                   }).FirstOrDefaultAsync();
+                   }).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public async Task DeleteAsync(int id ,int CompanyId)
+        public async Task DeleteAsync(int id)
         {
-            var data = await _dataContext.EmailSetting.Where(s => s.Id == id && s.CompanyId == CompanyId).FirstOrDefaultAsync();
+            var data = await _dataContext.EmailSetting.Where(s => s.Id == id ).FirstOrDefaultAsync();
             data.Status = Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();

@@ -9,7 +9,6 @@ namespace FHP.models.UserManagement
     public class AddUserRoleModel
     {
         public int Id { get; set; }
-        public int CreatedBy { get; set; }
         public string RoleName { get; set; }    
     }
 }

@@ -24,8 +24,8 @@ namespace FHP
                 logger.LogInformation("Data seeding started.");
                 try
                 {
-                   //var seedManager = services.GetRequiredService<ISeedManager>();
-                  //seedManager.InitializeAsync().Wait();
+                 //var seedManager = services.GetRequiredService<ISeedManager>();
+                 //seedManager.InitializeAsync().Wait();
                  //logger.LogInformation("Data seeding completed.");
                 }
                 catch (Exception ex)

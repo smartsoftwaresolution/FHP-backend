@@ -35,7 +35,7 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                if (model.Id == 0 && model.CreatedBy != 0 && 
+                if (model.Id == 0  && 
                     !string.IsNullOrEmpty(model.RoleName))
                 {
                     await _manager.AddAsync(model);
@@ -66,7 +66,7 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                if (model.Id >= 0 && model != null)
+                if (model.Id >= 0 )
                 {
                     await _manager.EditAsync(model);
                     response.StatusCode = 200;
@@ -83,23 +83,26 @@ namespace FHP.Controllers.UserManagement
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
-        [HttpGet("getall")]
-        public async Task<IActionResult> GetAllAsync(int CreatedBy)
+       
+        
+        [HttpGet("getall-pagination")]
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.GetErrorList());
             }
 
-            var response = new BaseResponseAddResponse<object>();
+            var response = new BaseResponsePagination<object>();
             try
             {
-                var data = await _manager.GetAllAsync(CreatedBy);
+                var data = await _manager.GetAllAsync(page,pageSize,search);
 
-                if (data != null)
+                if (data.userRole != null)
                 {
                     response.StatusCode = 200;
-                    response.Data = data;
+                    response.Data = data.userRole;
+                    response.TotalCount = data.totalCount;
                     return Ok(response);
                 }
 
@@ -160,7 +163,7 @@ namespace FHP.Controllers.UserManagement
                 {
                     response.Message = "Id Required";
                     response.StatusCode = 400;
-                    return Ok(response);
+                    return BadRequest(response);
                 }
 
                 await _manager.DeleteAsync(id);

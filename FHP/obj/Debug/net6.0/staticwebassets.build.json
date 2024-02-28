@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "YugqoY48/UB4IL1VQ7vNqc1JkrhIGKEeeEK085kqQEo=",
+  "Hash": "TlZ/VALyVmtEO4fYcNI8d8cDAM6Xa0NjAFvubjKiREw=",
   "Source": "FHP",
   "BasePath": "_content/FHP",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "FHP\\wwwroot",
+      "Source": "FHP",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "BasePath": "_content/FHP",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

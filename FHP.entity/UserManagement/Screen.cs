@@ -12,7 +12,6 @@ namespace FHP.entity.UserManagement
     public class Screen
     {
         public int Id { get; set; }
-        public int CompanyId { get; set; }
         public string ScreenName { get; set; }
         public string ScreenCode { get; set; }
         public Constants.RecordStatus Status { get; set; }

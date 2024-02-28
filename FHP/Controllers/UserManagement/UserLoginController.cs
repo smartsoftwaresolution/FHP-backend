@@ -46,17 +46,19 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-
-                if (companyId>0)
-                {
-                    var data = await _manager.GetUserByEmail(model.Email,companyId);
+                    var data = await _manager.GetUserByEmail(model.Email);
                     if(data != null)
                     {
                         if (!string.IsNullOrEmpty(data.Password) && utilities.Utility.Decrypt(model.Password, data.Password) == false)
                         {
                             response.Message = "Invalid password. Please enter your current valid password.";
+                            response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            return BadRequest(response);
+                        }
+    
+                        if(data.IsVerify == null || data.IsVerify == false)
+                        {
+                            response.Message = "email is send to your account,Plz verify the account first";
                             response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             return BadRequest(response);
                         }
@@ -70,8 +72,8 @@ namespace FHP.Controllers.UserManagement
                                    new Claim("id", data.Id.ToString()),
                                    new Claim("Email", data.Email.ToString()),
                                    new Claim("RoleId", data.RoleId.ToString()),
-                                   new Claim("FullName", data.FullName.ToString()),
-                                   new Claim("CompanyId", data.CompanyId.ToString()),
+                                   new Claim("FirstName", data.FirstName.ToString()),
+                                   new Claim("RoleName", data.RoleName.ToString()),
                                }),
 
                             Audience = _configuration.GetValue<string>("Jwt:Audience"),
@@ -86,7 +88,7 @@ namespace FHP.Controllers.UserManagement
                         login.CreatedOn = DateTime.UtcNow;
                         login.UserId = data.Id;
                         login.RoleId  = data.RoleId;
-                        login.CompanyId = data.CompanyId;
+                      
                       
                         await _manager.UserLogIn(login);
 
@@ -103,11 +105,9 @@ namespace FHP.Controllers.UserManagement
                         return BadRequest(response);
                     }
 
-                }
+                
 
-                response.StatusCode = 400;
-                response.Message = Constants.provideValues;
-                return BadRequest(response);
+               
             }
 
             catch (Exception ex)
@@ -129,12 +129,8 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-
-                if (companyId > 0)
-                {
-                   var data = await _manager.GetUserByGovernmentId(model.GovernmentId, companyId);
+               
+                   var data = await _manager.GetUserByGovernmentId(model.GovernmentId);
 
                     if (data != null)
                     {
@@ -145,11 +141,16 @@ namespace FHP.Controllers.UserManagement
                             response.Message = "Invalid password. Please enter your current valid password. ";
                             return BadRequest(response);
                         }
+                        if (data.IsVerify == null || data.IsVerify == false)
+                        {
+                            response.Message = "email is send to your account,Plz verify the account first";
+                            response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            return BadRequest(response);
+                        }
+                          var tokenHandler =  new JwtSecurityTokenHandler();
+                          var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:secret"));
 
-                      var tokenHandler =  new JwtSecurityTokenHandler();
-                      var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:secret"));
-
-                        var tokenDescription = new SecurityTokenDescriptor
+                          var tokenDescription = new SecurityTokenDescriptor
                         {
                             Subject = new ClaimsIdentity(new[]
                             {
@@ -157,8 +158,8 @@ namespace FHP.Controllers.UserManagement
                                 new Claim("GovernmentId", data.GovernmentId.ToString()),
                                 new Claim("RoleId", data.RoleId.ToString()),
                                 new Claim("RoleName",data.RoleName.ToString()),
-                                new Claim("FullName", data.FullName.ToString()),
-                                new Claim("CompanyId", data.CompanyId.ToString()),
+                                new Claim("FirstName", data.FirstName.ToString()),
+                               
                             }),
 
                             Audience = _configuration.GetValue<string>("Jwt:Audience"),
@@ -167,15 +168,15 @@ namespace FHP.Controllers.UserManagement
                             SigningCredentials=new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature)
                         };
 
-                        var token = tokenHandler.CreateToken(tokenDescription);
+                          var token = tokenHandler.CreateToken(tokenDescription);
 
-                        LoginModule login = new LoginModule();
-                        login.CreatedOn = DateTime.UtcNow;
-                        login.UserId = data.Id;
-                        login.RoleId = data.RoleId;
-                        login.CompanyId= data.CompanyId;
+                            LoginModule login = new LoginModule();
+                            login.CreatedOn = DateTime.UtcNow;
+                            login.UserId = data.Id;
+                            login.RoleId = data.RoleId;
+                       
 
-                        await _manager.UserLogIn(login);
+                         await _manager.UserLogIn(login);
 
                         response.StatusCode = (int)HttpStatusCode.OK;
                         response.Message = "User logged in Successfully!!";
@@ -188,11 +189,7 @@ namespace FHP.Controllers.UserManagement
                         response.Message = "Invalid Government ID";
                         return BadRequest(response);
                     }
-                }
-
-                response.StatusCode = 400;
-                response.Message= Constants.provideValues;
-                return BadRequest(response);
+               
             }
             catch(Exception ex)
             {
@@ -217,7 +214,7 @@ namespace FHP.Controllers.UserManagement
 
                 if(userId >=0)
                 {
-                    await _manager.UserLogOut(userId, companyId);
+                    await _manager.UserLogOut(userId);
                     response.StatusCode= (int)HttpStatusCode.OK;
                     response.Message = "User logged out Sucessfully. ";
                     return Ok(response);

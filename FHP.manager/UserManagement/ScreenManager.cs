@@ -1,7 +1,7 @@
 ﻿using FHP.dtos.UserManagement;
 using FHP.factories.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;
-using FHP.infrastructure.Repository;
+using FHP.infrastructure.Repository.UserManagement;
 using FHP.models.UserManagement;
 using System;
 using System.Collections.Generic;
@@ -19,30 +19,30 @@ namespace FHP.manager.UserManagement
         {
             _repository = repository;
         }
-        public async Task AddAsync(AddScreenModel model, int CompanyId)
+        public async Task AddAsync(AddScreenModel model)
         {
-            await _repository.AddAsync(ScreenFactory.Create(model, CompanyId));
+            await _repository.AddAsync(ScreenFactory.Create(model));
         }
 
-        public async Task EditAsync(AddScreenModel model, int CompanyId)
+        public async Task EditAsync(AddScreenModel model)
         {
             var data = await _repository.GetAsync(model.Id);
-            ScreenFactory.Update(data, model, CompanyId);
+            ScreenFactory.Update(data, model);
             _repository.Edit(data);
         }
-        public async Task<List<ScreenDetailDto>> GetAllAsync(int CompanyId)
+        public async Task<(List<ScreenDetailDto> screen,int totalCount)> GetAllAsync(int page,int pageSize,string search)
         {
-            return await _repository.GetAllAsync(CompanyId);
+            return await _repository.GetAllAsync(page,pageSize,search);
         }
 
-        public async Task<ScreenDetailDto> GetByIdAsync(int id, int CompanyId)
+        public async Task<ScreenDetailDto> GetByIdAsync(int id )
         {
-           return await _repository.GetByIdAsync(id, CompanyId);
+           return await _repository.GetByIdAsync(id);
         }
 
-        public async Task DeleteAsync(int id,int CompanyId)
+        public async Task DeleteAsync(int id )
         {
-            await _repository.DeleteAsync(id, CompanyId);
+            await _repository.DeleteAsync(id);
         }
     }
 }

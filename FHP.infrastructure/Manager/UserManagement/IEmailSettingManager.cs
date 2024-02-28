@@ -10,10 +10,10 @@ namespace FHP.infrastructure.Manager.UserManagement
 {
     public interface IEmailSettingManager
     {
-        Task AddAsync(AddEmailSettingModel model, int companyId);
-        Task EditAsync(AddEmailSettingModel model, int companyId);
-        Task<List<EmailSettingDetailDto>> GetAllAsync(int companyId);
-        Task<EmailSettingDetailDto> GetByIdAsync(int id,int companyId);
-        Task DeleteAsync(int id, int companyId);
+        Task AddAsync(AddEmailSettingModel model);
+        Task EditAsync(AddEmailSettingModel model);
+        Task<(List<EmailSettingDetailDto> emailSetting,int totalCount)> GetAllAsync(int page ,int pageSize ,string search);
+        Task<EmailSettingDetailDto> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
     }
 }

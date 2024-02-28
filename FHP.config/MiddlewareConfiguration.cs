@@ -1,10 +1,12 @@
 ﻿using FHP.datalayer;
-using FHP.datalayer.Repository;
+using FHP.datalayer.Repository.FHP;
 using FHP.datalayer.Repository.UserManagement;
+using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
-using FHP.infrastructure.Repository;
+using FHP.infrastructure.Repository.FHP;
 using FHP.infrastructure.Repository.UserManagement;
 using FHP.infrastructure.Service;
+using FHP.manager.FHP;
 using FHP.manager.UserManagement;
 using FHP.services;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,20 @@ namespace FHP.config
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IScreenManager, ScreenManager>();
             services.AddScoped<IEmailSettingManager, EmailSettingManager>();
+            services.AddScoped<IPermissionManager, PermissionManager>();
+            services.AddScoped<IUserScreenAccessManager, UserScreenAccessManager>();
+            services.AddScoped<ICountryManager, CountryManager>();
+            services.AddScoped<IStateManager, StateManager>();
+            services.AddScoped<ICityManager, CityManager>();
+            services.AddScoped<IEmployeeDetailManager, EmployeeDetailManager>();
+            services.AddScoped<ISkillsDetailManager, SkillsDetailManager>();
+            services.AddScoped<IEmployeeEducationalDetailManager, EmployeeEducationalDetailManager>();
+            services.AddScoped<IEmployeeProfessionalDetailManager, EmployeeProfessionalDetailManager>();
+            services.AddScoped<IEmployerDetailManager,EmployerDetailManager>();
+            services.AddScoped<IEmployerDetailManager, EmployerDetailManager>();
+            services.AddScoped<IJobPostingManager, JobPostingManager>();
+            services.AddScoped<IContractManager, ContractManager>();
+            services.AddScoped<IAdminSelectEmployeeManager, AdminSelectEmployeeManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -44,14 +60,29 @@ namespace FHP.config
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IScreenRepository, ScreenRepository>();
             services.AddScoped<IEmailSettingRepository,EmailSettingRepository>();
+            services.AddScoped<IPermissionRepository, PermissionRepository>();
+            services.AddScoped<IUserScreenAccessRepository, UserScreenAccessRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<IStateRepository,StateRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IEmployeeDetailRepository,EmployeeDetailRepository>();
+            services.AddScoped<ISkillsDetailRepository,SkillsDetailsRepository>();  
+            services.AddScoped<IEmployeeEducationalDetailRepository, EmployeeEducationalDetailRepository>();
+            services.AddScoped<IEmployeeProfessionalDetailRepository, EmployeeProfessionalDetailRepository>();
+            services.AddScoped<IEmployerDetailRepository,EmployerDetailRepository>();
+            services.AddScoped<IJobPostingRepoitory, JobPostingRepository>();
+            services.AddScoped<IContractRepository, ContractRepository>();
+            services.AddScoped<IAdminSelectEmployeeRepository, AdminSelectEmployeeRepository>();    
         }
+
 
         public static void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IExceptionHandleService, ExceptionHandleService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IFileUploadService, FileUploadService>();
 
         }
-
 
     }
 }

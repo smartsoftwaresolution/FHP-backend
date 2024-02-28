@@ -2900,6 +2900,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "FHP.entity": "1.0.0",
           "FHP.utilities": "1.0.0",
           "Microsoft.AspNetCore.Http.Features": "5.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.21"
@@ -8338,19 +8339,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\HP\\.nuget\\packages\\": {}
+    "C:\\Users\\Lenovo\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj",
+      "projectUniqueName": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj",
       "projectName": "FHP.infrastructure",
-      "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj",
-      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.infrastructure\\obj\\",
+      "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj",
+      "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+      "outputPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.infrastructure\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8364,17 +8369,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj"
+            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
+              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj"
             },
-            "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
+            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
+              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
             },
-            "D:\\FHP-BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj"
+            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj": {
+              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj"
             },
-            "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj"
+            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
+              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj"
             }
           }
         }
@@ -8410,7 +8415,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

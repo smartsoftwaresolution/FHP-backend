@@ -3978,6 +3978,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "FHP.datalayer": "1.0.0",
           "FHP.dtos": "1.0.0",
           "FHP.factories": "1.0.0",
           "FHP.infrastructure": "1.0.0",
@@ -3995,6 +3996,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "FHP.entity": "1.0.0",
           "FHP.utilities": "1.0.0",
           "Microsoft.AspNetCore.Http.Features": "5.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.21"
@@ -10975,19 +10977,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\HP\\.nuget\\packages\\": {}
+    "C:\\Users\\Lenovo\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.config\\FHP.config.csproj",
+      "projectUniqueName": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.config\\FHP.config.csproj",
       "projectName": "FHP.config",
-      "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.config\\FHP.config.csproj",
-      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.config\\obj\\",
+      "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.config\\FHP.config.csproj",
+      "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+      "outputPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.config\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11001,14 +11007,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FHP-BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj"
+            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj": {
+              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj"
             },
-            "D:\\FHP-BackEnd\\FHP-backend\\FHP.manager\\FHP.manager.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.manager\\FHP.manager.csproj"
+            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.manager\\FHP.manager.csproj": {
+              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.manager\\FHP.manager.csproj"
             },
-            "D:\\FHP-BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj": {
-              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj"
+            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj": {
+              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj"
             }
           }
         }
@@ -11048,30 +11054,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1902",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'System.IdentityModel.Tokens.Jwt' 6.19.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52",
-      "libraryId": "System.IdentityModel.Tokens.Jwt",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    },
-    {
-      "code": "NU1902",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'System.IdentityModel.Tokens.Jwt' 6.19.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-8g9c-28fc-mcx2",
-      "libraryId": "System.IdentityModel.Tokens.Jwt",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  }
 }

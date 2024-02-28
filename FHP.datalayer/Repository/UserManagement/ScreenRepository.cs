@@ -1,6 +1,6 @@
 ﻿using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
-using FHP.infrastructure.Repository;
+using FHP.infrastructure.Repository.UserManagement;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -36,34 +36,54 @@ namespace FHP.datalayer.Repository.UserManagement
            return await _dataContext.Screen.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<ScreenDetailDto>> GetAllAsync(int CompanyId)
+        public async Task<(List<ScreenDetailDto> screen,int totalCount)> GetAllAsync(int page ,int pageSize,string search)
         {
-          return   await (from s in _dataContext.Screen
-                   where
-                   s.Status != utilities.Constants.RecordStatus.Deleted &&
-                   (s.CompanyId == CompanyId || CompanyId == 0)
-                   select new ScreenDetailDto
-                   {
-                       Id = s.Id,
-                       CompanyId = s.CompanyId,
-                       ScreenName = s.ScreenName,
-                       ScreenCode = s.ScreenCode,
-                       Status = s.Status,
-                       CreatedOn = s.CreatedOn,
-                       UpdatedOn = s.UpdatedOn,
-                   }).ToListAsync();
+
+            var query = from s in _dataContext.Screen
+                        where s.Status != Constants.RecordStatus.Deleted
+                        select new { screen = s };
+
+            var totalCount = await _dataContext.Screen.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+
+            if(!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.screen.ScreenName.Contains(search) ||
+                                    s.screen.ScreenCode.Contains(search));
+            }
+
+
+            if(page > 0 && pageSize >0)
+            {
+                query =query.Skip((page - 1 ) * pageSize).Take(pageSize);
+            }
+
+
+            query = query.OrderByDescending(s => s.screen.Id);
+
+            var data = await query.Select(s => new ScreenDetailDto
+            {
+                Id = s.screen.Id,
+                ScreenName = s.screen.ScreenName,
+                ScreenCode = s.screen.ScreenCode,
+                Status = s.screen.Status,
+                CreatedOn = s.screen.CreatedOn,
+                UpdatedOn = s.screen.UpdatedOn,
+            }).AsNoTracking().ToListAsync();
+
+
+            return (data,totalCount);
+
         }
 
-        public async Task<ScreenDetailDto> GetByIdAsync(int id,int CompanyId)
+        public async Task<ScreenDetailDto> GetByIdAsync(int id)
         {
            return  await (from s in _dataContext.Screen
                    where
                    s.Status != utilities.Constants.RecordStatus.Deleted &&
-                   s.Id == id && s.CompanyId == CompanyId
+                   s.Id == id
                    select new ScreenDetailDto
                    {
                        Id = s.Id,
-                       CompanyId = s.CompanyId,
                        ScreenName = s.ScreenName,
                        ScreenCode = s.ScreenCode,
                        Status = s.Status,
@@ -72,9 +92,9 @@ namespace FHP.datalayer.Repository.UserManagement
                    }).FirstOrDefaultAsync();
         }
 
-        public async Task DeleteAsync(int id,int CompanyId)
+        public async Task DeleteAsync(int id)
         {
-            var data = await _dataContext.Screen.Where(s => s.Id == id && s.CompanyId == CompanyId).FirstOrDefaultAsync();
+            var data = await _dataContext.Screen.Where(s => s.Id == id).FirstOrDefaultAsync();
             data.Status = Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();

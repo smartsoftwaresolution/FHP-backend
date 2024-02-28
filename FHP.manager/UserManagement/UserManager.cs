@@ -21,42 +21,42 @@ namespace FHP.manager.UserManagement
         {
             _repository=repository;
         }
-        public async Task AddAsync(AddUserModel model, int companyId)
+        public async Task<int> AddAsync(AddUserModel model)
         {
-           await _repository.AddAsync(UserFactory.Create(model,companyId),model.RoleName);
+          return await _repository.AddAsync(UserFactory.Create(model),model.RoleName);
         }
-        public async Task EditAsync(AddUserModel model, int companyId)
+        public async Task EditAsync(AddUserModel model)
         {
             var data = await _repository.GetAsync(model.Id);
-            UserFactory.Update(data,model,companyId);
+            UserFactory.Update(data,model);
             _repository.Edit(data);
         }
 
-        public async Task<List<UserDetailDto>> GetAllAsync( int companyId)
+        public async Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page ,int pageSize,string? search,string? roleName)
         {
-            return await _repository.GetAllAsync(companyId);
+            return await _repository.GetAllAsync(page,pageSize,search,roleName);
         }
 
-        public async Task<UserDetailDto> GetByIdAsync(int id, int companyId)
+        public async Task<UserDetailDto> GetByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id,companyId);
+            return await _repository.GetByIdAsync(id);
         }
 
-        public async Task DeleteAsync(int id, int companyId)
+        public async Task DeleteAsync(int id)
         {
 
-             await _repository.DeleteAsync(id,companyId);
+             await _repository.DeleteAsync(id);
         }
 
 
-        public async Task<UserDetailDto> GetUserByEmail(string Email,int companyId)
+        public async Task<UserDetailDto> GetUserByEmail(string Email)
         {
-           return  await _repository.GetUserByEmail(Email,companyId);
+           return  await _repository.GetUserByEmail(Email);
         }
 
-        public async Task<UserDetailDto> GetUserByGovernmentId(string governmentId,int companyId)
+        public async Task<UserDetailDto> GetUserByGovernmentId(string governmentId)
         {
-          return   await _repository.GetUserByGovernmentId(governmentId,companyId);
+          return   await _repository.GetUserByGovernmentId(governmentId);
         }
 
         public async Task UserLogIn(LoginModule entity)
@@ -64,9 +64,19 @@ namespace FHP.manager.UserManagement
             await _repository.UserLogIn(entity);
         }
 
-        public async Task UserLogOut(int userId,int companyId)
+        public async Task UserLogOut(int userId)
         {
-            await _repository.UserLogOut(userId,companyId);
+            await _repository.UserLogOut(userId);
+        }
+
+        public async Task VerifyUser(int userId)
+        {
+            await _repository.VerifyUser(userId);
+        }
+
+        public async Task AddUserPic(int userId,string picUrl,string roleName)
+        {
+            await _repository.AddUserPic(userId, picUrl, roleName);
         }
     }
 }

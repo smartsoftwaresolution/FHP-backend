@@ -1,4 +1,4 @@
-﻿using FHP.dtos.UserManagement;
+﻿    using FHP.dtos.UserManagement;
 using FHP.factories.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
@@ -19,30 +19,30 @@ namespace FHP.manager.UserManagement
         {
             _repository= repository;
         }
-        public async Task AddAsync(AddEmailSettingModel model, int companyId)
+        public async Task AddAsync(AddEmailSettingModel model)
         {
-            await _repository.AddAsync(EmailSettingFactory.Create(model, companyId));
+            await _repository.AddAsync(EmailSettingFactory.Create(model));
         }
 
-        public async Task EditAsync(AddEmailSettingModel model,int companyId)
+        public async Task EditAsync(AddEmailSettingModel model)
         {
           var data=  await _repository.GetAsync(model.Id);
-            EmailSettingFactory.Update(data, model, companyId);
+            EmailSettingFactory.Update(data, model);
             _repository.Edit(data);
         }
-        public async Task<List<EmailSettingDetailDto>> GetAllAsync(int companyId)
+        public async Task<(List<EmailSettingDetailDto> emailSetting,int totalCount)> GetAllAsync(int page,int pageSize,string search)
         {
-           return  await _repository.GetAllAsync(companyId);
+           return  await _repository.GetAllAsync(page,pageSize,search);
         }
 
-        public async Task<EmailSettingDetailDto> GetByIdAsync(int id,int companyId)
+        public async Task<EmailSettingDetailDto> GetByIdAsync(int id)
         {
-          return  await _repository.GetByIdAsync(id, companyId);
+          return  await _repository.GetByIdAsync(id);
         }
 
-        public async  Task DeleteAsync(int id,int companyId)
+        public async  Task DeleteAsync(int id)
         {
-            await _repository.DeleteAsync(id,companyId);
+            await _repository.DeleteAsync(id);
         }
     }
 }

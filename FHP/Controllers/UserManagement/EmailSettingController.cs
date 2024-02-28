@@ -31,10 +31,8 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-
-                if(model.Id==0 && companyId !=0 &&
+                
+                if(model.Id==0  &&
                    !string.IsNullOrEmpty(model.Email) &&
                    !string.IsNullOrEmpty(model.Password) &&
                    !string.IsNullOrEmpty(model.AppPassword) &&
@@ -43,13 +41,12 @@ namespace FHP.Controllers.UserManagement
                    !string.IsNullOrEmpty(model.SmtpHost)&&
                    !string.IsNullOrEmpty(model.SmtpPort))                
                 {
-                    await _manager.AddAsync(model, companyId);
+                    await _manager.AddAsync(model);
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
                 }
 
-               
 
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
@@ -73,12 +70,10 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-
+               
                 if(model.Id>=0 && model != null)
                 {
-                    await _manager.EditAsync(model, companyId);
+                    await _manager.EditAsync(model);
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -95,26 +90,25 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-        [HttpGet("getall")]
-        public async Task<IActionResult> GetAllAsync()
+        [HttpGet("getall-pagination")]
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.GetErrorList());
             }
 
-            var response = new BaseResponseAddResponse<object>();
+            var response = new BaseResponsePagination<object>();
 
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-
-                var data=await _manager.GetAllAsync(companyId);
-                if (data != null)
+               
+                var data=await _manager.GetAllAsync(page,pageSize,search);
+                if (data.emailSetting != null)
                 {
                     response.StatusCode = 200;
-                    response.Data = data;
+                    response.Data = data.emailSetting;
+                    response.TotalCount = data.totalCount;
                     return Ok(response);
                 }
 
@@ -140,9 +134,8 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId=Convert.ToInt32(header);
-                var data = await _manager.GetByIdAsync(id, companyId);
+                
+                var data = await _manager.GetByIdAsync(id);
 
                 if (data != null)
                 {
@@ -174,16 +167,14 @@ namespace FHP.Controllers.UserManagement
             var response = new BaseResponseAdd();
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId=Convert.ToInt32(header);
-
+                
                 if (id <= 0)
                 {
                     response.StatusCode = 400;
                     response.Message = "ID Required";
                     return BadRequest(response);
                 }
-                await _manager.DeleteAsync(id, companyId);
+                await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
                 return Ok(response);

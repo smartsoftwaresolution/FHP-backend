@@ -20,7 +20,6 @@ namespace FHP.datalayer.EntityConfiguration.UserManagement
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.UserId).IsRequired();
             builder.Property(x => x.RoleId).IsRequired(false);
-            builder.Property(x => x.CompanyId).IsRequired();
             builder.Property(x => x.CreatedOn).IsRequired();
         }
     }

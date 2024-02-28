@@ -12,14 +12,16 @@ namespace FHP.infrastructure.Manager.UserManagement
 {
     public interface IUserManager
     {
-        Task AddAsync(AddUserModel model,int companyId);
-        Task EditAsync(AddUserModel model,int companyId);
-        Task<List<UserDetailDto>> GetAllAsync(int companyId);
-        Task<UserDetailDto> GetByIdAsync(int id, int companyId);
-        Task DeleteAsync(int id, int companyId);
-        Task<UserDetailDto> GetUserByEmail(string Email,int companyId);
-        Task<UserDetailDto> GetUserByGovernmentId(string governmentId, int companyId);
+        Task<int> AddAsync(AddUserModel model);
+        Task EditAsync(AddUserModel model);
+        Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page,int pageSize,string? search,string? roleName);
+        Task<UserDetailDto> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
+        Task<UserDetailDto> GetUserByEmail(string Email);
+        Task<UserDetailDto> GetUserByGovernmentId(string governmentId);
         Task UserLogIn(LoginModule entity);
-        Task UserLogOut(int userId,int companyId);
+        Task UserLogOut(int userId);
+        Task VerifyUser(int userId);
+        Task AddUserPic(int userId, string picUrl, string roleName);
     }
 }
