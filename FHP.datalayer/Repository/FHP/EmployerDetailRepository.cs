@@ -40,7 +40,7 @@ namespace FHP.datalayer.Repository.FHP
 
 
 
-        public async Task<(List<EmployerDetailDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<EmployerDetailDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
         {
             var query = from s in _dataContext.EmployerDetails
                         where s.Status != utilities.Constants.RecordStatus.Deleted
@@ -48,6 +48,10 @@ namespace FHP.datalayer.Repository.FHP
 
             var totalCount = await _dataContext.EmployerDetails.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
 
+            if(userId > 0)
+            {
+                query = query.Where(s => s.employerDetail.UserId == userId);
+            }
             if (!string.IsNullOrEmpty(search))
             {
                 query =query.Where(s=>

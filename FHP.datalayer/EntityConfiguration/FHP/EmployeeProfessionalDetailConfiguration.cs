@@ -24,7 +24,6 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.JobDescription).IsRequired(); 
             builder.Property(x => x.StartDate).IsRequired(); 
             builder.Property(x => x.EndDate).IsRequired(); 
-            builder.Property(x => x.Duration).IsRequired(); 
             builder.Property(x => x.CompanyName).IsRequired(); 
             builder.Property(x => x.CompanyLocation).IsRequired(); 
             builder.Property(x => x.Designation).IsRequired(); 

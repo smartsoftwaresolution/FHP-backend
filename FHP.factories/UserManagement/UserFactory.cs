@@ -16,7 +16,7 @@ namespace FHP.factories.UserManagement
             var data = new User
             {
                 GovernmentId = model.GovernmentId,
-                FirstName = model.FirstName,
+                FirstName = model.FirstName ,
                 LastName = model.LastName,
                 Email = model.Email,
                 Password = Utility.Encrypt(model.Password),

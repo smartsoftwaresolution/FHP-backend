@@ -4,6 +4,7 @@ using FHP.infrastructure.Service;
 using FHP.models.UserManagement;
 using FHP.services;
 using FHP.utilities;
+using Google.Apis.Gmail.v1.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +17,17 @@ namespace FHP.Controllers.UserManagement
         private readonly IUserManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IEmailService _emailService;
+        private readonly IFileUploadService _fileUploadService;
         public UserController(IUserManager manager,
                               IExceptionHandleService exceptionHandleService,
-                              IEmailService emailService)
+                              IEmailService emailService,
+                              IFileUploadService  fileUploadService
+                              )
         {
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
             _emailService = emailService;
+            _fileUploadService = fileUploadService;
         }
 
         [HttpPost("add")]
@@ -39,13 +44,9 @@ namespace FHP.Controllers.UserManagement
             {
 
                 if (model.Id == 0 &&
-
-                    !string.IsNullOrEmpty(model.FirstName) &&
                     !string.IsNullOrEmpty(model.RoleName) &&
-
                     !string.IsNullOrEmpty(model.Email) &&
-                    !string.IsNullOrEmpty(model.Password) &&
-                    !string.IsNullOrEmpty(model.LastName))
+                    !string.IsNullOrEmpty(model.Password))
                 {
                     int userid = 0;
                     userid = await _manager.AddAsync(model);
@@ -219,6 +220,41 @@ namespace FHP.Controllers.UserManagement
                 return BadRequest(response);
             }
             catch(Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+
+            }
+        }
+
+
+        [HttpPatch("update-Profile-pic")]
+        public async Task<IActionResult> AddProfilePictureAsync(int userId, IFormFile? picUrl,string roleName)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+            try
+            {
+                if (userId < 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = Constants.provideValues;
+                    return BadRequest(response);
+                }
+                string pic = string.Empty;
+                if(picUrl != null)
+                {
+                    pic = await _fileUploadService.UploadIFormFileAsync(picUrl);
+                }
+                await _manager.AddUserPic(userId,pic,roleName);
+                response.StatusCode = 200;
+                response.Message = Constants.added;
+                return Ok(response);
+            }
+            catch (Exception ex)
             {
                 return await _exceptionHandleService.HandleException(ex);
 

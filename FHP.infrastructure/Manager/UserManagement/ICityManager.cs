@@ -15,6 +15,8 @@ namespace FHP.infrastructure.Manager.UserManagement
         Task Edit(AddCityModel model);
         Task<(List<CityDetailDto>city,int totalCount)> GetAllAsync(int page,int pageSize,string? search);
         Task<CityDetailDto> GetByIdAsync(int id);
-        Task DeleteAsync(int id);   
+        Task DeleteAsync(int id);
+        Task<List<CityDetailDto>> GetByStateIdAsync(int stateId);
+
     }
 }

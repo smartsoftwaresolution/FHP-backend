@@ -22,7 +22,7 @@ namespace FHP.factories.FHP
                 CountryId = model.CountryId,
                 StateId = model.StateId,
                 CityId = model.CityId,
-                ResumeURL = model.ResumeURL,
+                ResumeURL = model.ResumeURL.ToString(),
                 ProfileImgURL = model.ProfileImgURL.ToString(),
                 IsAvailable = model.IsAvailable,
                 Hobby = model.Hobby,
@@ -40,7 +40,7 @@ namespace FHP.factories.FHP
             return data;
         }
 
-        public static void Update(EmployeeDetail entity, AddEmployeeDetailModel model)
+        public static void Update(EmployeeDetail entity, AddEmployeeDetailModel model,string resumeUrl)
         {
             entity.UserId = model.UserId;
             entity.MaritalStatus= model.MaritalStatus;
@@ -49,8 +49,8 @@ namespace FHP.factories.FHP
             entity.CountryId= model.CountryId;
             entity.StateId= model.StateId;
             entity.CityId= model.CityId;
-            entity.ResumeURL= model.ResumeURL;
-            entity.ProfileImgURL= model.ProfileImgURL.ToString();
+            entity.ResumeURL= string.IsNullOrEmpty(resumeUrl) ? entity.ResumeURL : resumeUrl;
+            entity.ProfileImgURL= entity.ProfileImgURL;
             entity.IsAvailable= model.IsAvailable;
             entity.Hobby= model.Hobby;
             entity.PermanentAddress= model.PermanentAddress;

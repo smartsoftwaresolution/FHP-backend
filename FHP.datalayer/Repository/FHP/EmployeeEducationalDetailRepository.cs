@@ -37,7 +37,7 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<EmployeeEducationalDetailDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<EmployeeEducationalDetailDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
         {
             var query = from s in _dataContext.EmployeeEducationalDetails
                         join t in _dataContext.User on s.UserId equals t.Id
@@ -47,12 +47,15 @@ namespace FHP.datalayer.Repository.FHP
 
             var totalCount = await _dataContext.EmployeeEducationalDetails.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
 
+            if(userId > 0)
+            {
+                query = query.Where(s => s.employeeeducationaldetail.UserId == userId);
+            }
 
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.employeeeducationaldetail.Education.Contains(search) ||
                                           s.employeeeducationaldetail.NameOfBoardOrUniversity.Contains(search));
-                                        
             }
 
             if(page > 0 && pageSize > 0)

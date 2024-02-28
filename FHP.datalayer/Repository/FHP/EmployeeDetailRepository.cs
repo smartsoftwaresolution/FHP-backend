@@ -40,7 +40,7 @@ namespace FHP.datalayer.Repository.FHP
           return   await _dataContext.EmployeeDetails.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<(List<EmployeeDetailDto>employee,int totalCount)> GetAllAsync(int page,int pageSize, string? search)
+        public async Task<(List<EmployeeDetailDto>employee,int totalCount)> GetAllAsync(int page,int pageSize,int userId, string? search)
         {
 
             var query =  from s in _dataContext.EmployeeDetails
@@ -56,7 +56,10 @@ namespace FHP.datalayer.Repository.FHP
                                          s.employee.Mobile.Contains(search));
             }
             var totalCount = await query.CountAsync(x => x.employee.Status != Constants.RecordStatus.Deleted);
-
+            if(userId > 0)
+            {
+                query = query.Where(s => s.employee.UserId == userId);
+            }
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);

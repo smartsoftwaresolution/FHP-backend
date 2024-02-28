@@ -14,6 +14,7 @@ namespace FHP.infrastructure.Manager.UserManagement
         Task Edit(AddStateModel model);
         Task<(List<StateDetailDto> state, int totalCount)> GetAllAsync(int page,int pageSize,string search);
         Task<StateDetailDto> GetByIdAsync(int id);
+        Task<List<StateDetailDto>> GetByCountryIdAsync(int countryId);
         Task DeleteAsync(int id);   
     }
 }

@@ -74,6 +74,7 @@ namespace FHP.config
         {
             services.AddScoped<IExceptionHandleService, ExceptionHandleService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IFileUploadService, FileUploadService>();
 
         }
 

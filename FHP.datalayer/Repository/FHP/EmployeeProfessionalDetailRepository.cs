@@ -41,13 +41,18 @@ namespace FHP.datalayer.Repository.FHP
 
 
 
-        public async Task<(List<EmployeeProfessionalDetailDto> employeeProfessionalDetail, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<EmployeeProfessionalDetailDto> employeeProfessionalDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
         {
             var query = from s in _dataContext.EmployeeProfessionalDetails
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { employeeProfessionalDetail =s  };
 
             var totalCount = await _dataContext.EmployeeProfessionalDetails.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
+
+            if(userId > 0)
+            {
+                query = query.Where(s => s.employeeProfessionalDetail.UserId == userId);
+            }
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -71,7 +76,6 @@ namespace FHP.datalayer.Repository.FHP
                JobDescription=s.employeeProfessionalDetail.JobDescription,
                StartDate=s.employeeProfessionalDetail.StartDate,
                EndDate=s.employeeProfessionalDetail.EndDate,
-               Duration=s.employeeProfessionalDetail.Duration,
                CompanyName=s.employeeProfessionalDetail.CompanyName,
                CompanyLocation=s.employeeProfessionalDetail.CompanyLocation,
                Designation=s.employeeProfessionalDetail.Designation,
@@ -99,7 +103,6 @@ namespace FHP.datalayer.Repository.FHP
                               JobDescription = s.JobDescription,
                               StartDate = s.StartDate,
                               EndDate = s.EndDate,
-                              Duration = s.Duration,
                               CompanyName = s.CompanyName,
                               CompanyLocation = s.CompanyLocation,
                               Designation = s.Designation,

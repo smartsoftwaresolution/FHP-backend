@@ -102,5 +102,25 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
         }
+
+
+        public async Task<List<CityDetailDto> >GetByStateIdAsync(int stateId)
+        {
+            return await (from s in _dataContext.Cities
+                          where s.Status != utilities.Constants.RecordStatus.Deleted &&
+                         (s.StateId == stateId)
+                          select new CityDetailDto
+                          {
+                              Id = s.Id,
+                              CityName = s.CityName,
+                              CountryId = s.CountryId,
+                              CountryName = s.Country.CountryName,
+                              StateId = s.StateId,
+                              StateName = s.State.StateName,
+                              Status = s.Status,
+                              CreatedOn = s.CreatedOn,
+                              UpdatedOn = s.UpdatedOn
+                          }).AsNoTracking().ToListAsync();
+        }
     }
 }

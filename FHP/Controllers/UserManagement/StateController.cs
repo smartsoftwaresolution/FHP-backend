@@ -148,6 +148,37 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        [HttpGet("getby-countryId")]
+        public async Task<IActionResult> GetByCountryIdAsync(int countryId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+                var data = await _manager.GetByCountryIdAsync(countryId);
+                if (data != null)
+                {
+                    response.StatusCode = 200;
+                    response.Data = data;
+                    return Ok(response);
+                }
+
+                response.StatusCode = 400;
+                response.Message = Constants.error;
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

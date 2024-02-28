@@ -15,7 +15,6 @@ namespace FHP.entity.FHP
             public string JobDescription { get; set; }
             public string StartDate { get; set; }
             public string EndDate { get; set; }
-            public DateTime Duration { get; set; }
             public string CompanyName { get; set; }
             public string CompanyLocation { get; set; }
             public string Designation { get; set; }

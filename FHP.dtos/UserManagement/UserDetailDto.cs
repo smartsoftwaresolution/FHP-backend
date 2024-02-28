@@ -1,4 +1,5 @@
 ﻿
+using FHP.dtos.FHP;
 using FHP.utilities;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ namespace FHP.dtos.UserManagement
         public Constants.RecordStatus Status { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
+
+        public List<EmployeeDetailDto>? EmployeeDetails { get; set; }
 
     }
 }

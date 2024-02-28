@@ -21,8 +21,8 @@ namespace FHP.models.FHP
         public int CountryId { get; set; }
         public int StateId { get; set; }
         public int CityId { get; set; }
-        public string ResumeURL { get; set; }
-        public IFormFile ProfileImgURL { get; set; }
+        public IFormFile? ResumeURL { get; set; }
+        public IFormFile? ProfileImgURL { get; set; }
         public bool IsAvailable { get; set; }
 
         public string Hobby { get; set; }
