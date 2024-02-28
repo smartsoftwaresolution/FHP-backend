@@ -244,7 +244,9 @@ namespace FHP.Controllers.UserManagement
                     response.Message = Constants.provideValues;
                     return BadRequest(response);
                 }
+
                 string pic = string.Empty;
+
                 if(picUrl != null)
                 {
                     pic = await _fileUploadService.UploadIFormFileAsync(picUrl);
