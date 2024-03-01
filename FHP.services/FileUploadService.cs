@@ -21,6 +21,7 @@ namespace FHP.services
         {
             string uploadsFolder = string.Empty;
             string uniqueFileName = string.Empty;
+
             if (file != null && file.Length > 0)
             {
                 if (file.Length > 60 * 1024 * 1024) // 60MB in bytes
@@ -46,10 +47,10 @@ namespace FHP.services
                     await file.CopyToAsync(stream);
                 }
 
+
             }
             return uploadsFolder + "/" + uniqueFileName;
 
         }
-
     }
 }

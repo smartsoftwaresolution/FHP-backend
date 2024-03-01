@@ -100,19 +100,6 @@
           }
         }
       },
-      "DocumentFormat.OpenXmlSDK/2.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/Net35/DocumentFormat.OpenXml.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/Net35/DocumentFormat.OpenXml.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "dotMorten.Microsoft.SqlServer.Types/1.4.0": {
         "type": "package",
         "dependencies": {
@@ -4638,19 +4625,6 @@
         "lib/netstandard1.3/DocumentFormat.OpenXml.xml",
         "lib/netstandard2.0/DocumentFormat.OpenXml.dll",
         "lib/netstandard2.0/DocumentFormat.OpenXml.xml"
-      ]
-    },
-    "DocumentFormat.OpenXmlSDK/2.0.0": {
-      "sha512": "GmC9om1pmAiOuzBD8a0ZvBUhn2mKwNjLIRo7ceiYCstyHW5ahH7bxZy3fQIsxBgy3ra3ce1STJfcT6/sh3gtlA==",
-      "type": "package",
-      "path": "documentformat.openxmlsdk/2.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "documentformat.openxmlsdk.2.0.0.nupkg.sha512",
-        "documentformat.openxmlsdk.nuspec",
-        "lib/Net35/DocumentFormat.OpenXml.dll",
-        "lib/Net35/DocumentFormat.OpenXml.xml"
       ]
     },
     "dotMorten.Microsoft.SqlServer.Types/1.4.0": {
@@ -11841,7 +11815,6 @@
       "AuthorizeNet >= 2.0.3",
       "ClosedXML >= 0.102.1",
       "CsvHelper >= 30.0.1",
-      "DocumentFormat.OpenXmlSDK >= 2.0.0",
       "EPPlus >= 6.2.8",
       "FHP.config >= 1.0.0",
       "FHP.datalayer >= 1.0.0",
@@ -11943,10 +11916,6 @@
           "CsvHelper": {
             "target": "Package",
             "version": "[30.0.1, )"
-          },
-          "DocumentFormat.OpenXmlSDK": {
-            "target": "Package",
-            "version": "[2.0.0, )"
           },
           "EPPlus": {
             "target": "Package",
@@ -12091,16 +12060,6 @@
       "warningLevel": 1,
       "message": "Package 'AuthorizeNet 2.0.3' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
       "libraryId": "AuthorizeNet",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'DocumentFormat.OpenXmlSDK 2.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
-      "libraryId": "DocumentFormat.OpenXmlSDK",
       "targetGraphs": [
         "net6.0"
       ]

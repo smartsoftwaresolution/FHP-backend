@@ -11,7 +11,6 @@
           "AuthorizeNet": "2.0.3",
           "ClosedXML": "0.102.1",
           "CsvHelper": "30.0.1",
-          "DocumentFormat.OpenXmlSDK": "2.0.0",
           "EPPlus": "6.2.8",
           "FHP.config": "1.0.0",
           "FHP.datalayer": "1.0.0",
@@ -116,7 +115,6 @@
           }
         }
       },
-      "DocumentFormat.OpenXmlSDK/2.0.0": {},
       "dotMorten.Microsoft.SqlServer.Types/1.4.0": {
         "dependencies": {
           "System.Data.SqlClient": "4.8.3",
@@ -2595,13 +2593,6 @@
       "sha512": "sha512-+oFMsEppo/W6KpGTRXaJl2jTFYn9zeon4FaZuDoCijQ1/0JaPENaCef7d4Y3f8v116eKhVBwd4Ya+/NDglxkjw==",
       "path": "documentformat.openxml/2.20.0",
       "hashPath": "documentformat.openxml.2.20.0.nupkg.sha512"
-    },
-    "DocumentFormat.OpenXmlSDK/2.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-GmC9om1pmAiOuzBD8a0ZvBUhn2mKwNjLIRo7ceiYCstyHW5ahH7bxZy3fQIsxBgy3ra3ce1STJfcT6/sh3gtlA==",
-      "path": "documentformat.openxmlsdk/2.0.0",
-      "hashPath": "documentformat.openxmlsdk.2.0.0.nupkg.sha512"
     },
     "dotMorten.Microsoft.SqlServer.Types/1.4.0": {
       "type": "package",

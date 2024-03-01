@@ -27,6 +27,7 @@ namespace FHP.utilities
 
 
         public enum RecordStatus { Created, Active, Inactive, Deleted }
+        public enum JobStatus { Submitted , Draft}
         public enum CallCampaignType { Sale, Dialable, Droppped }
         public enum DealStatus { Active, Won, Lost }
         public enum Label { Nothing, Sales, AS, All, Admin }
@@ -37,6 +38,7 @@ namespace FHP.utilities
         public enum EmailInvitationStatus { Sent, Accepted, Rejected }
         public enum TemplateType { Voice, Video, SMS, Email, Agreement }
         public enum RecordingTranscriptionRequestStatus { None, Requested, Approved }
+
         public enum CallStatus
         {
             IN_CALL,
@@ -45,6 +47,7 @@ namespace FHP.utilities
             PAUSED,
             OFFLINE
         }
+
         public enum DistributionType { None, RoundRobin, FirstToClaim }
         public enum CallCampaignCallingStatus { Nothing, Created, CallDone }
         public enum PostType { }

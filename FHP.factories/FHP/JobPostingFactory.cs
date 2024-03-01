@@ -27,7 +27,7 @@ namespace FHP.factories.FHP
                 Payout=model.Payout,
                 InProbationCancel=model.InProbationCancel,
                 CreatedOn=Utility.GetDateTime(),
-                Status=Constants.RecordStatus.Active,
+                Status=Constants.RecordStatus.Created,
             };
 
             return data;

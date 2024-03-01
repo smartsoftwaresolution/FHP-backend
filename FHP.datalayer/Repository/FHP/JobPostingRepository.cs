@@ -49,7 +49,6 @@ namespace FHP.datalayer.Repository.FHP
             {
                 query =query.Where(s=> s.jobPosting.JobTitle.Contains(search) ||
                                        s.jobPosting.Experience.Contains(search) ||
-                                       s.jobPosting.Address.Contains(search) ||
                                        s.jobPosting.Skills.Contains(search));
             }
 
@@ -98,7 +97,7 @@ namespace FHP.datalayer.Repository.FHP
                               Description=s.Description,
                               Experience=s.Experience,
                               RolesAndResponsibilities=s.RolesAndResponsibilities,
-                              ContractDuration=s.ContractDuration,
+                              ContractDuration = s.ContractDuration,
                               ContractStartTime=s.ContractStartTime,
                               Skills=s.Skills,
                               Address=s.Address,
@@ -118,6 +117,6 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.SaveChangesAsync();
         }
 
-        
+         
     }
 }

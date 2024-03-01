@@ -1,5 +1,4 @@
-﻿
-using FHP.infrastructure.Manager.FHP;
+﻿using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
 using FHP.utilities;
@@ -24,7 +23,7 @@ namespace FHP.Controllers.FHP
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
         }
-
+         
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync([FromForm]AddEmployeeDetailModel model)
         {
@@ -37,7 +36,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(model.Id ==0 && model.UserId !=0 && model.CountryId !=0 && model.StateId!=0 && model.CityId !=0
+                if(model.Id == 0 && model.UserId !=0 && model.CountryId !=0 && model.StateId !=0 && model.CityId !=0
                    && !string.IsNullOrEmpty(model.MaritalStatus)
                    && !string.IsNullOrEmpty(model.Gender)
                    && !string.IsNullOrEmpty(model.Hobby)

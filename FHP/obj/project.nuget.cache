@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "O+o1NKoTggakvujmHgXMrB69xkfF8kQJ0cUYD+kneBT9D6N5ocMa560F8B59XT2RoliafJa+7WjJlZvWfDZ9Mg==",
+  "dgSpecHash": "JML0X3tyY1kIB/9jzRfTGbWvO2ZmtRX892Y0+CqN703mLHZIKEuGkA4b+RdvDU4YL/NmGGdUetlApipJT6KBBg==",
   "success": true,
   "projectFilePath": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\FHP.csproj",
   "expectedPackageFiles": [
@@ -10,7 +10,6 @@
     "C:\\Users\\HP\\.nuget\\packages\\closedxml\\0.102.1\\closedxml.0.102.1.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\documentformat.openxml\\2.20.0\\documentformat.openxml.2.20.0.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\documentformat.openxmlsdk\\2.0.0\\documentformat.openxmlsdk.2.0.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\dotmorten.microsoft.sqlserver.types\\1.4.0\\dotmorten.microsoft.sqlserver.types.1.4.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\efcore.bulkextensions\\6.7.16\\efcore.bulkextensions.6.7.16.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\entityframeworkcore.sqlserver.hierarchyid\\3.0.1\\entityframeworkcore.sqlserver.hierarchyid.3.0.1.nupkg.sha512",
@@ -295,16 +294,6 @@
       "warningLevel": 1,
       "message": "Package 'AuthorizeNet 2.0.3' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
       "libraryId": "AuthorizeNet",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'DocumentFormat.OpenXmlSDK 2.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
-      "libraryId": "DocumentFormat.OpenXmlSDK",
       "targetGraphs": [
         "net6.0"
       ]

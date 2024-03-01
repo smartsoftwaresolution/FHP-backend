@@ -53,11 +53,14 @@ namespace FHP.datalayer.Repository.FHP
                                          s.employee.AlternateEmail.Contains(search) ||
                                          s.employee.Mobile.Contains(search));
             }
+
             var totalCount = await query.CountAsync(x => x.employee.Status != Constants.RecordStatus.Deleted);
+
             if(userId > 0)
             {
                 query = query.Where(s => s.employee.UserId == userId);
             }
+
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);

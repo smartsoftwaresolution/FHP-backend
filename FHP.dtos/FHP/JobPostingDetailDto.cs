@@ -18,7 +18,7 @@ namespace FHP.dtos.FHP
         public DateTime ContractDuration { get; set; }
         public DateTime? ContractStartTime { get; set; }
         public string Skills { get; set; }
-        public string Address { get; set; }
+        public string? Address { get; set; }
         public string Payout { get; set; }
         public bool InProbationCancel { get; set; }
         public DateTime CreatedOn { get; set; }
