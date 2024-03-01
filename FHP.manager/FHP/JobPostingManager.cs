@@ -33,9 +33,9 @@ namespace FHP.manager.FHP
 
 
 
-        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId)
         {
-           return  await _repoitory.GetAllAsync(page, pageSize, search);
+           return  await _repoitory.GetAllAsync(page, pageSize, search,userId);
         }
 
 
@@ -47,6 +47,11 @@ namespace FHP.manager.FHP
         public async Task DeleteAsync(int id)
         {
             await _repoitory.DeleteAsync(id);
+        }
+
+        public async Task<string> ActiveDeactiveAsync(int jobId)
+        {
+            return await _repoitory.ActiveDeactiveAsync(jobId);
         }
 
     }

@@ -31,14 +31,16 @@ namespace FHP.factories.UserManagement
         
         public static void Update(User entity,AddUserModel model)
         {
-            
+            entity.FirstName = model.CompanyName ?? "";
+            entity.LastName = model.CompanyName ?? "";
+
             entity.GovernmentId = model.GovernmentId;
-            entity.FirstName = model.FirstName;
-            entity.LastName = model.LastName;
+            entity.FirstName = model.FirstName ?? "";
+            entity.LastName = model.LastName ?? "";
             entity.Email = model.Email;
             entity.CompanyName = model.CompanyName;
             entity.ContactName = model.ContactName;
-            entity.Password = Utility.Encrypt(model.Password);
+            entity.Password = entity.Password;
             entity.UpdatedOn= Utility.GetDateTime();
         }
     }

@@ -37,7 +37,7 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId)
         {
             var query = from s in _dataContext.JobPostings
                         where s.Status != utilities.Constants.RecordStatus.Deleted
@@ -51,6 +51,11 @@ namespace FHP.datalayer.Repository.FHP
                                        s.jobPosting.Experience.Contains(search) ||
                                        s.jobPosting.Address.Contains(search) ||
                                        s.jobPosting.Skills.Contains(search));
+            }
+
+            if(userId > 0)
+            {
+                query = query.Where(s => s.jobPosting.UserId == userId);
             }
 
             if(page > 0 && pageSize > 0)
@@ -118,6 +123,23 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.SaveChangesAsync();
         }
 
-        
+        public async Task<string> ActiveDeactiveAsync(int jobId)
+        {
+            string result = string.Empty;
+            var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();
+            if(data.Status == utilities.Constants.RecordStatus.Active)
+            {
+                data.Status = utilities.Constants.RecordStatus.Inactive;
+                result = "DeActivated";
+            }
+            else
+            {
+                data.Status = utilities.Constants.RecordStatus.Active;
+                result = "Activated";
+            }
+            return result;
+        }
+
+
     }
 }

@@ -35,6 +35,7 @@ namespace FHP.datalayer.EntityConfiguration.UserManagement
             builder.Property(x=>x.CreatedOn).IsRequired();
             builder.Property(x => x.UpdatedOn).IsRequired(false);
             builder.Property(x => x.IsVerify).IsRequired(false);
+            builder.Property(x => x.ProfileImg).IsRequired(false);
         }
     }
 }

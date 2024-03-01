@@ -84,7 +84,7 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                if (model.Id >= 0 && model != null)
+                if (model.Id >= 0 )
                 {
                     await _manager.EditAsync(model);
                     response.StatusCode = 200;
@@ -103,7 +103,7 @@ namespace FHP.Controllers.UserManagement
         }
 
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page, int pageSize, string? search, string? roleName)
+        public async Task<IActionResult> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending)
         {
             if (!ModelState.IsValid)
             {
@@ -115,7 +115,7 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var data = await _manager.GetAllAsync(page, pageSize, search, roleName);
+                var data = await _manager.GetAllAsync(page, pageSize, search, roleName,isAscending);
                 if (data.user != null)
                 {
                     response.StatusCode = 200;
@@ -228,7 +228,7 @@ namespace FHP.Controllers.UserManagement
 
 
         [HttpPatch("update-Profile-pic")]
-        public async Task<IActionResult> AddProfilePictureAsync(int userId, IFormFile? picUrl,string roleName)
+        public async Task<IActionResult> AddProfilePictureAsync(int userId, IFormFile? picUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -249,7 +249,7 @@ namespace FHP.Controllers.UserManagement
                 {
                     pic = await _fileUploadService.UploadIFormFileAsync(picUrl);
                 }
-                await _manager.AddUserPic(userId,pic,roleName);
+                await _manager.AddUserPic(userId,pic);
                 response.StatusCode = 200;
                 response.Message = Constants.added;
                 return Ok(response);
@@ -260,5 +260,36 @@ namespace FHP.Controllers.UserManagement
 
             }
         }
+
+
+        [HttpPatch("enable-disble-employee-employer")]
+        public async Task<IActionResult> EnableDisableUserAsync(int userId,string roleName)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+            try
+            {
+                if (userId > 0)
+                {
+                   string result =  await _manager.EnableDisableUser(userId,roleName);
+                    response.StatusCode = 200;
+                    response.Message = $"User {result} Successfully!!";
+                    return Ok(response);
+                }
+                response.StatusCode = 400;
+                response.Message = Constants.provideValues;
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+
+            }
+        }
+
     }
 }
