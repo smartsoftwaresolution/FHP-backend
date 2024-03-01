@@ -43,7 +43,7 @@ namespace FHP.datalayer.Repository.FHP
                         where s.Status != Constants.RecordStatus.Deleted
                         select new { contract = s };
 
-            var totalCount = await query.CountAsync(s => s.contract.Status != Constants.RecordStatus.Deleted);
+             var totalCount = await query.CountAsync(s => s.contract.Status != Constants.RecordStatus.Deleted);
             
             if(!string.IsNullOrEmpty(search))
             {
@@ -86,26 +86,26 @@ namespace FHP.datalayer.Repository.FHP
         {
            return await (from s in _dataContext.Contracts
                    where s.Status != utilities.Constants.RecordStatus.Deleted &&
-                   s.Id==id 
+                   s.Id == id 
 
                    select new ContractDetailDto
                    {
-                       Id= s.Id,
-                       EmployeeId= s.EmployeeId,    
-                       JobId= s.JobId,  
-                       EmployerId= s.EmployerId,    
-                       Duration= s.Duration,
-                       Description= s.Description,
-                       EmployeeSignature= s.EmployeeSignature,
-                       EmployerSignature= s.EmployerSignature,
-                       StartContract=s.StartContract,
-                       RequestToChangeContract=s.RequestToChangeContract,   
-                       IsRequestToChangeAccepted=s.IsRequestToChangeAccepted,
-                       IsSignedByEmployee=s.IsSignedByEmployee,
-                       IsSignedByEmployer=s.IsSignedByEmployer,
-                       CreatedOn=s.CreatedOn,
-                       UpdatedOn=s.UpdatedOn,
-                       Status=s.Status,
+                       Id = s.Id,
+                       EmployeeId = s.EmployeeId,    
+                       JobId = s.JobId,  
+                       EmployerId = s.EmployerId,    
+                       Duration = s.Duration,
+                       Description = s.Description,
+                       EmployeeSignature = s.EmployeeSignature,
+                       EmployerSignature = s.EmployerSignature,
+                       StartContract = s.StartContract,
+                       RequestToChangeContract = s.RequestToChangeContract,   
+                       IsRequestToChangeAccepted = s.IsRequestToChangeAccepted,
+                       IsSignedByEmployee = s.IsSignedByEmployee,
+                       IsSignedByEmployer = s.IsSignedByEmployer,
+                       CreatedOn = s.CreatedOn,
+                       UpdatedOn = s.UpdatedOn,
+                       Status = s.Status,
                    }).AsNoTracking().FirstOrDefaultAsync();
         }
 
@@ -116,7 +116,5 @@ namespace FHP.datalayer.Repository.FHP
              _dataContext.Update(data);
              await _dataContext.SaveChangesAsync();
         }
-
-        
     }
 }
