@@ -35,10 +35,9 @@ namespace FHP.Controllers.FHP
 
             try
             {
-<<<<<<< HEAD
-                if(model.Id == 0 && model.UserId != 0 && 
-                    model.CityId != 0 && model.CountryId != 0 && model.StateId != 0)
-=======
+
+               
+
                 if(model.Id == 0 && model.UserId != 0 && model.CityId != 0 && model.CountryId != 0 && model.StateId != 0 
                     && !string.IsNullOrEmpty(model.NationalAddress)
                     && !string.IsNullOrEmpty(model.CertificateRegistrationURL)
@@ -51,7 +50,6 @@ namespace FHP.Controllers.FHP
                     && !string.IsNullOrEmpty(model.PrincipalBusinessActivity)
                     && !string.IsNullOrEmpty(model.PersonToContact)
                     && !string.IsNullOrEmpty(model.WebAddress))
->>>>>>> 06ea6358a4abed4c85fd897205fb005dda77b445
                 {
 
                     await _manager.AddAsync(model);

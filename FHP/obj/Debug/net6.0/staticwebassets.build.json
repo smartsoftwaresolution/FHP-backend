@@ -1,16 +1,11 @@
 {
   "Version": 1,
-<<<<<<< HEAD
   "Hash": "Ic0AI2UhtXJobxMzzu3tHlGVrPklcutzCW/1L+KEHcI=",
-=======
-  "Hash": "YugqoY48/UB4IL1VQ7vNqc1JkrhIGKEeeEK085kqQEo=",
->>>>>>> 06ea6358a4abed4c85fd897205fb005dda77b445
   "Source": "FHP",
   "BasePath": "_content/FHP",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-<<<<<<< HEAD
   "DiscoveryPatterns": [
     {
       "Name": "FHP\\wwwroot",
@@ -73,8 +68,4 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Images\\e4e41c91-3dd9-4f12-92b4-bd81ba1cad86_user-image-with-black-background.jpg"
     }
   ]
-=======
-  "DiscoveryPatterns": [],
-  "Assets": []
->>>>>>> 06ea6358a4abed4c85fd897205fb005dda77b445
 }
