@@ -35,6 +35,9 @@ namespace FHP.Controllers.FHP
 
             try
             {
+
+               
+
                 if(model.Id == 0 && model.UserId != 0 && model.CityId != 0 && model.CountryId != 0 && model.StateId != 0 
                     && !string.IsNullOrEmpty(model.NationalAddress)
                     && !string.IsNullOrEmpty(model.CertificateRegistrationURL)

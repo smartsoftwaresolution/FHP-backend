@@ -197,6 +197,37 @@ namespace FHP.datalayer.Migrations
                     b.ToTable("Contract", (string)null);
                 });
 
+            modelBuilder.Entity("FHP.entity.FHP.EmployeeAvailability", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeeAvailability", (string)null);
+                });
+
             modelBuilder.Entity("FHP.entity.FHP.EmployeeDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -404,6 +435,37 @@ namespace FHP.datalayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmployeeSkillDetail", (string)null);
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.EmployerContractConfirmation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployerId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployerContractConfirmation", (string)null);
                 });
 
             modelBuilder.Entity("FHP.entity.FHP.EmployerDetail", b =>
@@ -903,6 +965,9 @@ namespace FHP.datalayer.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileImg")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoleId")

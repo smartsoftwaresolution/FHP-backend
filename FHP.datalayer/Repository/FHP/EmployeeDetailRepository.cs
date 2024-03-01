@@ -134,5 +134,25 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();  
         }
+
+        public async Task<string> SetAvailabilityAsync(int id)
+        {
+            string result = string.Empty;
+            var data = await _dataContext.EmployeeDetails.Where(s => s.Id == id).FirstOrDefaultAsync();
+            if(data.IsAvailable == false)
+            {
+                data.IsAvailable = true;
+                result = "Available";
+            }
+            else
+            {
+                data.IsAvailable = false;
+                result = "UnAvailable";
+            }
+            _dataContext.EmployeeDetails.Update(data);
+            await _dataContext.SaveChangesAsync();
+            return result;
+        }
+
     }
 }

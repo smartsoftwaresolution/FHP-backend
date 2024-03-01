@@ -21,9 +21,9 @@ namespace FHP.manager.FHP
             _repository=repository;
         }
 
-        public async Task AddAsync(AddEmployeeDetailModel model)
+        public async Task AddAsync(AddEmployeeDetailModel model,string resumeUrl)
         {
-           await _repository.AddAsync(EmployeeDetailFactory.Create(model));
+           await _repository.AddAsync(EmployeeDetailFactory.Create(model,resumeUrl));
         }
 
   
@@ -47,6 +47,11 @@ namespace FHP.manager.FHP
         public async Task DeleteAsync(int id)
         {
             await _repository.DeleteAsync(id);
+        }
+
+        public async Task<string> SetAvailabilityAsync(int id)
+        {
+            return await _repository.SetAvailabilityAsync(id);
         }
 
     }

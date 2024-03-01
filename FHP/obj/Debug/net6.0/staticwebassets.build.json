@@ -1,11 +1,71 @@
 {
   "Version": 1,
-  "Hash": "YugqoY48/UB4IL1VQ7vNqc1JkrhIGKEeeEK085kqQEo=",
+  "Hash": "Ic0AI2UhtXJobxMzzu3tHlGVrPklcutzCW/1L+KEHcI=",
   "Source": "FHP",
   "BasePath": "_content/FHP",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "FHP\\wwwroot",
+      "Source": "FHP",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "BasePath": "_content/FHP",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Images\\496d9677-2a65-4aca-966a-3ee5456396d7_user-image-with-black-background.jpg",
+      "SourceId": "FHP",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "BasePath": "_content/FHP",
+      "RelativePath": "Attachments/Images/496d9677-2a65-4aca-966a-3ee5456396d7_user-image-with-black-background.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Attachments\\Images\\496d9677-2a65-4aca-966a-3ee5456396d7_user-image-with-black-background.jpg"
+    },
+    {
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Images\\5a35b365-b14e-4f9e-8ed2-5210e8d47593_user-image-with-black-background.jpg",
+      "SourceId": "FHP",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "BasePath": "_content/FHP",
+      "RelativePath": "Attachments/Images/5a35b365-b14e-4f9e-8ed2-5210e8d47593_user-image-with-black-background.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Attachments\\Images\\5a35b365-b14e-4f9e-8ed2-5210e8d47593_user-image-with-black-background.jpg"
+    },
+    {
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Images\\e4e41c91-3dd9-4f12-92b4-bd81ba1cad86_user-image-with-black-background.jpg",
+      "SourceId": "FHP",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "BasePath": "_content/FHP",
+      "RelativePath": "Attachments/Images/e4e41c91-3dd9-4f12-92b4-bd81ba1cad86_user-image-with-black-background.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Attachments\\Images\\e4e41c91-3dd9-4f12-92b4-bd81ba1cad86_user-image-with-black-background.jpg"
+    }
+  ]
 }

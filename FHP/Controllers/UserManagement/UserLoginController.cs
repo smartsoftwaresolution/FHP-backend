@@ -230,5 +230,40 @@ namespace FHP.Controllers.UserManagement
                return  await _exceptionHandleService.HandleException(ex);
             }
         }
+
+
+
+        [HttpPatch("change-password")]
+        public async Task<IActionResult> EnableDisableUserAsync(int userId, string password)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+            try
+            {
+                if (userId > 0)
+                {
+                    await _manager.ChangePassword(userId, password);
+                    response.StatusCode = 200;
+                    response.Message = $"Password changed Successfully!!";
+                    return Ok(response);
+                }
+                response.StatusCode = 400;
+                response.Message = Constants.provideValues;
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+
+            }
+        }
+
+
+
+
     }
 }

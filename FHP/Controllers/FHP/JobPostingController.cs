@@ -90,7 +90,7 @@ namespace FHP.Controllers.FHP
         }
 
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId)
         {
             if (!ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                var data = await _manager.GetAllAsync(page,pageSize,search);
+                var data = await _manager.GetAllAsync(page,pageSize,search,userId);
                 if (data.jobPosting != null)
                 {
                     response.StatusCode = 200;
@@ -183,5 +183,38 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
+
+
+        [HttpPatch("active-deactive/{id}")]
+        public async Task<IActionResult> ActiveDeactiveAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if (id <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required.";
+                    return BadRequest(response);
+                }
+
+                string result =  await _manager.ActiveDeactiveAsync(id);
+                response.StatusCode = 200;
+                response.Message = $"Job {result} Successfully!!!";
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
     }
 }

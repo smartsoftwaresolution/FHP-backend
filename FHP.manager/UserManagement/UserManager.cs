@@ -32,9 +32,9 @@ namespace FHP.manager.UserManagement
             _repository.Edit(data);
         }
 
-        public async Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page ,int pageSize,string? search,string? roleName)
+        public async Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page ,int pageSize,string? search,string? roleName,bool isAscending)
         {
-            return await _repository.GetAllAsync(page,pageSize,search,roleName);
+            return await _repository.GetAllAsync(page,pageSize,search,roleName,isAscending);
         }
 
         public async Task<UserDetailDto> GetByIdAsync(int id)
@@ -74,9 +74,19 @@ namespace FHP.manager.UserManagement
             await _repository.VerifyUser(userId);
         }
 
-        public async Task AddUserPic(int userId,string picUrl,string roleName)
+        public async Task AddUserPic(int userId,string picUrl)
         {
-            await _repository.AddUserPic(userId, picUrl, roleName);
+            await _repository.AddUserPic(userId, picUrl);
+        }
+
+        public async Task<string> EnableDisableUser(int userId, string roleName)
+        {
+            return await _repository.EnableDisableUser(userId, roleName);
+        }
+
+        public async Task ChangePassword(int userId, string password)
+        {
+             await _repository.ChangePassword(userId, password);
         }
     }
 }

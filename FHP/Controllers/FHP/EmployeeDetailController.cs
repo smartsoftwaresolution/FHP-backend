@@ -37,20 +37,24 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(model.Id ==0 && model.UserId !=0 && model.CountryId !=0 && model.StateId!=0 && model.CityId !=0
+                if( model.UserId !=0 && model.CountryId !=0 && model.StateId!=0 && model.CityId !=0
                    && !string.IsNullOrEmpty(model.MaritalStatus)
                    && !string.IsNullOrEmpty(model.Gender)
-                   && !string.IsNullOrEmpty(model.Hobby)
                    && !string.IsNullOrEmpty(model.PermanentAddress)
                    && !string.IsNullOrEmpty(model.Mobile))
                    
                 {
                     string profileImg = string.Empty;
-                    if(model.ProfileImgURL != null)
+                    string profileResume = string.Empty;
+                    if (model.ProfileImgURL != null)
                     {
                       profileImg =  await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL);
                     }
-                    await _manager.AddAsync(model);
+                    if (model.ResumeURL != null)
+                    {
+                        profileResume = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL);
+                    }
+                    await _manager.AddAsync(model,profileResume);
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -69,7 +73,7 @@ namespace FHP.Controllers.FHP
 
 
         [HttpPut("edit")]
-        public async Task<IActionResult> EditAsync(AddEmployeeDetailModel model)
+        public async Task<IActionResult> EditAsync([FromForm] AddEmployeeDetailModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -191,12 +195,44 @@ namespace FHP.Controllers.FHP
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
-                return BadRequest(response);
+                return Ok(response);
             }
             catch(Exception ex)
             {
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
+
+        [HttpPatch("set-availability/{id}")]
+        public async Task<IActionResult> SetAvailabilityAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if (id <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required";
+                    return BadRequest(response);
+                }
+
+                string result = await _manager.SetAvailabilityAsync(id);
+                response.StatusCode = 200;
+                response.Message = $"Employee {result} Now!!";
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+
     }
 }
