@@ -1,4 +1,5 @@
-﻿using FHP.infrastructure.Manager.UserManagement;
+﻿using FHP.infrastructure.DataLayer;
+using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement;
 using FHP.services;
@@ -14,11 +15,14 @@ namespace FHP.Controllers.UserManagement
     {
         private readonly IScreenManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
-       
-        public ScreenController(IScreenManager manager,IExceptionHandleService exceptionHandleService)
+        private readonly IUnitOfWork _unitOfWork;
+        public ScreenController(IScreenManager manager,
+                                IExceptionHandleService exceptionHandleService,
+                                IUnitOfWork unitOfWork)
         {
-                _manager = manager;
+            _manager = manager;
             _exceptionHandleService= exceptionHandleService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost("add")]
@@ -30,6 +34,7 @@ namespace FHP.Controllers.UserManagement
             }
 
             var response = new BaseResponseAdd();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
@@ -38,6 +43,7 @@ namespace FHP.Controllers.UserManagement
                     !string.IsNullOrEmpty(model.ScreenCode))
                 {
                     await _manager.AddAsync(model);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -51,6 +57,7 @@ namespace FHP.Controllers.UserManagement
 
             catch(Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);     
             }
 
@@ -64,7 +71,7 @@ namespace FHP.Controllers.UserManagement
             {
                 return BadRequest(ModelState.GetErrorList());
             }
-
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
             var response = new BaseResponseAdd();
 
             try
@@ -73,6 +80,7 @@ namespace FHP.Controllers.UserManagement
                 if (model.Id >= 0 && model != null)
                 {
                     await _manager.EditAsync(model);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -84,8 +92,9 @@ namespace FHP.Controllers.UserManagement
 
             }
 
-           catch(Exception ex)
+            catch(Exception ex)
             {
+                await transaction.RollbackAsync();
                 return  await _exceptionHandleService.HandleException(ex);
             }
         }

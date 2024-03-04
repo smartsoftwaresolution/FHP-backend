@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.ExtendedProperties;
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement;
@@ -18,16 +19,19 @@ namespace FHP.Controllers.UserManagement
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IEmailService _emailService;
         private readonly IFileUploadService _fileUploadService;
+        private readonly IUnitOfWork _unitOfWork;
         public UserController(IUserManager manager,
                               IExceptionHandleService exceptionHandleService,
                               IEmailService emailService,
-                              IFileUploadService  fileUploadService
+                              IFileUploadService  fileUploadService,
+                              IUnitOfWork unitOfWork
                               )
         {
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
             _emailService = emailService;
             _fileUploadService = fileUploadService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost("add")]
@@ -39,6 +43,7 @@ namespace FHP.Controllers.UserManagement
             }
 
             var response = new BaseResponseAdd();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
@@ -51,7 +56,7 @@ namespace FHP.Controllers.UserManagement
                     int userid = 0;
                     userid = await _manager.AddAsync(model);
                     await _emailService.SendverificationEmail(model.Email, userid);
-
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
 
@@ -65,6 +70,7 @@ namespace FHP.Controllers.UserManagement
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
@@ -80,6 +86,7 @@ namespace FHP.Controllers.UserManagement
             }
 
             var response = new BaseResponseAdd();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
 
             try
@@ -87,6 +94,7 @@ namespace FHP.Controllers.UserManagement
                 if (model.Id >= 0 )
                 {
                     await _manager.EditAsync(model);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -98,6 +106,7 @@ namespace FHP.Controllers.UserManagement
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
@@ -234,6 +243,7 @@ namespace FHP.Controllers.UserManagement
             {
                 return BadRequest(ModelState.GetErrorList());
             }
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             var response = new BaseResponseAdd();
             try
@@ -252,6 +262,7 @@ namespace FHP.Controllers.UserManagement
                     pic = await _fileUploadService.UploadIFormFileAsync(picUrl);
                 }
                 await _manager.AddUserPic(userId,pic);
+                await transaction.CommitAsync();
                 response.StatusCode = 200;
                 response.Message = Constants.added;
                 return Ok(response);

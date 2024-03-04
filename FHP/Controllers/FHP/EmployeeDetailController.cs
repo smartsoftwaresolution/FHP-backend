@@ -1,4 +1,5 @@
 ﻿
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
@@ -17,12 +18,16 @@ namespace FHP.Controllers.FHP
         private readonly IEmployeeDetailManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IFileUploadService _fileUploadService;
+        private readonly IUnitOfWork _unitOfWork;
         public EmployeeDetailController(IEmployeeDetailManager manager,
                                         IExceptionHandleService exceptionHandleService,
-                                        IFileUploadService fileUploadService)
+                                        IFileUploadService fileUploadService,
+                                        IUnitOfWork unitOfWork)
         {
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
+            _fileUploadService = fileUploadService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost("add")]
@@ -34,6 +39,7 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
@@ -55,6 +61,7 @@ namespace FHP.Controllers.FHP
                         profileResume = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL);
                     }
                     await _manager.AddAsync(model,profileResume);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -67,6 +74,7 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex) 
             { 
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
@@ -80,6 +88,7 @@ namespace FHP.Controllers.FHP
                 return BadRequest(ModelState.GetErrorList());
             }
 
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
             var response = new BaseResponseAdd();
 
             try
@@ -92,6 +101,7 @@ namespace FHP.Controllers.FHP
                         resumeUrl = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL);
                     }
                     await _manager.Edit(model,resumeUrl);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -105,6 +115,7 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }

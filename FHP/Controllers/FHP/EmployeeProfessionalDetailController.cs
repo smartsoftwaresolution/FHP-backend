@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.ExtendedProperties;
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
@@ -15,11 +16,14 @@ namespace FHP.Controllers.FHP
     {
         private readonly IEmployeeProfessionalDetailManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
-
-        public EmployeeProfessionalDetailController(IEmployeeProfessionalDetailManager manager,IExceptionHandleService exceptionHandleService)
+        private readonly IUnitOfWork _unitOfWork;
+        public EmployeeProfessionalDetailController(IEmployeeProfessionalDetailManager manager,
+                                                    IExceptionHandleService exceptionHandleService,
+                                                    IUnitOfWork unitOfWork)
         {
             _manager=manager;
             _exceptionHandleService=exceptionHandleService;
+            _unitOfWork=unitOfWork;
         }
 
         [HttpPost("add")]
@@ -31,6 +35,7 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
@@ -45,6 +50,7 @@ namespace FHP.Controllers.FHP
                 {
 
                     await _manager.AddAsync(model);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -57,6 +63,7 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
@@ -70,12 +77,14 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
                 if(model.Id >= 0)
                 {
                     await _manager.Edit(model);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -89,6 +98,7 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
