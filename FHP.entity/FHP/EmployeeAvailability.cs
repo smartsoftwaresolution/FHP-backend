@@ -9,13 +9,13 @@ namespace FHP.entity.FHP
 {
     public class EmployeeAvailability
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int EmployeeId { get; set; }
-        public int JobId { get; set; }
-        public bool IsAvailable { get; set; }
-        public Constants.RecordStatus Status { get; set; }
-        public DateTime CreatedOn { get; set; }
+            public int Id { get; set; }
+            public int UserId { get; set; }
+            public int EmployeeId { get; set; }
+            public int JobId { get; set; }
+            public bool IsAvailable { get; set; }
+            public Constants.RecordStatus Status { get; set; }
+            public DateTime CreatedOn { get; set; }
 
     }
 }

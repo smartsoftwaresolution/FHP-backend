@@ -46,13 +46,15 @@ namespace FHP.datalayer.Repository.FHP
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { employeeSkillDetail = s };
 
-            var totalCount = await query.CountAsync(s => s.employeeSkillDetail.Status != utilities.Constants.RecordStatus.Deleted);
+            
 
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.employeeSkillDetail.UserId.ToString().Contains(search) ||
                                        s.employeeSkillDetail.SkillId.ToString().Contains(search));
             }
+
+            var totalCount = await query.CountAsync(s => s.employeeSkillDetail.Status != utilities.Constants.RecordStatus.Deleted);
 
             if (page > 0 && pageSize > 0)
             {

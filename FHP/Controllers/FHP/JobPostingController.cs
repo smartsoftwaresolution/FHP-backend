@@ -18,7 +18,7 @@ namespace FHP.Controllers.FHP
         public JobPostingController(IJobPostingManager manager,IExceptionHandleService exceptionHandleService)
         {
                 _manager=manager;
-            _exceptionHandleService=exceptionHandleService;
+                _exceptionHandleService=exceptionHandleService;
         }
 
         [HttpPost("add")]
@@ -107,6 +107,7 @@ namespace FHP.Controllers.FHP
                     response.StatusCode = 200;
                     response.Data = data.jobPosting;
                     response.TotalCount = data.totalCount;
+                    response.TotalPage = data.totalPage;
                     return Ok(response);
                 }
 

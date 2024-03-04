@@ -44,13 +44,15 @@ namespace FHP.datalayer.Repository.UserManagement
                         select new { userRole = s };
 
 
-            var totalCount = await _dataContext.UserRole.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
 
 
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.userRole.RoleName.Contains(search));
             }
+
+            var totalCount = await _dataContext.UserRole.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+
 
             if (page > 0 && pageSize > 0)
             {

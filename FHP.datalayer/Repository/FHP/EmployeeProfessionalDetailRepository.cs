@@ -47,7 +47,7 @@ namespace FHP.datalayer.Repository.FHP
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { employeeProfessionalDetail =s  };
 
-            var totalCount = await _dataContext.EmployeeProfessionalDetails.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
+         
 
             if(userId > 0)
             {
@@ -62,7 +62,11 @@ namespace FHP.datalayer.Repository.FHP
                                        s.employeeProfessionalDetail.EmploymentStatus.Contains(search));
             }
 
-            if(page > 0 && pageSize > 0)
+
+            var totalCount = await _dataContext.EmployeeProfessionalDetails.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
+
+
+            if (page > 0 && pageSize > 0)
             {
                 query=query.Skip((page-1)*pageSize).Take(pageSize); 
             }

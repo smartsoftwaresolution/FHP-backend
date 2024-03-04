@@ -46,7 +46,7 @@ namespace FHP.datalayer.Repository.FHP
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { employerDetail = s };
 
-            var totalCount = await _dataContext.EmployerDetails.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
+            
 
             if(userId > 0)
             {
@@ -61,7 +61,10 @@ namespace FHP.datalayer.Repository.FHP
             }
 
 
-            if(page > 0 && pageSize > 0)
+            var totalCount = await _dataContext.EmployerDetails.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
+
+
+            if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }

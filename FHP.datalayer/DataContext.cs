@@ -1,5 +1,4 @@
-﻿
-using FHP.datalayer.EntityConfiguration.UserManagement;
+﻿using FHP.datalayer.EntityConfiguration.UserManagement;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;

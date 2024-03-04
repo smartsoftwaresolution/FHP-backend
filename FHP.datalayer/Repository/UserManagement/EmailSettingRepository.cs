@@ -44,13 +44,15 @@ namespace FHP.datalayer.Repository.UserManagement
                         select new { emailSetting = s };
 
 
-            var totalCount = await _dataContext.EmailSetting.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
 
 
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.emailSetting.Email.Contains(search));
             }
+
+            var totalCount = await _dataContext.EmailSetting.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+
 
             if (page > 0 && pageSize > 0)
             {
