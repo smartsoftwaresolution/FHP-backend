@@ -43,7 +43,7 @@ namespace FHP.datalayer.Repository.FHP
                         where s.Status != Constants.RecordStatus.Deleted
                         select new { contract = s };
 
-             var totalCount = await query.CountAsync(s => s.contract.Status != Constants.RecordStatus.Deleted);
+             
             
             if(!string.IsNullOrEmpty(search))
             {
@@ -52,7 +52,10 @@ namespace FHP.datalayer.Repository.FHP
                                        s.contract.JobId.ToString().Contains(search));
             }
 
-            if(page > 0 && pageSize > 0)
+            var totalCount = await query.CountAsync(s => s.contract.Status != Constants.RecordStatus.Deleted);
+
+
+            if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }

@@ -46,13 +46,15 @@ namespace FHP.datalayer.Repository.UserManagement
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { city = s };
 
-            var totalCount = await _dataContext.Cities.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
 
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.city.CityName.Contains(search));
             }
-            if(page > 0 && pageSize > 0)
+
+            var totalCount = await _dataContext.Cities.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
+
+            if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }

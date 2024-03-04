@@ -45,7 +45,7 @@ namespace FHP.datalayer.Repository.FHP
                         select new { employeeeducationaldetail = s , user = t };
 
 
-            var totalCount = await _dataContext.EmployeeEducationalDetails.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+            
 
             if(userId > 0)
             {
@@ -58,7 +58,10 @@ namespace FHP.datalayer.Repository.FHP
                                           s.employeeeducationaldetail.NameOfBoardOrUniversity.Contains(search));
             }
 
-            if(page > 0 && pageSize > 0)
+
+            var totalCount = await _dataContext.EmployeeEducationalDetails.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+
+            if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }

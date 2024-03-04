@@ -42,7 +42,7 @@ namespace FHP.datalayer.Repository.FHP
             var query = from s in _dataContext.AdminSelectEmployees
                         select new { adminSelect = s };
 
-            var totalCount = await query.CountAsync(s => s.adminSelect.IsSelected != false);
+            
 
             if(jobId > 0)
             {
@@ -56,8 +56,10 @@ namespace FHP.datalayer.Repository.FHP
                                        s.adminSelect.InProbationCancel.ToString().Contains(search));
             }
 
+            var totalCount = await query.CountAsync(s => s.adminSelect.IsSelected != false);
 
-            if(page > 0 && pageSize > 0)
+
+            if (page > 0 && pageSize > 0)
             {
                 query =query.Skip((page - 1) * pageSize).Take(pageSize);    
             }

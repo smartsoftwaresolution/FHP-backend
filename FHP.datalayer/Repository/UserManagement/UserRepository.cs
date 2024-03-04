@@ -53,7 +53,6 @@ namespace FHP.datalayer.Repository.UserManagement
                         where s.Status != Constants.RecordStatus.Deleted 
                         select new { user = s, t };
 
-            var totalCount = await _dataContext.User.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -62,6 +61,9 @@ namespace FHP.datalayer.Repository.UserManagement
                                       s.user.Email.Contains(search) ||
                                       s.user.GovernmentId.Contains(search));
             }
+
+            var totalCount = await _dataContext.User.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+
 
             if (!string.IsNullOrEmpty(roleName))
             {

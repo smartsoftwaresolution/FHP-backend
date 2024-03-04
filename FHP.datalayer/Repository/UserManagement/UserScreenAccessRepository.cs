@@ -44,13 +44,15 @@ namespace FHP.datalayer.Repository.UserManagement
                           where s.Status != utilities.Constants.RecordStatus.Deleted
                           select new { userScreenAccess = s});
 
-            var totalCount = await query.CountAsync(x => x.userScreenAccess.Status != utilities.Constants.RecordStatus.Deleted);
 
 
             if (roleId > 0)
             {
                 query = query.Where(s => s.userScreenAccess.RoleId == roleId);
             }
+
+            var totalCount = await query.CountAsync(x => x.userScreenAccess.Status != utilities.Constants.RecordStatus.Deleted);
+
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
