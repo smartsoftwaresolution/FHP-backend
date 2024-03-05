@@ -556,6 +556,10 @@ namespace FHP.datalayer.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CancelReason")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ContractDuration")
                         .HasColumnType("datetime2");
 
@@ -575,6 +579,12 @@ namespace FHP.datalayer.Migrations
 
                     b.Property<bool>("InProbationCancel")
                         .HasColumnType("bit");
+
+                    b.Property<int>("JobProcessingStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("JobStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("JobTitle")
                         .IsRequired()
@@ -805,7 +815,7 @@ namespace FHP.datalayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoginModule");
+                    b.ToTable("LoginModule", (string)null);
                 });
 
             modelBuilder.Entity("FHP.entity.UserManagement.Permission", b =>
@@ -960,6 +970,10 @@ namespace FHP.datalayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MobileNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

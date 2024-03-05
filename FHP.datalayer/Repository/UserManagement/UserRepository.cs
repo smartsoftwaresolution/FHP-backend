@@ -46,7 +46,7 @@ namespace FHP.datalayer.Repository.UserManagement
 
         public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending = false)
         {
-
+            
             var query = from s in _dataContext.User
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
                         
@@ -62,13 +62,15 @@ namespace FHP.datalayer.Repository.UserManagement
                                       s.user.GovernmentId.Contains(search));
             }
 
-            var totalCount = await _dataContext.User.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
 
 
             if (!string.IsNullOrEmpty(roleName))
             {
                 query = query.Where(s => s.t.RoleName == roleName);
-            }
+
+            }          
+            
+           var totalCount = await query.CountAsync(s => s.user.Status != Constants.RecordStatus.Deleted);
 
 
             if (page > 0 && pageSize > 0)
@@ -103,6 +105,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 IsVerify = s.user.IsVerify,
                 UpdatedOn = s.user.UpdatedOn,
                 ProfileImg = s.user.ProfileImg,
+                MobileNumber = s.user.MobileNumber,
                 EmployeeDetails = (from e in _dataContext.EmployeeDetails
                                   where e.UserId == s.user.Id
                                   select new EmployeeDetailDto 
@@ -162,6 +165,7 @@ namespace FHP.datalayer.Repository.UserManagement
                               IsVerify = s.IsVerify,
                               UpdatedOn = s.UpdatedOn,
                               ProfileImg = s.ProfileImg,
+                              MobileNumber =  s.MobileNumber
                           }).FirstOrDefaultAsync();
 
         }
@@ -202,6 +206,7 @@ namespace FHP.datalayer.Repository.UserManagement
                               IsVerify = s.IsVerify,
                               UpdatedOn = s.UpdatedOn,
                               ProfileImg = s.ProfileImg,
+                              MobileNumber =  s.MobileNumber
                           }).AsNoTracking().FirstOrDefaultAsync();
 
         }
@@ -231,6 +236,7 @@ namespace FHP.datalayer.Repository.UserManagement
                               UpdatedOn = s.UpdatedOn,
                               IsVerify = s.IsVerify,
                               ProfileImg = s.ProfileImg,
+                              MobileNumber =  s.MobileNumber
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 

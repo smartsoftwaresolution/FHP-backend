@@ -34,6 +34,9 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.Status).IsRequired(); 
             builder.Property(x => x.CreatedOn).IsRequired(); 
             builder.Property(x => x.UpdatedOn).IsRequired(false);
+            builder.Property(x => x.JobStatus).IsRequired();
+            builder.Property(x => x.CancelReason).IsRequired();
+            builder.Property(x => x.JobProcessingStatus).IsRequired();
         }
     }
 
