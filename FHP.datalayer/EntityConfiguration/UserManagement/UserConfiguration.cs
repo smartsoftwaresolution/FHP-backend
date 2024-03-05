@@ -26,16 +26,20 @@ namespace FHP.datalayer.EntityConfiguration.UserManagement
             builder.Property(x => x.RoleId).IsRequired();
             builder.Property(x => x.GovernmentId).IsRequired(false);
             builder.Property(x => x.LastLogInTime).IsRequired(false);
-            builder.Property(x=>x.LastLogOutTime).IsRequired(false);
+            builder.Property(x => x.LastLogOutTime).IsRequired(false);
 
             builder.Property(x => x.ContactName).IsRequired(false);
             builder.Property(x => x.CompanyName).IsRequired(false);
 
-            builder.Property(x=>x.Status).IsRequired();
-            builder.Property(x=>x.CreatedOn).IsRequired();
+            builder.Property(x => x.Status).IsRequired();
+            builder.Property(x => x.CreatedOn).IsRequired();
             builder.Property(x => x.UpdatedOn).IsRequired(false);
             builder.Property(x => x.IsVerify).IsRequired(false);
             builder.Property(x => x.ProfileImg).IsRequired(false);
+            builder.Property(x => x.MobileNumber).IsRequired();
+
+           
+
         }
     }
 }

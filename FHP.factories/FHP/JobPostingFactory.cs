@@ -28,6 +28,9 @@ namespace FHP.factories.FHP
                 InProbationCancel=model.InProbationCancel,
                 CreatedOn=Utility.GetDateTime(),
                 Status=Constants.RecordStatus.Created,
+                JobStatus = Constants.JobPosting.Draft,
+                CancelReason = "",
+                JobProcessingStatus = Constants.JobProcessingStatus.None,
             };
 
             return data;
