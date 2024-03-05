@@ -13,7 +13,8 @@ namespace FHP.datalayer.Repository.FHP
 
         public EmployerContractConfirmationRepository(DataContext dataContext)
         {
-            _dataContext= dataContext;  
+            _dataContext 
+                = dataContext;  
         }
 
         public async Task AddAsync(EmployerContractConfirmation entity)
@@ -34,10 +35,52 @@ namespace FHP.datalayer.Repository.FHP
             return await _dataContext.EmployerContractConfirmations.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<EmployerContractConfirmationDetailDto>> GetAllAsync()
+        public async Task<(List<EmployerContractConfirmationDetailDto> employerContract , int totalCount)> GetAllAsync(int page,int pageSize,string? search)
+        {
+            var query = from s in _dataContext.EmployerContractConfirmations
+                        where s.Status != Constants.RecordStatus.Deleted
+                        select new { employerContract = s };
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(s => s.employerContract.EmployerId.ToString().Contains(search) ||
+                                         s.employerContract.EmployerId.ToString().Contains(search) ||
+                                         s.employerContract.JobId.ToString().Contains(search));  
+            }
+
+
+            var totalCount =  await query.CountAsync();
+
+
+            if(page > 0 && pageSize > 0)
+            {
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            }
+
+            query = query.OrderByDescending(s => s.employerContract.Id);
+
+            var data = await query.Select(s => new EmployerContractConfirmationDetailDto
+            {
+                Id = s.employerContract.Id,
+                EmployeeId = s.employerContract.EmployeeId,
+                JobId = s.employerContract.JobId,
+                EmployerId = s.employerContract.EmployerId,
+                IsSelected = s.employerContract.IsSelected,
+                Status = s.employerContract.Status,
+                CreatedOn = s.employerContract.CreatedOn,
+            }).AsNoTracking().ToListAsync();
+
+
+            return (data, totalCount);
+        }
+
+
+        public async Task<EmployerContractConfirmationDetailDto> GetByIdAsync(int id)
         {
             return await (from s in _dataContext.EmployerContractConfirmations
-                          where s.Status != Constants.RecordStatus.Deleted
+                          where s.Status != utilities.Constants.RecordStatus.Deleted &&
+                          s.Id  == id
+
                           select new EmployerContractConfirmationDetailDto
                           {
                               Id = s.Id,
@@ -47,25 +90,7 @@ namespace FHP.datalayer.Repository.FHP
                               IsSelected = s.IsSelected,
                               Status = s.Status,
                               CreatedOn = s.CreatedOn,
-                          }).AsNoTracking().ToListAsync();
-        }
-
-
-        public async Task<EmployerContractConfirmationDetailDto> GetByIdAsync(int id)
-        {
-            return await (from s in _dataContext.EmployerContractConfirmations
-                          where s.Status != utilities.Constants.RecordStatus.Deleted &&
-                          s.Id  == id
-                          select new EmployerContractConfirmationDetailDto
-                          {
-                              Id=s.Id,
-                              EmployeeId=s.EmployeeId,
-                              JobId=s.JobId,
-                              EmployerId=s.EmployerId,
-                              IsSelected=s.IsSelected,
-                              Status=s.Status,
-                              CreatedOn=s.CreatedOn,
-                          }).FirstOrDefaultAsync();
+                          }).AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task DeleteAsync(int id)

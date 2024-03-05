@@ -2,14 +2,8 @@
 
 using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
-using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -52,7 +46,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 query = query.Where(s => s.city.CityName.Contains(search));
             }
 
-            var totalCount = await _dataContext.Cities.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
 
             if (page > 0 && pageSize > 0)
             {

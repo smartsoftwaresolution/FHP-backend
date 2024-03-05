@@ -74,31 +74,9 @@ namespace FHP.utilities
             public const string ToCustomerOnRegistration = "to_customer_on_registration.html";
             public const string ToAdminOnCustomerRegistration = "to_admin_on_customer_registration.html";
         }
+
         public const string SessionKeyName = "CompanyTenantId";
         public string SessionInfo_Name { get; private set; }
 
-
-        /*public static class Global
-        {
-            /// <summary>
-            /// Global variable storing important stuff.
-            /// </summary>
-            static string _HeaderData;
-
-            /// <summary>
-            /// Get or set the static important data.
-            /// </summary>
-            public static string HeaderData
-            {
-                get
-                {
-                    return _HeaderData;
-                }
-                set
-                {
-                    _HeaderData = value;
-                }
-            }
-        }*/
     }
 }

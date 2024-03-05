@@ -50,7 +50,7 @@ namespace FHP.datalayer.Repository.UserManagement
                                     s.screen.ScreenCode.Contains(search));
             }
 
-            var totalCount = await _dataContext.Screen.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
 
 
             if (page > 0 && pageSize >0)

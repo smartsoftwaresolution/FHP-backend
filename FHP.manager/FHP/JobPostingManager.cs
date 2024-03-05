@@ -39,7 +39,7 @@ namespace FHP.manager.FHP
 
 
 
-        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount ,int totalPage )> GetAllAsync(int page, int pageSize, string? search,int userId)
+        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount )> GetAllAsync(int page, int pageSize, string? search,int userId)
         {
            return  await _repoitory.GetAllAsync(page, pageSize, search,userId);
         }

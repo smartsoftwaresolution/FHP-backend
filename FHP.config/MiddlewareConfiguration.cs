@@ -30,7 +30,6 @@ namespace FHP.config
         public static void ConfigureUow(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
         }
         public static void ConfigureManager(IServiceCollection services)
         {

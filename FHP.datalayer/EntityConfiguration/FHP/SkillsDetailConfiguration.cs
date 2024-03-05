@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FHP.entity.FHP;
+using FHP.utilities;
 
 namespace FHP.datalayer.EntityConfiguration.FHP
 {
@@ -16,6 +17,9 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.ToTable("SkillsDetail");
 
             builder.HasKey(x => x.Id);
+
+            builder.HasQueryFilter(x => x.Status != Constants.RecordStatus.Deleted);
+
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.UserId).IsRequired();

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FHP.utilities;
 
 namespace FHP.datalayer.EntityConfiguration.FHP
 {
@@ -19,6 +20,9 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             // Set primary key
             builder.HasKey(ecc => ecc.Id);
             builder.Property(ea => ea.Id).ValueGeneratedOnAdd(); // Auto-generated ID
+
+            builder.HasQueryFilter(x => x.Status != Constants.RecordStatus.Deleted);
+
 
             // Configure properties
             builder.Property(ecc => ecc.EmployeeId).IsRequired();

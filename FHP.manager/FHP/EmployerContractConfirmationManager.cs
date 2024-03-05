@@ -3,11 +3,6 @@ using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.manager.FHP
 {
@@ -34,9 +29,9 @@ namespace FHP.manager.FHP
             _repository.Edit(data);
         }
 
-        public async Task<List<EmployerContractConfirmationDetailDto>> GetAllAsync()
+        public async Task<(List<EmployerContractConfirmationDetailDto>employerContract , int totalCount)> GetAllAsync(int page,int pageSize,string? search)
         {
-            return await _repository.GetAllAsync();
+            return await _repository.GetAllAsync(page,pageSize,search);
         }
 
         public async Task<EmployerContractConfirmationDetailDto> GetByIdAsync(int id)

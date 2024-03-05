@@ -1,4 +1,5 @@
 ﻿using FHP.entity.UserManagement;
+using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -16,6 +17,8 @@ namespace FHP.datalayer.EntityConfiguration.UserManagement
             builder.ToTable("Screen");
 
             builder.HasKey(x => x.Id);
+            builder.HasQueryFilter(x => x.Status != Constants.RecordStatus.Deleted);
+
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x=>x.ScreenName).IsRequired();

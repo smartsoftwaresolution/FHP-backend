@@ -43,7 +43,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if( model.UserId !=0 && model.CountryId !=0 && model.StateId!=0 && model.CityId !=0
+                if(model.Id == 0 &&  model.UserId != 0 && model.CountryId != 0 && model.StateId != 0  && model.CityId != 0
                    && !string.IsNullOrEmpty(model.MaritalStatus)
                    && !string.IsNullOrEmpty(model.Gender)
                    && !string.IsNullOrEmpty(model.PermanentAddress)

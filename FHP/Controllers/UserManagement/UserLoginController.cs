@@ -208,9 +208,6 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var header = Request.Headers["CompanyId"];
-                int companyId = Convert.ToInt32(header);
-
                 if(userId >=0)
                 {
                     await _manager.UserLogOut(userId);
@@ -233,7 +230,7 @@ namespace FHP.Controllers.UserManagement
 
 
         [HttpPatch("change-password")]
-        public async Task<IActionResult> EnableDisableUserAsync(int userId, string password)
+        public async Task<IActionResult> ChangePasswordAsync(int userId, string password)
         {
             if (!ModelState.IsValid)
             {
