@@ -1,4 +1,6 @@
-﻿using FHP.infrastructure.Manager.FHP;
+﻿
+using FHP.infrastructure.DataLayer;
+using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
 using FHP.services;
@@ -14,11 +16,15 @@ namespace FHP.Controllers.FHP
     {
         private readonly IEmployerContractConfirmationManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EmployerContractConfirmationController(IEmployerContractConfirmationManager manager,IExceptionHandleService exceptionHandleService)
+        public EmployerContractConfirmationController(IEmployerContractConfirmationManager manager,
+            IExceptionHandleService exceptionHandleService,
+            IUnitOfWork unitOfWork)
         {
             _manager=manager;
             _exceptionHandleService=exceptionHandleService; 
+            _unitOfWork=unitOfWork;
         }
 
         [HttpPost("add")]
@@ -30,12 +36,14 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();    
 
             try
             {
                 if (model.Id == 0 && model.EmployerId != 0 && model.JobId != 0 && model.EmployeeId != 0)
                 {
                     await _manager.AddAsync(model);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -48,6 +56,7 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
@@ -61,12 +70,14 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
                 if (model.Id >= 0)
                 {
                     await _manager.Edit(model);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -79,12 +90,13 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
 
-        [HttpGet("getall")]
-        public async Task<IActionResult> GetAllAsync()
+        [HttpGet("getall-pagination")]
+        public async Task<IActionResult> GetAllAsync(int page ,int pageSize,string? search)
         {
             if (!ModelState.IsValid)
             {
@@ -92,24 +104,27 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponsePagination<object>();
+
             try
             {
-               var data = await _manager.GetAllAsync();
-                if (data != null)
+               var data = await _manager.GetAllAsync(page , pageSize, search);
+
+                if (data.employerContract != null)
                 {
-                   response.StatusCode = 200;
+                    response.StatusCode = 200;
                     response.Data = data;
+                    response.TotalCount = data.totalCount;
                     return Ok(response);
                 }
 
                response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
-          }
+            }
            catch (Exception ex)
             {
                 return await _exceptionHandleService.HandleException(ex);
-           }
+            }
         }
 
 
@@ -133,15 +148,18 @@ namespace FHP.Controllers.FHP
                     response.Data = data;
                     return Ok(response);
                 }
+
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
+
             }
             catch (Exception ex)
             {
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
+
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)

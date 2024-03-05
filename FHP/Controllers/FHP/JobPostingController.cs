@@ -117,7 +117,6 @@ namespace FHP.Controllers.FHP
                     response.StatusCode = 200;
                     response.Data = data.jobPosting;
                     response.TotalCount = data.totalCount;
-                    response.TotalPage = data.totalPage;
                     return Ok(response);
                 }
 

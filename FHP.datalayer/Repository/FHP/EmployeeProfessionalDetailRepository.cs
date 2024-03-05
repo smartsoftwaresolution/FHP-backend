@@ -47,23 +47,26 @@ namespace FHP.datalayer.Repository.FHP
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { employeeProfessionalDetail =s  };
 
-         
 
-            if(userId > 0)
-            {
-                query = query.Where(s => s.employeeProfessionalDetail.UserId == userId);
-            }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query =query.Where(s=>s.employeeProfessionalDetail.CompanyName.Contains(search) || 
+                query = query.Where(s => s.employeeProfessionalDetail.CompanyName.Contains(search) ||
                                        s.employeeProfessionalDetail.CompanyLocation.Contains(search) ||
                                        s.employeeProfessionalDetail.Designation.Contains(search) ||
                                        s.employeeProfessionalDetail.EmploymentStatus.Contains(search));
             }
 
 
-            var totalCount = await _dataContext.EmployeeProfessionalDetails.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
+
+            if (userId > 0)
+            {
+                query = query.Where(s => s.employeeProfessionalDetail.UserId == userId);
+            }
+
+         
+
+            var totalCount = await query.CountAsync();
 
 
             if (page > 0 && pageSize > 0)

@@ -1,18 +1,14 @@
 ﻿using CsvHelper.Configuration;
 using DocumentFormat.OpenXml.Packaging;
-using System;
-using System.Collections.Generic;
 using System.IO.Packaging;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace FHP.utilities
 {
-    
-        public class ActivityMsgResponse
+
+    public class ActivityMsgResponse
         {
             public string title { get; set; }
             public string desc { get; set; }

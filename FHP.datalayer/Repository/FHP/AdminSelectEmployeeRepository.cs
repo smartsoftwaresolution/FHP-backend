@@ -56,7 +56,7 @@ namespace FHP.datalayer.Repository.FHP
                                        s.adminSelect.InProbationCancel.ToString().Contains(search));
             }
 
-            var totalCount = await query.CountAsync(s => s.adminSelect.IsSelected != false);
+            var totalCount = await query.CountAsync();
 
 
             if (page > 0 && pageSize > 0)

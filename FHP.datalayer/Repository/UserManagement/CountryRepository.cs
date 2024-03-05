@@ -52,7 +52,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 query = query.Where(s => s.country.CountryName.Contains(search));
             }
 
-            var totalCount = await _dataContext.Countries.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
 
 
             if (page > 0 && pageSize > 0)

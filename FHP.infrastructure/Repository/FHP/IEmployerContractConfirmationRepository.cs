@@ -1,10 +1,5 @@
 ﻿using FHP.dtos.FHP;
 using FHP.entity.FHP;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.infrastructure.Repository.FHP
 {
@@ -13,7 +8,7 @@ namespace FHP.infrastructure.Repository.FHP
         Task AddAsync(EmployerContractConfirmation entity);
         void Edit(EmployerContractConfirmation entity);
         Task<EmployerContractConfirmation> GetAsync(int id);
-        Task<List<EmployerContractConfirmationDetailDto>> GetAllAsync();
+        Task<(List<EmployerContractConfirmationDetailDto> employerContract , int totalCount)> GetAllAsync(int page,int pageSize,string? search);
         Task<EmployerContractConfirmationDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }

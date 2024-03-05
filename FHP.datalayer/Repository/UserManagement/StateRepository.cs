@@ -51,7 +51,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 query=query.Where(s=>s.state.StateName.Contains(search));
             }
 
-            var totalCount = await _dataContext.States.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
 
 
             if (page > 0 && pageSize > 0)

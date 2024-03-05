@@ -1,15 +1,10 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿
 using FHP.dtos.FHP;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.FHP
 {
@@ -39,7 +34,7 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount,int totalPage)> GetAllAsync(int page, int pageSize, string? search,int userId)
+        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId)
         {
             var query = from s in _dataContext.JobPostings
                         where s.Status != utilities.Constants.RecordStatus.Deleted
@@ -59,9 +54,9 @@ namespace FHP.datalayer.Repository.FHP
                 query = query.Where(s => s.jobPosting.UserId == userId);
             }
 
-            var totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted);
 
-            var totalPage = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
+
 
             if (page > 0 && pageSize > 0 )
             {
@@ -90,7 +85,7 @@ namespace FHP.datalayer.Repository.FHP
                 Status = s.jobPosting.Status,
             }).AsNoTracking().ToListAsync();
 
-            return (data, totalCount,totalPage);
+            return (data, totalCount);
         }
 
 

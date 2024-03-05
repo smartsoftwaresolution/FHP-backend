@@ -1,14 +1,8 @@
 ﻿using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FHP.dtos.UserManagement;
 using FHP.utilities;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using FHP.entity.FHP;
 using FHP.dtos.FHP;
 
 namespace FHP.datalayer.Repository.UserManagement
@@ -62,7 +56,6 @@ namespace FHP.datalayer.Repository.UserManagement
                                       s.user.GovernmentId.Contains(search));
             }
 
-            var totalCount = await _dataContext.User.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
 
 
             if (!string.IsNullOrEmpty(roleName))
@@ -70,13 +63,15 @@ namespace FHP.datalayer.Repository.UserManagement
                 query = query.Where(s => s.t.RoleName == roleName);
             }
 
+            var totalCount = await query.CountAsync();
 
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
 
-            if(isAscending == true)
+
+            if (isAscending == true)
             {
                 query = query.OrderBy(s => s.user.Id);
 
@@ -132,6 +127,7 @@ namespace FHP.datalayer.Repository.UserManagement
                                       Status = e.Status,
                                   }).AsNoTracking().ToList(),
             }).AsNoTracking().ToListAsync();
+
 
             return (data, totalCount);
 

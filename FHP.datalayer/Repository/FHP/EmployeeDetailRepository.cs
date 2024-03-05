@@ -54,7 +54,7 @@ namespace FHP.datalayer.Repository.FHP
                                          s.employee.Mobile.Contains(search));
             }
 
-            var totalCount = await query.CountAsync(x => x.employee.Status != Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
 
             if(userId > 0)
             {

@@ -2,33 +2,19 @@
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using NLog.Config;
-using NLog;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using ClosedXML;
-using MailKit;
 using FHP.datalayer;
 using FHP.config;
+using NLog.Config;
+using NLog;
 
 namespace FHP
 {
@@ -37,7 +23,7 @@ namespace FHP
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-          //LogManager.Configuration = new XmlLoggingConfiguration("nlog.config"); // Loading NLog configuration from a file only defined log level
+           // LogManager.Configuration = new XmlLoggingConfiguration("nlog.config"); // Loading NLog configuration from a file only defined log level
         }
 
         public IConfiguration Configuration { get; }

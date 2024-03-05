@@ -51,7 +51,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 query = query.Where(s => s.emailSetting.Email.Contains(search));
             }
 
-            var totalCount = await _dataContext.EmailSetting.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
 
 
             if (page > 0 && pageSize > 0)

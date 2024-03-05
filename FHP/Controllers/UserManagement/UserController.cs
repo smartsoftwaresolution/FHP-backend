@@ -50,7 +50,7 @@ namespace FHP.Controllers.UserManagement
 
                 if (model.Id == 0 &&
                     !string.IsNullOrEmpty(model.RoleName) &&
-                    !string.IsNullOrEmpty(model.Email) &&
+                    !string.IsNullOrEmpty(model.Email) &&   
                     !string.IsNullOrEmpty(model.Password))
                 {
                     int userid = 0;
@@ -132,10 +132,11 @@ namespace FHP.Controllers.UserManagement
                     response.TotalCount = data.totalCount;
                     return Ok(response);
                 }
-
+               
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
+
             }
             catch (Exception ex)
             {

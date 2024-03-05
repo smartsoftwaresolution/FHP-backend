@@ -55,7 +55,7 @@ namespace FHP.datalayer.Repository.FHP
                                        s.employeeAval.EmployeeId.ToString().Contains(search));
             }
 
-            var totalCount = await query.CountAsync(s => s.employeeAval.Status != utilities.Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
 
             if (page > 0 && pageSize > 0)
             {

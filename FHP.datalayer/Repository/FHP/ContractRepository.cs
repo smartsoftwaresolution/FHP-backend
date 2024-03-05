@@ -52,7 +52,7 @@ namespace FHP.datalayer.Repository.FHP
                                        s.contract.JobId.ToString().Contains(search));
             }
 
-            var totalCount = await query.CountAsync(s => s.contract.Status != Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
 
 
             if (page > 0 && pageSize > 0)

@@ -1,6 +1,7 @@
 ﻿using FHP.datalayer;
 using FHP.datalayer.Repository.FHP;
 using FHP.datalayer.Repository.UserManagement;
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Repository.FHP;
@@ -28,7 +29,7 @@ namespace FHP.config
 
         public static void ConfigureUow(IServiceCollection services)
         {
-
+            services.AddScoped<IUnitOfWork,UnitOfWork>();   
         }
         public static void ConfigureManager(IServiceCollection services)
         {

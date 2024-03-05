@@ -50,10 +50,10 @@ namespace FHP.datalayer.Repository.FHP
                 query = query.Where(s => s.skill.SkillName.Contains(search));
             }
 
-            var totalCount = await _dataContext.Cities.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
 
 
-            if (page >0 && pageSize > 0)
+            if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
