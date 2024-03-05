@@ -24,5 +24,8 @@ namespace FHP.entity.FHP
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public Constants.RecordStatus Status { get; set; }
+        public Constants.JobPosting JobStatus { get; set; }
+        public string CancelReason { get; set; }
+        public Constants.JobProcessingStatus JobProcessingStatus { get; set; }
     }
 }

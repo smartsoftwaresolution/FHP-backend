@@ -30,7 +30,6 @@ namespace FHP.Controllers.UserManagement
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
             _configuration = configuration;
-
         }
 
 

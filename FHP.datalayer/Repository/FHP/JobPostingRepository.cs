@@ -36,6 +36,17 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId)
         {
+            string rolename = string.Empty;
+            if (userId > 0)
+            {
+
+
+                rolename  = await (from s in _dataContext.User
+                                join
+                                     t in _dataContext.UserRole on s.RoleId equals t.Id
+                                where s.Id == userId
+                                select t.RoleName).FirstOrDefaultAsync();
+            }
             var query = from s in _dataContext.JobPostings
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { jobPosting = s };
@@ -48,6 +59,7 @@ namespace FHP.datalayer.Repository.FHP
                                        s.jobPosting.Address.Contains(search) ||
                                        s.jobPosting.Skills.Contains(search));
             }
+<<<<<<< HEAD
 
             if(userId > 0)
             {
@@ -57,6 +69,21 @@ namespace FHP.datalayer.Repository.FHP
 
             var totalCount = await query.CountAsync();
 
+=======
+            
+            var totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted);
+
+            if (rolename.ToLower() != "admin")
+            {
+                if (userId > 0)
+                {
+                    query = query.Where(s => s.jobPosting.UserId == userId);
+                    totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted && s.jobPosting.UserId == userId);        
+                }
+            }
+
+            var totalPage = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted);
+>>>>>>> 7118752b95599043a9b9ea4fa4c115301f16bb2e
 
             if (page > 0 && pageSize > 0 )
             {
@@ -83,6 +110,7 @@ namespace FHP.datalayer.Repository.FHP
                 CreatedOn = s.jobPosting.CreatedOn,
                 UpdatedOn = s.jobPosting.UpdatedOn,
                 Status = s.jobPosting.Status,
+                JobStatus = s.jobPosting.JobStatus
             }).AsNoTracking().ToListAsync();
 
             return (data, totalCount);
@@ -92,7 +120,7 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task<JobPostingDetailDto> GetByIdAsync(int id)
         {
-            return await (from s in _dataContext.JobPostings
+            return  await (from s in _dataContext.JobPostings
                           where s.Status != utilities.Constants.RecordStatus.Deleted
                           && s.Id == id
                           select new JobPostingDetailDto
@@ -112,6 +140,7 @@ namespace FHP.datalayer.Repository.FHP
                               CreatedOn=s.CreatedOn,
                               UpdatedOn=s.UpdatedOn,
                               Status=s.Status,
+                              JobStatus = s.JobStatus
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 
@@ -140,6 +169,28 @@ namespace FHP.datalayer.Repository.FHP
             return result;
         }
 
+        public async Task SubmitJobAsync(int jobId)
+        {
+            var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();
+            data.JobStatus = Constants.JobPosting.Submitted;
+            _dataContext.JobPostings.Update(data);
+            await _dataContext.SaveChangesAsync();
+        }
+        public async Task CancelJobAsync(int jobId, string cancelReason)
+        {
+            var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();
+            data.CancelReason = cancelReason;
+            _dataContext.JobPostings.Update(data);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task SetJobProcessingStatus(int jobId, Constants.JobProcessingStatus jobProcessingStatus)
+        {
+            var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();
+            data.JobProcessingStatus = jobProcessingStatus;
+            _dataContext.JobPostings.Update(data);
+            await _dataContext.SaveChangesAsync();
+        }
 
     }
 }

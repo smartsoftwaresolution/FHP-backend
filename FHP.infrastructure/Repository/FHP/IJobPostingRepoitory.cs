@@ -1,5 +1,6 @@
 ﻿using FHP.dtos.FHP;
 using FHP.entity.FHP;
+using FHP.utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,9 @@ namespace FHP.infrastructure.Repository.FHP
         Task<JobPostingDetailDto> GetByIdAsync(int id); 
         Task DeleteAsync(int id);
         Task<string> ActiveDeactiveAsync(int jobId);
+        Task SubmitJobAsync(int jobId);
+        Task CancelJobAsync(int jobId, string cancelReason);
+        Task SetJobProcessingStatus(int jobId, Constants.JobProcessingStatus jobProcessingStatus);
 
     }
 }

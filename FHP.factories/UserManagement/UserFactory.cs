@@ -23,7 +23,8 @@ namespace FHP.factories.UserManagement
                 CompanyName = model.CompanyName,
                 ContactName = model.ContactName,
                 Status = utilities.Constants.RecordStatus.Active,
-                CreatedOn = Utility.GetDateTime()
+                CreatedOn = Utility.GetDateTime(),
+                MobileNumber = model.MobileNumber,
             };
 
             return data;
@@ -42,6 +43,7 @@ namespace FHP.factories.UserManagement
             entity.ContactName = model.ContactName;
             entity.Password = entity.Password;
             entity.UpdatedOn= Utility.GetDateTime();
+            entity.MobileNumber = model.MobileNumber;
         }
     }
 }

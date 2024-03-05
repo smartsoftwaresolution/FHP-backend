@@ -81,11 +81,23 @@ namespace FHP.Controllers.FHP
             {
                 if(model.Id >= 0)
                 {
-                    await _manager.Edit(model);
+                    string message = await _manager.Edit(model);
                     await transaction.CommitAsync();
-                    response.StatusCode = 200;
-                    response.Message = Constants.updated;
-                    return Ok(response);
+
+                    if (message.Contains("updated successfully"))
+                    {
+
+
+                        response.StatusCode = 200;
+                        response.Message = message;
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        response.StatusCode = 400;
+                        response.Message = message;
+                        return BadRequest(response);
+                    }
                 }
 
                 response.StatusCode = 400;
@@ -219,6 +231,97 @@ namespace FHP.Controllers.FHP
                 response.Message = $"Job {result} Successfully!!!";
                 return Ok(response);
 
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+        [HttpPatch("submit-job/{id}")]
+        public async Task<IActionResult> SubmitJobAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if (id <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required.";
+                    return BadRequest(response);
+                }
+
+                await _manager.SubmitJobAsync(id);
+                response.StatusCode = 200;
+                response.Message = $"Job Submitted Successfully!!!";
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+
+        [HttpPatch("cancel-job/{id}")]
+        public async Task<IActionResult> CancelJobAsync(int id,string cancelReason)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if (id <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required.";
+                    return BadRequest(response);
+                }
+
+                await _manager.CancelJobAsync(id,cancelReason);
+                response.StatusCode = 200;
+                response.Message = $"Job Cancel Successfully!!!";
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+
+        [HttpPatch("set-job-processing-status/{id}")]
+        public async Task<IActionResult> SetJobProcessingStatusAsync(int id, Constants.JobProcessingStatus jobProcessingStatus)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+            var response = new BaseResponseAdd();
+            try
+            {
+                if (id <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required.";
+                    return BadRequest(response);
+                }
+                await _manager.SetJobProcessingStatus(id, jobProcessingStatus);
+                response.StatusCode = 200;
+                response.Message = $"Job Processing Status set Successfully!!!";
+                return Ok(response);
             }
             catch (Exception ex)
             {

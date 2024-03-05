@@ -17,6 +17,7 @@ namespace FHP.models.UserManagement
         public string Password { get; set;}
         public string ContactName { get; set; }
         public string CompanyName { get; set; }
+        public string MobileNumber { get; set; }
 
     }
 }
