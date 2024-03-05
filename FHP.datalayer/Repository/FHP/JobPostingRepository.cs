@@ -59,17 +59,7 @@ namespace FHP.datalayer.Repository.FHP
                                        s.jobPosting.Address.Contains(search) ||
                                        s.jobPosting.Skills.Contains(search));
             }
-<<<<<<< HEAD
 
-            if(userId > 0)
-            {
-                query = query.Where(s => s.jobPosting.UserId == userId);
-            }
-
-
-            var totalCount = await query.CountAsync();
-
-=======
             
             var totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted);
 
@@ -82,8 +72,7 @@ namespace FHP.datalayer.Repository.FHP
                 }
             }
 
-            var totalPage = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted);
->>>>>>> 7118752b95599043a9b9ea4fa4c115301f16bb2e
+           
 
             if (page > 0 && pageSize > 0 )
             {

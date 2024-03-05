@@ -29,12 +29,7 @@ namespace FHP.config
 
         public static void ConfigureUow(IServiceCollection services)
         {
-<<<<<<< HEAD
-            services.AddScoped<IUnitOfWork,UnitOfWork>();   
-=======
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
->>>>>>> 7118752b95599043a9b9ea4fa4c115301f16bb2e
         }
         public static void ConfigureManager(IServiceCollection services)
         {

@@ -64,7 +64,6 @@ namespace FHP.datalayer.Repository.UserManagement
 
             }          
             
-           var totalCount = await query.CountAsync(s => s.user.Status != Constants.RecordStatus.Deleted);
 
             var totalCount = await query.CountAsync();
 
