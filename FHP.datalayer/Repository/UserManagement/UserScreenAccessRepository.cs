@@ -1,14 +1,9 @@
-﻿ 
+﻿
 using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -44,13 +39,15 @@ namespace FHP.datalayer.Repository.UserManagement
                           where s.Status != utilities.Constants.RecordStatus.Deleted
                           select new { userScreenAccess = s});
 
-            var totalCount = await query.CountAsync(x => x.userScreenAccess.Status != utilities.Constants.RecordStatus.Deleted);
 
 
             if (roleId > 0)
             {
                 query = query.Where(s => s.userScreenAccess.RoleId == roleId);
             }
+
+            var totalCount = await query.CountAsync();
+
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);

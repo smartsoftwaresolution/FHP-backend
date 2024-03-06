@@ -1,6 +1,7 @@
 ﻿using FHP.datalayer;
 using FHP.datalayer.Repository.FHP;
 using FHP.datalayer.Repository.UserManagement;
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Repository.FHP;
@@ -28,7 +29,7 @@ namespace FHP.config
 
         public static void ConfigureUow(IServiceCollection services)
         {
-
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
         public static void ConfigureManager(IServiceCollection services)
         {
@@ -51,6 +52,9 @@ namespace FHP.config
             services.AddScoped<IJobPostingManager, JobPostingManager>();
             services.AddScoped<IContractManager, ContractManager>();
             services.AddScoped<IAdminSelectEmployeeManager, AdminSelectEmployeeManager>();
+            services.AddScoped<IEmployeeSkillDetailManager, EmployeeSkillDetailManager>();
+            services.AddScoped<IEmployeeAvailabilityManager, EmployeeAvailabilityManager>();
+            services.AddScoped<IEmployerContractConfirmationManager,EmployerContractConfirmationManager>(); 
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -72,7 +76,10 @@ namespace FHP.config
             services.AddScoped<IEmployerDetailRepository,EmployerDetailRepository>();
             services.AddScoped<IJobPostingRepoitory, JobPostingRepository>();
             services.AddScoped<IContractRepository, ContractRepository>();
-            services.AddScoped<IAdminSelectEmployeeRepository, AdminSelectEmployeeRepository>();    
+            services.AddScoped<IAdminSelectEmployeeRepository, AdminSelectEmployeeRepository>();   
+            services.AddScoped<IEmployeeSkillDetailRepository, EmployeeSkillDetailRepository>();
+            services.AddScoped<IEmployeeAvailabilityRepository, EmployeeAvailabilityRepository>();
+            services.AddScoped<IEmployerContractConfirmationRepository, EmployerContractConfirmationRepository>();
         }
 
 

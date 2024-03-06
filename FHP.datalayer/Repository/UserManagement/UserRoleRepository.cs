@@ -3,11 +3,6 @@ using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -44,13 +39,15 @@ namespace FHP.datalayer.Repository.UserManagement
                         select new { userRole = s };
 
 
-            var totalCount = await _dataContext.UserRole.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
 
 
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.userRole.RoleName.Contains(search));
             }
+
+            var totalCount = await query.CountAsync();
+
 
             if (page > 0 && pageSize > 0)
             {

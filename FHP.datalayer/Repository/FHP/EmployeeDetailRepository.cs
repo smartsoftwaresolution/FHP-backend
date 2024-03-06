@@ -1,7 +1,4 @@
-﻿
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using FHP.dtos.FHP;
+﻿using FHP.dtos.FHP;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
@@ -38,7 +35,7 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task<EmployeeDetail> GetAsync(int id)
         {
-          return   await _dataContext.EmployeeDetails.Where(s => s.Id == id).FirstOrDefaultAsync();
+            return await _dataContext.EmployeeDetails.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<(List<EmployeeDetailDto>employee,int totalCount)> GetAllAsync(int page,int pageSize,int userId, string? search)
@@ -50,13 +47,15 @@ namespace FHP.datalayer.Repository.FHP
 
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where( s=> s.employee.Gender.Contains(search) ||
+                query = query.Where( s =>s.employee.Gender.Contains(search) ||
                                          s.employee.Hobby.Contains(search) ||
                                          s.employee.Mobile.Contains(search) || 
                                          s.employee.AlternateEmail.Contains(search) ||
                                          s.employee.Mobile.Contains(search));
             }
-            var totalCount = await query.CountAsync(x => x.employee.Status != Constants.RecordStatus.Deleted);
+
+            var totalCount = await query.CountAsync();
+
             if(userId > 0)
             {
                 query = query.Where(s => s.employee.UserId == userId);
@@ -137,5 +136,25 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();  
         }
+
+        public async Task<string> SetAvailabilityAsync(int id)
+        {
+            string result = string.Empty;
+            var data = await _dataContext.EmployeeDetails.Where(s => s.Id == id).FirstOrDefaultAsync();
+            if(data.IsAvailable == false)
+            {
+                data.IsAvailable = true;
+                result = "Available";
+            }
+            else
+            {
+                data.IsAvailable = false;
+                result = "UnAvailable";
+            }
+            _dataContext.EmployeeDetails.Update(data);
+            await _dataContext.SaveChangesAsync();
+            return result;
+        }
+
     }
 }

@@ -11,7 +11,7 @@ namespace FHP.factories.FHP
 {
     public class EmployeeDetailFactory
     {
-        public static EmployeeDetail Create(AddEmployeeDetailModel model)
+        public static EmployeeDetail Create(AddEmployeeDetailModel model,string resumeUrl)
         {
             var data = new EmployeeDetail
             {
@@ -22,8 +22,8 @@ namespace FHP.factories.FHP
                 CountryId = model.CountryId,
                 StateId = model.StateId,
                 CityId = model.CityId,
-                ResumeURL = model.ResumeURL.ToString(),
-                ProfileImgURL = model.ProfileImgURL.ToString(),
+                ResumeURL = resumeUrl ?? "",
+                ProfileImgURL =  "",
                 IsAvailable = model.IsAvailable,
                 Hobby = model.Hobby,
                 PermanentAddress = model.PermanentAddress,

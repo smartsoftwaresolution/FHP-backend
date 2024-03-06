@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FHP.entity.FHP;
+using FHP.utilities;
 
 namespace FHP.datalayer.EntityConfiguration.FHP
 {
@@ -16,6 +17,7 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.ToTable("Contract"); // Table name in the database
 
             builder.HasKey(x => x.Id); // Primary key definition
+            builder.HasQueryFilter(x => x.Status != Constants.RecordStatus.Deleted);
 
             // Define property configurations
             builder.Property(x => x.Id).ValueGeneratedOnAdd(); // Auto-generated ID

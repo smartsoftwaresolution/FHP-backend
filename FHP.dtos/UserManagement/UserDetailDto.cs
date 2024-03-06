@@ -27,6 +27,8 @@ namespace FHP.dtos.UserManagement
         public DateTime? UpdatedOn { get; set; }
 
         public List<EmployeeDetailDto>? EmployeeDetails { get; set; }
+        public string ProfileImg { get; set; }
+        public string MobileNumber { get; set; }
 
     }
 }

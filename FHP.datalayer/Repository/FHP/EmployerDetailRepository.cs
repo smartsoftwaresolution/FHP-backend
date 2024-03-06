@@ -46,22 +46,26 @@ namespace FHP.datalayer.Repository.FHP
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { employerDetail = s };
 
-            var totalCount = await _dataContext.EmployerDetails.CountAsync(s => s.Status != utilities.Constants.RecordStatus.Deleted);
 
-            if(userId > 0)
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s =>
+                                       s.employerDetail.NationalAddress.Contains(search) ||
+                                       s.employerDetail.TypeOfBusiness.Contains(search) ||
+                                       s.employerDetail.WebAddress.Contains(search));
+            }
+
+            if (userId > 0)
             {
                 query = query.Where(s => s.employerDetail.UserId == userId);
             }
-            if (!string.IsNullOrEmpty(search))
-            {
-                query =query.Where(s=>
-                                       s.employerDetail.NationalAddress.Contains(search) ||
-                                       s.employerDetail.TypeOfBusiness.Contains(search) ||
-                                       s.employerDetail.WebAddress.Contains(search));   
-            }
+           
 
 
-            if(page > 0 && pageSize > 0)
+            var totalCount = await query.CountAsync();
+
+
+            if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }

@@ -23,6 +23,7 @@ namespace FHP.dtos.FHP
         public bool InProbationCancel { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
+        public Constants.JobPosting JobStatus { get; set; }
         public Constants.RecordStatus Status { get; set; }
     }
 }

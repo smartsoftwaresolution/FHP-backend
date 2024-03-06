@@ -43,7 +43,6 @@ namespace FHP.datalayer.Repository.UserManagement
                         where s.Status != Constants.RecordStatus.Deleted
                         select new { screen = s };
 
-            var totalCount = await _dataContext.Screen.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
 
             if(!string.IsNullOrEmpty(search))
             {
@@ -51,8 +50,10 @@ namespace FHP.datalayer.Repository.UserManagement
                                     s.screen.ScreenCode.Contains(search));
             }
 
+            var totalCount = await query.CountAsync();
 
-            if(page > 0 && pageSize >0)
+
+            if (page > 0 && pageSize >0)
             {
                 query =query.Skip((page - 1 ) * pageSize).Take(pageSize);
             }

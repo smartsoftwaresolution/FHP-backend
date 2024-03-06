@@ -45,20 +45,23 @@ namespace FHP.datalayer.Repository.FHP
                         select new { employeeeducationaldetail = s , user = t };
 
 
-            var totalCount = await _dataContext.EmployeeEducationalDetails.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
-
-            if(userId > 0)
-            {
-                query = query.Where(s => s.employeeeducationaldetail.UserId == userId);
-            }
-
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.employeeeducationaldetail.Education.Contains(search) ||
                                           s.employeeeducationaldetail.NameOfBoardOrUniversity.Contains(search));
             }
 
-            if(page > 0 && pageSize > 0)
+
+
+            if (userId > 0)
+            {
+                query = query.Where(s => s.employeeeducationaldetail.UserId == userId);
+            }
+
+            var totalCount = await query.CountAsync();
+
+
+            if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }

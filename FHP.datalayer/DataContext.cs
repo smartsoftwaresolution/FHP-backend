@@ -1,5 +1,4 @@
-﻿
-using FHP.datalayer.EntityConfiguration.UserManagement;
+﻿using FHP.datalayer.EntityConfiguration.UserManagement;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -44,6 +43,8 @@ namespace FHP.datalayer
         public DbSet<EmployeeSkillDetail> EmployeeSkillDetails { get; set; }
         public DbSet<AdminSelectEmployee> AdminSelectEmployees { get; set; }
         public DbSet<Contract> Contracts { get; set; }
+        public DbSet<EmployeeAvailability> EmployeeAvailabilities { get; set; }
+        public DbSet<EmployerContractConfirmation> EmployerContractConfirmations { get; set; }
 
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -74,6 +75,8 @@ namespace FHP.datalayer
             modelBuilder.ApplyConfiguration(new AdminSelectEmployeeConfiguration());
             modelBuilder.ApplyConfiguration(new ContractConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeSkillDetailsConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeAvailabilityConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployerContractConfirmationConfiguration());
 
             #endregion
         }

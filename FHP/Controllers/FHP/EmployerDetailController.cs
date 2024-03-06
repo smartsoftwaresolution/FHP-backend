@@ -1,4 +1,5 @@
-﻿using FHP.infrastructure.Manager.FHP;
+﻿using FHP.infrastructure.DataLayer;
+using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
 using FHP.services;
@@ -15,11 +16,12 @@ namespace FHP.Controllers.FHP
     {
         private readonly IEmployerDetailManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
-
-        public EmployerDetailController(IEmployerDetailManager manager,IExceptionHandleService exceptionHandleService)
+        private readonly IUnitOfWork _unitOfWork;
+        public EmployerDetailController(IEmployerDetailManager manager,IExceptionHandleService exceptionHandleService,IUnitOfWork unitOfWork)
         {
                 _manager=manager;
                 _exceptionHandleService=exceptionHandleService;
+                _unitOfWork = unitOfWork;
         }
 
 
@@ -33,11 +35,13 @@ namespace FHP.Controllers.FHP
 
             var response = new BaseResponseAdd();
 
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
             try
             {
-                if(model.Id == 0 && model.UserId != 0 && model.CityId != 0 && model.CountryId != 0 && model.StateId != 0 
-                    && !string.IsNullOrEmpty(model.CompanyName)
-                    && !string.IsNullOrEmpty(model.CompanyEmail)
+
+
+
+                if (model.Id == 0 && model.UserId != 0 && model.CityId != 0 && model.CountryId != 0 && model.StateId != 0 
                     && !string.IsNullOrEmpty(model.NationalAddress)
                     && !string.IsNullOrEmpty(model.CertificateRegistrationURL)
                     && !string.IsNullOrEmpty(model.VATCertificateURL)
@@ -52,6 +56,7 @@ namespace FHP.Controllers.FHP
                 {
 
                     await _manager.AddAsync(model);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -64,6 +69,7 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
@@ -77,26 +83,26 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
                 if(model.Id >= 0)
                 {
                     await _manager.Edit(model);
-
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
 
                 }
-
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
-
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
@@ -108,9 +114,7 @@ namespace FHP.Controllers.FHP
             {
                 return BadRequest(ModelState.GetErrorList());
             }
-
             var response = new BaseResponsePagination<object>();
-
             try
             {
                 var data = await _manager.GetAllAsync(page ,pageSize,userId,search);
@@ -120,17 +124,15 @@ namespace FHP.Controllers.FHP
                     response.Data = data.employerDetail;
                     response.TotalCount = data.totalCount;
                     return Ok(response);
-               }
-
+                }
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
-
             }
             catch(Exception ex)
             {
                return await _exceptionHandleService.HandleException(ex);
-           }
+            }
         }
 
         [HttpGet("getbyid")]
@@ -140,9 +142,7 @@ namespace FHP.Controllers.FHP
             {
                 return BadRequest(ModelState.GetErrorList());
             }
-
             var response = new BaseResponseAddResponse<object>();
-
             try
             {
                 var data = await _manager.GetByIdAsync(id);
@@ -152,7 +152,6 @@ namespace FHP.Controllers.FHP
                     response.Data = data;
                     return Ok(response);
                 }
-
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -170,9 +169,7 @@ namespace FHP.Controllers.FHP
             {
                 return BadRequest(ModelState.GetErrorList());
             }
-
             var response = new BaseResponseAdd();
-
             try
             {
                 if (id <= 0)
@@ -181,12 +178,10 @@ namespace FHP.Controllers.FHP
                     response.Message = "Id Required";
                     return BadRequest(response);
                 }
-
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
                 return Ok(response);
-
             }
             catch(Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
@@ -17,12 +18,16 @@ namespace FHP.Controllers.FHP
         private readonly IEmployeeDetailManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IFileUploadService _fileUploadService;
+        private readonly IUnitOfWork _unitOfWork;
         public EmployeeDetailController(IEmployeeDetailManager manager,
                                         IExceptionHandleService exceptionHandleService,
-                                        IFileUploadService fileUploadService)
+                                        IFileUploadService fileUploadService,
+                                        IUnitOfWork unitOfWork)
         {
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
+            _fileUploadService = fileUploadService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost("add")]
@@ -34,23 +39,29 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
-                if(model.Id ==0 && model.UserId !=0 && model.CountryId !=0 && model.StateId!=0 && model.CityId !=0
+                if(model.Id == 0 &&  model.UserId != 0 && model.CountryId != 0 && model.StateId != 0  && model.CityId != 0
                    && !string.IsNullOrEmpty(model.MaritalStatus)
                    && !string.IsNullOrEmpty(model.Gender)
-                   && !string.IsNullOrEmpty(model.Hobby)
                    && !string.IsNullOrEmpty(model.PermanentAddress)
                    && !string.IsNullOrEmpty(model.Mobile))
                    
                 {
                     string profileImg = string.Empty;
-                    if(model.ProfileImgURL != null)
+                    string profileResume = string.Empty;
+                    if (model.ProfileImgURL != null)
                     {
                       profileImg =  await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL);
                     }
-                    await _manager.AddAsync(model);
+                    if (model.ResumeURL != null)
+                    {
+                        profileResume = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL);
+                    }
+                    await _manager.AddAsync(model,profileResume);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -63,19 +74,21 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex) 
             { 
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
 
 
         [HttpPut("edit")]
-        public async Task<IActionResult> EditAsync(AddEmployeeDetailModel model)
+        public async Task<IActionResult> EditAsync([FromForm] AddEmployeeDetailModel model)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState.GetErrorList());
             }
 
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
             var response = new BaseResponseAdd();
 
             try
@@ -88,6 +101,7 @@ namespace FHP.Controllers.FHP
                         resumeUrl = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL);
                     }
                     await _manager.Edit(model,resumeUrl);
+                    await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -101,6 +115,7 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
+                await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
@@ -191,12 +206,44 @@ namespace FHP.Controllers.FHP
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
-                return BadRequest(response);
+                return Ok(response);
             }
             catch(Exception ex)
             {
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
+
+        [HttpPatch("set-availability/{id}")]
+        public async Task<IActionResult> SetAvailabilityAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if (id <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required";
+                    return BadRequest(response);
+                }
+
+                string result = await _manager.SetAvailabilityAsync(id);
+                response.StatusCode = 200;
+                response.Message = $"Employee {result} Now!!";
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+
     }
 }

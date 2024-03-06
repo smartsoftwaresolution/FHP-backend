@@ -1,13 +1,10 @@
-﻿using FHP.dtos.FHP;
+﻿
+using FHP.dtos.FHP;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
+using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.FHP
 {
@@ -37,13 +34,23 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId)
         {
+            string rolename = string.Empty;
+            if (userId > 0)
+            {
+
+
+                rolename  = await (from s in _dataContext.User
+                                join
+                                     t in _dataContext.UserRole on s.RoleId equals t.Id
+                                where s.Id == userId
+                                select t.RoleName).FirstOrDefaultAsync();
+            }
             var query = from s in _dataContext.JobPostings
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { jobPosting = s };
 
-            var totalCount = await query.CountAsync(s => s.jobPosting.Status != utilities.Constants.RecordStatus.Deleted);
 
             if(!string.IsNullOrEmpty(search))
             {
@@ -53,7 +60,21 @@ namespace FHP.datalayer.Repository.FHP
                                        s.jobPosting.Skills.Contains(search));
             }
 
-            if(page > 0 && pageSize > 0)
+            
+            var totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted);
+
+            if (rolename.ToLower() != "admin")
+            {
+                if (userId > 0)
+                {
+                    query = query.Where(s => s.jobPosting.UserId == userId);
+                    totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted && s.jobPosting.UserId == userId);        
+                }
+            }
+
+           
+
+            if (page > 0 && pageSize > 0 )
             {
                 query =query.Skip((page -1 )*pageSize).Take(pageSize);   
             }
@@ -78,6 +99,7 @@ namespace FHP.datalayer.Repository.FHP
                 CreatedOn = s.jobPosting.CreatedOn,
                 UpdatedOn = s.jobPosting.UpdatedOn,
                 Status = s.jobPosting.Status,
+                JobStatus = s.jobPosting.JobStatus
             }).AsNoTracking().ToListAsync();
 
             return (data, totalCount);
@@ -87,7 +109,7 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task<JobPostingDetailDto> GetByIdAsync(int id)
         {
-            return await (from s in _dataContext.JobPostings
+            return  await (from s in _dataContext.JobPostings
                           where s.Status != utilities.Constants.RecordStatus.Deleted
                           && s.Id == id
                           select new JobPostingDetailDto
@@ -107,6 +129,7 @@ namespace FHP.datalayer.Repository.FHP
                               CreatedOn=s.CreatedOn,
                               UpdatedOn=s.UpdatedOn,
                               Status=s.Status,
+                              JobStatus = s.JobStatus
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 
@@ -118,6 +141,45 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.SaveChangesAsync();
         }
 
-        
+        public async Task<string> ActiveDeactiveAsync(int jobId)
+        {
+            string result = string.Empty;
+            var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();
+            if(data.Status == utilities.Constants.RecordStatus.Active)
+            {
+                data.Status = utilities.Constants.RecordStatus.Inactive;
+                result = "DeActivated";
+            }
+            else
+            {
+                data.Status = utilities.Constants.RecordStatus.Active;
+                result = "Activated";
+            }
+            return result;
+        }
+
+        public async Task SubmitJobAsync(int jobId)
+        {
+            var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();
+            data.JobStatus = Constants.JobPosting.Submitted;
+            _dataContext.JobPostings.Update(data);
+            await _dataContext.SaveChangesAsync();
+        }
+        public async Task CancelJobAsync(int jobId, string cancelReason)
+        {
+            var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();
+            data.CancelReason = cancelReason;
+            _dataContext.JobPostings.Update(data);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task SetJobProcessingStatus(int jobId, Constants.JobProcessingStatus jobProcessingStatus)
+        {
+            var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();
+            data.JobProcessingStatus = jobProcessingStatus;
+            _dataContext.JobPostings.Update(data);
+            await _dataContext.SaveChangesAsync();
+        }
+
     }
 }

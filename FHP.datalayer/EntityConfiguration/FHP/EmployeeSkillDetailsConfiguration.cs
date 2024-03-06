@@ -1,4 +1,5 @@
 ﻿using FHP.entity.FHP;
+using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -16,6 +17,9 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.ToTable("EmployeeSkillDetail"); // Table name in the database
 
             builder.HasKey(x => x.Id); // Primary key definition
+
+            builder.HasQueryFilter(x => x.Status != Constants.RecordStatus.Deleted);
+
 
             // Define property configurations
             builder.Property(x => x.Id).ValueGeneratedOnAdd();

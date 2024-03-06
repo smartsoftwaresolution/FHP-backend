@@ -25,5 +25,8 @@ namespace FHP.entity.UserManagement
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public bool? IsVerify { get; set; }
+        public string? ProfileImg { get; set; }
+        public string MobileNumber { get; set; }
+        
     }
 }

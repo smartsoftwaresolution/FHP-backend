@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FHP.utilities;
 
 namespace FHP.datalayer.EntityConfiguration.FHP
 {
@@ -16,6 +17,9 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.ToTable("JobPosting"); // Table name in the database
 
             builder.HasKey(x => x.Id); // Primary key definition
+
+            builder.HasQueryFilter(x => x.Status != Constants.RecordStatus.Deleted);
+
 
             // Define property configurations
             builder.Property(x => x.Id).ValueGeneratedOnAdd(); // Auto-generated ID
@@ -34,6 +38,9 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.Status).IsRequired(); 
             builder.Property(x => x.CreatedOn).IsRequired(); 
             builder.Property(x => x.UpdatedOn).IsRequired(false);
+            builder.Property(x => x.JobStatus).IsRequired();
+            builder.Property(x => x.CancelReason).IsRequired();
+            builder.Property(x => x.JobProcessingStatus).IsRequired();
         }
     }
 

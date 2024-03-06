@@ -20,7 +20,9 @@ namespace FHP.services
         public async Task<string> UploadIFormFileAsync(IFormFile file)
         {
             string uploadsFolder = string.Empty;
+
             string uniqueFileName = string.Empty;
+
             if (file != null && file.Length > 0)
             {
                 if (file.Length > 60 * 1024 * 1024) // 60MB in bytes

@@ -1,14 +1,8 @@
 ﻿using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FHP.dtos.UserManagement;
 using FHP.utilities;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using FHP.entity.FHP;
 using FHP.dtos.FHP;
 
 namespace FHP.datalayer.Repository.UserManagement
@@ -44,16 +38,15 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext.SaveChanges();
         }
 
-        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName)
+        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending = false)
         {
-
+            
             var query = from s in _dataContext.User
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
                         
                         where s.Status != Constants.RecordStatus.Deleted 
                         select new { user = s, t };
 
-            var totalCount = await _dataContext.User.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -63,18 +56,32 @@ namespace FHP.datalayer.Repository.UserManagement
                                       s.user.GovernmentId.Contains(search));
             }
 
+
+
             if (!string.IsNullOrEmpty(roleName))
             {
                 query = query.Where(s => s.t.RoleName == roleName);
-            }
 
+            }          
+            
+
+            var totalCount = await query.CountAsync();
 
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
 
-            query = query.OrderByDescending(s => s.user.Id);
+
+            if (isAscending == true)
+            {
+                query = query.OrderBy(s => s.user.Id);
+
+            }
+            else
+            {
+                query = query.OrderByDescending(s => s.user.Id);
+            }
 
             var data = await query.Select(s => new UserDetailDto
             {
@@ -92,6 +99,8 @@ namespace FHP.datalayer.Repository.UserManagement
                 CreatedOn = s.user.CreatedOn,
                 IsVerify = s.user.IsVerify,
                 UpdatedOn = s.user.UpdatedOn,
+                ProfileImg = s.user.ProfileImg,
+                MobileNumber = s.user.MobileNumber,
                 EmployeeDetails = (from e in _dataContext.EmployeeDetails
                                   where e.UserId == s.user.Id
                                   select new EmployeeDetailDto 
@@ -122,6 +131,7 @@ namespace FHP.datalayer.Repository.UserManagement
                                   }).AsNoTracking().ToList(),
             }).AsNoTracking().ToListAsync();
 
+
             return (data, totalCount);
 
         }
@@ -150,6 +160,8 @@ namespace FHP.datalayer.Repository.UserManagement
                               CreatedOn = s.CreatedOn,
                               IsVerify = s.IsVerify,
                               UpdatedOn = s.UpdatedOn,
+                              ProfileImg = s.ProfileImg,
+                              MobileNumber =  s.MobileNumber
                           }).FirstOrDefaultAsync();
 
         }
@@ -189,6 +201,8 @@ namespace FHP.datalayer.Repository.UserManagement
                               CreatedOn = s.CreatedOn,
                               IsVerify = s.IsVerify,
                               UpdatedOn = s.UpdatedOn,
+                              ProfileImg = s.ProfileImg,
+                              MobileNumber =  s.MobileNumber
                           }).AsNoTracking().FirstOrDefaultAsync();
 
         }
@@ -217,6 +231,8 @@ namespace FHP.datalayer.Repository.UserManagement
                               CreatedOn = s.CreatedOn,
                               UpdatedOn = s.UpdatedOn,
                               IsVerify = s.IsVerify,
+                              ProfileImg = s.ProfileImg,
+                              MobileNumber =  s.MobileNumber
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 
@@ -265,22 +281,45 @@ namespace FHP.datalayer.Repository.UserManagement
 
         }
 
-        public async Task AddUserPic(int userId, string picUrl, string roleName)
+        public async Task AddUserPic(int userId, string picUrl)
         {
-            if(roleName.ToLower() == "employee")
-            {
-                var data = await _dataContext.EmployeeDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
-                data.ProfileImgURL = picUrl;
-                _dataContext.EmployeeDetails.Update(data);
+            
+                var data = await _dataContext.User.Where(s => s.Id == userId).FirstOrDefaultAsync();
+                data.ProfileImg = picUrl;
+                _dataContext.User.Update(data);
                 await _dataContext.SaveChangesAsync();
-            }
-            if (roleName.ToLower() == "employer")
+            
+            
+        }
+
+
+        public async Task<string> EnableDisableUser(int userId, string roleName)
+        {
+            string res = string.Empty;
+            var data = await _dataContext.User.Where(s => s.Id == userId).FirstOrDefaultAsync();
+            if(data.Status == Constants.RecordStatus.Active)
             {
-                var data = await _dataContext.EmployerDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
-                data.CompanyLogoURL = picUrl;
-                _dataContext.EmployerDetails.Update(data);
-                await _dataContext.SaveChangesAsync();
+                data.Status = Constants.RecordStatus.Inactive;
+                res = "DeActivated";
             }
+            else
+            {
+                data.Status = Constants.RecordStatus.Active;
+                res = "Activated";
+
+            }
+            _dataContext.User.Update(data);
+            await _dataContext.SaveChangesAsync();
+            return res;
+        }
+
+
+        public async Task ChangePassword(int userId,string password)
+        {
+            var data = await _dataContext.User.Where(s => s.Id == userId).FirstOrDefaultAsync();
+            data.Password = Utility.Encrypt(password);
+            _dataContext.User.Update(data);
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

@@ -45,7 +45,6 @@ namespace FHP.datalayer.Repository.UserManagement
                         select new  { permission = s };
 
 
-            var totalCount = await _dataContext.Permissions.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
 
 
             if (!string.IsNullOrEmpty(search))
@@ -55,6 +54,8 @@ namespace FHP.datalayer.Repository.UserManagement
                                          s.permission.Permissions.Contains(search));
 
             }
+
+            var totalCount = await query.CountAsync();
 
 
             if (page > 0 && pageSize > 0)

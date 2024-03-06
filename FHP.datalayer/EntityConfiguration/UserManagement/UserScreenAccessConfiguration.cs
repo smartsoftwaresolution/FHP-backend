@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FHP.utilities;
 
 namespace FHP.datalayer.EntityConfiguration.UserManagement
 {
@@ -16,6 +17,7 @@ namespace FHP.datalayer.EntityConfiguration.UserManagement
             builder.ToTable("UserScreenAccess");
 
             builder.HasKey(x => x.Id);
+            builder.HasQueryFilter(x => x.Status != Constants.RecordStatus.Deleted);
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.RoleId).IsRequired();

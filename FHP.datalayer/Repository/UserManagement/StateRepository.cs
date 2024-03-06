@@ -45,14 +45,16 @@ namespace FHP.datalayer.Repository.UserManagement
                         select new { state = s };
 
 
-            var totalCount = await _dataContext.States.CountAsync(s => s.Status != Constants.RecordStatus.Deleted); 
 
             if (!string.IsNullOrEmpty(search))
             {
                 query=query.Where(s=>s.state.StateName.Contains(search));
             }
-            
-            if(page > 0 && pageSize > 0)
+
+            var totalCount = await query.CountAsync();
+
+
+            if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize); 
             }
