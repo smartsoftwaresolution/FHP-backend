@@ -37,6 +37,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId)
         {
             string rolename = string.Empty;
+
             if (userId > 0)
             {
 
@@ -82,24 +83,26 @@ namespace FHP.datalayer.Repository.FHP
 
 
             var data = await query.Select(s => new JobPostingDetailDto
-            {
-                Id = s.jobPosting.Id,
-                UserId = s.jobPosting.UserId,
-                JobTitle = s.jobPosting.JobTitle,
-                Description = s.jobPosting.Description,
-                Experience = s.jobPosting.Experience,
-                RolesAndResponsibilities = s.jobPosting.RolesAndResponsibilities,
-                ContractDuration = s.jobPosting.ContractDuration,
-                ContractStartTime = s.jobPosting.ContractStartTime,
-                Skills = s.jobPosting.Skills,
-                Address = s.jobPosting.Address,
-                Payout = s.jobPosting.Payout,
-                InProbationCancel = s.jobPosting.InProbationCancel,
-                CreatedOn = s.jobPosting.CreatedOn,
-                UpdatedOn = s.jobPosting.UpdatedOn,
-                Status = s.jobPosting.Status,
-                JobStatus = s.jobPosting.JobStatus
-            }).AsNoTracking().ToListAsync();
+                                   {
+                                           Id = s.jobPosting.Id,
+                                           UserId = s.jobPosting.UserId,
+                                           JobTitle = s.jobPosting.JobTitle,
+                                           Description = s.jobPosting.Description,
+                                           Experience = s.jobPosting.Experience,
+                                           RolesAndResponsibilities = s.jobPosting.RolesAndResponsibilities,
+                                           ContractDuration = s.jobPosting.ContractDuration,
+                                           ContractStartTime = s.jobPosting.ContractStartTime,
+                                           Skills = s.jobPosting.Skills,
+                                           Address = s.jobPosting.Address,
+                                           Payout = s.jobPosting.Payout,
+                                           InProbationCancel = s.jobPosting.InProbationCancel,
+                                           CreatedOn = s.jobPosting.CreatedOn,
+                                           UpdatedOn = s.jobPosting.UpdatedOn,
+                                           Status = s.jobPosting.Status,
+                                           JobStatus = s.jobPosting.JobStatus
+                                  })
+                                  .AsNoTracking()
+                                  .ToListAsync();
 
             return (data, totalCount);
         }

@@ -1,6 +1,5 @@
 ﻿using FHP.infrastructure.Manager.UserManagement;
 using FHP.models.UserManagement;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FHP.utilities;
 using FHP.infrastructure.Service;

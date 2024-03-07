@@ -48,6 +48,8 @@ namespace FHP.datalayer.Repository.UserManagement
 
             var totalCount = await query.CountAsync();
 
+            query = query.OrderByDescending(s => s.userScreenAccess.Id);
+
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);

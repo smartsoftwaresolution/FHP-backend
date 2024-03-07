@@ -1,11 +1,5 @@
 ﻿using FHP.dtos.FHP;
-using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.infrastructure.Manager.FHP
 {
@@ -16,6 +10,5 @@ namespace FHP.infrastructure.Manager.FHP
        Task<(List<EmployeeEducationalDetailDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page,int pageSize,int userId,string? search);
        Task<EmployeeEducationalDetailDetailDto> GetByIdAsync(int id);
        Task DeleteAsync(int id);
-        
     }
 }

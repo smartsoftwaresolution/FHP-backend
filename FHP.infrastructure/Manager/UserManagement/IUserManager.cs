@@ -1,6 +1,6 @@
 ﻿using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.User;
 
 namespace FHP.infrastructure.Manager.UserManagement
 {
