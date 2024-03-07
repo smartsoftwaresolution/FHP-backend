@@ -40,8 +40,9 @@ namespace FHP.datalayer.EntityConfiguration.UserManagement
             builder.Property(x => x.IsVerify).IsRequired(false);
             builder.Property(x => x.ProfileImg).IsRequired(false);
             builder.Property(x => x.MobileNumber).IsRequired();
+            builder.Property(x => x.IsVerifyByAdmin).IsRequired(false);
 
-           
+
 
         }
     }

@@ -88,5 +88,11 @@ namespace FHP.manager.UserManagement
         {
              await _repository.ChangePassword(userId, password);
         }
+
+        public async Task VerifyEmployerByAdmin(int userId)
+        {
+            await _repository.VerifyEmployerByAdmin(userId);
+        }
+
     }
 }

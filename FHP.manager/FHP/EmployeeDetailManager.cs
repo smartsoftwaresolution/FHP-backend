@@ -1,4 +1,5 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.EmployeeDetail;
 using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
@@ -52,6 +53,11 @@ namespace FHP.manager.FHP
         public async Task<string> SetAvailabilityAsync(int id)
         {
             return await _repository.SetAvailabilityAsync(id);
+        }
+
+        public async Task<CompleteEmployeeDetailDto> GetAllByIdAsync(int id)
+        {
+            return await _repository.GetAllByIdAsync(id);
         }
 
     }
