@@ -1,4 +1,5 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.EmployeeDetail;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
@@ -60,12 +61,14 @@ namespace FHP.datalayer.Repository.FHP
             {
                 query = query.Where(s => s.employee.UserId == userId);
             }
+
+            query = query.OrderByDescending(s => s.employee.Id);   // orderbyDescending
+
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
 
-            query = query.OrderByDescending(s=> s.employee.Id);   // orderbyDescending
             
             var data = await query.Select( s => new EmployeeDetailDto {
                                                                     Id = s.employee.Id,
@@ -154,6 +157,97 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext.EmployeeDetails.Update(data);
             await _dataContext.SaveChangesAsync();
             return result;
+        }
+
+
+        public async Task<CompleteEmployeeDetailDto> GetAllByIdAsync(int id)
+        {
+            var data = await (from s in _dataContext.User
+                              join emp in _dataContext.EmployeeDetails on s.Id equals emp.UserId
+                              where s.Id == id && s.Status != Constants.RecordStatus.Deleted
+                              select new CompleteEmployeeDetailDto
+                              {
+                                  Id = s.Id,
+                                  RoleId = s.RoleId,
+                                  //  RoleName = t.RoleName,
+                                  FirstName = s.FirstName,
+                                  LastName = s.LastName,
+                                  Email = s.Email,
+                                  Password = s.Password,
+                                  GovernmentId = s.GovernmentId,
+                                  CompanyName = s.CompanyName,
+                                  ContactName = s.ContactName,
+                                  Status = s.Status,
+                                  CreatedOn = s.CreatedOn,
+                                  UpdatedOn = s.UpdatedOn,
+                                  IsVerify = s.IsVerify,
+                                  ProfileImg = s.ProfileImg,
+                                  MobileNumber = s.MobileNumber,
+                                  IsVerifyByAdmin = s.IsVerifyByAdmin,
+                                  EmployeeDetail = new EmployeeDetailDto
+                                  {
+                                      Id = emp.Id,
+                                      UserId = emp.UserId,
+                                      MaritalStatus = emp.MaritalStatus,
+                                      Gender = emp.Gender,
+                                      DOB = emp.DOB,
+                                      CountryId = emp.CountryId,
+                                      StateId = emp.StateId,
+                                      CityId = emp.CityId,
+                                      ResumeURL = emp.ResumeURL,
+                                      ProfileImgURL = emp.ProfileImgURL,
+                                      IsAvailable = emp.IsAvailable,
+                                      Hobby = emp.Hobby,
+                                      PermanentAddress = emp.PermanentAddress,
+                                      AlternateAddress = emp.AlternateAddress,
+                                      Mobile = emp.Mobile,
+                                      Phone = emp.Phone,
+                                      AlternateEmail = emp.AlternateEmail,
+                                      AlternatePhone = emp.AlternatePhone,
+                                      EmergencyContactName = emp.EmergencyContactName,
+                                      EmergencyContactNumber = emp.EmergencyContactNumber,
+                                      CreatedOn = emp.CreatedOn,
+                                      UpdatedOn = emp.UpdatedOn,
+                                      Status = emp.Status,
+
+                                  },
+                                  Professional = (from p in _dataContext.EmployeeProfessionalDetails
+                                                  where p.UserId == s.Id
+                                                  select new EmployeeProfessionalDetailDto
+                                                  {
+                                                      Id = p.Id,
+                                                      UserId = p.UserId,
+                                                      JobDescription = p.JobDescription,
+                                                      StartDate = p.StartDate,
+                                                      EndDate = p.EndDate,
+                                                      CompanyName = p.CompanyName,
+                                                      CompanyLocation = p.CompanyLocation,
+                                                      Designation = p.Designation,
+                                                      EmploymentStatus = p.EmploymentStatus,
+                                                      YearsOfExperience = p.YearsOfExperience,
+                                                      CreatedOn = p.CreatedOn,
+                                                      UpdatedOn = p.UpdatedOn,
+                                                      Status = p.Status,
+                                                  }).ToList(),
+                                  Education = (from e in _dataContext.EmployeeEducationalDetails
+                                               where e.UserId == s.Id
+                                               select new EmployeeEducationalDetailDetailDto
+                                               {
+                                                   Id = e.Id,
+                                                   UserId = e.UserId,
+                                                   Education = e.Education,
+                                                   NameOfBoardOrUniversity = e.NameOfBoardOrUniversity,
+                                                   YearOfCompletion = e.YearOfCompletion,
+                                                   MarksObtained = e.MarksObtained,
+                                                   GPA = e.GPA,
+                                                   CreatedOn = e.CreatedOn,
+                                                   UpdatedOn = e.UpdatedOn,
+                                                   Status = e.Status,
+                                               }).ToList()
+
+                              }).AsNoTracking().FirstOrDefaultAsync();
+
+            return data;
         }
 
     }

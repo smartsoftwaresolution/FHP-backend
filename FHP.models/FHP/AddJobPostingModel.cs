@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FHP.utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,6 @@ namespace FHP.models.FHP
         public string Address { get; set; }
         public string Payout { get; set; }
         public bool InProbationCancel { get; set; }
+        public Constants.JobPosting JobPosting { get; set; }
     }
 }

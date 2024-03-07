@@ -1,12 +1,9 @@
-﻿using DocumentFormat.OpenXml.ExtendedProperties;
+﻿
 using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement;
-using FHP.services;
 using FHP.utilities;
-using Google.Apis.Gmail.v1.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.UserManagement
@@ -292,6 +289,36 @@ namespace FHP.Controllers.UserManagement
                    string result =  await _manager.EnableDisableUser(userId,roleName);
                     response.StatusCode = 200;
                     response.Message = $"User {result} Successfully!!";
+                    return Ok(response);
+                }
+                response.StatusCode = 400;
+                response.Message = Constants.provideValues;
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+
+            }
+        }
+
+
+        [HttpPatch("verify-employer-by-admin")]
+        public async Task<IActionResult> VerifyEmployerByAdminAsync(int userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+            try
+            {
+                if (userId > 0)
+                {
+                    await _manager.VerifyEmployerByAdmin(userId);
+                    response.StatusCode = 200;
+                    response.Message = $"Employer Verified Successfully!!";
                     return Ok(response);
                 }
                 response.StatusCode = 400;

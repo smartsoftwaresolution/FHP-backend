@@ -53,13 +53,13 @@ namespace FHP.datalayer.Repository.UserManagement
 
             var totalCount = await query.CountAsync();
 
+            query = query.OrderByDescending(s => s.state.Id);
 
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize); 
             }
 
-            query = query.OrderByDescending(s => s.state.Id);
 
           var data =  await query.Select (s=> new StateDetailDto
                                                     {

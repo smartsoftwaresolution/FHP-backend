@@ -25,6 +25,7 @@ namespace FHP.factories.UserManagement
                 Status = utilities.Constants.RecordStatus.Active,
                 CreatedOn = Utility.GetDateTime(),
                 MobileNumber = model.MobileNumber,
+                IsVerifyByAdmin = false,
             };
 
             return data;

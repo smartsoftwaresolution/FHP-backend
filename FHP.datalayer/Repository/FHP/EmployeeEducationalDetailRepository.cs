@@ -59,6 +59,8 @@ namespace FHP.datalayer.Repository.FHP
             }
 
             var totalCount = await query.CountAsync();
+            
+            query = query.OrderByDescending(s => s.employeeeducationaldetail.Id);   // orderbyDescending
 
 
             if (page > 0 && pageSize > 0)
@@ -66,7 +68,6 @@ namespace FHP.datalayer.Repository.FHP
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
 
-            query = query.OrderByDescending(s => s.employeeeducationaldetail.Id);   // orderbyDescending
 
 
             var data = await query.Select(s => new EmployeeEducationalDetailDetailDto

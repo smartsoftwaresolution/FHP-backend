@@ -1,4 +1,6 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.JobPosting;
+using FHP.dtos.UserManagement;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using Microsoft.EntityFrameworkCore;
@@ -40,7 +42,8 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<(List<AdminSelectEmployeeDetailDto> adminSelect, int totalCount)> GetAllAsync(int page, int pageSize,int jobId, string? search)
         {
             var query = from s in _dataContext.AdminSelectEmployees
-                        select new { adminSelect = s };
+                        join e in _dataContext.User on s.EmployeeId equals e.Id
+                        select new { adminSelect = s ,employee = e};
 
             
 
@@ -58,19 +61,20 @@ namespace FHP.datalayer.Repository.FHP
 
             var totalCount = await query.CountAsync();
 
+            query = query.OrderByDescending(s => s.adminSelect.Id);
 
             if (page > 0 && pageSize > 0)
             {
                 query =query.Skip((page - 1) * pageSize).Take(pageSize);    
             }
 
-            query = query.OrderByDescending(s => s.adminSelect.Id);
 
             var data = await query.Select(s => new AdminSelectEmployeeDetailDto
                                                          {
                                                             Id = s.adminSelect.Id,
                                                             JobId = s.adminSelect.JobId,
                                                             EmployeeId = s.adminSelect.EmployeeId,
+                                                            EmployeeName = s.employee.FirstName + " " + s.employee.LastName,
                                                             InProbationCancel = s.adminSelect.InProbationCancel,
                                                             IsSelected = s.adminSelect.IsSelected,
                                                          }) 
@@ -84,6 +88,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<AdminSelectEmployeeDetailDto> GetByIdAsync(int id)
         {
           return  await (from s in _dataContext.AdminSelectEmployees
+                         join u in _dataContext.User on s.EmployeeId equals u.Id
                    where  s.Id == id
 
                    select new AdminSelectEmployeeDetailDto
@@ -93,6 +98,7 @@ namespace FHP.datalayer.Repository.FHP
                        EmployeeId=s.EmployeeId,
                        InProbationCancel=s.InProbationCancel,
                        IsSelected=s.IsSelected,
+                       EmployeeName = u.FirstName + " " + u.LastName
                    }).AsNoTracking().FirstOrDefaultAsync();
         }
 
@@ -105,6 +111,41 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.SaveChangesAsync();
         }
 
-        
+        public async Task<(List<UserDetailDto> adminSelect, int totalCount)> GetAllJobEmployeeAsync(int jobId)
+        {
+            var query = from s in _dataContext.AdminSelectEmployees
+                        join t in _dataContext.User on s.EmployeeId equals t.Id
+                        join j in _dataContext.JobPostings on s.JobId equals j.Id
+                        where s.JobId == jobId
+                        select new { adminSelect = s,employee = t ,job = j};
+
+            int totalcount = query.Count();
+
+            var data = await query.Select(s => new UserDetailDto
+            {
+                Id = s.employee.Id,
+                RoleId = s.employee.RoleId,
+               
+                FirstName = s.employee.FirstName,
+                LastName = s.employee.LastName,
+                Email = s.employee.Email,
+                Password = s.employee.Password,
+                GovernmentId = s.employee.GovernmentId,
+                CompanyName = s.employee.CompanyName,
+                ContactName = s.employee.ContactName,
+                Status = s.employee.Status,
+                CreatedOn = s.employee.CreatedOn,
+                IsVerify = s.employee.IsVerify,
+                UpdatedOn = s.employee.UpdatedOn,
+                ProfileImg = s.employee.ProfileImg,
+                MobileNumber = s.employee.MobileNumber,
+                IsVerifyByAdmin = s.employee.IsVerifyByAdmin,
+
+            }).AsNoTracking().ToListAsync();
+
+
+            return (data, totalcount);
+        }
+
     }
 }

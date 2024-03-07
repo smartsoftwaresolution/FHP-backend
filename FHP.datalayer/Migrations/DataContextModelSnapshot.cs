@@ -815,7 +815,7 @@ namespace FHP.datalayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoginModule", (string)null);
+                    b.ToTable("LoginModule");
                 });
 
             modelBuilder.Entity("FHP.entity.UserManagement.Permission", b =>
@@ -963,6 +963,9 @@ namespace FHP.datalayer.Migrations
                     b.Property<bool?>("IsVerify")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsVerifyByAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("LastLogInTime")
                         .HasColumnType("datetime2");
 
@@ -976,6 +979,9 @@ namespace FHP.datalayer.Migrations
                     b.Property<string>("MobileNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Otp")
+                        .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .IsRequired()

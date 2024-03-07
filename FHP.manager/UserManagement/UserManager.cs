@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml.Bibliography;
+﻿
 using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
 using FHP.factories.UserManagement;
@@ -88,5 +88,16 @@ namespace FHP.manager.UserManagement
         {
              await _repository.ChangePassword(userId, password);
         }
+
+        public async Task VerifyEmployerByAdmin(int userId)
+        {
+            await _repository.VerifyEmployerByAdmin(userId);
+        }
+
+        public async  Task<bool> SaveOtp(string email, int otp)
+        {
+          return  await _repository.SaveOtp(email, otp);
+        }
+
     }
 }

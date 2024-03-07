@@ -27,6 +27,8 @@ namespace FHP.entity.UserManagement
         public bool? IsVerify { get; set; }
         public string? ProfileImg { get; set; }
         public string MobileNumber { get; set; }
-        
+        public bool? IsVerifyByAdmin { get; set; }
+        public int? Otp { get; set; }
+
     }
 }

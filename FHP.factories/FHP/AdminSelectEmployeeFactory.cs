@@ -19,7 +19,7 @@ namespace FHP.factories.FHP
                 EmployeeId = model.EmployeeId,
                 InProbationCancel = model.InProbationCancel,
                 IsSelected = model.IsSelected,
-                CreatedOn=Utility.GetDateTime()
+                CreatedOn = Utility.GetDateTime()
             };
             return data;
         } 

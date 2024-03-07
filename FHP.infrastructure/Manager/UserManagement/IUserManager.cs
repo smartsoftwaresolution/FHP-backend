@@ -1,12 +1,6 @@
 ﻿using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
 using FHP.models.UserManagement;
-using FHP.models.UserManagement.UserLogin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.infrastructure.Manager.UserManagement
 {
@@ -25,5 +19,7 @@ namespace FHP.infrastructure.Manager.UserManagement
         Task AddUserPic(int userId, string picUrl);
         Task<string> EnableDisableUser(int userId,string roleName);
         Task ChangePassword(int userId, string password);
+        Task VerifyEmployerByAdmin(int userId);
+        Task<bool> SaveOtp(string email, int otp);
     }
 }

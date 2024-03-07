@@ -4,10 +4,7 @@ using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.IdentityModel.Tokens;
 
 namespace FHP.Controllers.FHP
 {
@@ -51,7 +48,9 @@ namespace FHP.Controllers.FHP
                    
                 {
                     string profileImg = string.Empty;
+
                     string profileResume = string.Empty;
+
                     if (model.ProfileImgURL != null)
                     {
                       profileImg =  await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL);
@@ -100,6 +99,7 @@ namespace FHP.Controllers.FHP
                     {
                         resumeUrl = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL);
                     }
+
                     await _manager.Edit(model,resumeUrl);
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
@@ -217,6 +217,7 @@ namespace FHP.Controllers.FHP
         [HttpPatch("set-availability/{id}")]
         public async Task<IActionResult> SetAvailabilityAsync(int id)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.GetErrorList());
@@ -244,6 +245,36 @@ namespace FHP.Controllers.FHP
             }
         }
 
+        [HttpGet("getall-by-id")]  // get all the employee detail
+        public async Task<IActionResult> GetAllByIdAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+                var data = await _manager.GetAllByIdAsync(id);
+                if (data != null)
+                {
+                    response.StatusCode = 200;
+                    response.Data = data;
+                    return Ok(response);
+                }
+
+                response.StatusCode = 400;
+                response.Message = Constants.error;
+                return BadRequest(response);
+
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
 
     }
 }
