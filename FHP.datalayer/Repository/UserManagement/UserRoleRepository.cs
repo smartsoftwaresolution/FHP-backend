@@ -48,6 +48,7 @@ namespace FHP.datalayer.Repository.UserManagement
 
             var totalCount = await query.CountAsync();
 
+            query = query.OrderByDescending(s => s.userRole.Id);
 
             if (page > 0 && pageSize > 0)
             {
@@ -55,7 +56,6 @@ namespace FHP.datalayer.Repository.UserManagement
             }
 
 
-            query = query.OrderByDescending(s => s.userRole.Id);
 
             var data = await query.Select(s => new UserRoleDetailDto
             {

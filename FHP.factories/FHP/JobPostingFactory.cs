@@ -23,8 +23,13 @@ namespace FHP.factories.FHP
                 Payout=model.Payout,
                 InProbationCancel=model.InProbationCancel,
                 CreatedOn=Utility.GetDateTime(),
+<<<<<<< HEAD
                 Status=Constants.RecordStatus.Active,
                 JobStatus = Constants.JobPosting.Draft,
+=======
+                Status=Constants.RecordStatus.Created,
+                JobStatus = model.JobPosting,
+>>>>>>> 622833ac83d7cc56b6bd65e7f9e77d8ac429eaa5
                 CancelReason = "",
                 JobProcessingStatus = Constants.JobProcessingStatus.None,
             };

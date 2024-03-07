@@ -302,5 +302,35 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        [HttpPatch("verify-employer-by-admin")]
+        public async Task<IActionResult> VerifyEmployerByAdminAsync(int userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+            try
+            {
+                if (userId > 0)
+                {
+                    await _manager.VerifyEmployerByAdmin(userId);
+                    response.StatusCode = 200;
+                    response.Message = $"Employer Verified Successfully!!";
+                    return Ok(response);
+                }
+                response.StatusCode = 400;
+                response.Message = Constants.provideValues;
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+
+            }
+        }
+
     }
 }

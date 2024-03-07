@@ -25,5 +25,7 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task AddUserPic(int userId, string picUrl);
         Task<string> EnableDisableUser(int userId, string roleName);
         Task ChangePassword(int userId, string password);
+        Task VerifyEmployerByAdmin(int userId);
+
     }
 }

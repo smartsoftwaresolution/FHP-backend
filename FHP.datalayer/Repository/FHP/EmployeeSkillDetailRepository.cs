@@ -40,7 +40,7 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<EmployeeSkillDetailDto> employeeSkillDetail, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<EmployeeSkillDetailDto> employeeSkillDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
         {
             var query = from s in _dataContext.EmployeeSkillDetails
                         where s.Status != utilities.Constants.RecordStatus.Deleted
@@ -54,14 +54,20 @@ namespace FHP.datalayer.Repository.FHP
                                        s.employeeSkillDetail.SkillId.ToString().Contains(search));
             }
 
+            if(userId > 0)
+            {
+                query = query.Where(s => s.employeeSkillDetail.UserId == userId);
+            }
+
             var totalCount = await query.CountAsync();
+            
+            query = query.OrderByDescending(s => s.employeeSkillDetail.Id);
 
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
 
-            query = query.OrderByDescending(s => s.employeeSkillDetail.Id);
 
             var data = await query.Select(s => new EmployeeSkillDetailDto
             {

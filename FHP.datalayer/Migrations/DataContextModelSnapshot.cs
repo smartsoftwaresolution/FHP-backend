@@ -815,7 +815,7 @@ namespace FHP.datalayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoginModule", (string)null);
+                    b.ToTable("LoginModule");
                 });
 
             modelBuilder.Entity("FHP.entity.UserManagement.Permission", b =>
@@ -961,6 +961,9 @@ namespace FHP.datalayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsVerify")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsVerifyByAdmin")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastLogInTime")

@@ -53,4 +53,8 @@
     <ProjectReference Include="..\FHP.utilities\FHP.utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Attachments\Docs\" />
+  </ItemGroup>
+
 </Project>
