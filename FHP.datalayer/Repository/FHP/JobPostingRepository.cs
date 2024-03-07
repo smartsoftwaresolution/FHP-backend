@@ -1,5 +1,6 @@
 ﻿
 using FHP.dtos.FHP;
+using FHP.dtos.FHP.JobPosting;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
@@ -48,8 +49,9 @@ namespace FHP.datalayer.Repository.FHP
                                    select t.RoleName).FirstOrDefaultAsync();
             }
             var query = from s in _dataContext.JobPostings
+                        join u in _dataContext.User on s.UserId equals u.Id
                         where s.Status != Constants.RecordStatus.Deleted
-                        select new { jobPosting = s };
+                        select new { jobPosting = s , employer = u};
 
 
             if(!string.IsNullOrEmpty(search))
@@ -83,6 +85,7 @@ namespace FHP.datalayer.Repository.FHP
 
 
             var data = await query.Select(s => new JobPostingDetailDto
+<<<<<<< HEAD
                                    {
                                            Id = s.jobPosting.Id,
                                            UserId = s.jobPosting.UserId,
@@ -103,6 +106,27 @@ namespace FHP.datalayer.Repository.FHP
                                   })
                                   .AsNoTracking()
                                   .ToListAsync();
+=======
+            {
+                Id = s.jobPosting.Id,
+                UserId = s.jobPosting.UserId,
+                JobTitle = s.jobPosting.JobTitle,
+                Description = s.jobPosting.Description,
+                Experience = s.jobPosting.Experience,
+                RolesAndResponsibilities = s.jobPosting.RolesAndResponsibilities,
+                ContractDuration = s.jobPosting.ContractDuration,
+                ContractStartTime = s.jobPosting.ContractStartTime,
+                Skills = s.jobPosting.Skills,
+                Address = s.jobPosting.Address,
+                Payout = s.jobPosting.Payout,
+                InProbationCancel = s.jobPosting.InProbationCancel,
+                CreatedOn = s.jobPosting.CreatedOn,
+                UpdatedOn = s.jobPosting.UpdatedOn,
+                Status = s.jobPosting.Status,
+                JobStatus = s.jobPosting.JobStatus,
+                EmployerName = s.employer.FirstName + " " + s.employer.LastName
+            }).AsNoTracking().ToListAsync();
+>>>>>>> 019f144ebf3a78f43d62b9b5d37e4530e25a4562
 
             return (data, totalCount);
         }
@@ -112,6 +136,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<JobPostingDetailDto> GetByIdAsync(int id)
         {
             return  await (from s in _dataContext.JobPostings
+                           join e in _dataContext.User on s.UserId equals e.Id
                           where s.Status != Constants.RecordStatus.Deleted
                           && s.Id == id
                           select new JobPostingDetailDto
@@ -131,7 +156,9 @@ namespace FHP.datalayer.Repository.FHP
                               CreatedOn=s.CreatedOn,
                               UpdatedOn=s.UpdatedOn,
                               Status=s.Status,
-                              JobStatus = s.JobStatus
+                              JobStatus = s.JobStatus,
+                              EmployerName = e.FirstName + " " + e.LastName
+
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 
@@ -186,6 +213,9 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext.JobPostings.Update(data);
             await _dataContext.SaveChangesAsync();
         }
+
+
+        
 
     }
 }

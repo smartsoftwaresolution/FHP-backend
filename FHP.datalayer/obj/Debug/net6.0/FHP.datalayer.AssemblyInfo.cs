@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FHP.datalayer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+799c419b78e5a15915f73b0615f88ae63778d158")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b1e0ae10b38fbd924c5ed0c8ead5eac9d7ceabc5")]
 [assembly: System.Reflection.AssemblyProductAttribute("FHP.datalayer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FHP.datalayer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

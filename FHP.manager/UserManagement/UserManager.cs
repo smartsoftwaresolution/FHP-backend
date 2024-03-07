@@ -94,5 +94,10 @@ namespace FHP.manager.UserManagement
             await _repository.VerifyEmployerByAdmin(userId);
         }
 
+        public async  Task<bool> SaveOtp(string email, int otp)
+        {
+          return  await _repository.SaveOtp(email, otp);
+        }
+
     }
 }

@@ -1,4 +1,6 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.JobPosting;
+using FHP.dtos.UserManagement;
 using FHP.models.FHP;
 using System;
 using System.Collections.Generic;
@@ -15,5 +17,7 @@ namespace FHP.infrastructure.Manager.FHP
         Task<(List<AdminSelectEmployeeDetailDto> adminSelect,int totalCount)> GetAllAsync(int page,int pageSize,int jobId,string? search);
         Task<AdminSelectEmployeeDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
+        Task<(List<UserDetailDto> adminSelect, int totalCount)> GetAllJobEmployeeAsync(int jobId);
+
     }
 }

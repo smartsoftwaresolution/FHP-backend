@@ -190,5 +190,41 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
+
+
+        [HttpGet("getall-job-employee")]
+        public async Task<IActionResult> GetAllJobEmployeeAsync(int jobId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponsePagination<object>();
+
+            try
+            {
+                var data = await _manager.GetAllJobEmployeeAsync(jobId);
+
+                if (data.adminSelect != null)
+                {
+                    response.StatusCode = 200;
+                    response.Data = data.adminSelect;
+                    response.TotalCount = data.totalCount;
+                    return Ok(response);
+                }
+
+                response.StatusCode = 400;
+                response.Message = Constants.error;
+                return BadRequest(response);
+
+            }
+
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
     }
 }

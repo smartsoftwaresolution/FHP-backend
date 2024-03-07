@@ -25,5 +25,6 @@ namespace FHP.dtos.FHP
         public DateTime? UpdatedOn { get; set; }
         public Constants.JobPosting JobStatus { get; set; }
         public Constants.RecordStatus Status { get; set; }
+        public string EmployerName { get; set; }
     }
 }
