@@ -247,6 +247,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 await _dataContext.SaveChangesAsync();
             }
 
+
             await _dataContext.LoginModule.AddAsync(entity);
             await _dataContext.SaveChangesAsync();
         }
@@ -260,7 +261,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 await _dataContext.SaveChangesAsync();
             }
 
-            var user = await _dataContext.User.Where(s => s.Id == userId && s.LastLogOutTime != null && s.Status != Constants.RecordStatus.Deleted).FirstOrDefaultAsync();
+            var user = await _dataContext.User.Where(s => s.Id == userId &&  s.Status != Constants.RecordStatus.Deleted).FirstOrDefaultAsync();
             if (user != null)
             {
                 user.LastLogOutTime = DateTime.Now;
@@ -310,6 +311,8 @@ namespace FHP.datalayer.Repository.UserManagement
             }
             _dataContext.User.Update(data);
             await _dataContext.SaveChangesAsync();
+
+            
             return res;
         }
 

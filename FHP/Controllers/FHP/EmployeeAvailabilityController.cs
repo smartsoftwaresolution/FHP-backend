@@ -19,6 +19,7 @@ namespace FHP.Controllers.FHP
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IUnitOfWork _unitOfWork;
 
+
         public EmployeeAvailabilityController(IEmployeeAvailabilityManager manager,
              IExceptionHandleService exceptionHandleService,
              IUnitOfWork unitOfWork)
@@ -37,6 +38,7 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
+
             await using var  transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
@@ -170,7 +172,7 @@ namespace FHP.Controllers.FHP
             try
             {
                 var data = await _manager.GetAllAvalibility(JobId);
-                 if (data != null)
+                if (data != null)
                  {
                     response.StatusCode = 200;
                     response.Data=data;

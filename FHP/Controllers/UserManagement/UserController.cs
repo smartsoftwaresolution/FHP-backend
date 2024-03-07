@@ -1,12 +1,9 @@
-﻿using DocumentFormat.OpenXml.ExtendedProperties;
+﻿
 using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement;
-using FHP.services;
 using FHP.utilities;
-using Google.Apis.Gmail.v1.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.UserManagement

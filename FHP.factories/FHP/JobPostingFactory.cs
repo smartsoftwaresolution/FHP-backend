@@ -1,11 +1,7 @@
 ﻿using FHP.entity.FHP;
 using FHP.models.FHP;
 using FHP.utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace FHP.factories.FHP
 {
@@ -27,7 +23,7 @@ namespace FHP.factories.FHP
                 Payout=model.Payout,
                 InProbationCancel=model.InProbationCancel,
                 CreatedOn=Utility.GetDateTime(),
-                Status=Constants.RecordStatus.Created,
+                Status=Constants.RecordStatus.Active,
                 JobStatus = Constants.JobPosting.Draft,
                 CancelReason = "",
                 JobProcessingStatus = Constants.JobProcessingStatus.None,

@@ -3,9 +3,7 @@ using FHP.entity.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.UserLogin;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -257,9 +255,6 @@ namespace FHP.Controllers.UserManagement
 
             }
         }
-
-
-
 
     }
 }
