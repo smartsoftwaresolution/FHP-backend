@@ -207,6 +207,7 @@ namespace FHP.datalayer.Repository.UserManagement
                               ProfileImg = s.ProfileImg,
                               MobileNumber =  s.MobileNumber,
                               IsVerifyByAdmin = s.IsVerifyByAdmin,
+                              Otp = s.Otp,
                           }).AsNoTracking().FirstOrDefaultAsync();
 
         }
@@ -330,12 +331,27 @@ namespace FHP.datalayer.Repository.UserManagement
             await _dataContext.SaveChangesAsync();
         }
 
-        public async  Task VerifyEmployerByAdmin(int userId)
+        public async Task VerifyEmployerByAdmin(int userId)
         {
             var data = await _dataContext.User.Where(s => s.Id == userId).FirstOrDefaultAsync();
             data.IsVerifyByAdmin = true;
             _dataContext.User.Update(data);
             await _dataContext.SaveChangesAsync();
+        }
+
+
+        public async  Task<bool> SaveOtp(string email, int otp)
+        {
+            var data = await _dataContext.User.Where(s => s.Email == email).FirstOrDefaultAsync(); 
+            if(data == null)
+            {
+                return false;
+            }
+
+            data.Otp = otp;
+            _dataContext.User.Update(data);
+            await _dataContext.SaveChangesAsync();
+            return true;
         }
 
     }

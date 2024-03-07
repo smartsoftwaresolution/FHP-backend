@@ -1,4 +1,5 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.JobPosting;
 using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
@@ -74,6 +75,8 @@ namespace FHP.manager.FHP
         {
             await _repoitory.SetJobProcessingStatus(jobId,jobProcessingStatus);
         }
+
+       
 
     }
 }

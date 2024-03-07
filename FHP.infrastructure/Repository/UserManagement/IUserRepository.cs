@@ -26,6 +26,7 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task<string> EnableDisableUser(int userId, string roleName);
         Task ChangePassword(int userId, string password);
         Task VerifyEmployerByAdmin(int userId);
+        Task<bool> SaveOtp(string email, int otp);
 
     }
 }
