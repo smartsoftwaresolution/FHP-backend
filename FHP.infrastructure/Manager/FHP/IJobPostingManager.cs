@@ -1,4 +1,5 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.JobPosting;
 using FHP.models.FHP;
 using FHP.utilities;
 using System;
@@ -22,6 +23,7 @@ namespace FHP.infrastructure.Manager.FHP
         Task<string> ActiveDeactiveAsync(int jobId);
         Task SubmitJobAsync(int jobId);
         Task CancelJobAsync(int jobId, string cancelReason);
-        Task SetJobProcessingStatus(int jobId,Constants.JobProcessingStatus jobProcessingStatus);   
+        Task SetJobProcessingStatus(int jobId,Constants.JobProcessingStatus jobProcessingStatus);
+
     }
 }
