@@ -38,6 +38,7 @@ namespace FHP.services
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
 
                 string filePath = Path.Combine(_env.WebRootPath, "Attachments", uploadsFolder, uniqueFileName);
+
                 //string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
                 //Directory.CreateDirectory(Path.GetDirectoryName(filePath));

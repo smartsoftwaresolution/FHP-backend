@@ -1,12 +1,6 @@
 ﻿using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
 using FHP.models.UserManagement;
-using FHP.models.UserManagement.UserLogin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.infrastructure.Manager.UserManagement
 {

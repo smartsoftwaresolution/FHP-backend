@@ -47,7 +47,7 @@ namespace FHP.datalayer.Repository.FHP
                                    select t.RoleName).FirstOrDefaultAsync();
             }
             var query = from s in _dataContext.JobPostings
-                        where s.Status != utilities.Constants.RecordStatus.Deleted
+                        where s.Status != Constants.RecordStatus.Deleted
                         select new { jobPosting = s };
 
 
@@ -60,7 +60,7 @@ namespace FHP.datalayer.Repository.FHP
             }
 
             
-            var totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted);
+            var totalCount = await query.CountAsync();
 
             if (rolename.ToLower() != "admin")
             {
@@ -76,7 +76,7 @@ namespace FHP.datalayer.Repository.FHP
 
             if (page > 0 && pageSize > 0 )
             {
-                query =query.Skip((page -1 )*pageSize).Take(pageSize);   
+                query =query.Skip((page - 1 ) * pageSize).Take(pageSize);   
             }
 
 
@@ -109,7 +109,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<JobPostingDetailDto> GetByIdAsync(int id)
         {
             return  await (from s in _dataContext.JobPostings
-                          where s.Status != utilities.Constants.RecordStatus.Deleted
+                          where s.Status != Constants.RecordStatus.Deleted
                           && s.Id == id
                           select new JobPostingDetailDto
                           {
@@ -135,7 +135,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task DeleteAsync(int id)
         {
             var data = await _dataContext.JobPostings.Where(s=>s.Id ==id).FirstOrDefaultAsync();
-            data.Status=utilities.Constants.RecordStatus.Deleted;
+            data.Status=Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
         }
@@ -144,16 +144,20 @@ namespace FHP.datalayer.Repository.FHP
         {
             string result = string.Empty;
             var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();
-            if(data.Status == utilities.Constants.RecordStatus.Active)
+            if(data.Status == Constants.RecordStatus.Active)
             {
-                data.Status = utilities.Constants.RecordStatus.Inactive;
+                data.Status = Constants.RecordStatus.Inactive;
                 result = "DeActivated";
             }
+
             else
             {
-                data.Status = utilities.Constants.RecordStatus.Active;
+                data.Status = Constants.RecordStatus.Active;
                 result = "Activated";
             }
+
+            _dataContext.JobPostings.Update(data);
+            await _dataContext.SaveChangesAsync();
             return result;
         }
 
