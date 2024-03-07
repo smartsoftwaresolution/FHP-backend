@@ -244,6 +244,36 @@ namespace FHP.Controllers.FHP
             }
         }
 
+        [HttpGet("getall-by-id")]  // get all the employee detail
+        public async Task<IActionResult> GetAllByIdAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+                var data = await _manager.GetAllByIdAsync(id);
+                if (data != null)
+                {
+                    response.StatusCode = 200;
+                    response.Data = data;
+                    return Ok(response);
+                }
+
+                response.StatusCode = 400;
+                response.Message = Constants.error;
+                return BadRequest(response);
+
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
 
     }
 }

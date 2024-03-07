@@ -1,4 +1,5 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.EmployeeDetail;
 using FHP.models.FHP;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,7 @@ namespace FHP.infrastructure.Manager.FHP
         Task<EmployeeDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
         Task<string> SetAvailabilityAsync(int id);
+        Task<CompleteEmployeeDetailDto> GetAllByIdAsync(int id);
+
     }
 }

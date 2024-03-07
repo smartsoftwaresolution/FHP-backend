@@ -42,10 +42,9 @@ namespace FHP.datalayer.Repository.FHP
 
 
                 rolename  = await (from s in _dataContext.User
-                                join
-                                     t in _dataContext.UserRole on s.RoleId equals t.Id
-                                where s.Id == userId
-                                select t.RoleName).FirstOrDefaultAsync();
+                                   join t in _dataContext.UserRole on s.RoleId equals t.Id
+                                   where s.Id == userId
+                                   select t.RoleName).FirstOrDefaultAsync();
             }
             var query = from s in _dataContext.JobPostings
                         where s.Status != utilities.Constants.RecordStatus.Deleted
@@ -72,7 +71,8 @@ namespace FHP.datalayer.Repository.FHP
                 }
             }
 
-           
+            query = query.OrderByDescending(s => s.jobPosting.Id);
+
 
             if (page > 0 && pageSize > 0 )
             {
@@ -80,7 +80,6 @@ namespace FHP.datalayer.Repository.FHP
             }
 
 
-            query = query.OrderByDescending(s => s.jobPosting.Id);
 
             var data = await query.Select(s => new JobPostingDetailDto
             {

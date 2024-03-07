@@ -67,10 +67,7 @@ namespace FHP.datalayer.Repository.UserManagement
 
             var totalCount = await query.CountAsync();
 
-            if (page > 0 && pageSize > 0)
-            {
-                query = query.Skip((page - 1) * pageSize).Take(pageSize);
-            }
+            
 
 
             if (isAscending == true)
@@ -82,7 +79,11 @@ namespace FHP.datalayer.Repository.UserManagement
             {
                 query = query.OrderByDescending(s => s.user.Id);
             }
-
+            
+            if (page > 0 && pageSize > 0)
+            {
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            }
             var data = await query.Select(s => new UserDetailDto
             {
                 Id = s.user.Id,
@@ -101,6 +102,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 UpdatedOn = s.user.UpdatedOn,
                 ProfileImg = s.user.ProfileImg,
                 MobileNumber = s.user.MobileNumber,
+                IsVerifyByAdmin = s.user.IsVerifyByAdmin,
                 EmployeeDetails = (from e in _dataContext.EmployeeDetails
                                   where e.UserId == s.user.Id
                                   select new EmployeeDetailDto 
@@ -161,7 +163,8 @@ namespace FHP.datalayer.Repository.UserManagement
                               IsVerify = s.IsVerify,
                               UpdatedOn = s.UpdatedOn,
                               ProfileImg = s.ProfileImg,
-                              MobileNumber =  s.MobileNumber
+                              MobileNumber =  s.MobileNumber,
+                              IsVerifyByAdmin = s.IsVerifyByAdmin,
                           }).FirstOrDefaultAsync();
 
         }
@@ -181,7 +184,7 @@ namespace FHP.datalayer.Repository.UserManagement
             return await (from s in _dataContext.User
                           join t in _dataContext.UserRole
                              on s.RoleId equals t.Id
-                          where s.Status != Constants.RecordStatus.Deleted
+                          where s.Status != Constants.RecordStatus.Deleted 
                           && s.Email == email
 
 
@@ -202,7 +205,8 @@ namespace FHP.datalayer.Repository.UserManagement
                               IsVerify = s.IsVerify,
                               UpdatedOn = s.UpdatedOn,
                               ProfileImg = s.ProfileImg,
-                              MobileNumber =  s.MobileNumber
+                              MobileNumber =  s.MobileNumber,
+                              IsVerifyByAdmin = s.IsVerifyByAdmin,
                           }).AsNoTracking().FirstOrDefaultAsync();
 
         }
@@ -232,7 +236,8 @@ namespace FHP.datalayer.Repository.UserManagement
                               UpdatedOn = s.UpdatedOn,
                               IsVerify = s.IsVerify,
                               ProfileImg = s.ProfileImg,
-                              MobileNumber =  s.MobileNumber
+                              MobileNumber =  s.MobileNumber,
+                              IsVerifyByAdmin = s.IsVerifyByAdmin,
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 
@@ -321,5 +326,14 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext.User.Update(data);
             await _dataContext.SaveChangesAsync();
         }
+
+        public async  Task VerifyEmployerByAdmin(int userId)
+        {
+            var data = await _dataContext.User.Where(s => s.Id == userId).FirstOrDefaultAsync();
+            data.IsVerifyByAdmin = true;
+            _dataContext.User.Update(data);
+            await _dataContext.SaveChangesAsync();
+        }
+
     }
 }

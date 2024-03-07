@@ -18,6 +18,7 @@ namespace FHP.models.UserManagement
         public string ContactName { get; set; }
         public string CompanyName { get; set; }
         public string MobileNumber { get; set; }
+        public bool? IsVerifyByAdmin { get; set; }
 
     }
 }

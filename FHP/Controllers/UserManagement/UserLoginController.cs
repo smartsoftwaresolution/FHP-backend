@@ -48,6 +48,12 @@ namespace FHP.Controllers.UserManagement
                     var data = await _manager.GetUserByEmail(model.Email);
                     if(data != null)
                     {
+                        if(data.Status == Constants.RecordStatus.Inactive)
+                        {
+                            response.StatusCode = 400;
+                            response.Message = "account is inactive";
+                            return BadRequest(response);
+                        }
                         if (!string.IsNullOrEmpty(data.Password) && utilities.Utility.Decrypt(model.Password, data.Password) == false)
                         {
                             response.Message = "Invalid password. Please enter your current valid password.";
@@ -133,8 +139,14 @@ namespace FHP.Controllers.UserManagement
 
                     if (data != null)
                     {
-
-                        if(!string.IsNullOrEmpty(model.Password) && utilities.Utility.Decrypt(model.Password, data.Password) == false)
+                        if (data.Status == Constants.RecordStatus.Inactive)
+                        {
+                            response.StatusCode = 400;
+                            response.Message = "account is inactive";
+                            return BadRequest(response);
+                        }
+                        
+                        if (!string.IsNullOrEmpty(model.Password) && utilities.Utility.Decrypt(model.Password, data.Password) == false)
                         {
                             response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             response.Message = "Invalid password. Please enter your current valid password. ";
@@ -150,7 +162,7 @@ namespace FHP.Controllers.UserManagement
                           var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:secret"));
 
                           var tokenDescription = new SecurityTokenDescriptor
-                        {
+                          {
                             Subject = new ClaimsIdentity(new[]
                             {
                                 new Claim("id", data.Id.ToString()),
@@ -165,7 +177,7 @@ namespace FHP.Controllers.UserManagement
                             Issuer=_configuration.GetValue<string>("Jwt:Issuer"),
                             Expires=DateTime.UtcNow.AddDays(1),
                             SigningCredentials=new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature)
-                        };
+                          };
 
                           var token = tokenHandler.CreateToken(tokenDescription);
 
