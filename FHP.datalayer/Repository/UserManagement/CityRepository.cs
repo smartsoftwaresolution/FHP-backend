@@ -1,5 +1,4 @@
 ﻿
-
 using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
@@ -35,7 +34,7 @@ namespace FHP.datalayer.Repository.UserManagement
 
 
         public async Task<(List<CityDetailDto>city,int totalCount)> GetAllAsync(int page,int pageSize,string? search)
-         {
+        {
             var query = from s in _dataContext.Cities
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { city = s };

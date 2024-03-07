@@ -2,14 +2,8 @@
 using FHP.dtos.FHP;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
-using FHP.models.FHP;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.FHP
 {
@@ -97,14 +91,6 @@ namespace FHP.datalayer.Repository.FHP
                           }).FirstOrDefaultAsync();
         }
 
-        public async Task DeleteAsync(int id)
-        {
-            var data = await _dataContext.EmployeeAvailabilities.Where(s => s.Id == id).FirstOrDefaultAsync();
-            data.Status= utilities.Constants.RecordStatus.Deleted;
-            _dataContext.Update(data);  
-            await _dataContext.SaveChangesAsync();
-        }
-
         public async Task<List<EmployeeAvailabilityDetailDto>> GetAllAvalibility(int JobId)
         {
             return await (from s in _dataContext.EmployeeAvailabilities
@@ -121,6 +107,14 @@ namespace FHP.datalayer.Repository.FHP
                               CreatedOn = s.CreatedOn,
                               Status = s.Status,
                           }).AsNoTracking().ToListAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var data = await _dataContext.EmployeeAvailabilities.Where(s => s.Id == id).FirstOrDefaultAsync();
+            data.Status = utilities.Constants.RecordStatus.Deleted;
+            _dataContext.Update(data);
+            await _dataContext.SaveChangesAsync();
         }
     }
 }
