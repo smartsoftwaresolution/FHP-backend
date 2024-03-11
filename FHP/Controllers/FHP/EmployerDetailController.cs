@@ -2,11 +2,8 @@
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace FHP.Controllers.FHP
 {
@@ -16,17 +13,23 @@ namespace FHP.Controllers.FHP
     {
         private readonly IEmployerDetailManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
+        private readonly IFileUploadService _fileUploadService;
         private readonly IUnitOfWork _unitOfWork;
-        public EmployerDetailController(IEmployerDetailManager manager,IExceptionHandleService exceptionHandleService,IUnitOfWork unitOfWork)
+
+        public EmployerDetailController(IEmployerDetailManager manager,
+            IExceptionHandleService exceptionHandleService,
+            IUnitOfWork unitOfWork,
+            IFileUploadService fileUploadService)
         {
-                _manager=manager;
-                _exceptionHandleService=exceptionHandleService;
+                _manager = manager;
+                _exceptionHandleService = exceptionHandleService;
                 _unitOfWork = unitOfWork;
+                _fileUploadService=fileUploadService;   
         }
 
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddAsync(AddEmployerDetailModel model)
+        public async Task<IActionResult> AddAsync([FromForm]AddEmployerDetailModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -38,13 +41,8 @@ namespace FHP.Controllers.FHP
             await using var transaction = await _unitOfWork.BeginTransactionAsync();
             try
             {
-
-
-
                 if (model.Id == 0 && model.UserId != 0 && model.CityId != 0 && model.CountryId != 0 && model.StateId != 0 
                     && !string.IsNullOrEmpty(model.NationalAddress)
-                    && !string.IsNullOrEmpty(model.CertificateRegistrationURL)
-                    && !string.IsNullOrEmpty(model.VATCertificateURL)
                     && !string.IsNullOrEmpty(model.ContactId)
                     && !string.IsNullOrEmpty(model.CompanyLogoURL)
                     && !string.IsNullOrEmpty(model.Telephone)
@@ -55,7 +53,21 @@ namespace FHP.Controllers.FHP
                     && !string.IsNullOrEmpty(model.WebAddress))
                 {
 
-                    await _manager.AddAsync(model);
+                    string certificateRegistration = string.Empty;
+
+                    string vatCertificate = string.Empty;
+
+                    if(model.CertificateRegistrationURL != null)
+                    {
+                        certificateRegistration = await _fileUploadService.UploadIFormFileAsync(model.CertificateRegistrationURL);
+                    }
+
+                    if(model.VATCertificateURL != null)
+                    {
+                        vatCertificate = await _fileUploadService.UploadIFormFileAsync(model.VATCertificateURL);
+                    }
+
+                    await _manager.AddAsync(model,vatCertificate,certificateRegistration);
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -75,7 +87,7 @@ namespace FHP.Controllers.FHP
         }
 
         [HttpPut("edit")]
-        public async Task<IActionResult> EditAsync(AddEmployerDetailModel model)
+        public async Task<IActionResult> EditAsync([FromForm]AddEmployerDetailModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -89,7 +101,22 @@ namespace FHP.Controllers.FHP
             {
                 if(model.Id >= 0)
                 {
-                    await _manager.Edit(model);
+
+                    string certificateRegistration = string.Empty;
+
+                    string vatCertificate = string.Empty;
+
+                    if (model.CertificateRegistrationURL != null)
+                    {
+                        certificateRegistration = await _fileUploadService.UploadIFormFileAsync(model.CertificateRegistrationURL);
+                    }
+
+                    if (model.VATCertificateURL != null)
+                    {
+                        vatCertificate = await _fileUploadService.UploadIFormFileAsync(model.VATCertificateURL);
+                    }
+
+                    await _manager.Edit(model,vatCertificate,certificateRegistration);
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;

@@ -10,8 +10,8 @@ namespace FHP.infrastructure.Manager.FHP
 {
     public interface IEmployerDetailManager
     {
-        Task AddAsync(AddEmployerDetailModel model);
-        Task Edit(AddEmployerDetailModel model);
+        Task AddAsync(AddEmployerDetailModel model,string vatCertificate,string certificateRegistration);
+        Task Edit(AddEmployerDetailModel model,string vatCertificate,string certificateRegistration);
         Task<(List<EmployerDetailDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search);
         Task<EmployerDetailDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);

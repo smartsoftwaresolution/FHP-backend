@@ -5,11 +5,6 @@ using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP;
 using FHP.utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.manager.FHP
 {
@@ -29,7 +24,7 @@ namespace FHP.manager.FHP
         public async Task<string> Edit(AddJobPostingModel model)
         {
            var data = await _repoitory.GetAsync(model.Id);
-            if(data.JobStatus == utilities.Constants.JobPosting.Submitted)
+            if(data.JobStatus == Constants.JobPosting.Submitted)
             {
                 return "job is submitted ,hence can't be updated";
             }

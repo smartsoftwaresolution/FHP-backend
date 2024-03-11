@@ -2,7 +2,7 @@
 using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.User;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -154,8 +154,6 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-
-
                 var data = await _manager.GetByIdAsync(id);
                 if (data != null)
                 {

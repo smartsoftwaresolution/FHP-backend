@@ -4,11 +4,6 @@ using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.FHP
 {
@@ -55,7 +50,7 @@ namespace FHP.datalayer.Repository.FHP
                                          s.employee.Mobile.Contains(search));
             }
 
-            var totalCount = await query.CountAsync();
+            var totalCount = await query.CountAsync(); 
 
             if(userId > 0)
             {
@@ -64,9 +59,9 @@ namespace FHP.datalayer.Repository.FHP
 
             query = query.OrderByDescending(s => s.employee.Id);   // orderbyDescending
 
-            if (page > 0 && pageSize > 0)
+            if(page > 0 && pageSize > 0)
             {
-                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+                query = query.Skip((page - 1) * pageSize);
             }
 
             
@@ -169,7 +164,7 @@ namespace FHP.datalayer.Repository.FHP
                               {
                                   Id = s.Id,
                                   RoleId = s.RoleId,
-                                  //  RoleName = t.RoleName,
+                                // RoleName = t.RoleName,
                                   FirstName = s.FirstName,
                                   LastName = s.LastName,
                                   Email = s.Email,

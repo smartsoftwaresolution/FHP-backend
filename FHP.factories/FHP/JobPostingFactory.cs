@@ -23,7 +23,6 @@ namespace FHP.factories.FHP
                 Payout=model.Payout,
                 InProbationCancel=model.InProbationCancel,
                 CreatedOn=Utility.GetDateTime(),
-
                 Status=Constants.RecordStatus.Active,
                 JobStatus = model.JobPosting,
                 CancelReason = "",
