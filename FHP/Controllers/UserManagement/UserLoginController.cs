@@ -364,7 +364,7 @@ namespace FHP.Controllers.UserManagement
                 return BadRequest(ModelState.GetErrorList());
             }
 
-            var response = new BaseResponseAdd();
+            var response = new BaseResponse<object>();
             try
             {
                 var exist = await _manager.GetUserByEmail(email);
@@ -377,6 +377,7 @@ namespace FHP.Controllers.UserManagement
 
                 if(exist.Otp == otp)
                 {
+                    response.Data = exist.Id;
                     response.StatusCode = 200;
                     response.Message = $"otp matched successfully!!";
                     return Ok(response);
