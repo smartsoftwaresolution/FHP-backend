@@ -12,11 +12,6 @@ using FHP.manager.UserManagement;
 using FHP.services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.config
 {
@@ -87,7 +82,7 @@ namespace FHP.config
         {
             services.AddScoped<IExceptionHandleService, ExceptionHandleService>();
             services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<IFileUploadService, FileUploadService>();
+            services.AddScoped <IFileUploadService,FileUploadService>();   
 
         }
 

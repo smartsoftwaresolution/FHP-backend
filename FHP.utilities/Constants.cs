@@ -26,6 +26,7 @@ namespace FHP.utilities
         public const string requestSendSuccess = "Request sent successfully!";
 
 
+
         public enum JobPosting { Draft, Submitted, Cancel }
         public enum JobProcessingStatus { None,ShortListing, InProcess, Reviewing,Hired }
         public enum RecordStatus { Created, Active, Inactive, Deleted }

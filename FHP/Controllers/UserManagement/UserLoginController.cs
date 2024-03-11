@@ -57,6 +57,7 @@ namespace FHP.Controllers.UserManagement
                             response.Message = "account is inactive";
                             return BadRequest(response);
                         }
+
                         if (!string.IsNullOrEmpty(data.Password) && utilities.Utility.Decrypt(model.Password, data.Password) == false)
                         {
                             response.Message = "Invalid password. Please enter your current valid password.";
@@ -113,9 +114,6 @@ namespace FHP.Controllers.UserManagement
                         return BadRequest(response);
                     }
 
-                
-
-               
             }
 
             catch (Exception ex)
@@ -262,14 +260,15 @@ namespace FHP.Controllers.UserManagement
                     response.Message = $"Password changed Successfully!!";
                     return Ok(response);
                 }
+
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
+
             }
             catch (Exception ex)
             {
                 return await _exceptionHandleService.HandleException(ex);
-
             }
         }
 

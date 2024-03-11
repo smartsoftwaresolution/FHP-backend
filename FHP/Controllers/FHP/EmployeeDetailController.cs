@@ -55,10 +55,12 @@ namespace FHP.Controllers.FHP
                     {
                       profileImg =  await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL);
                     }
+
                     if (model.ResumeURL != null)
                     {
                         profileResume = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL);
                     }
+
                     await _manager.AddAsync(model,profileResume);
                     await transaction.CommitAsync();
                     response.StatusCode = 200;

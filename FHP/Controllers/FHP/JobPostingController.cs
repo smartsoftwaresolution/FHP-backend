@@ -2,15 +2,14 @@
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.FHP
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class JobPostingController : ControllerBase
     {
         private readonly IJobPostingManager _manager;
@@ -34,6 +33,7 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
+
             await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
@@ -330,8 +330,5 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
-
-
-        
     }
 }

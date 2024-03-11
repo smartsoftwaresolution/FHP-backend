@@ -22,8 +22,6 @@ namespace FHP.datalayer.Repository.UserManagement
             entity.RoleId = roleId;
             await _dataContext.User.AddAsync(entity);
             await _dataContext.SaveChangesAsync();
-
-           
             return entity.Id;
         }
 
@@ -67,9 +65,6 @@ namespace FHP.datalayer.Repository.UserManagement
 
             var totalCount = await query.CountAsync();
 
-            
-
-
             if (isAscending == true)
             {
                 query = query.OrderBy(s => s.user.Id);
@@ -103,6 +98,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 ProfileImg = s.user.ProfileImg,
                 MobileNumber = s.user.MobileNumber,
                 IsVerifyByAdmin = s.user.IsVerifyByAdmin,
+
                 EmployeeDetails = (from e in _dataContext.EmployeeDetails
                                   where e.UserId == s.user.Id
                                   select new EmployeeDetailDto 
@@ -130,8 +126,12 @@ namespace FHP.datalayer.Repository.UserManagement
                                       CreatedOn = e.CreatedOn,
                                       UpdatedOn = e.UpdatedOn,
                                       Status = e.Status,
-                                  }).AsNoTracking().ToList(),
-            }).AsNoTracking().ToListAsync();
+                                  })
+                                  .AsNoTracking()
+                                  .ToList(),
+            })
+            .AsNoTracking()
+            .ToListAsync();
 
 
             return (data, totalCount);

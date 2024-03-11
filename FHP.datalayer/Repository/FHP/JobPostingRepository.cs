@@ -38,6 +38,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId)
         {
             string rolename = string.Empty;
+
             if (userId > 0)
             {
 
@@ -103,6 +104,7 @@ namespace FHP.datalayer.Repository.FHP
                 JobStatus = s.jobPosting.JobStatus,
                 EmployerName = s.employer.FirstName + " " + s.employer.LastName
             }).AsNoTracking().ToListAsync();
+
 
             return (data, totalCount);
         }

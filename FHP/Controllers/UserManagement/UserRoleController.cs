@@ -1,13 +1,9 @@
-﻿using DocumentFormat.OpenXml.ExtendedProperties;
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace FHP.Controllers.UserManagement
 {
