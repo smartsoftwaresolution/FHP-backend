@@ -85,28 +85,6 @@ namespace FHP.datalayer.Repository.FHP
 
 
             var data = await query.Select(s => new JobPostingDetailDto
-<<<<<<< HEAD
-                                   {
-                                           Id = s.jobPosting.Id,
-                                           UserId = s.jobPosting.UserId,
-                                           JobTitle = s.jobPosting.JobTitle,
-                                           Description = s.jobPosting.Description,
-                                           Experience = s.jobPosting.Experience,
-                                           RolesAndResponsibilities = s.jobPosting.RolesAndResponsibilities,
-                                           ContractDuration = s.jobPosting.ContractDuration,
-                                           ContractStartTime = s.jobPosting.ContractStartTime,
-                                           Skills = s.jobPosting.Skills,
-                                           Address = s.jobPosting.Address,
-                                           Payout = s.jobPosting.Payout,
-                                           InProbationCancel = s.jobPosting.InProbationCancel,
-                                           CreatedOn = s.jobPosting.CreatedOn,
-                                           UpdatedOn = s.jobPosting.UpdatedOn,
-                                           Status = s.jobPosting.Status,
-                                           JobStatus = s.jobPosting.JobStatus
-                                  })
-                                  .AsNoTracking()
-                                  .ToListAsync();
-=======
             {
                 Id = s.jobPosting.Id,
                 UserId = s.jobPosting.UserId,
@@ -126,7 +104,7 @@ namespace FHP.datalayer.Repository.FHP
                 JobStatus = s.jobPosting.JobStatus,
                 EmployerName = s.employer.FirstName + " " + s.employer.LastName
             }).AsNoTracking().ToListAsync();
->>>>>>> 019f144ebf3a78f43d62b9b5d37e4530e25a4562
+
 
             return (data, totalCount);
         }

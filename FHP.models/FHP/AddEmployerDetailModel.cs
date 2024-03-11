@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,8 @@ namespace FHP.models.FHP
         public int Id { get; set; }
         public int UserId { get; set; }
         public string NationalAddress { get; set; }
-        public string CertificateRegistrationURL { get; set; }
-        public string VATCertificateURL { get; set; }
+        public IFormFile? CertificateRegistrationURL { get; set; }
+        public IFormFile? VATCertificateURL { get; set; }
         public string ContactId { get; set; }
         public int CityId { get; set; }
         public int CountryId { get; set; }

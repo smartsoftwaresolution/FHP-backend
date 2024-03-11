@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MKWr4yfV1zkKTrmRq1ap1l0C1aBk4B7RomBSQGeaTtY=",
+  "Hash": "8iZf33Itj+ccPd/QXN50JnBBc/yzK8dyHxXQWoHQgqU=",
   "Source": "FHP",
   "BasePath": "_content/FHP",
   "Mode": "Default",
@@ -16,25 +16,6 @@
     }
   ],
   "Assets": [
-    {
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\31429403-0dfb-4acc-b583-143a06625062_SalesOrderReport_12_18_47.pdf",
-      "SourceId": "FHP",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\",
-      "BasePath": "_content/FHP",
-      "RelativePath": "Attachments/Docs/31429403-0dfb-4acc-b583-143a06625062_SalesOrderReport_12_18_47.pdf",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\31429403-0dfb-4acc-b583-143a06625062_SalesOrderReport_12_18_47.pdf"
-    },
     {
       "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Images\\0c487262-562c-4392-aa53-fc24b9bc4fdf_rrr.jpg",
       "SourceId": "FHP",

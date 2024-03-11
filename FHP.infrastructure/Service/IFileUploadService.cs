@@ -10,6 +10,5 @@ namespace FHP.infrastructure.Service
     public interface IFileUploadService
     {
         Task<string> UploadIFormFileAsync(IFormFile file);
-
     }
 }
