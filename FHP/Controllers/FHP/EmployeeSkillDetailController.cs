@@ -42,13 +42,12 @@ namespace FHP.Controllers.FHP
             {
                 if(model.Id == 0 && model.UserId != 0 && model.SkillId != null)
                 {
-<<<<<<< HEAD
+
                     await _manager.AddAsync(model);
                  //   await transaction.CommitAsync();
-=======
-                    await _manager.AddAsync(model); //added
-                    await transaction.CommitAsync();
->>>>>>> fe149fc54fdde2cfd42e38a460353e2aaa7df879
+
+                  
+
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);

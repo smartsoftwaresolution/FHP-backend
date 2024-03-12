@@ -52,7 +52,7 @@ namespace FHP.Controllers.UserManagement
                     !string.IsNullOrEmpty(model.Password))
                 {
                     int userid = 0;
-<<<<<<< HEAD
+
                     var exist = await _manager.GetUserByEmail(model.Email);
                     if (exist == null)
                     {
@@ -60,12 +60,11 @@ namespace FHP.Controllers.UserManagement
                         response.Message = "email already exist";
                         return BadRequest(response);
                     }
-                    userid = await _manager.AddAsync(model);
-                    await _emailService.SendverificationEmail(model.Email, userid);
-=======
+                   
+
                     userid = await _manager.AddAsync(model); 
                     await _emailService.SendverificationEmail(model.Email, userid); // email verification service
->>>>>>> fe149fc54fdde2cfd42e38a460353e2aaa7df879
+
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
