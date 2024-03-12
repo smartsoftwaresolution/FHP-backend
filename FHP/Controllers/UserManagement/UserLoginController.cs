@@ -49,6 +49,7 @@ namespace FHP.Controllers.UserManagement
                     var data = await _manager.GetUserByEmail(model.Email);
                     if(data != null)
                     {
+                        
                         if(data.Status == Constants.RecordStatus.Inactive)
                         {
                             response.StatusCode = 400;
@@ -116,7 +117,7 @@ namespace FHP.Controllers.UserManagement
 
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); //exception Handle Service
             }
         }
 
@@ -203,7 +204,7 @@ namespace FHP.Controllers.UserManagement
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); //exception handle service
             }
         }
 
@@ -236,7 +237,7 @@ namespace FHP.Controllers.UserManagement
 
             catch(Exception ex)
             {
-               return  await _exceptionHandleService.HandleException(ex);
+               return  await _exceptionHandleService.HandleException(ex); //exceptionHandle Service
             }
         }
 
@@ -295,6 +296,7 @@ namespace FHP.Controllers.UserManagement
                 
                 Random generator = new Random();
                 String r = generator.Next(0, 1000000).ToString("D6"); // Opt
+                
                 bool result = await _manager.SaveOtp(email,Convert.ToInt32(r));
                 if (result == true)
                 {

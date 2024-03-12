@@ -4,7 +4,7 @@ using FHP.dtos.UserManagement;
 using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
-using FHP.models.FHP;
+using FHP.models.FHP.AdminSelectEmployee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
