@@ -137,13 +137,8 @@ namespace FHP
                     "http://localhost:3002",
                     "http://localhost:3003",
 
-                    "https://contactaholic.com/",
-
-                        "https://contactaholic.com:5001",
-                    "https://www.contactaholic.com",
-                    "https://www.contactaholic.com",//with www
-                    "https://www.contactaholic.com:5001",//with www,
-                    "https://www.contactaholic.com:4100")//for email-client
+                    
+                    "http://103.211.202.61:6767")
                     .AllowCredentials();
                 });
             });
