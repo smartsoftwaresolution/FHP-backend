@@ -1,5 +1,6 @@
 ﻿using FHP.dtos.FHP;
 using FHP.entity.FHP;
+using FHP.models.FHP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace FHP.infrastructure.Repository.FHP
     public interface IEmployeeSkillDetailRepository
     {
         Task AddAsync(EmployeeSkillDetail entity);
+        Task AddAsync(AddEmployeeSkillDetailModel entity);
         void Edit(EmployeeSkillDetail entity);
         Task<EmployeeSkillDetail> GetAsync(int id);
         Task<(List<EmployeeSkillDetailDto> employeeSkillDetail, int totalCount)> GetAllAsync(int page, int pageSize, int userId, string? search);

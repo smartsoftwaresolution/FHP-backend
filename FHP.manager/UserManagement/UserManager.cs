@@ -4,7 +4,7 @@ using FHP.entity.UserManagement;
 using FHP.factories.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,5 +99,6 @@ namespace FHP.manager.UserManagement
           return  await _repository.SaveOtp(email, otp);
         }
 
+ 
     }
 }

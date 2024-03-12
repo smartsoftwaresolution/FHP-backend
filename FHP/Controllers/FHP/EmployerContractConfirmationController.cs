@@ -3,9 +3,7 @@ using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.FHP
@@ -27,7 +25,7 @@ namespace FHP.Controllers.FHP
             _unitOfWork=unitOfWork;
         }
 
-        [HttpPost("add")]
+        [HttpPost("add")]   // Add EmployerContractConfirmation
         public async Task<IActionResult> AddAsync(AddEmployerContractConfirmationModel model)
         {
             if (!ModelState.IsValid)
@@ -42,7 +40,7 @@ namespace FHP.Controllers.FHP
             {
                 if (model.Id == 0 && model.EmployerId != 0 && model.JobId != 0 && model.EmployeeId != 0)
                 {
-                    await _manager.AddAsync(model);
+                    await _manager.AddAsync(model); // Added 
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -61,7 +59,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpPut("edit")]
+        [HttpPut("edit")]  //Edit EmployerContractConfirmation
         public async Task<IActionResult> EditAsync(AddEmployerContractConfirmationModel model)
         {
             if (!ModelState.IsValid)
@@ -76,7 +74,7 @@ namespace FHP.Controllers.FHP
             {
                 if (model.Id >= 0)
                 {
-                    await _manager.Edit(model);
+                    await _manager.Edit(model); //updated
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -95,7 +93,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getall-pagination")]
+        [HttpGet("getall-pagination")]  //get all EmployerContractConfirmation
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             if (!ModelState.IsValid)
@@ -128,7 +126,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpGet("getbyid")]
+        [HttpGet("getbyid")] //get by id EmployerContractConfirmation
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -161,7 +159,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{id}")] //delete EmployerContractConfirmation
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)

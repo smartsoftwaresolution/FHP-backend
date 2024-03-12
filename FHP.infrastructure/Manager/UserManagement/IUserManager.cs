@@ -1,6 +1,6 @@
 ﻿using FHP.dtos.UserManagement;
 using FHP.entity.UserManagement;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.User;
 
 namespace FHP.infrastructure.Manager.UserManagement
 {
@@ -21,5 +21,6 @@ namespace FHP.infrastructure.Manager.UserManagement
         Task ChangePassword(int userId, string password);
         Task VerifyEmployerByAdmin(int userId);
         Task<bool> SaveOtp(string email, int otp);
+
     }
 }

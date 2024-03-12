@@ -28,6 +28,7 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork= unitOfWork;
         }
 
+        // add UserScreenAccess
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddUserScreenAccessModel model)
         {
@@ -43,7 +44,7 @@ namespace FHP.Controllers.UserManagement
             {
                 if(model.Id == 0 && model.RoleId !=0 && model.ScreenId !=0)
                 {
-                    await _manager.AddAsync(model);
+                    await _manager.AddAsync(model); // added
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -62,6 +63,7 @@ namespace FHP.Controllers.UserManagement
         }
 
 
+        // edit UserScreenAccess
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddUserScreenAccessModel model)
         {
@@ -76,7 +78,7 @@ namespace FHP.Controllers.UserManagement
             {
                 if(model.Id >=0 && model != null)
                 {
-                    await _manager.Edit(model);
+                    await _manager.Edit(model); //updated
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -94,7 +96,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        //get all userRolesScreen
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int roleId,int page,int pageSize)
         {
@@ -126,7 +128,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // get by id UserScreen Access
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -157,6 +159,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        // delete UserScreenAccess
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

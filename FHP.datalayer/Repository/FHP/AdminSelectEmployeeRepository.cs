@@ -4,11 +4,6 @@ using FHP.dtos.UserManagement;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.FHP
 {
@@ -47,17 +42,20 @@ namespace FHP.datalayer.Repository.FHP
 
             
 
-            if(jobId > 0)
+            if(jobId > 0 )
             {
                 query = query.Where(s=> s.adminSelect.JobId == jobId);
             }
-
-            if (!String.IsNullOrEmpty(search))
-            {
-                query =query.Where(s=>s.adminSelect.JobId.ToString().Contains(search) || 
-                                       s.adminSelect.EmployeeId.ToString().Contains(search) || 
-                                       s.adminSelect.InProbationCancel.ToString().Contains(search));
-            }
+             
+           
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query = query.Where(s => s.adminSelect.JobId.ToString().Contains(search) ||
+                                           s.adminSelect.EmployeeId.ToString().Contains(search) ||
+                                           s.adminSelect.InProbationCancel.ToString().Contains(search));
+                }
+            
+            
 
             var totalCount = await query.CountAsync();
 
@@ -106,7 +104,6 @@ namespace FHP.datalayer.Repository.FHP
         public async Task DeleteAsync(int id)
         {
             var data = await _dataContext.AdminSelectEmployees.Where(s => s.Id == id).FirstOrDefaultAsync();
-           
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
         }

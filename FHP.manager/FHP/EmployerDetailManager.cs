@@ -20,15 +20,16 @@ namespace FHP.manager.FHP
             _repository=repository;
         }
 
-        public async Task AddAsync(AddEmployerDetailModel model)
+        public async Task AddAsync(AddEmployerDetailModel model, string vatCertificate, string certificateRegistration)
         {
-           await _repository.AddAsync(EmployerDetailFactory.Create(model)); 
+            await _repository.AddAsync(EmployerDetailFactory.Create(model,vatCertificate,certificateRegistration)); 
+           // await _repository.AddAsync(model);
         }
 
-        public async Task Edit(AddEmployerDetailModel model)
+        public async Task Edit(AddEmployerDetailModel model,string vatCertificate,string certificateRegistration)
         {
             var data = await _repository.GetAsync(model.Id);
-            EmployerDetailFactory.Update(data, model);
+            EmployerDetailFactory.Update(data, model,vatCertificate,certificateRegistration);
             _repository.Edit(data);
         }
 

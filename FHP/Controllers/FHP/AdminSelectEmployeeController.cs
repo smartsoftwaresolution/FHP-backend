@@ -2,9 +2,7 @@
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.FHP
@@ -26,7 +24,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpPost("add")]
+        [HttpPost("add")] //   Add AdminSelectEmployee 
         public async Task<IActionResult> AddAsync(AddAdminSelectEmployeeModel model)
         {
             if (!ModelState.IsValid)
@@ -60,7 +58,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpPut("edit")]
+        [HttpPut("edit")] // Edit AdminSelectEmployee
         public async Task<IActionResult> EditAsync(AddAdminSelectEmployeeModel model)
         {
             if (!ModelState.IsValid)
@@ -95,7 +93,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpGet("getall-pagination")]
+        [HttpGet("getall-pagination")] // Get All AdminSelectEmpoyeeDetail
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,int jobId,string? search)
         {
             if (!ModelState.IsValid)
@@ -130,7 +128,8 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpGet("getbyid")]
+
+        [HttpGet("getbyid")] //Get By Id AdminSelectEmployee
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -162,7 +161,7 @@ namespace FHP.Controllers.FHP
               
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{id}")] //Delete AdminSelectEmployee
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -194,7 +193,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpGet("getall-job-employee")]
+        [HttpGet("getall-job-employee")] //Get All JobEmployee Details
         public async Task<IActionResult> GetAllJobEmployeeAsync(int jobId)
         {
             if (!ModelState.IsValid)

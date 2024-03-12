@@ -27,7 +27,7 @@ namespace FHP.Controllers.FHP
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost("add")]
+        [HttpPost("add")]  // Add Employee Detail 
         public async Task<IActionResult> AddAsync([FromForm]AddEmployeeDetailModel model)
         {
             if(!ModelState.IsValid)
@@ -53,14 +53,17 @@ namespace FHP.Controllers.FHP
 
                     if (model.ProfileImgURL != null)
                     {
-                      profileImg =  await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL);
+                      profileImg =  await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL); // Profile Image Upload
                     }
+
                     if (model.ResumeURL != null)
                     {
-                        profileResume = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL);
+                        profileResume = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL); //ResumeUrl Upload
                     }
-                    await _manager.AddAsync(model,profileResume);
+
+                    await _manager.AddAsync(model,profileResume);  // Added
                     await transaction.CommitAsync();
+
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -79,7 +82,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpPut("edit")]
+        [HttpPut("edit")]  //  Edit Employee Detail
         public async Task<IActionResult> EditAsync([FromForm] AddEmployeeDetailModel model)
         {
             if(!ModelState.IsValid)
@@ -95,12 +98,13 @@ namespace FHP.Controllers.FHP
                 if(model.Id >= 0)
                 {
                     string resumeUrl = string.Empty;
+
                     if (model.ResumeURL != null)
                     {
-                        resumeUrl = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL);
+                        resumeUrl = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL); //Resume Upload Service
                     }
 
-                    await _manager.Edit(model,resumeUrl);
+                    await _manager.Edit(model,resumeUrl); //Updated
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -120,7 +124,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getall-pagination")]
+        [HttpGet("getall-pagination")]  // Get all List of Employee Detail 
         public async Task<IActionResult> GetAllAsync(int page,int pagesize,int userId,string? search)
         {
             if (!ModelState.IsValid)
@@ -152,7 +156,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("getbyid")] // Get By Id employee detail
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if(!ModelState.IsValid)
@@ -184,7 +188,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{id}")] // Delete by Id
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if(!ModelState.IsValid)
@@ -214,7 +218,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpPatch("set-availability/{id}")]
+        [HttpPatch("set-availability/{id}")] // Employee Can Set Availability
         public async Task<IActionResult> SetAvailabilityAsync(int id)
         {
 

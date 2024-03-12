@@ -2,15 +2,14 @@
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.FHP
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class JobPostingController : ControllerBase
     {
         private readonly IJobPostingManager _manager;
@@ -25,6 +24,8 @@ namespace FHP.Controllers.FHP
             _unitOfWork=unitOfWork;
         }
 
+        //Add Job Posting
+
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddJobPostingModel model)
         {
@@ -34,6 +35,7 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
+
             await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
@@ -48,7 +50,7 @@ namespace FHP.Controllers.FHP
                     && !string.IsNullOrEmpty(model.Payout))
                     
                 {
-                    await _manager.AddAsync(model);
+                    await _manager.AddAsync(model); // added
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -66,6 +68,8 @@ namespace FHP.Controllers.FHP
             }
         }
 
+
+        //Edit JobPosting 
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddJobPostingModel model)
         {
@@ -81,7 +85,7 @@ namespace FHP.Controllers.FHP
             {
                 if(model.Id >= 0)
                 {
-                    string message = await _manager.Edit(model);
+                    string message = await _manager.Edit(model); //updated
                     await transaction.CommitAsync();
 
                     if (message.Contains("updated successfully"))
@@ -110,6 +114,9 @@ namespace FHP.Controllers.FHP
                 return await  _exceptionHandleService.HandleException(ex);
             }
         }
+
+
+        // get all JobPosting
 
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId)
@@ -142,6 +149,8 @@ namespace FHP.Controllers.FHP
             }
         }
 
+
+        //get by id JobPosting
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -174,7 +183,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-
+        // delete JobPosting
         [HttpDelete("delete/{id}")]
         public  async Task<IActionResult> DeleteAsync(int id)
         {
@@ -207,6 +216,8 @@ namespace FHP.Controllers.FHP
         }
 
 
+        // Activate - decativate JobPosting
+
         [HttpPatch("active-deactive/{id}")]
         public async Task<IActionResult> ActiveDeactiveAsync(int id)
         {
@@ -238,6 +249,8 @@ namespace FHP.Controllers.FHP
             }
         }
 
+
+        // Submit JobPosting
         [HttpPatch("submit-job/{id}")]
         public async Task<IActionResult> SubmitJobAsync(int id)
         {
@@ -257,7 +270,7 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                await _manager.SubmitJobAsync(id);
+                await _manager.SubmitJobAsync(id); //submitted
                 response.StatusCode = 200;
                 response.Message = $"Job Submitted Successfully!!!";
                 return Ok(response);
@@ -270,6 +283,8 @@ namespace FHP.Controllers.FHP
         }
 
 
+
+        // Cancel jobposting
         [HttpPatch("cancel-job/{id}")]
         public async Task<IActionResult> CancelJobAsync(int id,string cancelReason)
         {
@@ -289,7 +304,7 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                await _manager.CancelJobAsync(id,cancelReason);
+                await _manager.CancelJobAsync(id,cancelReason); //cancel
                 response.StatusCode = 200;
                 response.Message = $"Job Cancel Successfully!!!";
                 return Ok(response);
@@ -301,6 +316,9 @@ namespace FHP.Controllers.FHP
             }
         }
 
+
+
+        // Setting JobPosting Status
 
         [HttpPatch("set-job-processing-status/{id}")]
         public async Task<IActionResult> SetJobProcessingStatusAsync(int id, Constants.JobProcessingStatus jobProcessingStatus)
@@ -330,8 +348,5 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
-
-
-        
     }
 }

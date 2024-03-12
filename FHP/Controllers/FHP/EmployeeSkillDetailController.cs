@@ -27,7 +27,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpPost("add")]
+        [HttpPost("add")] // Add EmployeeSkill Detail
         public async Task<IActionResult> AddAsync(AddEmployeeSkillDetailModel model)
         {
             if (!ModelState.IsValid)
@@ -36,14 +36,18 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+          //  await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
-                if(model.Id == 0 && model.UserId != 0 && model.SkillId != 0)
+                if(model.Id == 0 && model.UserId != 0 && model.SkillId != null)
                 {
+
                     await _manager.AddAsync(model);
-                    await transaction.CommitAsync();
+                 //   await transaction.CommitAsync();
+
+                  
+
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -57,13 +61,13 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                await transaction.RollbackAsync();
+             //   await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
 
 
-        [HttpPut("edit")]
+        [HttpPut("edit")] //Edit EmployeeSkillDetail
         public async Task<IActionResult> EditAsync(AddEmployeeSkillDetailModel model)
         {
             if (!ModelState.IsValid)
@@ -78,7 +82,7 @@ namespace FHP.Controllers.FHP
             {
                 if(model.Id >= 0)
                 {
-                    await _manager.Edit(model);
+                    await _manager.Edit(model); // updated
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -97,7 +101,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getall-pagination")]
+        [HttpGet("getall-pagination")]   // GetAll EmployeeSkill Details
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,int userId,string? search)
         {
             if (!ModelState.IsValid)
@@ -129,7 +133,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("getbyid")]   // get by id EmployeeSkillDetail
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -159,7 +163,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{id}")]  //delete EmployeeskillDetail
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)

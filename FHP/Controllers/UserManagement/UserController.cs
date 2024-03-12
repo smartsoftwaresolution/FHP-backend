@@ -2,7 +2,7 @@
 using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.User;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +31,7 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
+        // Add User
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddUserModel model)
         {
@@ -51,8 +52,19 @@ namespace FHP.Controllers.UserManagement
                     !string.IsNullOrEmpty(model.Password))
                 {
                     int userid = 0;
-                    userid = await _manager.AddAsync(model);
-                    await _emailService.SendverificationEmail(model.Email, userid);
+
+                    var exist = await _manager.GetUserByEmail(model.Email);
+                    if (exist == null)
+                    {
+                        response.StatusCode = 400;
+                        response.Message = "email already exist";
+                        return BadRequest(response);
+                    }
+                   
+
+                    userid = await _manager.AddAsync(model); 
+                    await _emailService.SendverificationEmail(model.Email, userid); // email verification service
+
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -73,7 +85,7 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-
+        // edit User
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddUserModel model)
         {
@@ -90,8 +102,8 @@ namespace FHP.Controllers.UserManagement
             {
                 if (model.Id >= 0 )
                 {
-                    await _manager.EditAsync(model);
-                    await transaction.CommitAsync();
+                    await _manager.EditAsync(model);  // updated
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -108,6 +120,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+        // get all User
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending)
         {
@@ -142,6 +155,9 @@ namespace FHP.Controllers.UserManagement
 
         }
 
+
+
+        // user get by id 
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -154,9 +170,7 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-
-
-                var data = await _manager.GetByIdAsync(id);
+                var data = await _manager.GetByIdAsync(id);   
                 if (data != null)
                 {
                     response.StatusCode = 200;
@@ -174,6 +188,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        // delete User
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -203,7 +219,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // user verify by userid
         [HttpPatch("verify-user")]
         public async Task<IActionResult> VerifyUserAsync(int userId)
         {
@@ -233,7 +249,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        //  add Profile pic 
         [HttpPatch("update-Profile-pic")]
         public async Task<IActionResult> AddProfilePictureAsync(int userId, IFormFile? picUrl)
         {
@@ -257,9 +273,9 @@ namespace FHP.Controllers.UserManagement
 
                 if(picUrl != null)
                 {
-                    pic = await _fileUploadService.UploadIFormFileAsync(picUrl);
+                    pic = await _fileUploadService.UploadIFormFileAsync(picUrl); //  upload PicUrl service
                 }
-                await _manager.AddUserPic(userId,pic);
+                await _manager.AddUserPic(userId,pic); //added
                 await transaction.CommitAsync();
                 response.StatusCode = 200;
                 response.Message = Constants.added;
@@ -272,7 +288,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // enable disable employee employer
         [HttpPatch("enable-disble-employee-employer")]
         public async Task<IActionResult> EnableDisableUserAsync(int userId,string roleName)
         {
@@ -286,7 +302,7 @@ namespace FHP.Controllers.UserManagement
             {
                 if (userId > 0)
                 {
-                   string result =  await _manager.EnableDisableUser(userId,roleName);
+                   string result =  await _manager.EnableDisableUser(userId,roleName); //enable disable
                     response.StatusCode = 200;
                     response.Message = $"User {result} Successfully!!";
                     return Ok(response);
@@ -302,7 +318,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        //verify employer by admin
         [HttpPatch("verify-employer-by-admin")]
         public async Task<IActionResult> VerifyEmployerByAdminAsync(int userId)
         {
@@ -316,7 +332,7 @@ namespace FHP.Controllers.UserManagement
             {
                 if (userId > 0)
                 {
-                    await _manager.VerifyEmployerByAdmin(userId);
+                    await _manager.VerifyEmployerByAdmin(userId); // verifyEmployer
                     response.StatusCode = 200;
                     response.Message = $"Employer Verified Successfully!!";
                     return Ok(response);
