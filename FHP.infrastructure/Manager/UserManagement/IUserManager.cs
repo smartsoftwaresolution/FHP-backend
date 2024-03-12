@@ -21,5 +21,6 @@ namespace FHP.infrastructure.Manager.UserManagement
         Task ChangePassword(int userId, string password);
         Task VerifyEmployerByAdmin(int userId);
         Task<bool> SaveOtp(string email, int otp);
+
     }
 }

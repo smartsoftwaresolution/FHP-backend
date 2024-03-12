@@ -26,7 +26,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpPost("add")]
+        [HttpPost("add")] // Add EmployeeEducationalDetail 
         public async Task<IActionResult> AddAsync(AddEmployeeEducationalDetailModel model)
         {
 
@@ -48,7 +48,7 @@ namespace FHP.Controllers.FHP
                     await _manager.AddAsync(model);
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
-                    response.Message = Constants.added;
+                    response.Message = Constants.added; //Added
                     return Ok(response);
                 }
 
@@ -63,7 +63,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpPut("edit")]
+        [HttpPut("edit")] // Edit EmployeeEducationDetail
         public async Task<IActionResult> EditAsync(AddEmployeeEducationalDetailModel model)
         {
             if (!ModelState.IsValid)
@@ -78,7 +78,7 @@ namespace FHP.Controllers.FHP
             {
                 if(model.Id >= 0)
                 {
-                    await _manager.Edit(model);
+                    await _manager.Edit(model); //updated
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -97,7 +97,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getall-pagination")]
+        [HttpGet("getall-pagination")] // Get All EmployeeEducationDetail
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,int userId,string? search)
         {
             if (!ModelState.IsValid)
@@ -131,7 +131,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("getbyid")]  // get by Id EmployeeEduactionDetail
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -162,7 +162,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{id}")] // detele EmployeeEducationDetail
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)

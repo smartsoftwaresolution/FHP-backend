@@ -52,5 +52,15 @@ namespace FHP.manager.FHP
         {
             return await _repository.GetAllAvalibility(JobId);
         }
+
+        public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId)
+        {
+            return await _repository.GetByEmployeeIdAsync(employeeId);
+        }
+
+        public async Task<string> SetEmployeeAvalibility(int EmployeeId)
+        {
+            return await _repository.SetEmployeeAvalibility(EmployeeId);
+        }
     }
 }

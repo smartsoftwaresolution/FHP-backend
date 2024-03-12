@@ -28,7 +28,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpPost("add")]
+        [HttpPost("add")]  //add EmployerDetail
         public async Task<IActionResult> AddAsync([FromForm]AddEmployerDetailModel model)
         {
             if(!ModelState.IsValid)
@@ -59,15 +59,15 @@ namespace FHP.Controllers.FHP
 
                     if(model.CertificateRegistrationURL != null)
                     {
-                        certificateRegistration = await _fileUploadService.UploadIFormFileAsync(model.CertificateRegistrationURL);
+                        certificateRegistration = await _fileUploadService.UploadIFormFileAsync(model.CertificateRegistrationURL); // upload CertificateRegistrationURL service
                     }
 
                     if(model.VATCertificateURL != null)
                     {
-                        vatCertificate = await _fileUploadService.UploadIFormFileAsync(model.VATCertificateURL);
+                        vatCertificate = await _fileUploadService.UploadIFormFileAsync(model.VATCertificateURL); // upload VATCertificateURL service
                     }
 
-                    await _manager.AddAsync(model,vatCertificate,certificateRegistration);
+                    await _manager.AddAsync(model,vatCertificate,certificateRegistration); // added
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -86,7 +86,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpPut("edit")]
+        [HttpPut("edit")]  //Edit EmployerDetail
         public async Task<IActionResult> EditAsync([FromForm]AddEmployerDetailModel model)
         {
             if (!ModelState.IsValid)
@@ -108,15 +108,15 @@ namespace FHP.Controllers.FHP
 
                     if (model.CertificateRegistrationURL != null)
                     {
-                        certificateRegistration = await _fileUploadService.UploadIFormFileAsync(model.CertificateRegistrationURL);
+                        certificateRegistration = await _fileUploadService.UploadIFormFileAsync(model.CertificateRegistrationURL);   // upload CertificateRegistrationURL service
                     }
 
                     if (model.VATCertificateURL != null)
                     {
-                        vatCertificate = await _fileUploadService.UploadIFormFileAsync(model.VATCertificateURL);
+                        vatCertificate = await _fileUploadService.UploadIFormFileAsync(model.VATCertificateURL);  // // upload VATCertificateURL service
                     }
 
-                    await _manager.Edit(model,vatCertificate,certificateRegistration);
+                    await _manager.Edit(model,vatCertificate,certificateRegistration); //updated
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -134,7 +134,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getall-pagination")]
+        [HttpGet("getall-pagination")]  // get all EmployerDetail
         public async Task<IActionResult> GetAllAsync(int page ,int pageSize,int userId,string? search)
         {
             if (!ModelState.IsValid)
@@ -162,7 +162,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("getbyid")] // get by id EmployerDetail
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -189,7 +189,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{id}")]  //delete EmployerDetail
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)

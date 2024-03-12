@@ -110,12 +110,49 @@ namespace FHP.datalayer.Repository.FHP
                           }).AsNoTracking().ToListAsync();
         }
 
+        public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId)
+        {
+            return await (from s in _dataContext.EmployeeAvailabilities
+                          where s.Status != Constants.RecordStatus.Deleted &&
+                          s.EmployeeId == employeeId
+
+                          select new EmployeeAvailabilityDetailDto
+                          {
+                              Id = s.Id,
+                              UserId = s.UserId,
+                              JobId = s.JobId,
+                              EmployeeId = s.EmployeeId,
+                              IsAvailable = s.IsAvailable,
+                              CreatedOn = s.CreatedOn,
+                              Status = s.Status,
+                          }).AsNoTracking().ToListAsync();
+        }
+
         public async Task DeleteAsync(int id)
         {
             var data = await _dataContext.EmployeeAvailabilities.Where(s => s.Id == id).FirstOrDefaultAsync();
             data.Status = utilities.Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task<string> SetEmployeeAvalibility(int EmployeeId)
+        {
+            string result = string.Empty;
+            var data = await _dataContext.EmployeeAvailabilities.Where(s=> s.EmployeeId ==EmployeeId).FirstOrDefaultAsync();
+            if(data.IsAvailable == false)
+            {
+                data.IsAvailable = true;
+                result = "Available";
+            }
+            else
+            {
+                data.IsAvailable = false;
+                result = "Unavaliable";
+            }
+            _dataContext.EmployeeAvailabilities.Update(data);
+            await _dataContext.SaveChangesAsync();
+            return result;
         }
     }
 }

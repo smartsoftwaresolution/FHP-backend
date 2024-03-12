@@ -26,7 +26,7 @@ namespace FHP.Controllers.FHP
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost("add")]
+        [HttpPost("add")] //Add Contract 
         public async Task<IActionResult> AddAsync(AddContractModel model)
         {
             if (!ModelState.IsValid)
@@ -45,7 +45,7 @@ namespace FHP.Controllers.FHP
                     && !string.IsNullOrEmpty(model.EmployerSignature))
 
                 {
-                    await _manager.AddAsync(model);
+                    await _manager.AddAsync(model); // Added
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -63,7 +63,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpPut("edit")]
+        [HttpPut("edit")] // Edit Contract
         public async Task<IActionResult> EditAsync(AddContractModel model)
         {
             if (!ModelState.IsValid)
@@ -78,7 +78,7 @@ namespace FHP.Controllers.FHP
             {
                 if(model.Id >= 0)
                 {
-                    await _manager.Edit(model);
+                    await _manager.Edit(model); // updated
                     await transaction.CommitAsync();
                     
                     response.StatusCode = 200;
@@ -99,7 +99,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpGet("getall-pagination")]
+        [HttpGet("getall-pagination")] //Get All Pagination
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             if (!ModelState.IsValid)
@@ -131,7 +131,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpGet("getbyid")]
+        [HttpGet("getbyid")]  // Get By Id Contract
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -162,7 +162,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{id}")] // Delete Contract
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -182,7 +182,7 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                await _manager.DeleteAsync(id);
+                await _manager.DeleteAsync(id); //deleted Sucessfully!
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
                 return Ok(response); 

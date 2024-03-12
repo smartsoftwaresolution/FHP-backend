@@ -2,9 +2,7 @@
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.UserManagement
@@ -27,6 +25,8 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
+
+        // Add Country
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddCountryModel model)
         {
@@ -61,6 +61,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        // edit Country
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddCountryModel model)
         {
@@ -93,7 +95,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        //get all Country
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
@@ -126,6 +128,7 @@ namespace FHP.Controllers.UserManagement
         }
 
 
+        //get by id Country
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -157,6 +160,8 @@ namespace FHP.Controllers.UserManagement
 
         }
 
+
+        //delete Country
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

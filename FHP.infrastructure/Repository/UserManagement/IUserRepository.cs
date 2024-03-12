@@ -28,5 +28,6 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task VerifyEmployerByAdmin(int userId);
         Task<bool> SaveOtp(string email, int otp);
 
+
     }
 }

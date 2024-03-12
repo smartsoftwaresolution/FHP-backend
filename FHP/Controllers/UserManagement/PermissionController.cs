@@ -22,7 +22,7 @@ namespace FHP.Controllers.UserManagement
             _exceptionHandleService= exceptionHandleService;
         }
 
-
+        // add permission
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddPermissionModel model)
         {
@@ -43,7 +43,7 @@ namespace FHP.Controllers.UserManagement
                     !string.IsNullOrEmpty(model.ScreenCode) &&
                     !string.IsNullOrEmpty(model.ScreenUrl))
                 {
-                    await _manager.AddAsync(model);
+                    await _manager.AddAsync(model); // added
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -60,6 +60,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        // edit permission
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddPermissionModel model)
         {
@@ -75,7 +77,7 @@ namespace FHP.Controllers.UserManagement
      
                 if(model.Id>=0 && model != null)
                 {
-                    await _manager.EditAsync(model);
+                    await _manager.EditAsync(model); //updated
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -92,6 +94,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+        // get all permission
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
@@ -126,7 +129,7 @@ namespace FHP.Controllers.UserManagement
         }
 
        
-
+        // get by id Permission 
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -158,7 +161,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // delete permission
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
