@@ -16,7 +16,7 @@ namespace FHP.factories.FHP
             var data = new EmployeeSkillDetail
             {
                 UserId = model.UserId,
-                SkillId = model.SkillId,
+              //  SkillId = model.SkillId,
                 CreatedOn = Utility.GetDateTime(),
                 Status = Constants.RecordStatus.Active
             };
@@ -26,7 +26,7 @@ namespace FHP.factories.FHP
         public static void Update(EmployeeSkillDetail entity,AddEmployeeSkillDetailModel model)
         {
             entity.UserId = model.UserId;
-            entity.SkillId = model.SkillId;
+          //  entity.SkillId = model.SkillId;
             entity.UpdatedOn = Utility.GetDateTime();
 
         }

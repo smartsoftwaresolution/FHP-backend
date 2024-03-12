@@ -22,7 +22,7 @@ namespace FHP.manager.FHP
 
         public async Task AddAsync(AddEmployeeSkillDetailModel model)
         {
-            await _repository.AddAsync(EmployeeSkillDetailFactory.Create(model));   
+            await _repository.AddAsync(model);   
         }
 
         public async Task Edit(AddEmployeeSkillDetailModel model)

@@ -1,5 +1,6 @@
 ﻿using FHP.dtos.FHP;
 using FHP.entity.FHP;
+using FHP.models.FHP;
 using System;
 using System.Collections.Generic;
 using System.Linq;

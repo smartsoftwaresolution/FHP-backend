@@ -36,14 +36,14 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+          //  await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
-                if(model.Id == 0 && model.UserId != 0 && model.SkillId != 0)
+                if(model.Id == 0 && model.UserId != 0 && model.SkillId != null)
                 {
                     await _manager.AddAsync(model);
-                    await transaction.CommitAsync();
+                 //   await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -57,7 +57,7 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                await transaction.RollbackAsync();
+             //   await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);
             }
         }

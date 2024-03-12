@@ -58,7 +58,15 @@ namespace FHP.datalayer.Repository.UserManagement
 
             if (!string.IsNullOrEmpty(roleName))
             {
-                query = query.Where(s => s.t.RoleName == roleName);
+                if (roleName.ToLower().Contains("admin"))
+                {
+                    query = query.Where(s => s.t.RoleName != "employer" && s.t.RoleName != "employee");
+                }
+                else
+                {
+                    query = query.Where(s => s.t.RoleName == roleName);
+
+                }
 
             }          
             
