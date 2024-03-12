@@ -22,7 +22,8 @@ namespace FHP.manager.FHP
 
         public async Task AddAsync(AddEmployerDetailModel model, string vatCertificate, string certificateRegistration)
         {
-           await _repository.AddAsync(EmployerDetailFactory.Create(model,vatCertificate,certificateRegistration)); 
+            await _repository.AddAsync(EmployerDetailFactory.Create(model,vatCertificate,certificateRegistration)); 
+           // await _repository.AddAsync(model);
         }
 
         public async Task Edit(AddEmployerDetailModel model,string vatCertificate,string certificateRegistration)

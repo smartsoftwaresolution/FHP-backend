@@ -2,6 +2,8 @@
 using FHP.dtos.FHP;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
+using FHP.models.FHP;
+using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,8 +26,21 @@ namespace FHP.datalayer.Repository.FHP
         {
            await _dataContext.EmployeeSkillDetails.AddAsync(entity);
            await _dataContext.SaveChangesAsync();
-        }
 
+        }
+        public async Task AddAsync(AddEmployeeSkillDetailModel entity)
+        {
+            var employeeSkillDetails = entity.SkillId.Select(skillId => new EmployeeSkillDetail
+            {
+                UserId = entity.UserId,
+                SkillId = skillId,
+                CreatedOn = Utility.GetDateTime(),
+                Status = Constants.RecordStatus.Active,
+            }).ToList();
+
+            await _dataContext.EmployeeSkillDetails.AddRangeAsync(employeeSkillDetails);
+            await _dataContext.SaveChangesAsync();
+        }
         public void Edit(EmployeeSkillDetail entity)
         {
             _dataContext.EmployeeSkillDetails.Update(entity);

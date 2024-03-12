@@ -76,6 +76,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<EmployeeAvailabilityDetailDto> GetByIdAsync(int id)
         {
             return await (from s in _dataContext.EmployeeAvailabilities
+                          join j in _dataContext.JobPostings on s.JobId equals j.Id
                           where s.Status != Constants.RecordStatus.Deleted &&
                           s.Id == id
 

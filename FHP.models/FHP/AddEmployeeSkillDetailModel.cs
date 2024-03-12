@@ -10,6 +10,6 @@ namespace FHP.models.FHP
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int SkillId { get; set; }
+        public List<int> SkillId { get; set; }
     }
 }

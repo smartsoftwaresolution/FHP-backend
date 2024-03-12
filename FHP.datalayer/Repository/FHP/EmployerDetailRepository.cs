@@ -1,6 +1,7 @@
 ﻿using FHP.dtos.FHP;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
+using FHP.models.FHP;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,6 +27,7 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.SaveChangesAsync();
         }
 
+        
         public void Edit(EmployerDetail entity)
         {
             _dataContext.EmployerDetails.Update(entity);
