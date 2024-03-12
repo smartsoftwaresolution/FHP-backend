@@ -32,18 +32,18 @@ namespace FHP.Controllers.UserManagement
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  addition.
 
             try
             {
                 if(model.Id ==0 && !string.IsNullOrEmpty(model.CountryName))
                 {
-                    await _manager.AddAsync(model);
-                    await transaction.CommitAsync();
+                    await _manager.AddAsync(model); //added
+                    await transaction.CommitAsync(); // commit transaction
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -56,9 +56,9 @@ namespace FHP.Controllers.UserManagement
             }
             catch(Exception ex)
             {
-                await transaction.RollbackAsync();
-                return await _exceptionHandleService.HandleException(ex);
-            }
+                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction
+                return await _exceptionHandleService.HandleException(ex); //exceptionHandler service
+            } 
         }
 
 
@@ -68,17 +68,17 @@ namespace FHP.Controllers.UserManagement
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
-            }
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+            } 
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  updation.
             try
             {
                 if(model.Id>=0 && model != null)
                 {
-                    await _manager.Edit(model);
-                    await transaction.CommitAsync();
+                    await _manager.Edit(model); //updated
+                    await transaction.CommitAsync(); // commmit transaction
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -90,8 +90,8 @@ namespace FHP.Controllers.UserManagement
             }
             catch(Exception ex)
             {
-               await transaction.RollbackAsync();
-               return  await _exceptionHandleService.HandleException(ex);
+               await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
+                return  await _exceptionHandleService.HandleException(ex);  // exceptionHandler service
             }
         }
 
@@ -101,7 +101,7 @@ namespace FHP.Controllers.UserManagement
         {
             if(!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response =new BaseResponsePagination<object>();
@@ -123,7 +123,7 @@ namespace FHP.Controllers.UserManagement
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
             }
         }
 
@@ -134,7 +134,7 @@ namespace FHP.Controllers.UserManagement
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var respone =new BaseResponseAddResponse<object>();
@@ -155,7 +155,7 @@ namespace FHP.Controllers.UserManagement
             }
             catch (Exception ex) 
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
             }
 
         }
@@ -167,7 +167,7 @@ namespace FHP.Controllers.UserManagement
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAdd();
@@ -187,7 +187,7 @@ namespace FHP.Controllers.UserManagement
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); // exception Handler service
             }
         }
     }

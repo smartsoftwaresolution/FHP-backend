@@ -2,12 +2,8 @@
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using static Google.Apis.Requests.BatchRequest;
 
 namespace FHP.Controllers.FHP
 {
@@ -34,19 +30,19 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAdd();
 
-            await using var  transaction = await _unitOfWork.BeginTransactionAsync();
+            await using var  transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  addition.
 
             try
             {
                 if(model.Id == 0 && model.UserId != 0 && model.JobId != 0 && model.EmployeeId != 0)
                 {
                     await _manager.AddAsync(model); //EmployeeAvaliability Added
-                    await transaction.CommitAsync();
+                    await transaction.CommitAsync(); //commit transaction
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -59,8 +55,8 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                await transaction.RollbackAsync();
-                return await _exceptionHandleService.HandleException(ex);
+                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
+                return await _exceptionHandleService.HandleException(ex); //exceptionHandle service
             }
         }
 
@@ -70,18 +66,18 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  updation.
 
             try
             {
                 if(model.Id >= 0)
                 {
                     await _manager.Edit(model); //Updated
-                    await transaction.CommitAsync();
+                    await transaction.CommitAsync(); // commit transaction
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -94,8 +90,8 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                await transaction.RollbackAsync();
-                return await _exceptionHandleService.HandleException(ex);   
+                await transaction.RollbackAsync();  //In case of any exceptions during the process, it rolls back the transaction.
+                return await _exceptionHandleService.HandleException(ex);    //exceptionHandle service
             }
         }
 
@@ -104,7 +100,7 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
              var response = new BaseResponsePagination<object>(); 
@@ -125,7 +121,7 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex);  //exceptionHandle service
             }
         }
 
@@ -135,7 +131,7 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAddResponse<object>();
@@ -156,17 +152,17 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); // error handling service
             }
         }
 
 
-        [HttpGet("getbyid")]  //GetById EmployeeAvalibility
+        [HttpGet("getbyid")]  //GetById 
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAddResponse<object>();
@@ -186,17 +182,17 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex);  // exceptionhandler service
             }
         }
 
 
-        [HttpGet("SetEmployeeAvalibility")] // EmployeeAvalibiliySet
-        public async Task<IActionResult> SetEmployeeAvalibiliyAsync(int EmployeeId)
+        [HttpGet("SetEmployeeAvalibility")] // Employee can set his/her availibility for the job
+        public async Task<IActionResult> SetEmployeeAvalibiliyAsync(int EmployeeId, int JobId)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAdd();
@@ -210,14 +206,14 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                string result = await _manager.SetEmployeeAvalibility(EmployeeId);
+                string result = await _manager.SetEmployeeAvalibility(EmployeeId,JobId);
                 response.StatusCode = 200;
                 response.Message = $"Employee {result} Now!!"; // SetEmployeeAvalibiliy Succesfully!
                 return Ok(response);
             }
             catch(Exception ex)
             {
-               return await _exceptionHandleService.HandleException(ex);
+               return await _exceptionHandleService.HandleException(ex); // exceptionhandler service
             }
         }
         [HttpGet("GetAllAvalibility")] //GetAll by EmployeeAvalibility
@@ -225,14 +221,14 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAddResponse<object>();
 
             try
             {
-                var data = await _manager.GetAllAvalibility(JobId);
+                var data = await _manager.GetAllAvalibility(JobId); 
                 if (data != null)
                  {
                     response.StatusCode = 200;
@@ -248,7 +244,7 @@ namespace FHP.Controllers.FHP
 
             catch( Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex);  // exceptionhandler service
             }
         }
 
@@ -257,7 +253,7 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAdd();
@@ -279,7 +275,7 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); // exceptionhandler service
             }
         }
     }
