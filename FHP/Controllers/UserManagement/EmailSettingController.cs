@@ -19,6 +19,8 @@ namespace FHP.Controllers.UserManagement
             _exceptionHandleService = exceptionHandleService;
         }
 
+
+        //add Email Setting
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddEmailSettingModel model)
         {
@@ -32,7 +34,7 @@ namespace FHP.Controllers.UserManagement
             try
             {
                 
-                if(model.Id==0  &&
+                if(model.Id == 0  &&
                    !string.IsNullOrEmpty(model.Email) &&
                    !string.IsNullOrEmpty(model.Password) &&
                    !string.IsNullOrEmpty(model.AppPassword) &&
@@ -58,6 +60,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        // edit emailsetting
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddEmailSettingModel model)
         {
@@ -90,6 +94,7 @@ namespace FHP.Controllers.UserManagement
         }
 
 
+        // get all emialsetting
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
@@ -122,6 +127,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        //get by id emailsetting
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -155,7 +162,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // delete emailsetting
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

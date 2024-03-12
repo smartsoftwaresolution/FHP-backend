@@ -1,11 +1,8 @@
-﻿using DocumentFormat.OpenXml.ExtendedProperties;
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.FHP
@@ -26,6 +23,8 @@ namespace FHP.Controllers.FHP
             _unitOfWork = unitOfWork;
         }
 
+
+        //Add SkillsDetail
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddSkillsDetailModel model)
         {
@@ -60,7 +59,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-
+        //Edit Skill Detail
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddSkillsDetailModel model)
         {
@@ -75,7 +74,7 @@ namespace FHP.Controllers.FHP
             {
                 if (model.Id >= 0)
                 {
-                    await _manager.Edit(model);
+                    await _manager.Edit(model); //updated
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -92,6 +91,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
+        // get all Skill Detail
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
@@ -125,6 +125,7 @@ namespace FHP.Controllers.FHP
         }
 
 
+        // get by Skill detail id
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -156,6 +157,8 @@ namespace FHP.Controllers.FHP
             }
         }
 
+
+        // delete skilldetail
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
