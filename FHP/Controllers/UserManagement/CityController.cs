@@ -21,6 +21,8 @@ namespace FHP.Controllers.UserManagement
                 _unitOfWork=unitOfWork;
         }
 
+
+        //Add City 
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddCityModel model)
         {
@@ -36,7 +38,7 @@ namespace FHP.Controllers.UserManagement
             {
                 if (model.Id ==0 && model.CountryId !=0 && model.StateId !=0 && !string.IsNullOrEmpty(model.CityName))
                 {
-                    await _manager.AddAsync(model);
+                    await _manager.AddAsync(model); //added
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -54,6 +56,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+        //Edit City
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddCityModel model)
         {
@@ -67,9 +70,9 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                if(model.Id >=0 && model != null)
+                if(model.Id >= 0 && model != null)
                 {
-                    await _manager.Edit(model);
+                    await _manager.Edit(model); // updated City
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -89,6 +92,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        // get all City
         [HttpGet("getall")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
@@ -120,7 +125,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        //get by city Id
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -151,6 +156,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        //delete City
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -182,6 +189,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        // get by StateId 
         [HttpGet("getby-stateId")]
         public async Task<IActionResult> GetByStateIdAsync(int stateId)
         {
@@ -194,7 +203,7 @@ namespace FHP.Controllers.UserManagement
 
             try
             {
-                var data = await _manager.GetByStateIdAsync(stateId);
+                var data = await _manager.GetByStateIdAsync(stateId); // by State Id
                 if (data != null)
                 {
                     response.StatusCode = 200;

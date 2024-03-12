@@ -23,6 +23,7 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
+        // add UserRole
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddUserRoleModel model)
         {
@@ -57,6 +58,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+        // edit UserRole
         [HttpPut("edit")]
         public async Task<IActionResult> Edit(AddUserRoleModel model)
         {
@@ -72,7 +74,7 @@ namespace FHP.Controllers.UserManagement
             {
                 if (model.Id >= 0 )
                 {
-                    await _manager.EditAsync(model);
+                    await _manager.EditAsync(model); //Role updated
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -90,7 +92,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
        
-        
+        // get all userRole
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
@@ -122,7 +124,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // get by id userRole
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -153,6 +155,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        // delete UserRole
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -171,8 +175,8 @@ namespace FHP.Controllers.UserManagement
                     response.StatusCode = 400;
                     return BadRequest(response);
                 }
-
-                await _manager.DeleteAsync(id);
+                 
+                await _manager.DeleteAsync(id); // deleted
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
                 return Ok(response);

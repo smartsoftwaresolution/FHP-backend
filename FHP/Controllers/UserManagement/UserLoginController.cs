@@ -1,6 +1,4 @@
-﻿
-using FHP.datalayer.Migrations;
-using FHP.entity.UserManagement;
+﻿using FHP.entity.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.UserLogin;
@@ -35,7 +33,7 @@ namespace FHP.Controllers.UserManagement
             _emailSettingManager = emailSettingManager;
         }
 
-
+        // user login by email
         [HttpPost("userlogin-email")]
         public async Task<IActionResult> UserLoginAsync(UserLoginModel model)
         {
@@ -91,7 +89,7 @@ namespace FHP.Controllers.UserManagement
                             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                         };
 
-                        var token = tokenHandler.CreateToken(tokenDescription);
+                        var token = tokenHandler.CreateToken(tokenDescription); //token handler
 
                         LoginModule login = new LoginModule();
                         login.CreatedOn = DateTime.UtcNow;
@@ -99,7 +97,7 @@ namespace FHP.Controllers.UserManagement
                         login.RoleId  = data.RoleId;
                       
                       
-                        await _manager.UserLogIn(login);
+                        await _manager.UserLogIn(login); //userLogOn
 
                         response.StatusCode = (int)HttpStatusCode.OK;
                         response.Message = "User logged in Successfully!!";
@@ -122,7 +120,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // userlogin by governmentId
         [HttpPost("userlogin-governmentid")]
         public async Task<IActionResult> UserLoginByGovId(UserLoginGovIdModel model)
         {
@@ -180,7 +178,7 @@ namespace FHP.Controllers.UserManagement
                             SigningCredentials=new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature)
                           };
 
-                          var token = tokenHandler.CreateToken(tokenDescription);
+                          var token = tokenHandler.CreateToken(tokenDescription); //tokenHandler
 
                             LoginModule login = new LoginModule();
                             login.CreatedOn = DateTime.UtcNow;
@@ -209,6 +207,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        //user logout
         [HttpPost("logout")]
         public async Task<IActionResult> UserLogOutAsync(int userId)
         {
@@ -241,7 +241,7 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-
+        // change password
         [HttpPatch("change-password")]
         public async Task<IActionResult> ChangePasswordAsync(int userId, string password)
         {
@@ -272,6 +272,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        // forgot password
         [HttpPatch("forgot-password")]
         public async Task<IActionResult> ForgotPasswordAsync( string email)
         {
@@ -292,7 +294,7 @@ namespace FHP.Controllers.UserManagement
                 }
                 
                 Random generator = new Random();
-                String r = generator.Next(0, 1000000).ToString("D6");
+                String r = generator.Next(0, 1000000).ToString("D6"); // Opt
                 bool result = await _manager.SaveOtp(email,Convert.ToInt32(r));
                 if (result == true)
                 {
@@ -307,7 +309,7 @@ namespace FHP.Controllers.UserManagement
                     MailMessage mail = new MailMessage();
                     SmtpClient SmtpServer = new SmtpClient();
 
-                    mail.From = new MailAddress(emailSeting.Email, "FHP");
+                    mail.From = new MailAddress(emailSeting.Email, "FHP"); // emial 
                     mail.To.Add(email);
                     mail.Subject = "Reset Password";
                     mail.Body = "<Html>"
@@ -354,7 +356,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // user verify eamil otp
         [HttpPatch("verify-email-otp")]
         public async Task<IActionResult> VerifyEmailOtpAsync(string email,int otp)
         {

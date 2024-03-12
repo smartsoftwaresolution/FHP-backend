@@ -28,6 +28,7 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
+        // add State
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddStateModel model)
         {
@@ -43,7 +44,7 @@ namespace FHP.Controllers.UserManagement
             {
                 if(model.Id ==0 &&  model.CountryId !=0 && !string.IsNullOrEmpty(model.StateName))
                 {
-                    await _manager.AddAsync(model);
+                    await _manager.AddAsync(model); //added
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -62,6 +63,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+        // edit State
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddStateModel model)
         {
@@ -77,7 +79,7 @@ namespace FHP.Controllers.UserManagement
             {
                 if(model.Id >=0 && model != null)
                 {
-                    await _manager.Edit(model);
+                    await _manager.Edit(model); //updated
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -96,6 +98,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+        //get all State
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
@@ -128,6 +131,7 @@ namespace FHP.Controllers.UserManagement
 
         }
 
+        //get by id State
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -158,7 +162,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // get by CountryId
         [HttpGet("getby-countryId")]
         public async Task<IActionResult> GetByCountryIdAsync(int countryId)
         {
@@ -189,6 +193,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        // delete State
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -210,7 +216,7 @@ namespace FHP.Controllers.UserManagement
 
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
-                response.Message = Constants.deleted;
+                response.Message = Constants.deleted; // deleted
                 return Ok(response);
 
             }

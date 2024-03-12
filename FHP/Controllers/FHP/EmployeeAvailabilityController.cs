@@ -29,7 +29,7 @@ namespace FHP.Controllers.FHP
             _unitOfWork=unitOfWork;
         }
 
-        [HttpPost("add")]
+        [HttpPost("add")] //Add EmployeeAvailability 
         public async Task<IActionResult> AddAsync(AddEmployeeAvailabilityModel model)
         {
             if (!ModelState.IsValid)
@@ -45,7 +45,7 @@ namespace FHP.Controllers.FHP
             {
                 if(model.Id == 0 && model.UserId != 0 && model.JobId != 0 && model.EmployeeId != 0)
                 {
-                    await _manager.AddAsync(model);
+                    await _manager.AddAsync(model); //EmployeeAvaliability Added
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -65,7 +65,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpPut("edit")]
+        [HttpPut("edit")] //Edit EmployeeAvailability
         public async Task<IActionResult> EditAsync(AddEmployeeAvailabilityModel model)
         {
             if (!ModelState.IsValid)
@@ -80,7 +80,7 @@ namespace FHP.Controllers.FHP
             {
                 if(model.Id >= 0)
                 {
-                    await _manager.Edit(model);
+                    await _manager.Edit(model); //Updated
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -99,7 +99,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getall-pagination")]
+        [HttpGet("getall-pagination")] // GetAll EmployeeAvalibility Detail
         public async Task<IActionResult> GetAllAsync(int page , int pageSize,string? search)
         {
             if (!ModelState.IsValid)
@@ -130,7 +130,38 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpGet("getbyid")]
+        [HttpGet("GetByEmployeeId")] //GetByEmployeeId 
+        public async Task<IActionResult> GetByEmployeeIdAsync(int employeeId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+                var data = await _manager.GetByEmployeeIdAsync(employeeId); 
+                if(data != null)
+                {
+                    response.StatusCode = 200;
+                    response.Data = data;
+                    return Ok(response);    
+                }
+
+                response.StatusCode = 400;
+                response.Message = Constants.error;
+                return BadRequest(response);
+            }
+            catch(Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+
+        [HttpGet("getbyid")]  //GetById EmployeeAvalibility
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -159,7 +190,37 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("GetAllAvalibility")]
+
+        [HttpGet("SetEmployeeAvalibility")] // EmployeeAvalibiliySet
+        public async Task<IActionResult> SetEmployeeAvalibiliyAsync(int EmployeeId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if(EmployeeId <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required!";
+                    return BadRequest(response);
+                }
+
+                string result = await _manager.SetEmployeeAvalibility(EmployeeId);
+                response.StatusCode = 200;
+                response.Message = $"Employee {result} Now!!"; // SetEmployeeAvalibiliy Succesfully!
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+               return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+        [HttpGet("GetAllAvalibility")] //GetAll by EmployeeAvalibility
         public async Task<IActionResult> GetAllAvalibility(int JobId)
         {
             if (!ModelState.IsValid)
@@ -191,7 +252,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{id}")] //delete EmployeeAvalibility
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)

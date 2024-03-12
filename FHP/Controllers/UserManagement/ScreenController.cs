@@ -25,6 +25,7 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
+        // add screen
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddScreenModel model)
         {
@@ -42,7 +43,7 @@ namespace FHP.Controllers.UserManagement
                     !string.IsNullOrEmpty(model.ScreenName) && 
                     !string.IsNullOrEmpty(model.ScreenCode))
                 {
-                    await _manager.AddAsync(model);
+                    await _manager.AddAsync(model); // added
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -63,7 +64,7 @@ namespace FHP.Controllers.UserManagement
 
         }
 
-
+        // edit Screen
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddScreenModel model)
         {
@@ -99,7 +100,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // get all Screen
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
@@ -134,6 +135,7 @@ namespace FHP.Controllers.UserManagement
         }
 
 
+        // get by id screen
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -166,7 +168,7 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-
+        // delete screen
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
