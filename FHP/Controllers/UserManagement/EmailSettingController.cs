@@ -26,7 +26,7 @@ namespace FHP.Controllers.UserManagement
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAdd();
@@ -43,7 +43,7 @@ namespace FHP.Controllers.UserManagement
                    !string.IsNullOrEmpty(model.SmtpHost)&&
                    !string.IsNullOrEmpty(model.SmtpPort))                
                 {
-                    await _manager.AddAsync(model);
+                    await _manager.AddAsync(model); // added
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -56,7 +56,7 @@ namespace FHP.Controllers.UserManagement
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
             }
         }
 
@@ -67,7 +67,7 @@ namespace FHP.Controllers.UserManagement
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
             
             var response = new BaseResponseAdd();
@@ -77,7 +77,7 @@ namespace FHP.Controllers.UserManagement
                
                 if(model.Id>=0 && model != null)
                 {
-                    await _manager.EditAsync(model);
+                    await _manager.EditAsync(model); // updated
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -89,7 +89,7 @@ namespace FHP.Controllers.UserManagement
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
             }
         }
 
@@ -100,7 +100,7 @@ namespace FHP.Controllers.UserManagement
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponsePagination<object>();
@@ -123,7 +123,7 @@ namespace FHP.Controllers.UserManagement
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);   
+                return await _exceptionHandleService.HandleException(ex);    // exceptionHandler service
             }
         }
 
@@ -134,7 +134,7 @@ namespace FHP.Controllers.UserManagement
         {
             if(!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAddResponse<object>();
@@ -158,7 +158,7 @@ namespace FHP.Controllers.UserManagement
             catch(Exception ex)
             {
 
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
             }
         }
 
@@ -168,7 +168,7 @@ namespace FHP.Controllers.UserManagement
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAdd();
@@ -188,7 +188,7 @@ namespace FHP.Controllers.UserManagement
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); //exceptionHandler service
             }
         }
     }

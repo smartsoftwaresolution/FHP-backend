@@ -78,6 +78,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 query = query.OrderBy(s => s.user.Id);
 
             }
+
             else
             {
                 query = query.OrderByDescending(s => s.user.Id);
@@ -87,6 +88,7 @@ namespace FHP.datalayer.Repository.UserManagement
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
+
             var data = await query.Select(s => new UserDetailDto
             {
                 Id = s.user.Id,
@@ -173,7 +175,7 @@ namespace FHP.datalayer.Repository.UserManagement
                               ProfileImg = s.ProfileImg,
                               MobileNumber =  s.MobileNumber,
                               IsVerifyByAdmin = s.IsVerifyByAdmin,
-                          }).FirstOrDefaultAsync();
+                          }).AsNoTracking().FirstOrDefaultAsync();
 
         }
 

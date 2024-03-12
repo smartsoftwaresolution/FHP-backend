@@ -3,11 +3,6 @@ using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.manager.FHP
 {
@@ -28,7 +23,7 @@ namespace FHP.manager.FHP
         public async Task Edit(AddEmployeeAvailabilityModel model)
         {
              var data = await _repository.GetAsync(model.Id);
-            EmployeeAvailabilityFactory.Update(data,model);
+             EmployeeAvailabilityFactory.Update(data,model);
             _repository.Edit(data);
         }
 
@@ -58,9 +53,9 @@ namespace FHP.manager.FHP
             return await _repository.GetByEmployeeIdAsync(employeeId);
         }
 
-        public async Task<string> SetEmployeeAvalibility(int EmployeeId)
+        public async Task<string> SetEmployeeAvalibility(int EmployeeId,int JobId)
         {
-            return await _repository.SetEmployeeAvalibility(EmployeeId);
+            return await _repository.SetEmployeeAvalibility(EmployeeId,JobId);
         }
     }
 }
