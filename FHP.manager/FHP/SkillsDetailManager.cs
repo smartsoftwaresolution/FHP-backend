@@ -1,8 +1,8 @@
-﻿using FHP.dtos.FHP;
+﻿using FHP.dtos.FHP.Skill;
 using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
-using FHP.models.FHP;
+using FHP.models.FHP.SkillDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;

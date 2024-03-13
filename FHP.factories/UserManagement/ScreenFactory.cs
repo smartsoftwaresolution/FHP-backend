@@ -1,5 +1,5 @@
 ﻿using FHP.entity.UserManagement;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.Screen;
 using FHP.utilities;
 using System;
 using System.Collections.Generic;

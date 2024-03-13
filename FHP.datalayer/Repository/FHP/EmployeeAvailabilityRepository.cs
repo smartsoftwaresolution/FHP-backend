@@ -1,5 +1,4 @@
-﻿
-using FHP.dtos.FHP;
+﻿using FHP.dtos.FHP.EmployeeAvailability;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
@@ -136,10 +135,12 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task<string> SetEmployeeAvalibility(int EmployeeId)
+        public async Task<string> SetEmployeeAvalibility(int EmployeeId, int JobId)
         {
             string result = string.Empty;
-            var data = await _dataContext.EmployeeAvailabilities.Where(s=> s.EmployeeId ==EmployeeId).FirstOrDefaultAsync();
+
+            var data = await _dataContext.EmployeeAvailabilities.Where(s=> s.EmployeeId ==EmployeeId && s.JobId == JobId).FirstOrDefaultAsync();
+
             if(data.IsAvailable == false)
             {
                 data.IsAvailable = true;

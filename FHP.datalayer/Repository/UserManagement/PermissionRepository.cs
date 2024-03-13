@@ -1,14 +1,8 @@
-﻿using FHP.dtos.UserManagement;
+﻿using FHP.dtos.UserManagement.Permission;
 using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -74,7 +68,6 @@ namespace FHP.datalayer.Repository.UserManagement
                 ScreenCode = s.permission.ScreenCode,
                 ScreenUrl = s.permission.ScreenUrl,
                 ScreenId = s.permission.ScreenId,
-                Screen = s.permission.Screen,
                 Status = s.permission.Status,
                 CreatedOn = s.permission.CreatedOn,
                 UpdatedOn = s.permission.UpdatedOn,
@@ -101,7 +94,6 @@ namespace FHP.datalayer.Repository.UserManagement
                               ScreenCode = s.ScreenCode,
                               ScreenUrl = s.ScreenUrl,
                               ScreenId = s.ScreenId,
-                              Screen = s.Screen,
                               Status = s.Status,
                               CreatedOn = s.CreatedOn,
                               UpdatedOn = s.UpdatedOn,

@@ -1,8 +1,7 @@
-﻿using FHP.dtos.FHP;
-using FHP.dtos.FHP.JobPosting;
-using FHP.models.FHP;
+﻿using FHP.dtos.FHP.JobPosting;
+using FHP.models.FHP.JobPosting;
 using FHP.utilities;
- 
+
 namespace FHP.infrastructure.Manager.FHP
 {
     public interface IJobPostingManager

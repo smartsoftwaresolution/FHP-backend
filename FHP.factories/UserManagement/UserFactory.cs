@@ -1,11 +1,6 @@
 ﻿using FHP.entity.UserManagement;
 using FHP.models.UserManagement.User;
 using FHP.utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.factories.UserManagement
 {
@@ -26,7 +21,7 @@ namespace FHP.factories.UserManagement
                 CreatedOn = Utility.GetDateTime(),
                 MobileNumber = model.MobileNumber,
                 IsVerifyByAdmin = false,
-            };
+            }; 
 
             return data;
         }
@@ -35,7 +30,6 @@ namespace FHP.factories.UserManagement
         {
             entity.FirstName = model.CompanyName ?? "";
             entity.LastName = model.CompanyName ?? "";
-
             entity.GovernmentId = model.GovernmentId;
             entity.FirstName = model.FirstName ?? "";
             entity.LastName = model.LastName ?? "";

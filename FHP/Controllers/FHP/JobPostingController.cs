@@ -1,8 +1,9 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
-using FHP.models.FHP;
+using FHP.models.FHP.JobPosting;
 using FHP.utilities;
+using Google.Api.Gax;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.FHP
@@ -24,22 +25,25 @@ namespace FHP.Controllers.FHP
             _unitOfWork=unitOfWork;
         }
 
-        //Add Job Posting
-
+    
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddJobPostingModel model)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
 
             var response = new BaseResponseAdd();
 
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+            //The method then begins a database transaction to ensure data consistency during  addition.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
+                // Checks if the provided model contains all required information
                 if (model.Id == 0 && model.UserId != 0
                     && !string.IsNullOrEmpty(model.JobTitle)
                     && !string.IsNullOrEmpty(model.Description)
@@ -50,7 +54,10 @@ namespace FHP.Controllers.FHP
                     && !string.IsNullOrEmpty(model.Payout))
                     
                 {
-                    await _manager.AddAsync(model); // added
+                    // Adds the job posting asynchronously
+                    await _manager.AddAsync(model);
+
+                    // commit transaction
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -63,30 +70,40 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync();
-                return await _exceptionHandleService.HandleException(ex);
+                //In case of any exceptions during the process, it rolls back the transaction.
+                await transaction.RollbackAsync(); 
+
+                // Handle the exception using the provided exception handling service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
 
-        //Edit JobPosting 
+        
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddJobPostingModel model)
         {
-            if(!ModelState.IsValid)
+            // Checks if the model state is valid
+            if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+
+            //The method then begins a database transaction to ensure data consistency during  updation.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();  
 
             try
             {
-                if(model.Id >= 0)
+                // Checks if the provided model ID is valid
+                if (model.Id >= 0)
                 {
-                    string message = await _manager.Edit(model); //updated
-                    await transaction.CommitAsync();
+                    // Updates the job posting asynchronously
+                    string message = await _manager.Edit(model); 
+
+                    await transaction.CommitAsync(); 
 
                     if (message.Contains("updated successfully"))
                     {
@@ -110,19 +127,23 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                await transaction.RollbackAsync();
-                return await  _exceptionHandleService.HandleException(ex);
-            }
+                //In case of any exceptions during the process, it rolls back the transaction.
+                await transaction.RollbackAsync(); 
+
+                // Handle the exception using the provided exception handling service
+                return await  _exceptionHandleService.HandleException(ex); 
+            } 
         }
 
 
-        // get all JobPosting
-
+       
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
 
@@ -130,7 +151,9 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Retrieves all job postings asynchronously
                 var data = await _manager.GetAllAsync(page,pageSize,search,userId);
+
                 if (data.jobPosting != null)
                 {
                     response.StatusCode = 200;
@@ -145,25 +168,32 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                // Handle the exception using the provided exception handling service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
 
-        //get by id JobPosting
+       
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAddResponse<object>(); 
             
             try
             {
+                // Retrieves a job posting by its ID asynchronously
                 var data = await _manager.GetByIdAsync(id);
+
+
                 if(data != null)
                 {
                     response.StatusCode = 200;
@@ -178,17 +208,20 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
+                // Handle the exception using the provided exception handling service
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
 
 
-        // delete JobPosting
+      
         [HttpDelete("delete/{id}")]
         public  async Task<IActionResult> DeleteAsync(int id)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());   
             }
 
@@ -196,7 +229,8 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(id <= 0)
+                // Checks if the provided ID is valid
+                if (id <= 0)
                 {
                     response.StatusCode = 400;
                     response.Message = "Id Required.";
@@ -211,25 +245,28 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                // Handle the exception using the provided exception handling service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
 
         // Activate - decativate JobPosting
-
         [HttpPatch("active-deactive/{id}")]
         public async Task<IActionResult> ActiveDeactiveAsync(int id)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAdd();
 
             try
             {
+                // Checks if the provided ID is valid
                 if (id <= 0)
                 {
                     response.StatusCode = 400;
@@ -237,7 +274,9 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
+                // Activates or deactivates the job posting asynchronously
                 string result =  await _manager.ActiveDeactiveAsync(id);
+
                 response.StatusCode = 200;
                 response.Message = $"Job {result} Successfully!!!";
                 return Ok(response);
@@ -245,7 +284,8 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                // Handle the exception using the provided exception handling service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
@@ -254,8 +294,10 @@ namespace FHP.Controllers.FHP
         [HttpPatch("submit-job/{id}")]
         public async Task<IActionResult> SubmitJobAsync(int id)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
 
@@ -263,6 +305,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Checks if the provided ID is valid
                 if (id <= 0)
                 {
                     response.StatusCode = 400;
@@ -270,7 +313,8 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                await _manager.SubmitJobAsync(id); //submitted
+                // Submits the job posting asynchronously
+                await _manager.SubmitJobAsync(id);
                 response.StatusCode = 200;
                 response.Message = $"Job Submitted Successfully!!!";
                 return Ok(response);
@@ -278,6 +322,7 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
+                // Handle the exception using the provided exception handling service
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
@@ -286,10 +331,12 @@ namespace FHP.Controllers.FHP
 
         // Cancel jobposting
         [HttpPatch("cancel-job/{id}")]
-        public async Task<IActionResult> CancelJobAsync(int id,string cancelReason)
+        public async Task<IActionResult> CancelJobAsync(int id, string cancelReason)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
 
@@ -297,6 +344,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Checks if the provided ID is valid
                 if (id <= 0)
                 {
                     response.StatusCode = 400;
@@ -304,7 +352,8 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                await _manager.CancelJobAsync(id,cancelReason); //cancel
+                // Cancels the job posting asynchronously with the provided cancellation reason
+                await _manager.CancelJobAsync(id, cancelReason);
                 response.StatusCode = 200;
                 response.Message = $"Job Cancel Successfully!!!";
                 return Ok(response);
@@ -312,41 +361,49 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
+                // Handle the exception using the provided exception handling service
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
 
 
 
-        // Setting JobPosting Status
+        
 
         [HttpPatch("set-job-processing-status/{id}")]
         public async Task<IActionResult> SetJobProcessingStatusAsync(int id, Constants.JobProcessingStatus jobProcessingStatus)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
-            }
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
+            } 
 
             var response = new BaseResponseAdd();
 
             try
             {
+                // Checks if the provided ID is valid
                 if (id <= 0)
                 {
                     response.StatusCode = 400;
                     response.Message = "Id Required.";
                     return BadRequest(response);
                 }
+
+                // Sets job processing status for the job posting asynchronously
                 await _manager.SetJobProcessingStatus(id, jobProcessingStatus);
+
                 response.StatusCode = 200;
                 response.Message = $"Job Processing Status set Successfully!!!";
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
-            }
+                // Handle the exception using the provided exception handling service
+                return await _exceptionHandleService.HandleException(ex); 
+            } 
         }
     }
 }

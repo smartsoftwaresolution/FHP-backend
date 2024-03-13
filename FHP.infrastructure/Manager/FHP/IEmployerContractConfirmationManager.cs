@@ -1,5 +1,5 @@
-﻿using FHP.dtos.FHP;
-using FHP.models.FHP;
+﻿using FHP.dtos.FHP.EmployerContractConfirmation;
+using FHP.models.FHP.EmployerContractConfirmation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

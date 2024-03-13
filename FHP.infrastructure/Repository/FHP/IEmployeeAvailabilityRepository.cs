@@ -1,10 +1,5 @@
-﻿using FHP.dtos.FHP;
+﻿using FHP.dtos.FHP.EmployeeAvailability;
 using FHP.entity.FHP;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.infrastructure.Repository.FHP
 {
@@ -17,7 +12,7 @@ namespace FHP.infrastructure.Repository.FHP
         Task<EmployeeAvailabilityDetailDto> GetByIdAsync(int id);
         Task<List<EmployeeAvailabilityDetailDto>> GetAllAvalibility(int JobId);
         Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId);
-        Task<string> SetEmployeeAvalibility(int EmployeeId);
+        Task<string> SetEmployeeAvalibility(int EmployeeId, int JobId);
         Task DeleteAsync(int id);
 
     }

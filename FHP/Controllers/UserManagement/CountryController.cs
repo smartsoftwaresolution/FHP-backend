@@ -1,7 +1,7 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.Country;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,30 +20,36 @@ namespace FHP.Controllers.UserManagement
                                  IExceptionHandleService exceptionHandleService,
                                  IUnitOfWork unitOfWork)
         {
-            _exceptionHandleService= exceptionHandleService;
+            _exceptionHandleService = exceptionHandleService;
             _manager = manager;
             _unitOfWork = unitOfWork;
         }
 
 
-        // Add Country
+
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddCountryModel model)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                //it returns a BadRequest response with a list of errors.
                 return BadRequest(ModelState.GetErrorList());
             }
 
             var response = new BaseResponseAdd();
+
+            //The method then begins a database transaction to ensure data consistency during  addition.
             await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
-                if(model.Id ==0 && !string.IsNullOrEmpty(model.CountryName))
+                // Validates the required fields for adding country
+                if (model.Id == 0 && !string.IsNullOrEmpty(model.CountryName))
                 {
+                    // Calls the manager to add country asynchronously
                     await _manager.AddAsync(model);
-                    await transaction.CommitAsync();
+                    await transaction.CommitAsync(); // commit transaction
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -54,31 +60,42 @@ namespace FHP.Controllers.UserManagement
                 return BadRequest(response);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                //In case of any exceptions during the process, it rolls back the transaction
                 await transaction.RollbackAsync();
+
+                // Handle the exception using the provided exception handling service.
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
 
 
-        // edit Country
+
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddCountryModel model)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                //it returns a BadRequest response with a list of errors.
                 return BadRequest(ModelState.GetErrorList());
             }
 
             var response = new BaseResponseAdd();
+
+            //The method then begins a database transaction to ensure data consistency during  updation.
             await using var transaction = await _unitOfWork.BeginTransactionAsync();
             try
             {
-                if(model.Id>=0 && model != null)
-                {
+                // Checks if the model ID is greater than or equal to 0
+                if (model.Id >= 0 && model != null)
+                { 
                     await _manager.Edit(model);
-                    await transaction.CommitAsync();
+
+                    // commmit transaction
+                    await transaction.CommitAsync(); 
+
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -88,107 +105,137 @@ namespace FHP.Controllers.UserManagement
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-               await transaction.RollbackAsync();
-               return  await _exceptionHandleService.HandleException(ex);
+                //In case of any exceptions during the process, it rolls back the transaction.
+                await transaction.RollbackAsync();
+
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 
-        //get all Country
-        [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
-        {
-            if(!ModelState.IsValid)
+            
+            [HttpGet("getall-pagination")]
+            public async Task<IActionResult> GetAllAsync(int page, int pageSize, string? search)
             {
-                return BadRequest(ModelState.GetErrorList());
-            }
-
-            var response =new BaseResponsePagination<object>();
-
-            try
-            {
-                var data = await _manager.GetAllAsync(page,pageSize,search);
-                if (data.country !=null)
+                  // Checks if the model state is valid
+                if (!ModelState.IsValid)
                 {
-                    response.StatusCode = 200;
-                    response.Data = data.country;
-                    response.TotalCount = data.totalCount;
+                  //it returns a BadRequest response with a list of errors.
+                  return BadRequest(ModelState.GetErrorList()); 
+                }
+
+                var response = new BaseResponsePagination<object>();
+
+                try
+                {
+
+                // Calls the manager to retrieve country asynchronously with pagination and search
+                var data = await _manager.GetAllAsync(page, pageSize, search);
+
+                // Checks if the retrieved data is not null
+                if (data.country != null)
+                    {
+                        response.StatusCode = 200;
+                        response.Data = data.country;
+                        response.TotalCount = data.totalCount;
+
+                    // Returns Ok response with the data
                     return Ok(response);
-                }
+                    }
 
-                response.StatusCode = 400;
-                response.Message = Constants.error;
-                return BadRequest(response);
-            }
-            catch(Exception ex)
-            {
-                return await _exceptionHandleService.HandleException(ex);
-            }
-        }
-
-
-        //get by id Country
-        [HttpGet("getbyid")]
-        public async Task<IActionResult> GetByIdAsync(int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState.GetErrorList());
-            }
-
-            var respone =new BaseResponseAddResponse<object>();
-
-            try
-            {
-                var data = await _manager.GetByIdAsync(id);
-                if(data !=null)
-                {
-                    respone.StatusCode = 200;
-                    respone.Data = data;
-                    return Ok(respone);
-                }
-
-                respone.StatusCode = 400;
-                respone.Message = Constants.error;
-                return BadRequest(respone);
-            }
-            catch (Exception ex) 
-            {
-                return await _exceptionHandleService.HandleException(ex);
-            }
-
-        }
-
-
-        //delete Country
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState.GetErrorList());
-            }
-
-            var response = new BaseResponseAdd();
-
-            try
-            {
-                if (id <= 0)
-                {
                     response.StatusCode = 400;
-                    response.Message = "Id required.";
+                    response.Message = Constants.error;
                     return BadRequest(response);
                 }
-                await _manager.DeleteAsync(id);
-                response.StatusCode = 200;
-                response.Message = Constants.deleted;
-                return Ok(response);
+                catch (Exception ex)
+                {
+
+                // Handle the exception using the provided exception handling service
+                  return await _exceptionHandleService.HandleException(ex); 
+                }
             }
-            catch(Exception ex)
+
+
+           
+            [HttpGet("getbyid")]
+            public async Task<IActionResult> GetByIdAsync(int id)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                // Checks if the model state is valid
+                if (!ModelState.IsValid)
+                {
+                 //it returns a BadRequest response with a list of errors.
+                 return BadRequest(ModelState.GetErrorList()); 
+                }
+
+                var respone = new BaseResponseAddResponse<object>();
+
+                try
+                {
+                // Calls the manager to retrieve an entity by its ID asynchronously
+                var data = await _manager.GetByIdAsync(id);
+
+
+                // Checks if the retrieved data is not null
+                if (data != null)
+                    {
+                        respone.StatusCode = 200;
+                        respone.Data = data;
+                        return Ok(respone);
+                    }
+
+                    respone.StatusCode = 400;
+                    respone.Message = Constants.error;
+                    return BadRequest(respone);
+                }
+                catch (Exception ex)
+                {
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
+                }
+
+            }
+
+
+           
+            [HttpDelete("delete/{id}")]
+            public async Task<IActionResult> DeleteAsync(int id)
+            {
+            // Checks if the model state is valid
+                if (!ModelState.IsValid)
+                {
+                   // Returns a BadRequest response with a list of errors if model state is not valid
+                    return BadRequest(ModelState.GetErrorList());
+                }
+
+                var response = new BaseResponseAdd();
+
+                try
+                {
+                // Checks if the provided ID is valid
+                    if (id <= 0)
+                    {
+                        response.StatusCode = 400;
+                        response.Message = "Id required.";
+                        return BadRequest(response);
+                    }
+
+                    // Calls the manager to delete the entity asynchronously by its ID
+                    await _manager.DeleteAsync(id);
+                    response.StatusCode = 200;
+                    response.Message = Constants.deleted;
+
+                      // Returns Ok response with the success message
+                      return Ok(response);
+                }
+                catch (Exception ex)
+                {
+                   // Handle the exception using the provided exception handling service.
+                    return await _exceptionHandleService.HandleException(ex); 
+                }
             }
         }
     }
-}
+
+

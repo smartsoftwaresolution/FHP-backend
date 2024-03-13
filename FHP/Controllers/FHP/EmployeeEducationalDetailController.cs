@@ -1,7 +1,7 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
-using FHP.models.FHP;
+using FHP.models.FHP.EmployeeEducationalDetail;
 using FHP.services;
 using FHP.utilities;
 using Microsoft.AspNetCore.Http;
@@ -32,34 +32,38 @@ namespace FHP.Controllers.FHP
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();  //The method then begins a database transaction to ensure data consistency during  addition.
 
             try
             {
+                // Check if all required fields are provided and not null or empty.
                 if (model.Id == 0 && model.UserId != 0 && model.YearOfCompletion != 0 && model.GPA != 0.0 &&
                     !string.IsNullOrEmpty(model.Education) &&
                     !string.IsNullOrEmpty(model.NameOfBoardOrUniversity))
 
                 {
+                    // Add the educational detail using the manager service.
                     await _manager.AddAsync(model);
-                    await transaction.CommitAsync();
+                   
+                    //commit transaction
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
-                    response.Message = Constants.added; //Added
+                    response.Message = Constants.added; 
                     return Ok(response);
                 }
-
+                // If required fields are not provided or empty, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync();
-                return await _exceptionHandleService.HandleException(ex);
+                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
+                return await _exceptionHandleService.HandleException(ex); //exceptionHandle service.
             }
         }
 
@@ -68,23 +72,28 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  updation.
 
             var response = new BaseResponseAdd();
 
             try
             {
-                if(model.Id >= 0)
+                // Check if the provided model has a valid ID.
+                if (model.Id >= 0)
                 {
-                    await _manager.Edit(model); //updated
-                    await transaction.CommitAsync();
+                    // Update the educational detail using the manager service.
+                    await _manager.Edit(model);
+
+                    //commit transaction
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
                 }
-
+               
+                // If the ID is invalid, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
@@ -92,8 +101,8 @@ namespace FHP.Controllers.FHP
 
             catch(Exception ex)
             {
-                await transaction.RollbackAsync();
-                return await _exceptionHandleService.HandleException(ex);
+                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
+                return await _exceptionHandleService.HandleException(ex); //exceptionHandle service.
             }
         }
 
@@ -102,15 +111,17 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponsePagination<object>();
 
             try
             {
+                // Retrieve all employee education details based on the provided parameters.
                 var data = await _manager.GetAllAsync(page, pageSize,userId,search);
 
+                // Check if the retrieved data is not null.
                 if (data.employeeeducationaldetail != null)
                 {
                     response.StatusCode = 200;
@@ -119,7 +130,7 @@ namespace FHP.Controllers.FHP
                     return Ok(response);
                 }
 
-
+                // If the retrieved data is null, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -127,7 +138,7 @@ namespace FHP.Controllers.FHP
 
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); //exception service
             }
         }
 
@@ -136,51 +147,55 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAddResponse<object>();
 
             try
             {
+                // Retrieve employee education detail by the provided ID.
                 var data = await _manager.GetByIdAsync(id);
 
-                if(data != null)
+                // Check if the retrieved data is not null.
+                if (data != null)
                 {
                     response.StatusCode = 200;
                     response.Data = data;
                     return Ok(response);
                 }
+                // If the retrieved data is null, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
             }
             catch(Exception ex)
             {
-              return  await _exceptionHandleService.HandleException(ex);  
+              return  await _exceptionHandleService.HandleException(ex);   //exceptionhandler service
             }
         }
 
 
-        [HttpDelete("delete/{id}")] // detele EmployeeEducationDetail
+        [HttpDelete("delete/{id}")] // delete EmployeeEducationDetail by Id
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
 
             var response = new BaseResponseAdd();
 
             try
             {
-                if(id <= 0)
+                // Check if the provided ID is valid.
+                if (id <= 0)
                 {
                     response.StatusCode = 400;
                     response.Message = "Id Required";
                     return BadRequest(response);
                 }
-
+                // Delete the employee education detail by the provided ID.
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
@@ -188,7 +203,7 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);
+                return await _exceptionHandleService.HandleException(ex); // exceptionhandler service
             }
         }
     }

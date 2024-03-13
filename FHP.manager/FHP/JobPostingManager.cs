@@ -1,9 +1,8 @@
-﻿using FHP.dtos.FHP;
-using FHP.dtos.FHP.JobPosting;
+﻿using FHP.dtos.FHP.JobPosting;
 using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
-using FHP.models.FHP;
+using FHP.models.FHP.JobPosting;
 using FHP.utilities;
 
 namespace FHP.manager.FHP
