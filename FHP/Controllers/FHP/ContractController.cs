@@ -26,7 +26,7 @@ namespace FHP.Controllers.FHP
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost("add")] //Add Contract 
+        [HttpPost("add")] // API endpoint to add Contract  
         public async Task<IActionResult> AddAsync(AddContractModel model)
         {
             if (!ModelState.IsValid)
@@ -45,41 +45,54 @@ namespace FHP.Controllers.FHP
                     && !string.IsNullOrEmpty(model.EmployerSignature))
 
                 {
-                    await _manager.AddAsync(model); // Added
-                    await transaction.CommitAsync();  //commit the transaction.
+                    // Add the AdminSelectEmployee model asynchronously.
+                    await _manager.AddAsync(model);
+
+                    // Commit the transaction.
+                    await transaction.CommitAsync();  
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
                 }
 
+                // If necessary fields are not provided in the model, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex);  //exceptionHandle service.
+                // In case of any exceptions during the process, roll back the transaction.
+                await transaction.RollbackAsync();
+
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);  
             }
         }
 
-        [HttpPut("edit")] // Edit Contract
+        [HttpPut("edit")]  // API endpoint to edit Contract 
         public async Task<IActionResult> EditAsync(AddContractModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
             }
-
+           
+            // Response object to be sent back.
             var response = new BaseResponseAdd();
+
+            // Begin a database transaction to ensure data consistency during addition.
             await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  updation
 
             try
             {
                 if(model.Id >= 0)
                 {
-                    await _manager.Edit(model); // updated
-                    await transaction.CommitAsync(); //commit the transaction.
+                    // Edit the Contract model asynchronously.
+                    await _manager.Edit(model);
+
+                    // Commit the transaction.
+                    await transaction.CommitAsync(); 
 
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
@@ -93,13 +106,16 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                await transaction.RollbackAsync();  //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex);  //exceptionHandle service.
+                // In case of any exceptions during the process, roll back the transaction.
+                await transaction.RollbackAsync();
+
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
 
-        [HttpGet("getall-pagination")] //Get All Pagination
+        [HttpGet("getall-pagination")] // Get All Contract with Pagination and search filter
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             if (!ModelState.IsValid)
@@ -111,7 +127,11 @@ namespace FHP.Controllers.FHP
 
             try
             {
+
+                // Retrieve data from the manager based on pagination parameters.
                 var data = await _manager.GetAllAsync(page,pageSize,search);
+
+                // Check if data is retrieved successfully.
                 if (data.contract != null)
                 {
                     response.StatusCode = 200;
@@ -126,8 +146,10 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
+                // Handle any exceptions using the provided exception handling service.
                 return await _exceptionHandleService.HandleException(ex); //exceptionHandle service.
             }
+
         }
 
 
