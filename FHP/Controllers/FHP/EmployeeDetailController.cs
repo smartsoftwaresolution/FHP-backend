@@ -51,24 +51,28 @@ namespace FHP.Controllers.FHP
 
                     string profileResume = string.Empty;
 
+                    // Upload profile image if provided.
                     if (model.ProfileImgURL != null)
                     {
                       profileImg =  await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL); // Profile Image Upload service
                     }
-
+                    // Upload resume if provided.
                     if (model.ResumeURL != null)
                     {
                         profileResume = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL); //ResumeUrl Upload service
                     }
-
-                    await _manager.AddAsync(model,profileResume);  // Added
-                    await transaction.CommitAsync(); //commit the transaction.
+                  
+                    // Add Employee Detail asynchronously.
+                    await _manager.AddAsync(model,profileResume);
+                    
+                    //commit the transaction.
+                    await transaction.CommitAsync(); 
 
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
                 }
-
+                // If required values are not provided, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message= Constants.provideValues;
                 return BadRequest(response);
@@ -95,23 +99,27 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(model.Id >= 0)
+                // Check if the provided model has a valid Id.
+                if (model.Id >= 0)
                 {
                     string resumeUrl = string.Empty;
-
+                    // Upload resume if provided.
                     if (model.ResumeURL != null)
                     {
                         resumeUrl = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL); //Resume Upload Service
                     }
-
-                    await _manager.Edit(model,resumeUrl); //Updated
+                   
+                    // Edit Employee Detail asynchronously.
+                    await _manager.Edit(model,resumeUrl);
+                   
+                    //commit transaction
                     await transaction.CommitAsync(); //commit transaction
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
                 }
 
-
+                // Return OK response with the success message.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
@@ -136,8 +144,11 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Retrieve data from the manager based on pagination parameters.
                 var data = await _manager.GetAllAsync(page,pagesize,userId,search);
-                if(data.employee != null)
+
+                // Check if data is retrieved successfully.
+                if (data.employee != null)
                 {
                     response.StatusCode = 200;
                     response.Data = data.employee;
@@ -168,14 +179,19 @@ namespace FHP.Controllers.FHP
 
             try
             {
+
+                // Retrieve Employee data by its Id from the manager.
                 var data = await _manager.GetByIdAsync(id);
-                if(data != null)
+
+                // Check if data is retrieved successfully.
+                if (data != null)
                 {
                     response.StatusCode = 200;
                     response.Data = data;
                     return Ok(response);
                 }
 
+                // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -202,11 +218,13 @@ namespace FHP.Controllers.FHP
             {
                 if(id <= 0)
                 {
+                    // If Id is not provided or invalid, return a BadRequest response.
                     response.StatusCode = 400;
                     response.Message = "Id Required";
                     return BadRequest(response);    
                 }
 
+                // Delete employeeDetail asynchronously using the manager.
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
@@ -231,13 +249,15 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Check if the provided employee Id is valid.
                 if (id <= 0)
                 {
+                    // If Id is not provided, return a BadRequest response.
                     response.StatusCode = 400;
                     response.Message = "Id Required";
                     return BadRequest(response);
                 }
-
+                // Set the availability for the employee with the provided Id.
                 string result = await _manager.SetAvailabilityAsync(id);
                 response.StatusCode = 200;
                 response.Message = $"Employee {result} Now!!";
@@ -261,14 +281,16 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Retrieve all employee details by the provided Id.
                 var data = await _manager.GetAllByIdAsync(id);
                 if (data != null)
                 {
+                    // If data is found, set response status code to 200 and return the data.
                     response.StatusCode = 200;
                     response.Data = data;
                     return Ok(response);
                 }
-
+                // If no data found, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
