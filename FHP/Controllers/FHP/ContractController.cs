@@ -140,6 +140,7 @@ namespace FHP.Controllers.FHP
                     return Ok(response);
                 }
 
+                // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -165,14 +166,17 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Retrieve Contract data by its Id from the manager.
                 var data = await _manager.GetByIdAsync(id);
-                if(data != null)
+
+                // Check if data is retrieved successfully.
+                if (data != null)
                 {
                     response.StatusCode = 200;
                     response.Data = data;
                     return Ok(response);
                 }
-
+                // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -184,7 +188,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpDelete("delete/{id}")] // Delete Contract
+        [HttpDelete("delete/{id}")] // Delete Contract by Id
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -199,11 +203,12 @@ namespace FHP.Controllers.FHP
             {
                 if(id <= 0)
                 {
+                    // If Id is not provided or invalid, return a BadRequest response.
                     response.StatusCode = 400;
                     response.Message = "Id Required.";
                     return BadRequest(response);
                 }
-
+                // Delete Contract asynchronously using the manager.
                 await _manager.DeleteAsync(id); //deleted Sucessfully!
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
