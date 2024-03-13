@@ -1,4 +1,4 @@
-﻿using FHP.dtos.FHP;
+﻿using FHP.dtos.FHP.EmployeeProfessionalDetail;
 using FHP.entity.FHP;
 using FHP.factories.FHP;
 using FHP.infrastructure.Repository.FHP;

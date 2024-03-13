@@ -1,5 +1,5 @@
-﻿using FHP.dtos.FHP;
-using FHP.models.FHP;
+﻿using FHP.dtos.FHP.Skill;
+using FHP.models.FHP.SkillDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;

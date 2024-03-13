@@ -1,8 +1,9 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.EmployerDetail;
 using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
-using FHP.models.FHP;
+using FHP.models.FHP.EmployerDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,12 +34,12 @@ namespace FHP.manager.FHP
             _repository.Edit(data);
         }
 
-        public async Task<(List<EmployerDetailDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
+        public async Task<(List<EmployerDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
         {
           return await _repository.GetAllAsync(page, pageSize,userId, search);
         }
 
-        public async Task<EmployerDetailDetailDto> GetByIdAsync(int id)
+        public async Task<EmployerDetailDto> GetByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);
         }

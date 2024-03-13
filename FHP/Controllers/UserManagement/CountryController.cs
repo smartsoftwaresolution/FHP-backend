@@ -1,7 +1,7 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.Country;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,5 @@
 ﻿using FHP.entity.FHP;
-using FHP.models.FHP;
+using FHP.models.FHP.EmployeeAvailability;
 using FHP.utilities;
 
 namespace FHP.factories.FHP

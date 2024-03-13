@@ -1,4 +1,4 @@
-﻿using FHP.dtos.UserManagement;
+﻿using FHP.dtos.UserManagement.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;

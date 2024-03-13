@@ -1,4 +1,5 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.EmployeeEducationalDetail;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<EmployeeEducationalDetailDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
+        public async Task<(List<EmployeeEducationalDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
         {
             var query = from s in _dataContext.EmployeeEducationalDetails
                         join t in _dataContext.User on s.UserId equals t.Id
@@ -64,7 +65,7 @@ namespace FHP.datalayer.Repository.FHP
 
 
 
-            var data = await query.Select(s => new EmployeeEducationalDetailDetailDto
+            var data = await query.Select(s => new EmployeeEducationalDetailDto
             {
                 Id = s.employeeeducationaldetail.Id,
                 UserId = s.employeeeducationaldetail.UserId,
@@ -86,13 +87,13 @@ namespace FHP.datalayer.Repository.FHP
 
 
 
-        public async Task<EmployeeEducationalDetailDetailDto> GetByIdAsync(int id)
+        public async Task<EmployeeEducationalDetailDto> GetByIdAsync(int id)
         {
           return  await (from s in _dataContext.EmployeeEducationalDetails
                          join t in _dataContext.User on s.UserId equals t.Id
                          where s.Status != utilities.Constants.RecordStatus.Deleted && s.Id==id
 
-                   select new EmployeeEducationalDetailDetailDto
+                   select new EmployeeEducationalDetailDto
                    {
                        Id = s.Id,
                        UserId = s.UserId,

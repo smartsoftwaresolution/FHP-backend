@@ -1,7 +1,7 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
-using FHP.models.FHP;
+using FHP.models.FHP.EmployeeSkillDetail;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 

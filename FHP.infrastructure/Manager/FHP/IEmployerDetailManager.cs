@@ -1,5 +1,6 @@
 ﻿using FHP.dtos.FHP;
-using FHP.models.FHP;
+using FHP.dtos.FHP.EmployerDetail;
+using FHP.models.FHP.EmployerDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace FHP.infrastructure.Manager.FHP
     {
         Task AddAsync(AddEmployerDetailModel model,string vatCertificate,string certificateRegistration);
         Task Edit(AddEmployerDetailModel model,string vatCertificate,string certificateRegistration);
-        Task<(List<EmployerDetailDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search);
-        Task<EmployerDetailDetailDto> GetByIdAsync(int id);
+        Task<(List<EmployerDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search);
+        Task<EmployerDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }
 }

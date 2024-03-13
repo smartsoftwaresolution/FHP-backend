@@ -1,4 +1,4 @@
-﻿using FHP.dtos.UserManagement;
+﻿using FHP.dtos.UserManagement.UserRole;
 using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using FHP.utilities;

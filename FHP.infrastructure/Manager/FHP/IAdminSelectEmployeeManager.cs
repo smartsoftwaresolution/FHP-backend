@@ -1,6 +1,6 @@
-﻿using FHP.dtos.FHP;
+﻿using FHP.dtos.FHP.AdminSelectEmployee;
 using FHP.dtos.FHP.JobPosting;
-using FHP.dtos.UserManagement;
+using FHP.dtos.UserManagement.User;
 using FHP.models.FHP.AdminSelectEmployee;
 using System;
 using System.Collections.Generic;
