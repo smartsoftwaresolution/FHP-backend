@@ -1,6 +1,6 @@
 ﻿using FHP.dtos.FHP;
 using FHP.dtos.FHP.EmployeeDetail;
-using FHP.models.FHP;
+using FHP.models.FHP.EmployeeDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;

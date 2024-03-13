@@ -24,63 +24,88 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpPost("add")] //   Add AdminSelectEmployee 
+        [HttpPost("add")] // API endpoint to add AdminSelectEmployee 
         public async Task<IActionResult> AddAsync(AddAdminSelectEmployeeModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // If the model state is not valid, return a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();  //The method then begins a database transaction to ensure data consistency during  addition.
-            var response = new BaseResponseAdd();
+            // Begin a database transaction to ensure data consistency during addition.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();  
+            
+            
+            var response = new BaseResponseAdd(); // Response object to be sent back.
 
             try
             {
                 if(model.Id == 0 && model.JobId != 0 && model.EmployeeId != 0)
                 {
+                    // Add the AdminSelectEmployee model asynchronously.
                     await _manager.AddAsync(model);
-                    await transaction.CommitAsync();  //commit the transaction.
+
+                    // Commit the transaction.
+                    await transaction.CommitAsync();
+
+                    // Set response status code and message for successful addition.
                     response.StatusCode = 200;
                     response.Message = Constants.added;
+
+                    // Return OK response with the success message.
                     return Ok(response);
                 }
 
+                // If necessary fields are not provided in the model, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);    
 
             }
             catch(Exception ex)
-            { 
-                await transaction.RollbackAsync();  //In case of any exceptions during the process, it rolls back the transaction.
+            {
+                // In case of any exceptions during the process, roll back the transaction.
+                await transaction.RollbackAsync();
 
-                return await _exceptionHandleService.HandleException(ex);  //exception handle service  
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);  
             }
         }
 
-        [HttpPut("edit")] // Edit AdminSelectEmployee
+        [HttpPut("edit")] // API endpoint to edit AdminSelectEmployee 
         public async Task<IActionResult> EditAsync(AddAdminSelectEmployeeModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // If the model state is not valid, return a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  updation.
 
-            var response = new BaseResponseAdd();
+            // Begin a database transaction to ensure data consistency during addition.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+
+            var response = new BaseResponseAdd(); // Response object to be sent back.
 
             try
             {
                 if(model.Id >= 0)
                 {
-                    await _manager.Edit(model); 
-                    await transaction.CommitAsync(); //commit the transaction
+                    // Edit the AdminSelectEmployee model asynchronously.
+                    await _manager.Edit(model);
+                  
+                    // Commit the transaction.
+                    await transaction.CommitAsync();
+
+                    // Set response status code and message for successful updation.
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
+
+                    // Return OK response with the success message.
                     return Ok(response);
                 }
 
+                // If necessary fields are not provided in the model, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
@@ -88,43 +113,53 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex);    //exception handle service  
+                // In case of any exceptions during the process, roll back the transaction.
+                await transaction.RollbackAsync();
+               
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);    
             }
         }
 
 
-        [HttpGet("getall-pagination")] // Get All AdminSelectEmpoyeeDetail
+        [HttpGet("getall-pagination")] // Get All AdminSelectEmpoyeeDetail with Pagination and search filter
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,int jobId,string? search)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // If the model state is not valid, return a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
+
             }
 
-            var response = new BaseResponsePagination<object>();
+            var response = new BaseResponsePagination<object>(); // Response object for pagination.
 
             try
             {
+                // Retrieve data from the manager based on pagination parameters.
                 var data = await _manager.GetAllAsync(page,pageSize,jobId, search);
 
+                // Check if data is retrieved successfully.
                 if (data.adminSelect != null)
                 {
+                    // Set response status code, data, and total count for successful retrieval.
                     response.StatusCode = 200;
                     response.Data = data.adminSelect;
                     response.TotalCount = data.totalCount;
+
+                    // Return OK response with the retrieved data.
                     return Ok(response);
                 }
-
+                // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
 
             }
-
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); //exception handle service 
+                // Handle any exceptions using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);  
             }
         }
 

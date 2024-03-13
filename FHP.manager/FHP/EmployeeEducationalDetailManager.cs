@@ -1,9 +1,10 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.EmployeeEducationalDetail;
 using FHP.entity.FHP;
 using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
-using FHP.models.FHP;
+using FHP.models.FHP.EmployeeEducationalDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,12 +35,12 @@ namespace FHP.manager.FHP
         }
 
 
-        public async Task<(List<EmployeeEducationalDetailDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
+        public async Task<(List<EmployeeEducationalDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
         {
           return await _repository.GetAllAsync(page,pageSize,userId, search);  
         }
 
-        public async Task<EmployeeEducationalDetailDetailDto> GetByIdAsync(int id)
+        public async Task<EmployeeEducationalDetailDto> GetByIdAsync(int id)
         {
            return await _repository.GetByIdAsync(id);
         }

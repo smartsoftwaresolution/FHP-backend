@@ -1,8 +1,8 @@
-﻿using FHP.dtos.UserManagement;
+﻿using FHP.dtos.UserManagement.UserRole;
 using FHP.factories.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.UserRole;
 using System;
 using System.Collections.Generic;
 using System.Linq;

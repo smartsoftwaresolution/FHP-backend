@@ -1,4 +1,5 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.EmployerDetail;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP;
@@ -42,7 +43,7 @@ namespace FHP.datalayer.Repository.FHP
 
 
 
-        public async Task<(List<EmployerDetailDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
+        public async Task<(List<EmployerDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
         {
             var query = from s in _dataContext.EmployerDetails
                         where s.Status != utilities.Constants.RecordStatus.Deleted
@@ -74,7 +75,7 @@ namespace FHP.datalayer.Repository.FHP
             }
 
 
-            var data = await query.Select (s=> new EmployerDetailDetailDto
+            var data = await query.Select (s=> new EmployerDetailDto
             {
                 Id = s.employerDetail.Id,
                 UserId = s.employerDetail.UserId,
@@ -103,13 +104,13 @@ namespace FHP.datalayer.Repository.FHP
             return (data, totalCount);
         }
 
-        public async Task<EmployerDetailDetailDto> GetByIdAsync(int id)
+        public async Task<EmployerDetailDto> GetByIdAsync(int id)
         {
            return  await (from s in _dataContext.EmployerDetails
                    where s.Status != utilities.Constants.RecordStatus.Deleted
                    && s.Id == id  
 
-                   select new EmployerDetailDetailDto
+                   select new EmployerDetailDto
                    {
                        Id=s.Id,
                        UserId=s.UserId,

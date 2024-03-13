@@ -1,5 +1,5 @@
-﻿using FHP.dtos.UserManagement;
-using FHP.models.UserManagement;
+﻿using FHP.dtos.UserManagement.Company;
+using FHP.models.UserManagement.Company;
 using System;
 using System.Collections.Generic;
 using System.Linq;

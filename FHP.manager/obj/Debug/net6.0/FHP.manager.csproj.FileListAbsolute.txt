@@ -51,6 +51,11 @@ D:\FHP-BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.dll
 D:\FHP-BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\refint\FHP.manager.dll
 D:\FHP-BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.pdb
 D:\FHP-BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\ref\FHP.manager.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.csproj.AssemblyReference.cache
+C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.AssemblyInfoInputs.cache
+C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.AssemblyInfo.cs
+C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.csproj.CoreCompileInputs.cache
 C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\bin\Debug\net6.0\FHP.manager.deps.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\bin\Debug\net6.0\FHP.manager.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\bin\Debug\net6.0\FHP.manager.pdb
@@ -68,11 +73,6 @@ C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\bin\Debug\net6.0\FHP.infrastructu
 C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\bin\Debug\net6.0\FHP.entity.pdb
 C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\bin\Debug\net6.0\FHP.models.pdb
 C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\bin\Debug\net6.0\FHP.utilities.pdb
-C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.csproj.AssemblyReference.cache
-C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.GeneratedMSBuildEditorConfig.editorconfig
-C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.AssemblyInfoInputs.cache
-C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.AssemblyInfo.cs
-C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.csproj.CoreCompileInputs.cache
 C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.csproj.CopyComplete
 C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\FHP.manager.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP.manager\obj\Debug\net6.0\refint\FHP.manager.dll

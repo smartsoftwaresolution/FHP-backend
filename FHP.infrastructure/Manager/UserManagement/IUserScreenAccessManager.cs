@@ -1,5 +1,5 @@
-﻿using FHP.dtos.UserManagement;
-using FHP.models.UserManagement;
+﻿using FHP.dtos.UserManagement.UserScreenAccess;
+using FHP.models.UserManagement.UserScreenAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;

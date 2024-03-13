@@ -1,5 +1,5 @@
 ﻿using FHP.entity.FHP;
-using FHP.models.FHP;
+using FHP.models.FHP.JobPosting;
 using FHP.utilities;
 
 

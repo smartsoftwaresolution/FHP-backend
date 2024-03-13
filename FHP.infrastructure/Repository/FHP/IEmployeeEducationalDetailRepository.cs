@@ -1,4 +1,5 @@
 ﻿using FHP.dtos.FHP;
+using FHP.dtos.FHP.EmployeeEducationalDetail;
 using FHP.entity.FHP;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ namespace FHP.infrastructure.Repository.FHP
         Task AddAsync(EmployeeEducationalDetail entity);
         Task<EmployeeEducationalDetail> GetAsync(int id);
         void Edit(EmployeeEducationalDetail entity);
-        Task<(List<EmployeeEducationalDetailDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search);
-        Task<EmployeeEducationalDetailDetailDto> GetByIdAsync(int id);
+        Task<(List<EmployeeEducationalDetailDto> employeeeducationaldetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search);
+        Task<EmployeeEducationalDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }
 }

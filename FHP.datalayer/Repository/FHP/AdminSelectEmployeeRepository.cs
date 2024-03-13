@@ -1,6 +1,6 @@
-﻿using FHP.dtos.FHP;
+﻿using FHP.dtos.FHP.AdminSelectEmployee;
 using FHP.dtos.FHP.JobPosting;
-using FHP.dtos.UserManagement;
+using FHP.dtos.UserManagement.User;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using Microsoft.EntityFrameworkCore;

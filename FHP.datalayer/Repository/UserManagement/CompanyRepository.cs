@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FHP.entity;
 using FHP.entity.UserManagement;
-using FHP.dtos.UserManagement;
 using System.Reflection.Metadata;
 using FHP.utilities;
+using FHP.dtos.UserManagement.Company;
 
 namespace FHP.datalayer.Repository.UserManagement
 {

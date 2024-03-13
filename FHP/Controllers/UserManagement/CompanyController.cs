@@ -1,8 +1,8 @@
 ﻿using FHP.infrastructure.Manager.UserManagement;
-using FHP.models.UserManagement;
 using Microsoft.AspNetCore.Mvc;
 using FHP.utilities;
 using FHP.infrastructure.Service;
+using FHP.models.UserManagement.Company;
 
 namespace FHP.Controllers.UserManagement
 {

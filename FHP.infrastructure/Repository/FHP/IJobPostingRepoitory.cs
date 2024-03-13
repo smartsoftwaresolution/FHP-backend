@@ -1,5 +1,4 @@
-﻿using FHP.dtos.FHP;
-using FHP.dtos.FHP.JobPosting;
+﻿using FHP.dtos.FHP.JobPosting;
 using FHP.entity.FHP;
 using FHP.utilities;
 using System;

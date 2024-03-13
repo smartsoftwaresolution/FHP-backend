@@ -1,5 +1,5 @@
-﻿using FHP.dtos.FHP;
-using FHP.models.FHP;
+﻿using FHP.dtos.FHP.EmployeeAvailability;
+using FHP.models.FHP.EmployeeAvailability;
 
 namespace FHP.infrastructure.Manager.FHP
 {
