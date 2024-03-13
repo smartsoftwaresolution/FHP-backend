@@ -1,4 +1,5 @@
-﻿using FHP.entity.UserManagement;
+﻿
+using FHP.entity.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.UserLogin;
@@ -33,44 +34,56 @@ namespace FHP.Controllers.UserManagement
             _emailSettingManager = emailSettingManager;
         }
 
-        // user login by email
-        [HttpPost("userlogin-email")]
+        
+        [HttpPost("userlogin-email")] // API Endpoint for user login by email
         public async Task<IActionResult> UserLoginAsync(UserLoginModel model)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return Ok(ModelState.GetErrorList());
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList());
             }
 
+         
+            // Initializes the response object for returning the result
             var response = new BaseResponse<object>();
 
             try
             {
-                    var data = await _manager.GetUserByEmail(model.Email);
-                    if(data != null)
+                // Retrieves user data by email
+                var data = await _manager.GetUserByEmail(model.Email);
+
+                // Checks if user data is not null
+                if (data != null)
                     {
-                        
-                        if(data.Status == Constants.RecordStatus.Inactive)
+
+                       // Checks if the user account is inactive
+                    if (data.Status == Constants.RecordStatus.Inactive)
                         {
                             response.StatusCode = 400;
                             response.Message = "account is inactive";
                             return BadRequest(response);
                         }
 
-                        if (!string.IsNullOrEmpty(data.Password) && utilities.Utility.Decrypt(model.Password, data.Password) == false)
+                       // Validates the password
+                    if (!string.IsNullOrEmpty(data.Password) && utilities.Utility.Decrypt(model.Password, data.Password) == false)
                         {
                             response.Message = "Invalid password. Please enter your current valid password.";
                             response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             return BadRequest(response);
                         }
-    
-                        if(data.IsVerify == null || data.IsVerify == false)
+
+                    // Checks if email is verified
+                    if (data.IsVerify == null || data.IsVerify == false)
                         {
                             response.Message = "email is send to your account,Plz verify the account first";
                             response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             return BadRequest(response);
                         }
 
+
+                         // Creates JWT token for authentication
                         var tokenHandler = new JwtSecurityTokenHandler();
                         var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:secret"));
                         var tokenDescription = new SecurityTokenDescriptor
@@ -90,8 +103,9 @@ namespace FHP.Controllers.UserManagement
                             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                         };
 
-                        var token = tokenHandler.CreateToken(tokenDescription); //token handler
+                        var token = tokenHandler.CreateToken(tokenDescription); 
 
+                         // Logs user login
                         LoginModule login = new LoginModule();
                         login.CreatedOn = DateTime.UtcNow;
                         login.UserId = data.Id;
@@ -100,6 +114,8 @@ namespace FHP.Controllers.UserManagement
                       
                         await _manager.UserLogIn(login); //userLogOn
 
+
+                        // Sets response status code and message
                         response.StatusCode = (int)HttpStatusCode.OK;
                         response.Message = "User logged in Successfully!!";
                         response.Data = tokenHandler.WriteToken(token);
@@ -108,6 +124,7 @@ namespace FHP.Controllers.UserManagement
 
                     else
                     {
+                        // Returns a response indicating invalid email
                         response.StatusCode = 400;
                         response.Message = "Invalid Email";
                         return BadRequest(response);
@@ -117,28 +134,35 @@ namespace FHP.Controllers.UserManagement
 
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); //exception Handle Service
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
-        // userlogin by governmentId
-        [HttpPost("userlogin-governmentid")]
+        
+        [HttpPost("userlogin-governmentid")] // API Endpoint for user login by governmentId
         public async Task<IActionResult> UserLoginByGovId(UserLoginGovIdModel model)
         {
+                // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
 
-           var response = new BaseResponse<object>();
+            // Initializes the response object for returning the result
+            var response = new BaseResponse<object>();
 
             try
             {
                
                    var data = await _manager.GetUserByGovernmentId(model.GovernmentId);
 
-                    if (data != null)
+
+                // Checks if user data is not null
+                if (data != null)
                     {
+                        // Checks if the user account is inactive
                         if (data.Status == Constants.RecordStatus.Inactive)
                         {
                             response.StatusCode = 400;
@@ -158,6 +182,8 @@ namespace FHP.Controllers.UserManagement
                             response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             return BadRequest(response);
                         }
+
+                         // Creates JWT token for authentication
                           var tokenHandler =  new JwtSecurityTokenHandler();
                           var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:secret"));
 
@@ -181,6 +207,8 @@ namespace FHP.Controllers.UserManagement
 
                           var token = tokenHandler.CreateToken(tokenDescription); //tokenHandler
 
+
+                             // Logs user login
                             LoginModule login = new LoginModule();
                             login.CreatedOn = DateTime.UtcNow;
                             login.UserId = data.Id;
@@ -189,6 +217,7 @@ namespace FHP.Controllers.UserManagement
 
                          await _manager.UserLogIn(login);
 
+                    // Sets response status code and message
                         response.StatusCode = (int)HttpStatusCode.OK;
                         response.Message = "User logged in Successfully!!";
                         response.Data = tokenHandler.WriteToken(token);
@@ -196,6 +225,7 @@ namespace FHP.Controllers.UserManagement
                     }
                     else
                     {
+                    // Returns a response indicating invalid governmentId
                         response.StatusCode = 400;
                         response.Message = "Invalid Government ID";
                         return BadRequest(response);
@@ -204,100 +234,142 @@ namespace FHP.Controllers.UserManagement
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); //exception handle service
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);   
             }
         }
 
 
-        //user logout
-        [HttpPost("logout")]
+        
+        [HttpPost("logout")] // Endpoint for user logout
         public async Task<IActionResult> UserLogOutAsync(int userId)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
 
+
+            // Initializes the response object for returning the result
             var response = new BaseResponse<object>();
 
             try
             {
-                if(userId >=0)
+                // Checks if a valid user ID is provided
+                if (userId >=0)
                 {
+                    // Calls the manager to log out the user asynchronously
                     await _manager.UserLogOut(userId);
+
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode= (int)HttpStatusCode.OK;
                     response.Message = "User logged out Sucessfully. ";
+
+                    // Returns Ok response with the success message
                     return Ok(response);
                 }
 
                 response.StatusCode = 400;
                 response.Message = "User Id must greater than zero.";
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
 
             catch(Exception ex)
             {
-               return  await _exceptionHandleService.HandleException(ex); //exceptionHandle Service
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
 
-        // change password
-        [HttpPatch("change-password")]
+        
+        [HttpPatch("change-password")] //  API Endpoint for changing user password
         public async Task<IActionResult> ChangePasswordAsync(int userId, string password)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAdd();
+
             try
             {
+                // Checks if a valid user ID is provided
                 if (userId > 0)
                 {
+                    // Calls the manager to change user password asynchronously
                     await _manager.ChangePassword(userId, password);
+
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Message = $"Password changed Successfully!!";
+
+                    // Returns Ok response with the success message
                     return Ok(response);
                 }
 
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
 
             }
             catch (Exception ex)
             {
+                // Handle the exception using the provided exception handling service.
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
 
 
-        // forgot password
-        [HttpPatch("forgot-password")]
+       
+        [HttpPatch("forgot-password")] //  API Endpoint for handling forgot password request
         public async Task<IActionResult> ForgotPasswordAsync( string email)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAdd();
+
+
             try
             {
+                
+                // Retrieves user data by email
                 var exist = await _manager.GetUserByEmail(email);
+
+                // Checks if user data exists
                 if (exist == null)
                 {
+                    // Sets StatusCode to 400 indicating a bad request
                     response.StatusCode = 400;
                     response.Message = $"email does not exist";
+
+                    // Returns BadRequest response with the error message
                     return BadRequest(response);
                 }
-                
+
+                // Generates a random OTP
                 Random generator = new Random();
-                String r = generator.Next(0, 1000000).ToString("D6"); // Opt
-                
-                bool result = await _manager.SaveOtp(email,Convert.ToInt32(r));
+                String r = generator.Next(0, 1000000).ToString("D6"); 
+
+                // Saves OTP for the user
+                bool result = await _manager.SaveOtp(email,Convert.ToInt32(r)); 
+
                 if (result == true)
                 {
                     var data = new
@@ -308,10 +380,11 @@ namespace FHP.Controllers.UserManagement
 
                     var emailSeting = await _emailSettingManager.GetByIdAsync(1);
 
+                    // Constructs email message
                     MailMessage mail = new MailMessage();
                     SmtpClient SmtpServer = new SmtpClient();
 
-                    mail.From = new MailAddress(emailSeting.Email, "FHP"); // emial 
+                    mail.From = new MailAddress(emailSeting.Email, "FHP"); // Sender email address
                     mail.To.Add(email);
                     mail.Subject = "Reset Password";
                     mail.Body = "<Html>"
@@ -339,58 +412,83 @@ namespace FHP.Controllers.UserManagement
                     SmtpServer.EnableSsl = true;
                     SmtpServer.Send(mail);
 
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Message = "otp send to your mail";
-                    
+
+                    // Returns Ok response with the success message
                     return Ok(response);
                 }
                 else
                 {
+                    // Sets StatusCode to 400 indicating a bad request
                     response.StatusCode = 400;
                     response.Message = "email not found";
+
+                    // Returns BadRequest response with the error message
                     return BadRequest(response);
                 }
             }
             catch (Exception ex)
             {
+                // Handles exceptions and returns appropriate response
                 return await _exceptionHandleService.HandleException(ex);
-
             }
         }
 
-        // user verify eamil otp
-        [HttpPatch("verify-email-otp")]
+        
+        [HttpPatch("verify-email-otp")] // API Endpoint for verifying email OTP
         public async Task<IActionResult> VerifyEmailOtpAsync(string email,int otp)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponse<object>();
+
             try
             {
+                // Retrieves user data by email
                 var exist = await _manager.GetUserByEmail(email);
+
+                // Checks if user data exists
                 if (exist == null)
                 {
                     response.StatusCode = 400;
                     response.Message = $"email does not exist";
+
+                    // Returns BadRequest response with the error message
                     return BadRequest(response);
                 }
 
-                if(exist.Otp == otp)
+
+                // Compares the provided OTP with the OTP saved in the user's data
+                if (exist.Otp == otp)
                 {
+                   
                     response.Data = exist.Id;
+
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Message = $"otp matched successfully!!";
+
+                    // Returns Ok response with the success message and user ID
                     return Ok(response);
                 }
+
                 response.StatusCode = 400;
                 response.Message = $"otp not matched";
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
             catch (Exception ex)
             {
+                // Handles exceptions and returns appropriate response
                 return await _exceptionHandleService.HandleException(ex);
 
             }

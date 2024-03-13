@@ -25,23 +25,29 @@ namespace FHP.Controllers.FHP
             _unitOfWork=unitOfWork;
         }
 
-        [HttpPost("add")]   // Add EmployerContractConfirmation
+        [HttpPost("add")]   
         public async Task<IActionResult> AddAsync(AddEmployerContractConfirmationModel model)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());  //it returns a BadRequest response with a list of errors.
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList());  
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();  //The method then begins a database transaction to ensure data consistency during  addition.
+
+            //The method then begins a database transaction to ensure data consistency during  addition.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
+                // Check if the required fields are provided
                 if (model.Id == 0 && model.EmployerId != 0 && model.JobId != 0 && model.EmployeeId != 0)
                 {
-                    await _manager.AddAsync(model); // Added 
-                    await transaction.CommitAsync(); // commit transaction
+                    // Add the employerContract
+                    await _manager.AddAsync(model); 
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
@@ -54,28 +60,36 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex); //exception hadler service
+                //In case of any exceptions during the process, it rolls back the transaction.
+                await transaction.RollbackAsync();
+
+                // Handle the exception using the provided exception handling service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
-        [HttpPut("edit")]  //Edit EmployerContractConfirmation
+        [HttpPut("edit")]  // API endpoint fot Edit EmployerContractConfirmation
         public async Task<IActionResult> EditAsync(AddEmployerContractConfirmationModel model)
         {
+            // Check if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Return a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  updation.
+
+            //The method then begins a database transaction to ensure data consistency during  updation.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
+                // Check if the provided model ID is valid
                 if (model.Id >= 0)
                 {
-                    await _manager.Edit(model); //updated
-                    await transaction.CommitAsync(); //commit transaction
+                    await _manager.Edit(model); 
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -88,24 +102,30 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex); //exception handler service
+                //In case of any exceptions during the process, it rolls back the transaction.
+                await transaction.RollbackAsync();
+
+                // Handle the exception using the provided exception handling service
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 
         [HttpGet("getall-pagination")]  //get all EmployerContractConfirmation
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
+            // Check if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Return a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponsePagination<object>();
 
             try
             {
-               var data = await _manager.GetAllAsync(page,pageSize, search);
+                // Retrieve all employer contract  with pagination
+                var data = await _manager.GetAllAsync(page,pageSize, search);
 
                 if (data.employerContract != null)
                 {
@@ -121,7 +141,8 @@ namespace FHP.Controllers.FHP
             }
            catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
+                // Handle the exception using the provided exception handling service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
@@ -129,15 +150,18 @@ namespace FHP.Controllers.FHP
         [HttpGet("getbyid")] //get by id EmployerContractConfirmation
         public async Task<IActionResult> GetByIdAsync(int id)
         {
+            // Check if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Return a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAddResponse<object>();
 
             try
             {
+                // Retrieve an employer contract by its ID
                 var data = await _manager.GetByIdAsync(id);
 
                 if (data != null)
@@ -154,7 +178,8 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
+                // Handle the exception using the provided exception handling service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
@@ -162,15 +187,18 @@ namespace FHP.Controllers.FHP
         [HttpDelete("delete/{id}")] //delete EmployerContractConfirmation
         public async Task<IActionResult> DeleteAsync(int id)
         {
+            // Check if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Return a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAdd();
 
             try
             {
+                // Check if the provided ID is valid
                 if (id <= 0)
                 {
                     response.StatusCode = 400;
@@ -178,6 +206,7 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
+                // Delete the employer contract
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
@@ -185,8 +214,9 @@ namespace FHP.Controllers.FHP
 
             }
             catch (Exception ex)
-            { 
-                return await _exceptionHandleService.HandleException(ex);  //exceptionHandler service
+            {
+                // Handle the exception using the provided exception handling service
+                return await _exceptionHandleService.HandleException(ex);  
             }
         }
     }
