@@ -1,4 +1,4 @@
-﻿using FHP.dtos.FHP;
+﻿using FHP.dtos.FHP.Contract;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;

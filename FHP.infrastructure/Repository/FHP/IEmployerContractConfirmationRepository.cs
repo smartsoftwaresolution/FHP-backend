@@ -1,4 +1,4 @@
-﻿using FHP.dtos.FHP;
+﻿using FHP.dtos.FHP.EmployerContractConfirmation;
 using FHP.entity.FHP;
 
 namespace FHP.infrastructure.Repository.FHP

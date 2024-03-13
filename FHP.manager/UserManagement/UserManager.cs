@@ -1,5 +1,4 @@
-﻿
-using FHP.dtos.UserManagement;
+﻿using FHP.dtos.UserManagement.User;
 using FHP.entity.UserManagement;
 using FHP.factories.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;

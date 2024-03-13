@@ -1,6 +1,6 @@
 ﻿using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.EmailSetting;
 using FHP.utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

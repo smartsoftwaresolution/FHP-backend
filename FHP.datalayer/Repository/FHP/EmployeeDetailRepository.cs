@@ -1,5 +1,7 @@
 ﻿using FHP.dtos.FHP;
 using FHP.dtos.FHP.EmployeeDetail;
+using FHP.dtos.FHP.EmployeeEducationalDetail;
+using FHP.dtos.FHP.EmployeeProfessionalDetail;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
@@ -226,7 +228,7 @@ namespace FHP.datalayer.Repository.FHP
                                                   }).ToList(),
                                   Education = (from e in _dataContext.EmployeeEducationalDetails
                                                where e.UserId == s.Id
-                                               select new EmployeeEducationalDetailDetailDto
+                                               select new EmployeeEducationalDetailDto
                                                {
                                                    Id = e.Id,
                                                    UserId = e.UserId,

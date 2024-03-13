@@ -1,4 +1,6 @@
-﻿using FHP.utilities;
+﻿using FHP.dtos.FHP.EmployeeEducationalDetail;
+using FHP.dtos.FHP.EmployeeProfessionalDetail;
+using FHP.utilities;
 
 namespace FHP.dtos.FHP.EmployeeDetail
 {
@@ -22,7 +24,7 @@ namespace FHP.dtos.FHP.EmployeeDetail
         public string MobileNumber { get; set; }
         public bool? IsVerifyByAdmin { get; set; }
         public EmployeeDetailDto EmployeeDetail { get; set; }
-        public List<EmployeeEducationalDetailDetailDto> Education { get; set; }
+        public List<EmployeeEducationalDetailDto> Education { get; set; }
         public List<EmployeeProfessionalDetailDto> Professional { get; set; }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using FHP.entity.UserManagement;
-using FHP.models.UserManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FHP.utilities;
+using FHP.models.UserManagement.Country;
 
 namespace FHP.factories.UserManagement
 {

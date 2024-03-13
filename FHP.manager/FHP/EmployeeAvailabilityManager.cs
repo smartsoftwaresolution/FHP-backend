@@ -1,8 +1,8 @@
-﻿using FHP.dtos.FHP;
+﻿using FHP.dtos.FHP.EmployeeAvailability;
 using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
-using FHP.models.FHP;
+using FHP.models.FHP.EmployeeAvailability;
 
 namespace FHP.manager.FHP
 {

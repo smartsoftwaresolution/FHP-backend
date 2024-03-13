@@ -1,8 +1,8 @@
 ﻿using FHP.datalayer.Migrations;
-using FHP.dtos.FHP;
+using FHP.dtos.FHP.EmployeeSkill;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
-using FHP.models.FHP;
+using FHP.models.FHP.EmployeeSkillDetail;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 using System;

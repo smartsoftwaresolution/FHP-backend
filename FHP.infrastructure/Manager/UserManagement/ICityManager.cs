@@ -1,6 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
-using FHP.dtos.UserManagement;
-using FHP.models.UserManagement;
+using FHP.dtos.UserManagement.City;
+using FHP.models.UserManagement.City;
 using System;
 using System.Collections.Generic;
 using System.Linq;

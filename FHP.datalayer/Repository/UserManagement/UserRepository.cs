@@ -1,9 +1,10 @@
 ﻿using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using Microsoft.EntityFrameworkCore;
-using FHP.dtos.UserManagement;
 using FHP.utilities;
 using FHP.dtos.FHP;
+using FHP.dtos.UserManagement.User;
+using FHP.dtos.FHP.EmployeeDetail;
 
 namespace FHP.datalayer.Repository.UserManagement
 {

@@ -1,6 +1,6 @@
-﻿using FHP.dtos.UserManagement;
+﻿using FHP.dtos.UserManagement.Country;
 using FHP.entity.UserManagement;
-using FHP.models.UserManagement;
+using FHP.models.UserManagement.Country;
 using System;
 using System.Collections.Generic;
 using System.Linq;
