@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.ExtendedProperties;
+using FHP.entity.UserManagement;
 using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
@@ -28,201 +29,288 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
-        // add State
-        [HttpPost("add")]
+       
+        [HttpPost("add")] // API Endpoint for adding a State
         public async Task<IActionResult> AddAsync(AddStateModel model)
         {
-            if(!ModelState.IsValid)
+            // Checks if the model state is valid
+            if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  addition.
+
+            //The method then begins a database transaction to ensure data consistency during  addition.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
                 if(model.Id ==0 &&  model.CountryId !=0 && !string.IsNullOrEmpty(model.StateName))
                 {
-                    await _manager.AddAsync(model); //added
-                    await transaction.CommitAsync(); // commit transaction
+                    await _manager.AddAsync(model);
+
+                    // commit transaction
+                    await transaction.CommitAsync();
+
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Message = Constants.added;
+
+                    // Returns Ok response with the success message
                     return Ok(response);
 
                 }
 
+                // Sets StatusCode to 400 indicating a bad request
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
             catch(Exception ex)
             {
-                await transaction.RollbackAsync();  //In case of any exceptions during the process, it rolls back the transaction
-                return await _exceptionHandleService.HandleException(ex); //exceptionHandler service
+                //In case of any exceptions during the process, it rolls back the transaction
+                await transaction.RollbackAsync();
+
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
-        // edit State
-        [HttpPut("edit")]
+        
+        [HttpPut("edit")] // API Endpoint for updating a State
         public async Task<IActionResult> EditAsync(AddStateModel model)
         {
-            if(!ModelState.IsValid)
+            // Checks if the model state is valid
+            if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList());  //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList());  
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  updation.
+
+            //The method then begins a database transaction to ensure data consistency during  updation.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
                 if(model.Id >=0 && model != null)
                 {
-                    await _manager.Edit(model); //updated
-                    await transaction.CommitAsync(); //commit transaction
+                    await _manager.Edit(model);
+
+                    //commit transaction
+                    await transaction.CommitAsync();
+
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
+
+                    // Returns Ok response with the success message
                     return Ok(response);
                 }
 
+
+                // Sets StatusCode to 400 indicating a bad request
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
+
+                // Handle the exception using the provided exception handling service.
                 return BadRequest(response);
 
             }
             catch(Exception ex)
             {
-                await transaction.RollbackAsync();  //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex);  //exceptionHandler service
+                //In case of any exceptions during the process, it rolls back the transaction.
+                await transaction.RollbackAsync();
+
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
-        //get all State
-        [HttpGet("getall-pagination")]
+        
+        [HttpGet("getall-pagination")] // API  Endpoint for retrieving all entities with pagination
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+               // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList());
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponsePagination<object>();
 
             try
             {
+                // Calls the manager to retrieve all entities with pagination and search asynchronously
                 var data = await _manager.GetAllAsync(page,pageSize,search);
+
+                // Checks if the retrieved data is not null
                 if (data.state != null)
                 {
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Data = data.state;
                     response.TotalCount = data.totalCount;
+
+                    // Returns Ok response with the data
                     return Ok(response);
                 }
 
+                // Sets StatusCode to 400 indicating a bad request
                 response.StatusCode = 400;
                 response.Message = Constants.error;
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
             catch(Exception ex) 
-            { 
-                return await _exceptionHandleService.HandleException(ex);    // exception service
+            {
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);    
             }
 
         }
 
-        //get by id State
-        [HttpGet("getbyid")]
+       
+        [HttpGet("getbyid")] // API Endpoint for retrieving an entity by its ID
         public async Task<IActionResult> GetByIdAsync(int id)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAddResponse<object>();
 
             try
             {
+                // Calls the manager to retrieve an entity by its ID asynchronously
                 var data = await _manager.GetByIdAsync(id);
+
+                // Checks if the retrieved data is not null
                 if (data != null)
                 {
                     response.StatusCode = 200;
                     response.Data = data;
+
+                    // Returns Ok response with the data
                     return Ok(response);
                 }
 
                 response.StatusCode = 400;
                 response.Message = Constants.error;
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex);    //exceptionhandler service
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);   
             }
         }
 
-        // get by CountryId
-        [HttpGet("getby-countryId")]
+       
+        [HttpGet("getby-countryId")] //  API Endpoint for retrieving data by country ID
         public async Task<IActionResult> GetByCountryIdAsync(int countryId)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAddResponse<object>();
+
+           
 
             try
             {
+                // Calls the manager to retrieve data by country ID asynchronously
                 var data = await _manager.GetByCountryIdAsync(countryId);
+
+                // Checks if the retrieved data is not null
                 if (data != null)
                 {
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Data = data;
+
+                    // Returns Ok response with the data
                     return Ok(response);
                 }
 
+                // Sets StatusCode to 400 indicating a bad request
                 response.StatusCode = 400;
                 response.Message = Constants.error;
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); //exceptionhandler service
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 
 
-        // delete State
-        [HttpDelete("delete/{id}")]
+        
+        [HttpDelete("delete/{id}")] // API  Endpoint for deleting an entity by its ID
         public async Task<IActionResult> DeleteAsync(int id)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAdd();
 
             try
             {
+                // Checks if the provided ID is valid
                 if (id <= 0)
                 {
+                    // Sets StatusCode to 400 indicating a bad request
                     response.StatusCode = 400;
                     response.Message = "ID Required";
+
+                    // Returns BadRequest response with the error message
                     return BadRequest(response);
                 }
 
+                // Calls the manager to delete the entity asynchronously by its ID
                 await _manager.DeleteAsync(id);
+
+                // Sets StatusCode to 200 indicating success
                 response.StatusCode = 200;
-                response.Message = Constants.deleted; // deleted
+                response.Message = Constants.deleted;
+
+                // Returns Ok response with the success message
                 return Ok(response);
 
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); //exceptionhandler service
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 

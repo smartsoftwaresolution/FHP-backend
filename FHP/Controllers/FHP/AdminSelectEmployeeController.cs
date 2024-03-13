@@ -34,10 +34,11 @@ namespace FHP.Controllers.FHP
             }
 
             // Begin a database transaction to ensure data consistency during addition.
-            await using var transaction = await _unitOfWork.BeginTransactionAsync();  
-            
-            
-            var response = new BaseResponseAdd(); // Response object to be sent back.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+
+
+            // Response object to be sent back.
+            var response = new BaseResponseAdd(); 
 
             try
             {
@@ -165,26 +166,37 @@ namespace FHP.Controllers.FHP
 
 
 
-        [HttpGet("getbyid")] //Get By Id AdminSelectEmployee
+        [HttpGet("getbyid")] //  API Endpoint for retrieving  by ID
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
-            { 
-                return BadRequest(ModelState.GetErrorList());    //it returns a BadRequest response with a list of errors.
+            {
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAddResponse<object>();
 
             try
             {
+                // Retrieves employee data asynchronously by the provided ID
                 var data = await _manager.GetByIdAsync(id);
-                if(data != null)
+
+                // Checks if data is found
+                if (data != null)
                 {
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
+
+                    // Sets retrieved data to the response object
                     response.Data = data;
+
+                    // Returns Ok response with the data
                     return Ok(response);
                 }
 
+                // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -192,74 +204,97 @@ namespace FHP.Controllers.FHP
 
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); //exception handle service
+                // Handle any exceptions using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
               
         }
 
-        [HttpDelete("delete/{id}")] //Delete AdminSelectEmployee
+        [HttpDelete("delete/{id}")] // API Endpoint for deleting an employee by ID
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)
-            { 
-                return BadRequest(ModelState.GetErrorList());  //it returns a BadRequest response with a list of errors.
+            {
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList());  
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAdd();
 
             try
             {
-                if(id <= 0)
+                // Checks if the provided ID is valid
+                if (id <= 0)
                 {
+                    // Sets StatusCode to 400 indicating a bad request
                     response.StatusCode = 400;
                     response.Message = "Id Required.";
+
+                    // Returns BadRequest response with the error message
                     return BadRequest(response);
                 }
 
+                // Calls the manager to asynchronously delete the employee by ID
                 await _manager.DeleteAsync(id);
                 response.StatusCode=200;
                 response.Message = Constants.deleted;
+
+                // Returns Ok response with the success message
                 return Ok(response);
 
             }
             catch(Exception ex)
-            { 
-                return await _exceptionHandleService.HandleException(ex);  //exception handle service
+            {
+                // Handle any exceptions using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);  
             }
         }
 
 
-        [HttpGet("getall-job-employee")] //Get All JobEmployee Details
+        [HttpGet("getall-job-employee")] // Endpoint for retrieving all job employee details
         public async Task<IActionResult> GetAllJobEmployeeAsync(int jobId)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
+            // Initializes the response object for returning the result with pagination support
             var response = new BaseResponsePagination<object>();
 
             try
             {
+                // Retrieves all job employee details asynchronously by the provided job ID
                 var data = await _manager.GetAllJobEmployeeAsync(jobId);
 
+                // Checks if data is not null
                 if (data.adminSelect != null)
                 {
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Data = data.adminSelect;
                     response.TotalCount = data.totalCount;
+
+                    // Returns Ok response with the data
                     return Ok(response);
                 }
 
+                // Sets StatusCode to 400 indicating that the request is invalid or cannot be processed
                 response.StatusCode = 400;
                 response.Message = Constants.error;
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
 
             }
 
             catch (Exception ex)
-            { 
-                return await _exceptionHandleService.HandleException(ex); //exception handle service
+            {
+                // Handle any exceptions using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 

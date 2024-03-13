@@ -1,4 +1,5 @@
-﻿using FHP.infrastructure.DataLayer;
+﻿using FHP.entity.UserManagement;
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.UserRole;
@@ -23,168 +24,243 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
-        // add UserRole
-        [HttpPost("add")]
+        
+        [HttpPost("add")] // API Endpoint for adding a user role
         public async Task<IActionResult> AddAsync(AddUserRoleModel model)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList());
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  addition.
+
+            //The method then begins a database transaction to ensure data consistency during  addition.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
+
+                // Checks if the model ID is 0 and roleName is not empty or null
                 if (model.Id == 0  && 
                     !string.IsNullOrEmpty(model.RoleName))
                 {
-                    await _manager.AddAsync(model); // role added
-                    await transaction.CommitAsync();//commit transaction
+
+                    // Calls the manager to add the user role asynchronously
+                    await _manager.AddAsync(model);
+
+                    //commit the transaction
+                    await transaction.CommitAsync();
+
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Message = Constants.added;
+
+                    // Returns Ok response with the success message
                     return Ok(response);
                 }
 
+                // Sets StatusCode to 400 indicating a bad request
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction
-                return await _exceptionHandleService.HandleException(ex); //exceptionHandler service
+                //In case of any exceptions during the process, it rolls back the transaction
+                await transaction.RollbackAsync();
+
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
+
             }
         }
 
-        // edit UserRole
-        [HttpPut("edit")]
+        
+        [HttpPut("edit")] //  API Endpoint for editing a user role
         public async Task<IActionResult> Edit(AddUserRoleModel model)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  updation.
+            //The method then begins a database transaction to ensure data consistency during  updation.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+
+            // Initializes the response object for returning the result
             var response = new BaseResponseAdd();
 
             try
             {
+                // Checks if the model ID is greater than or equal to 0
                 if (model.Id >= 0 )
                 {
-                    await _manager.EditAsync(model); //Role updated
-                    await transaction.CommitAsync(); // commit transaction
+                    // Calls the manager to edit the user role asynchronously
+                    await _manager.EditAsync(model); 
+                    await transaction.CommitAsync(); 
+
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
+
+                    // Returns Ok response with the success message
                     return Ok(response);
                 }
 
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
+                //In case of any exceptions during the process, it rolls back the transaction.
+                await transaction.RollbackAsync();
+
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
        
-        // get all userRole
-        [HttpGet("getall-pagination")]
+        
+        [HttpGet("getall-pagination")] // API Endpoint for retrieving all user roles with pagination
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponsePagination<object>();
+
             try
             {
+                // Calls the manager to retrieve user roles asynchronously with pagination and search
                 var data = await _manager.GetAllAsync(page,pageSize,search);
 
+                // Checks if the retrieved data is not null
                 if (data.userRole != null)
                 {
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Data = data.userRole;
                     response.TotalCount = data.totalCount;
+
+                    // Returns Ok response with the data
                     return Ok(response);
                 }
 
                 response.StatusCode = 400;
                 response.Message = Constants.error;
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
+
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
-        // get by id userRole
-        [HttpGet("getbyid")]
+        
+        [HttpGet("getbyid")] // API Endpoint for retrieving a user role by its ID
         public async Task<IActionResult> GetByIdAsync(int id)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
+            // Initializes the response object for returning the result
             var response = new BaseResponseAddResponse<object>();
 
             try
             {
+                // Calls the manager to retrieve a user role by its ID asynchronously
                 var data = await _manager.GetByIdAsync(id);
+
+                // Checks if the retrieved data is not null
                 if (data != null)
                 {
+                    // Sets StatusCode to 200 indicating success
                     response.StatusCode = 200;
                     response.Data = data;
+
+                    // Returns Ok response with the data
                     return Ok(response);
                 }
 
                 response.StatusCode = 400;
                 response.Message = Constants.error;
+
+                // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
 
             }
         }
 
 
-        // delete UserRole
-        [HttpDelete("delete/{id}")]
+       
+        [HttpDelete("delete/{id}")] // API Endpoint for deleting a user role by its ID
         public async Task<IActionResult> DeleteAsync(int id)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
+           
             var response = new BaseResponseAdd();
 
             try
             {
+                // Checks if the provided ID is less than or equal to 0
                 if (id <= 0)
                 {
                     response.Message = "Id Required";
                     response.StatusCode = 400;
+
+                    // Returns BadRequest response with the error message
                     return BadRequest(response);
                 }
-                 
-                await _manager.DeleteAsync(id); // deleted
+
+                // Calls the manager to delete a user role by its ID asynchronously
+                await _manager.DeleteAsync(id);
+
+                // Sets StatusCode to 200 indicating success
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
+
+                // Returns Ok response with the success message
                 return Ok(response);
             }
             catch(Exception ex)
-            { 
-                return await _exceptionHandleService.HandleException(ex); //exceptioHandler service
+            {
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
     }
