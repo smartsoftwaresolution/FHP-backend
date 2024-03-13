@@ -34,24 +34,22 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAdd();
-          // await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
-                if(model.Id == 0 && model.UserId != 0 && model.SkillId != null)
+
+                // Check if all required fields are provided.
+                if (model.Id == 0 && model.UserId != 0 && model.SkillId != null)
                 {
-
+                    // Add the employee professional detail to the database.
                     await _manager.AddAsync(model);
-                 //   await transaction.CommitAsync();
-
-                  
-
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
 
                 }
 
+                // If required fields are not provided, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
@@ -59,7 +57,6 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-             //   await transaction.RollbackAsync();
                 return await _exceptionHandleService.HandleException(ex);  //exception handler service
             }
         }
@@ -78,15 +75,21 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(model.Id >= 0)
+
+                // Check if the model ID is valid.
+                if (model.Id >= 0)
                 {
-                    await _manager.Edit(model); // updated
-                    await transaction.CommitAsync(); // commit transaction
+                    // Update the employee professional detail.
+                    await _manager.Edit(model);
+                    
+                    // commit transaction
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
                 }
 
+                // If the model ID is invalid, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
@@ -99,7 +102,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getall-pagination")]   // GetAll EmployeeSkill Details
+        [HttpGet("getall-pagination")]   // GetAll EmployeeSkill Details with pagination and search filter
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,int userId,string? search)
         {
             if (!ModelState.IsValid)
@@ -143,14 +146,20 @@ namespace FHP.Controllers.FHP
 
             try
             {
+
+                // Retrieve data from the manager based on pagination parameters.
                 var data = await _manager.GetByIdAsync(id);
-                if(data != null)
+
+
+                // Check if data is retrieved successfully.
+                if (data != null)
                 {
                     response.StatusCode = 200;
                     response.Data = data;
                     return Ok(response);
                 }
 
+                // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -173,14 +182,18 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(id <= 0)
+
+                if (id <= 0)
                 {
+                    // If Id is not provided or invalid, return a BadRequest response.
                     response.StatusCode = 400;
                     response.Message = "Id Required";
                     return BadRequest(response);
                 }
 
+                // Delete Contract asynchronously using the manager.
                 await _manager.DeleteAsync(id);
+
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
                 return Ok(response);

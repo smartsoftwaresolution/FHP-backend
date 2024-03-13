@@ -40,18 +40,22 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Check if all required fields are provided and not null or empty.
                 if (model.Id == 0 && model.UserId != 0 && model.YearOfCompletion != 0 && model.GPA != 0.0 &&
                     !string.IsNullOrEmpty(model.Education) &&
                     !string.IsNullOrEmpty(model.NameOfBoardOrUniversity))
 
                 {
+                    // Add the educational detail using the manager service.
                     await _manager.AddAsync(model);
-                    await transaction.CommitAsync(); //commit transaction
+                   
+                    //commit transaction
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
                     response.Message = Constants.added; 
                     return Ok(response);
                 }
-
+                // If required fields are not provided or empty, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
@@ -76,15 +80,20 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(model.Id >= 0)
+                // Check if the provided model has a valid ID.
+                if (model.Id >= 0)
                 {
-                    await _manager.Edit(model); //updated
-                    await transaction.CommitAsync(); //commit transaction
+                    // Update the educational detail using the manager service.
+                    await _manager.Edit(model);
+
+                    //commit transaction
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
                 }
-
+               
+                // If the ID is invalid, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
@@ -109,8 +118,10 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Retrieve all employee education details based on the provided parameters.
                 var data = await _manager.GetAllAsync(page, pageSize,userId,search);
 
+                // Check if the retrieved data is not null.
                 if (data.employeeeducationaldetail != null)
                 {
                     response.StatusCode = 200;
@@ -119,7 +130,7 @@ namespace FHP.Controllers.FHP
                     return Ok(response);
                 }
 
-
+                // If the retrieved data is null, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -143,14 +154,17 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Retrieve employee education detail by the provided ID.
                 var data = await _manager.GetByIdAsync(id);
 
-                if(data != null)
+                // Check if the retrieved data is not null.
+                if (data != null)
                 {
                     response.StatusCode = 200;
                     response.Data = data;
                     return Ok(response);
                 }
+                // If the retrieved data is null, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -162,7 +176,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpDelete("delete/{id}")] // detele EmployeeEducationDetail
+        [HttpDelete("delete/{id}")] // delete EmployeeEducationDetail by Id
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -174,13 +188,14 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(id <= 0)
+                // Check if the provided ID is valid.
+                if (id <= 0)
                 {
                     response.StatusCode = 400;
                     response.Message = "Id Required";
                     return BadRequest(response);
                 }
-
+                // Delete the employee education detail by the provided ID.
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;

@@ -36,6 +36,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                // Check if all required fields are provided.
                 if (model.Id == 0 && model.UserId != 0 && model.YearsOfExperience != 0 && 
                     !string.IsNullOrEmpty(model.JobDescription) &&
                     !string.IsNullOrEmpty(model.StartDate) &&
@@ -45,15 +46,18 @@ namespace FHP.Controllers.FHP
                     !string.IsNullOrEmpty(model.Designation) &&
                     !string.IsNullOrEmpty(model.EmploymentStatus))
                 {
+                    // Add the employee professional detail to the database.
+                    await _manager.AddAsync(model);
 
-                    await _manager.AddAsync(model); //Added
-                    await transaction.CommitAsync(); //commit transaction
+                    //commit transaction
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
+
                     response.Message = Constants.added;
                     return Ok(response);
 
                 }
-
+                // If required fields are not provided, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);    
@@ -78,16 +82,20 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(model.Id >= 0)
+                // Check if the model ID is valid.
+                if (model.Id >= 0)
                 {
-                    await _manager.Edit(model);  //updated
-                    await transaction.CommitAsync(); // commit transaction
+                    // Update the employee professional detail.
+                    await _manager.Edit(model);
+
+                    // commit transaction
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
                 }
 
-
+                // If the model ID is invalid, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
@@ -146,7 +154,11 @@ namespace FHP.Controllers.FHP
 
             try
             {
+                 // Retrieve EmployeeProfessionalDetail data by its Id from the manager.
                 var data = await _manager.GetByIdAsync(id);
+
+
+                // Check if data is retrieved successfully.
                 if (data != null)
                 {
                     response.StatusCode = 200;
@@ -154,7 +166,7 @@ namespace FHP.Controllers.FHP
                     return Ok(response);
                 }
 
-
+                // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -166,7 +178,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpDelete("delete/{id}")] //delete EmployeeProfessionalDetail
+        [HttpDelete("delete/{id}")] //delete EmployeeProfessionalDetail by id
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if(!ModelState.IsValid) 
@@ -179,13 +191,15 @@ namespace FHP.Controllers.FHP
 
             try
             {
-               if(id <= 0)
+                //Check Proper Id
+                if(id <= 0)
                 {
                     response.StatusCode = 400;
                     response.Message = "Id Required";
                     return BadRequest(response);
                 }
 
+                // Delete EmployeeProfessionalDetail asynchronously using the manager.
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
