@@ -28,9 +28,9 @@ namespace FHP.manager.FHP
             _repository.Edit(data);
         }
 
-        public async Task<(List<EmployeeAvailabilityDetailDto> employeeAval, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<EmployeeAvailabilityDetailDto> employeeAval, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int employeeId, Constants.EmployeeAvailability? employeeAvailability)
         {
-            return await _repository.GetAllAsync(page, pageSize, search);
+            return await _repository.GetAllAsync(page, pageSize, search, employeeId, employeeAvailability);
         }
 
         public async Task<EmployeeAvailabilityDetailDto> GetByIdAsync(int id)
@@ -53,10 +53,10 @@ namespace FHP.manager.FHP
         {
             return await _repository.GetByEmployeeIdAsync(employeeId);
         }
-
-        public async Task<string> SetEmployeeAvalibility(int EmployeeId,int JobId)
+        
+        public async Task<string> SetEmployeeAvalibility(SetEmployeeAvailabilityModel model)
         {
-            return await _repository.SetEmployeeAvalibility(EmployeeId,JobId);
+            return await _repository.SetEmployeeAvalibility(model);
         }
     }
 }

@@ -21,6 +21,7 @@ namespace FHP.datalayer.Repository.FHP
             var employeeAvailability = model.EmployeeId.Select(employeeId => new EmployeeAvailability
             {
                 UserId = model.UserId,
+                JobId = model.JobId,
                 EmployeeId = employeeId,
                 CreatedOn = Utility.GetDateTime(),
                 Status = Constants.RecordStatus.Active,
@@ -50,15 +51,22 @@ namespace FHP.datalayer.Repository.FHP
             return await _dataContext.EmployeeAvailabilities.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<(List<EmployeeAvailabilityDetailDto> employeeAval, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<EmployeeAvailabilityDetailDto> employeeAval, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int employeeId, Constants.EmployeeAvailability? employeeAvailability)
         {
             var query = from s in _dataContext.EmployeeAvailabilities
                         where s.Status != utilities.Constants.RecordStatus.Deleted
                         select new { employeeAval = s};
 
             
+            if(employeeId > 0)
+            {
+                query = query.Where(s => s.employeeAval.EmployeeId == employeeId);
+            }
 
-
+            if(employeeAvailability != null)
+            {
+                query = query.Where(s => s.employeeAval.IsAvailable == employeeAvailability);
+            }
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.employeeAval.JobId.ToString().Contains(search) ||
@@ -85,7 +93,8 @@ namespace FHP.datalayer.Repository.FHP
                 CreatedOn = s.employeeAval.CreatedOn,
                 Status= s.employeeAval.Status,
                 AdminjobTitle = s.employeeAval.AdminJobTitle,
-                AdminJobDescription = s.employeeAval.AdminJobDescription
+                AdminJobDescription = s.employeeAval.AdminJobDescription,
+                UpdatedOn = s.employeeAval.UpdatedOn,
             }).ToListAsync();
 
             return (data, totalCount);
@@ -129,6 +138,7 @@ namespace FHP.datalayer.Repository.FHP
                               Status = s.Status,
                               AdminjobTitle = s.AdminJobTitle,
                               AdminJobDescription = s.AdminJobDescription,
+                              UpdatedOn = s.UpdatedOn,
                           }).AsNoTracking().ToListAsync();
         }
 
@@ -148,7 +158,8 @@ namespace FHP.datalayer.Repository.FHP
                               CreatedOn = s.CreatedOn,
                               Status = s.Status,
                               AdminjobTitle = s.AdminJobTitle,
-                              AdminJobDescription = s.AdminJobDescription
+                              AdminJobDescription = s.AdminJobDescription,
+                              UpdatedOn = s.UpdatedOn,
                               
                           }).AsNoTracking().ToListAsync();
         }
@@ -161,21 +172,25 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task<string> SetEmployeeAvalibility(int EmployeeId, int JobId)
+        public async Task<string> SetEmployeeAvalibility(SetEmployeeAvailabilityModel model)
         {
             string result = string.Empty;
 
-            var data = await _dataContext.EmployeeAvailabilities.Where(s=> s.EmployeeId ==EmployeeId && s.JobId == JobId).FirstOrDefaultAsync();
+            var data = await _dataContext.EmployeeAvailabilities.Where(s=> s.EmployeeId == model.EmployeeId && s.JobId == model.JobId).FirstOrDefaultAsync();
 
-            if(data.IsAvailable == Constants.EmployeeAvailability.NotAvailable)
-            {
-                data.IsAvailable = Constants.EmployeeAvailability.Available;
-                result = "Available";
-            }
-            else
+            if(model.EmployeeAvailability == Constants.EmployeeAvailability.NotAvailable)
             {
                 data.IsAvailable = Constants.EmployeeAvailability.NotAvailable;
-                result = "Unavaliable";
+                data.CancelReasons = model.CancelReason;
+                data.UpdatedOn = Utility.GetDateTime();
+                result = "UnAvailable";
+            }
+            else 
+            {
+                data.IsAvailable = Constants.EmployeeAvailability.Available;
+                data.CancelReasons = model.CancelReason;
+                data.UpdatedOn = Utility.GetDateTime();
+                result = "Available";
             }
             _dataContext.EmployeeAvailabilities.Update(data);
             await _dataContext.SaveChangesAsync();
