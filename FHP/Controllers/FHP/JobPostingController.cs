@@ -3,7 +3,6 @@ using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.JobPosting;
 using FHP.utilities;
-using Google.Api.Gax;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.FHP
@@ -106,9 +105,8 @@ namespace FHP.Controllers.FHP
                     await transaction.CommitAsync(); 
 
                     if (message.Contains("updated successfully"))
-                    {
 
-
+                    { 
                         response.StatusCode = 200;
                         response.Message = message;
                         return Ok(response);

@@ -98,7 +98,9 @@ namespace FHP.Controllers.FHP
             catch(Exception ex)
             {
                 await transaction.RollbackAsync();  //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex);    //exceptionHandle service
+
+                return await _exceptionHandleService.HandleException(ex);    
+
             }
         }
 

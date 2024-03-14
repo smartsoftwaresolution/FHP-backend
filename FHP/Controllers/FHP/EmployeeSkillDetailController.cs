@@ -103,7 +103,7 @@ namespace FHP.Controllers.FHP
         }
 
         [HttpGet("getall-pagination")]   // GetAll EmployeeSkill Details with pagination and search filter
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,int userId,string? search)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,int userId,string? search, string? skillName)
         {
             if (!ModelState.IsValid)
             {
@@ -114,7 +114,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                var data = await _manager.GetAllAsync(page,pageSize,userId,search);
+                var data = await _manager.GetAllAsync(page,pageSize,userId,search,skillName);
                 if(data.employeeSkillDetail != null)
                 {
                     response.StatusCode = 200;

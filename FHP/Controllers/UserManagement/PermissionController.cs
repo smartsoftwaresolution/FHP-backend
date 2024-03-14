@@ -66,7 +66,7 @@ namespace FHP.Controllers.UserManagement
             catch(Exception ex)
             {
                 // Handle the exception using the provided exception handling service.
-                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
@@ -168,7 +168,7 @@ namespace FHP.Controllers.UserManagement
             // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                // Returns a BadRequest response with a list of errors if model permission is not valid
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());   
             }
 
@@ -212,7 +212,7 @@ namespace FHP.Controllers.UserManagement
             // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                // Returns a BadRequest response with a list of errors if model permission is not valid
+                // Returns a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList()); 
             }
 

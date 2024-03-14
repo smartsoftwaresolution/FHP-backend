@@ -1,15 +1,9 @@
-﻿using FHP.datalayer.Migrations;
-using FHP.dtos.FHP.EmployeeSkill;
+﻿using FHP.dtos.FHP.EmployeeSkill;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP.EmployeeSkillDetail;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.FHP
 {
@@ -55,18 +49,20 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<EmployeeSkillDetailDto> employeeSkillDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
+        public async Task<(List<EmployeeSkillDetailDto> employeeSkillDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search, string? skillName)
         {
-            var query = from s in _dataContext.EmployeeSkillDetails
+            var query = from s in _dataContext.EmployeeSkillDetails 
+                        join t in _dataContext.SkillsDetails on s.SkillId equals t.Id
+                        
                         where s.Status != utilities.Constants.RecordStatus.Deleted
-                        select new { employeeSkillDetail = s };
+                        select new { employeeSkillDetail = s , SkillsDetail= t };
 
             
 
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.employeeSkillDetail.UserId.ToString().Contains(search) ||
-                                       s.employeeSkillDetail.SkillId.ToString().Contains(search));
+                                         s.employeeSkillDetail.SkillId.ToString().Contains(search));
             }
 
             if(userId > 0)
@@ -89,9 +85,12 @@ namespace FHP.datalayer.Repository.FHP
                 Id = s.employeeSkillDetail.Id,
                 UserId = s.employeeSkillDetail.UserId,
                 SkillId = s.employeeSkillDetail.SkillId,
+                SkillName = s.SkillsDetail.SkillName,
                 CreatedOn = s.employeeSkillDetail.CreatedOn,
                 UpdatedOn = s.employeeSkillDetail.UpdatedOn,
                 Status = s.employeeSkillDetail.Status,
+
+                
 
             }).AsNoTracking().ToListAsync();
 
