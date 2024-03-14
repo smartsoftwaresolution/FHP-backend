@@ -85,6 +85,7 @@ namespace FHP.Controllers.FHP
 
                     // commit transaction
                     await transaction.CommitAsync();
+
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
                     return Ok(response);
@@ -168,6 +169,7 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
+
                 return await _exceptionHandleService.HandleException(ex); // error handling service
             }
         }

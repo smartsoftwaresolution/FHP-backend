@@ -13,6 +13,10 @@ namespace FHP.dtos.FHP.EmployeeAvailability
         public int UserId { get; set; }
         public int EmployeeId { get; set; }
         public int JobId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string MobileNumber {  get; set; }
         public Constants.EmployeeAvailability IsAvailable { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
