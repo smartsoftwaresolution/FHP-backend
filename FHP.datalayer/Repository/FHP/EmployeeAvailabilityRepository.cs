@@ -54,8 +54,10 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<(List<EmployeeAvailabilityDetailDto> employeeAval, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int employeeId, Constants.EmployeeAvailability? employeeAvailability)
         {
             var query = from s in _dataContext.EmployeeAvailabilities
-                        where s.Status != utilities.Constants.RecordStatus.Deleted
-                        select new { employeeAval = s};
+                        join t in _dataContext.User on s.EmployeeId equals t.Id
+
+                        where s.Status != Constants.RecordStatus.Deleted 
+                        select new { employeeAval = s, UserDetail = t};
 
             
             if(employeeId > 0)
@@ -89,6 +91,10 @@ namespace FHP.datalayer.Repository.FHP
                 UserId= s.employeeAval.UserId,
                 JobId= s.employeeAval.JobId,    
                 EmployeeId= s.employeeAval.EmployeeId,
+                FirstName = s.UserDetail.FirstName,
+                LastName= s.UserDetail.LastName,
+                Email = s.UserDetail.Email,
+                MobileNumber = s.UserDetail.MobileNumber,
                 IsAvailable= s.employeeAval.IsAvailable,
                 CreatedOn = s.employeeAval.CreatedOn,
                 Status= s.employeeAval.Status,

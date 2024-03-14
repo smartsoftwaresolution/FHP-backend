@@ -20,7 +20,6 @@ namespace FHP.datalayer.Repository.FHP
         {
            await _dataContext.EmployeeSkillDetails.AddAsync(entity);
            await _dataContext.SaveChangesAsync();
-
         }
         public async Task AddAsync(AddEmployeeSkillDetailModel entity)
         {
@@ -54,7 +53,7 @@ namespace FHP.datalayer.Repository.FHP
             var query = from s in _dataContext.EmployeeSkillDetails 
                         join t in _dataContext.SkillsDetails on s.SkillId equals t.Id
                         
-                        where s.Status != utilities.Constants.RecordStatus.Deleted
+                        where s.Status != Constants.RecordStatus.Deleted
                         select new { employeeSkillDetail = s , SkillsDetail= t };
 
             
@@ -89,9 +88,6 @@ namespace FHP.datalayer.Repository.FHP
                 CreatedOn = s.employeeSkillDetail.CreatedOn,
                 UpdatedOn = s.employeeSkillDetail.UpdatedOn,
                 Status = s.employeeSkillDetail.Status,
-
-                
-
             }).AsNoTracking().ToListAsync();
 
             return (data, totalCount);
@@ -100,7 +96,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<EmployeeSkillDetailDto> GetByIdAsync(int id)
         {
            return await (from s in _dataContext.EmployeeSkillDetails
-                   where s.Status != utilities.Constants.RecordStatus.Deleted &&
+                   where s.Status != Constants.RecordStatus.Deleted &&
                    s.Id == id
 
                    select new EmployeeSkillDetailDto
@@ -118,7 +114,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task DeleteAsync(int id)
         {
             var data = await _dataContext.EmployeeSkillDetails.Where(s => s.Id == id).FirstOrDefaultAsync();
-            data.Status = utilities.Constants.RecordStatus.Deleted;
+            data.Status = Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
         }
