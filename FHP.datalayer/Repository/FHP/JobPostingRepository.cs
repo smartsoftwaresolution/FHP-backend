@@ -177,6 +177,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task CancelJobAsync(int jobId, string cancelReason)
         {
             var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();
+            data.JobStatus = Constants.JobPosting.Cancel;
             data.CancelReason = cancelReason;
             _dataContext.JobPostings.Update(data);
             await _dataContext.SaveChangesAsync();

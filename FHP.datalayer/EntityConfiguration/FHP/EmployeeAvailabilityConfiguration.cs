@@ -31,6 +31,10 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(ea => ea.IsAvailable).IsRequired();
             builder.Property(ea => ea.Status).IsRequired();
             builder.Property(ea => ea.CreatedOn).IsRequired();
+            builder.Property(ea => ea.AdminJobTitle).IsRequired(false);
+            builder.Property(ea => ea.AdminJobDescription).IsRequired(false);
+            builder.Property(ea => ea.CancelReasons).IsRequired(false);
+            builder.Property(ea => ea.UpdatedOn).IsRequired(false);
         }
     }
 }

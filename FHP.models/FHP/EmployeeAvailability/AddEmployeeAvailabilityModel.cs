@@ -11,8 +11,10 @@ namespace FHP.models.FHP.EmployeeAvailability
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int EmployeeId { get; set; }
+        public List<int> EmployeeId { get; set; }
         public int JobId { get; set; }
-        public bool IsAvailable { get; set; }
+        public Constants.EmployeeAvailability IsAvailable { get; set; }
+        public string AdminjobTitle { get; set; }
+        public string AdminJobDescription { get; set; }
     }
 }
