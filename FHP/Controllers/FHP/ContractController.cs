@@ -31,11 +31,14 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  addition.
+
+            //The method then begins a database transaction to ensure data consistency during  addition.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
@@ -75,14 +78,15 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
            
             // Response object to be sent back.
             var response = new BaseResponseAdd();
 
-            // Begin a database transaction to ensure data consistency during addition.
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  updation
+            // Begin a database transaction to ensure data consistency during updation.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
@@ -120,7 +124,8 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             } 
 
             var response = new BaseResponsePagination<object>();
@@ -159,7 +164,8 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAddResponse<object>();
@@ -193,7 +199,8 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors
+                //it returns a BadRequest response with a list of errors
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAdd();
@@ -209,7 +216,7 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
                 // Delete Contract asynchronously using the manager.
-                await _manager.DeleteAsync(id); //deleted Sucessfully!
+                await _manager.DeleteAsync(id); 
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
                 return Ok(response); 

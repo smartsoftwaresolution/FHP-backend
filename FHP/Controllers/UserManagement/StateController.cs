@@ -1,15 +1,9 @@
-﻿using DocumentFormat.OpenXml.ExtendedProperties;
-using FHP.entity.UserManagement;
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.State;
-using FHP.services;
 using FHP.utilities;
-using Hangfire.States;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Bcpg.OpenPgp;
 
 namespace FHP.Controllers.UserManagement
 {

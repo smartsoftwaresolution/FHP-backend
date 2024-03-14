@@ -241,16 +241,18 @@ namespace FHP.Controllers.UserManagement
         [HttpGet("getby-stateId")]
         public async Task<IActionResult> GetByStateIdAsync(int stateId)
         {
+            // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAddResponse<object>();
 
             try
             {
-                var data = await _manager.GetByStateIdAsync(stateId); // by State Id
+                var data = await _manager.GetByStateIdAsync(stateId); 
                 if (data != null)
                 {
                     response.StatusCode = 200;
@@ -264,7 +266,8 @@ namespace FHP.Controllers.UserManagement
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); // exceptionHandler service
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
