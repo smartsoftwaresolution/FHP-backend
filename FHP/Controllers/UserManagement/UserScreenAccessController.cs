@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using DocumentFormat.OpenXml.ExtendedProperties;
+﻿
 using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;

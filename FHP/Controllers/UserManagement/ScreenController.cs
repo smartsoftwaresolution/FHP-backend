@@ -48,7 +48,9 @@ namespace FHP.Controllers.UserManagement
                     !string.IsNullOrEmpty(model.ScreenCode))
                 {
                     await _manager.AddAsync(model);
-                    await transaction.CommitAsync(); // commit transaction
+
+                    // commit transaction
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
                     response.Message = Constants.added;
 
@@ -98,7 +100,7 @@ namespace FHP.Controllers.UserManagement
                 if (model.Id >= 0 && model != null)
                 {
                     await _manager.EditAsync(model);
-                    await transaction.CommitAsync(); // commit transaction
+                    await transaction.CommitAsync(); 
                     response.StatusCode = 200;
                     response.Message = Constants.updated;
 
