@@ -11,9 +11,9 @@ namespace FHP.factories.FHP
             var data = new EmployeeAvailability
             {
                 UserId = model.UserId,
-                EmployeeId = model.EmployeeId,
+              //  EmployeeId = model.EmployeeId,
                 JobId = model.JobId,
-                IsAvailable = model.IsAvailable,
+                IsAvailable = Constants.EmployeeAvailability.Pending,
                 CreatedOn = Utility.GetDateTime(),
                 Status = Constants.RecordStatus.Active
             };
@@ -24,7 +24,7 @@ namespace FHP.factories.FHP
         public static void Update(EmployeeAvailability entity,AddEmployeeAvailabilityModel model)
         {
             entity.UserId = model.UserId;   
-            entity.EmployeeId = model.EmployeeId;
+          //  entity.EmployeeId = model.EmployeeId;
             entity.JobId = model.JobId;
             entity.IsAvailable = model.IsAvailable;
         }

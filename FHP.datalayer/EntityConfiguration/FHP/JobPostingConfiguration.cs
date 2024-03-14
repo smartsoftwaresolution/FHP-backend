@@ -41,6 +41,8 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.JobStatus).IsRequired();
             builder.Property(x => x.CancelReason).IsRequired();
             builder.Property(x => x.JobProcessingStatus).IsRequired();
+            builder.Property(x => x.AdminJobTitle).IsRequired(false);
+            builder.Property(x => x.AdminJobDescription).IsRequired(false);
         }
     }
 
