@@ -39,7 +39,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(model.Id == 0 && model.UserId != 0 && model.JobId != 0 && model.EmployeeId != 0)
+                if(model.Id == 0 && model.UserId != 0 && model.JobId != 0 && model.EmployeeId != null)
                 {
                     // Add the EmployeeAvailability model asynchronously.
                     await _manager.AddAsync(model);
@@ -238,7 +238,7 @@ namespace FHP.Controllers.FHP
         }
        
         [HttpGet("GetAllAvalibility")] //GetAll by EmployeeAvalibility
-        public async Task<IActionResult> GetAllAvalibility(int JobId)
+        public async Task<IActionResult> GetAllAvalibility(int JobId,Constants.EmployeeAvailability? employeeAvailability)
         {
             if (!ModelState.IsValid)
             {
@@ -251,7 +251,7 @@ namespace FHP.Controllers.FHP
             {
 
                 // Call the manager method to get Employee availability by job id for the job.
-                var data = await _manager.GetAllAvalibility(JobId); 
+                var data = await _manager.GetAllAvalibility(JobId,employeeAvailability); 
                 if (data != null)
                  {
                     response.StatusCode = 200;
@@ -305,5 +305,41 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex); // exceptionhandler service
             }
         }
+
+
+
+        /*[HttpGet("GetByJobId")] //GetByEmployeeId 
+        public async Task<IActionResult> GetByJobIdAsync(int jobId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+                // Retrieve AdminSelectEmployee data by Employee Id from the manager.
+                var data = await _manager.GetByJobIdAsync(jobId);
+
+                // Check if data is retrieved successfully.
+                if (data != null)
+                {
+                    response.StatusCode = 200;
+                    response.Data = data;
+                    return Ok(response);
+                }
+                // If data retrieval fails, return a BadRequest response.
+                response.StatusCode = 400;
+                response.Message = Constants.error;
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex); // error handling service
+            }
+        }
+*/
     }
 }

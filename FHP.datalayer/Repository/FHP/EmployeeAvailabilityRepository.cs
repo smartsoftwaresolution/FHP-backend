@@ -1,6 +1,7 @@
 ﻿using FHP.dtos.FHP.EmployeeAvailability;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
+using FHP.models.FHP.EmployeeAvailability;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +16,26 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext= dataContext;
         }
 
-        public async Task AddAsync(EmployeeAvailability entity)
+        public async Task AddAsync(AddEmployeeAvailabilityModel model)
         {
-            await _dataContext.EmployeeAvailabilities.AddAsync(entity); 
+            var employeeAvailability = model.EmployeeId.Select(employeeId => new EmployeeAvailability
+            {
+                UserId = model.UserId,
+                EmployeeId = employeeId,
+                CreatedOn = Utility.GetDateTime(),
+                Status = Constants.RecordStatus.Active,
+                AdminJobTitle = model.AdminjobTitle,
+                AdminJobDescription = model.AdminJobDescription,
+            }).ToList();
+
+            await _dataContext.EmployeeAvailabilities.AddRangeAsync(employeeAvailability);
             await _dataContext.SaveChangesAsync();
+
+           /* var data = await _dataContext.JobPostings.Where(s => s.Id == model.JobId).FirstOrDefaultAsync();
+            data.AdminJobTitle = model.AdminjobTitle;
+            data.AdminJobDescription = model.AdminJobDescription;
+            _dataContext.JobPostings.Update(data);
+            await _dataContext.SaveChangesAsync();*/
         }
 
         public void Edit(EmployeeAvailability entity)
@@ -67,6 +84,8 @@ namespace FHP.datalayer.Repository.FHP
                 IsAvailable= s.employeeAval.IsAvailable,
                 CreatedOn = s.employeeAval.CreatedOn,
                 Status= s.employeeAval.Status,
+                AdminjobTitle = s.employeeAval.AdminJobTitle,
+                AdminJobDescription = s.employeeAval.AdminJobDescription
             }).ToListAsync();
 
             return (data, totalCount);
@@ -88,14 +107,16 @@ namespace FHP.datalayer.Repository.FHP
                               IsAvailable=s.IsAvailable,
                               CreatedOn=s.CreatedOn,
                              Status=s.Status,
+                             AdminJobDescription = s.AdminJobDescription,
+                             AdminjobTitle = s.AdminJobTitle
                           }).FirstOrDefaultAsync();
         }
 
-        public async Task<List<EmployeeAvailabilityDetailDto>> GetAllAvalibility(int JobId)
+        public async Task<List<EmployeeAvailabilityDetailDto>> GetAllAvalibility(int JobId, Constants.EmployeeAvailability? employeeAvailability)
         {
             return await (from s in _dataContext.EmployeeAvailabilities
                           where s.Status != Constants.RecordStatus.Deleted && 
-                          s.JobId == JobId && (s.IsAvailable == true)
+                          s.JobId == JobId && (s.IsAvailable == employeeAvailability || employeeAvailability == null)
 
                           select new EmployeeAvailabilityDetailDto
                           {
@@ -106,6 +127,8 @@ namespace FHP.datalayer.Repository.FHP
                               IsAvailable = s.IsAvailable,
                               CreatedOn = s.CreatedOn,
                               Status = s.Status,
+                              AdminjobTitle = s.AdminJobTitle,
+                              AdminJobDescription = s.AdminJobDescription,
                           }).AsNoTracking().ToListAsync();
         }
 
@@ -124,6 +147,9 @@ namespace FHP.datalayer.Repository.FHP
                               IsAvailable = s.IsAvailable,
                               CreatedOn = s.CreatedOn,
                               Status = s.Status,
+                              AdminjobTitle = s.AdminJobTitle,
+                              AdminJobDescription = s.AdminJobDescription
+                              
                           }).AsNoTracking().ToListAsync();
         }
 
@@ -141,14 +167,14 @@ namespace FHP.datalayer.Repository.FHP
 
             var data = await _dataContext.EmployeeAvailabilities.Where(s=> s.EmployeeId ==EmployeeId && s.JobId == JobId).FirstOrDefaultAsync();
 
-            if(data.IsAvailable == false)
+            if(data.IsAvailable == Constants.EmployeeAvailability.NotAvailable)
             {
-                data.IsAvailable = true;
+                data.IsAvailable = Constants.EmployeeAvailability.Available;
                 result = "Available";
             }
             else
             {
-                data.IsAvailable = false;
+                data.IsAvailable = Constants.EmployeeAvailability.NotAvailable;
                 result = "Unavaliable";
             }
             _dataContext.EmployeeAvailabilities.Update(data);

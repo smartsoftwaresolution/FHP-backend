@@ -205,14 +205,20 @@ namespace FHP.datalayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AdminJobDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdminJobTitle")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsAvailable")
+                        .HasColumnType("int");
 
                     b.Property<int>("JobId")
                         .HasColumnType("int");
@@ -554,6 +560,12 @@ namespace FHP.datalayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdminJobDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdminJobTitle")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CancelReason")

@@ -3,6 +3,7 @@ using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP.EmployeeAvailability;
+using FHP.utilities;
 
 namespace FHP.manager.FHP
 {
@@ -17,7 +18,7 @@ namespace FHP.manager.FHP
 
         public async Task AddAsync(AddEmployeeAvailabilityModel model)
         {
-            await _repository.AddAsync(EmployeeAvailabilityFactory.Create(model));  
+            await _repository.AddAsync(model);  
         }
 
         public async Task Edit(AddEmployeeAvailabilityModel model)
@@ -43,9 +44,9 @@ namespace FHP.manager.FHP
             await _repository.DeleteAsync(id);
         }
 
-        public async Task<List<EmployeeAvailabilityDetailDto>> GetAllAvalibility(int JobId)
+        public async Task<List<EmployeeAvailabilityDetailDto>> GetAllAvalibility(int JobId, Constants.EmployeeAvailability? employeeAvailability)
         {
-            return await _repository.GetAllAvalibility(JobId);
+            return await _repository.GetAllAvalibility(JobId,employeeAvailability);
         }
 
         public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId)
