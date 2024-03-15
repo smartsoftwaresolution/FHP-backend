@@ -51,7 +51,7 @@ namespace FHP.datalayer.Repository.FHP
             return await _dataContext.EmployeeAvailabilities.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<(List<EmployeeAvailabilityDetailDto> employeeAval, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int employeeId, Constants.EmployeeAvailability? employeeAvailability)
+        public async Task<(List<EmployeeAvailabilityDetailDto>  employeeAval, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int employeeId, Constants.EmployeeAvailability? employeeAvailability)
         {
             var query = from s in _dataContext.EmployeeAvailabilities
                         join t in _dataContext.User on s.EmployeeId equals t.Id

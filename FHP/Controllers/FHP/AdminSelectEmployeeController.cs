@@ -42,7 +42,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(model.Id == 0 && model.JobId != 0 && model.EmployeeId != 0)
+                if(model.Id == 0 && model.JobId != 0 && model.EmployeeId != null)
                 {
                     // Add the AdminSelectEmployee model asynchronously.
                     await _manager.AddAsync(model);
@@ -297,6 +297,5 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
-
     }
 }
