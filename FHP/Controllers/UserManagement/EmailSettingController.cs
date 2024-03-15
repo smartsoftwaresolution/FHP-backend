@@ -20,8 +20,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-       
-        [HttpPost("add")] //  API Endpoint for adding email settings
+        //  API Endpoint for add email settings
+        [HttpPost("add")] 
         public async Task<IActionResult> AddAsync(AddEmailSettingModel model)
         {
             // Checks if the model state is valid
@@ -68,7 +68,7 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-        
+        //  API Endpoint for edit email settings
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddEmailSettingModel model)
         {
@@ -108,8 +108,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-       
-        [HttpGet("getall-pagination")] // API Endpoint for retrieving all emailsetting with pagination and sorting
+        // API Endpoint for retrieving all emailsetting with pagination and sorting
+        [HttpGet("getall-pagination")] 
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             // Checks if the model state is valid
@@ -149,8 +149,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-       
-        [HttpGet("getbyid")] // API Endpoint for retrieving a emailsetting by its ID
+        // API Endpoint for retrieving a emailsetting by its ID
+        [HttpGet("getbyid")] 
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             // Checks if the model state is valid

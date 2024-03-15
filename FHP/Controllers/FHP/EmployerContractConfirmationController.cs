@@ -25,6 +25,8 @@ namespace FHP.Controllers.FHP
             _unitOfWork=unitOfWork;
         }
 
+
+        // API endpoint fot Add EmployerContractConfirmation
         [HttpPost("add")]   
         public async Task<IActionResult> AddAsync(AddEmployerContractConfirmationModel model)
         {
@@ -68,7 +70,9 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpPut("edit")]  // API endpoint fot Edit EmployerContractConfirmation
+
+        // API endpoint fot Edit EmployerContractConfirmation
+        [HttpPut("edit")]  
         public async Task<IActionResult> EditAsync(AddEmployerContractConfirmationModel model)
         {
             // Check if the model state is valid
@@ -110,7 +114,8 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getall-pagination")]  //get all EmployerContractConfirmation
+        //get all EmployerContractConfirmation
+        [HttpGet("getall-pagination")]  
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             // Check if the model state is valid
@@ -124,7 +129,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                // Retrieve all employer contract  with pagination
+                // Retrieve all employer contract confirmation  with pagination
                 var data = await _manager.GetAllAsync(page,pageSize, search);
 
                 if (data.employerContract != null)
@@ -146,8 +151,8 @@ namespace FHP.Controllers.FHP
             }
         }
 
-
-        [HttpGet("getbyid")] //get by id EmployerContractConfirmation
+        //get by id EmployerContractConfirmation
+        [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             // Check if the model state is valid
@@ -183,8 +188,8 @@ namespace FHP.Controllers.FHP
             }
         }
 
-
-        [HttpDelete("delete/{id}")] //delete EmployerContractConfirmation
+        //delete EmployerContractConfirmation
+        [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {
             // Check if the model state is valid
