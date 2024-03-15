@@ -1,8 +1,9 @@
 ﻿using FHP.dtos.FHP.AdminSelectEmployee;
-using FHP.dtos.FHP.JobPosting;
 using FHP.dtos.UserManagement.User;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
+using FHP.models.FHP.AdminSelectEmployee;
+using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FHP.datalayer.Repository.FHP
@@ -19,6 +20,22 @@ namespace FHP.datalayer.Repository.FHP
         public async Task AddAsync(AdminSelectEmployee entity)
         {
             await _dataContext.AdminSelectEmployees.AddAsync(entity);
+            await _dataContext.SaveChangesAsync();
+        }
+
+
+        public async Task AddAsync(AddAdminSelectEmployeeModel entity)
+        {
+            var adminSelectEmployee = entity.EmployeeId.Select(employeeId => new AdminSelectEmployee
+            {
+                JobId = entity.JobId,
+                EmployeeId = employeeId,
+                InProbationCancel = entity.InProbationCancel,
+                IsSelected = entity.IsSelected,
+                CreatedOn = Utility.GetDateTime(),
+            }).ToList();
+
+            await _dataContext.AdminSelectEmployees.AddRangeAsync(adminSelectEmployee);
             await _dataContext.SaveChangesAsync();
         }
 
@@ -140,9 +157,7 @@ namespace FHP.datalayer.Repository.FHP
 
             }).AsNoTracking().ToListAsync();
 
-
             return (data, totalcount);
         }
-
     }
 }

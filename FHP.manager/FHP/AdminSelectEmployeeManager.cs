@@ -1,15 +1,9 @@
 ﻿using FHP.dtos.FHP.AdminSelectEmployee;
-using FHP.dtos.FHP.JobPosting;
 using FHP.dtos.UserManagement.User;
 using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP.AdminSelectEmployee;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.manager.FHP
 {
@@ -24,7 +18,7 @@ namespace FHP.manager.FHP
 
         public async Task AddAsync(AddAdminSelectEmployeeModel model)
         {
-            await _repository.AddAsync(AdminSelectEmployeeFactory.Create(model));
+            await _repository.AddAsync(model);
         }
 
         public async Task Edit(AddAdminSelectEmployeeModel model)

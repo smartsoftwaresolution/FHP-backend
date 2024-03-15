@@ -15,6 +15,7 @@ namespace FHP.datalayer.Repository.FHP
         {
             _dataContext= dataContext;
         }
+
         public async Task AddAsync(JobPosting entity)
         {
            await _dataContext.JobPostings.AddAsync(entity);
@@ -48,7 +49,7 @@ namespace FHP.datalayer.Repository.FHP
             }
             var query = from s in _dataContext.JobPostings
                         join u in _dataContext.User on s.UserId equals u.Id
-                        where s.Status != Constants.RecordStatus.Deleted
+                        where s.Status != Constants.RecordStatus.Deleted 
                         select new { jobPosting = s , employer = u};
 
 
@@ -68,7 +69,7 @@ namespace FHP.datalayer.Repository.FHP
                 if (userId > 0)
                 {
                     query = query.Where(s => s.jobPosting.UserId == userId);
-                    totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted && s.jobPosting.UserId == userId);        
+                    totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted && s.jobPosting.JobStatus != Constants.JobPosting.Draft && s.jobPosting.UserId == userId);        
                 }
             }
 
@@ -192,9 +193,5 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext.JobPostings.Update(data);
             await _dataContext.SaveChangesAsync();
         }
-
-
-        
-
     }
 }

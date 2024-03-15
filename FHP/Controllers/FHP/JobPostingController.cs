@@ -24,7 +24,7 @@ namespace FHP.Controllers.FHP
             _unitOfWork=unitOfWork;
         }
 
-    
+        // API endpoint to add jobposting 
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddJobPostingModel model)
         {
@@ -78,7 +78,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-        
+        // API endpoint to edit jobposting 
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddJobPostingModel model)
         {
@@ -134,7 +134,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-       
+        // API endpoint to gell all jobposting with search
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId)
         {
@@ -172,7 +172,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-       
+        // API endpoint to get by id  
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -212,7 +212,7 @@ namespace FHP.Controllers.FHP
         }
 
 
-      
+        // API endpoint to delete jobposting 
         [HttpDelete("delete/{id}")]
         public  async Task<IActionResult> DeleteAsync(int id)
         {
@@ -365,8 +365,6 @@ namespace FHP.Controllers.FHP
         }
 
 
-
-        
 
         [HttpPatch("set-job-processing-status/{id}")]
         public async Task<IActionResult> SetJobProcessingStatusAsync(int id, Constants.JobProcessingStatus jobProcessingStatus)

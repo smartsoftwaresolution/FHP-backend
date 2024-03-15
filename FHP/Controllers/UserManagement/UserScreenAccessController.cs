@@ -3,11 +3,8 @@ using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.UserScreenAccess;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NAudio.Midi;
 
 namespace FHP.Controllers.UserManagement
 {
@@ -27,8 +24,8 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork= unitOfWork;
         }
 
-      
-        [HttpPost("add")] // API Endpoint for adding a user screen access
+        // API Endpoint for adding a user screen access
+        [HttpPost("add")] 
         public async Task<IActionResult> AddAsync(AddUserScreenAccessModel model)
         {
             // Checks if the model state is valid
@@ -80,8 +77,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-       
-        [HttpPut("edit")] // API Endpoint for updating existing  user screen access
+        // API Endpoint for updating existing  user screen access
+        [HttpPut("edit")] 
         public async Task<IActionResult> EditAsync(AddUserScreenAccessModel model)
         {
             // Checks if the model state is valid
@@ -132,8 +129,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpGet("getall-pagination")] // API Endpoint for retrieving all user roles with pagination
+        // API Endpoint for retrieving all user roles with pagination
+        [HttpGet("getall-pagination")] 
         public async Task<IActionResult> GetAllAsync(int roleId,int page,int pageSize)
         {
             // Checks if the model state is valid
@@ -177,8 +174,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpGet("getbyid")] //  API Endpoint for retrieving a user role by its ID
+
+        //  API Endpoint for retrieving a user role by its ID
+        [HttpGet("getbyid")] 
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             // Checks if the model state is valid
@@ -223,11 +221,11 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-       
-        [HttpDelete("delete/{id}")] //  API Endpoint for deleting an entity by its ID
+        //  API Endpoint for deleting an entity by its ID
+        [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            // Checks if the model state is valid
+               // Checks if the model state is valid
             if (!ModelState.IsValid)
             {
                 // Returns a BadRequest response with a list of errors if model state is not valid 

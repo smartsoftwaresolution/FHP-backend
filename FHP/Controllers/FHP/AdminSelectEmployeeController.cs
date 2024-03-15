@@ -24,7 +24,8 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpPost("add")] // API endpoint to add AdminSelectEmployee 
+        // API endpoint to add AdminSelectEmployee 
+        [HttpPost("add")] 
         public async Task<IActionResult> AddAsync(AddAdminSelectEmployeeModel model)
         {
             if (!ModelState.IsValid)
@@ -42,7 +43,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                if(model.Id == 0 && model.JobId != 0 && model.EmployeeId != 0)
+                if(model.Id == 0 && model.JobId != 0 && model.EmployeeId != null)
                 {
                     // Add the AdminSelectEmployee model asynchronously.
                     await _manager.AddAsync(model);
@@ -74,7 +75,9 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpPut("edit")] // API endpoint to edit AdminSelectEmployee 
+
+        // API endpoint to edit AdminSelectEmployee 
+        [HttpPut("edit")] 
         public async Task<IActionResult> EditAsync(AddAdminSelectEmployeeModel model)
         {
             if (!ModelState.IsValid)
@@ -86,7 +89,8 @@ namespace FHP.Controllers.FHP
             // Begin a database transaction to ensure data consistency during addition.
             await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
-            var response = new BaseResponseAdd(); // Response object to be sent back.
+            // Response object to be sent back.
+            var response = new BaseResponseAdd(); 
 
             try
             {
@@ -123,7 +127,8 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpGet("getall-pagination")] // Get All AdminSelectEmpoyeeDetail with Pagination and search filter
+        // Get All AdminSelectEmpoyeeDetail with Pagination and search filter
+        [HttpGet("getall-pagination")] 
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,int jobId,string? search)
         {
             if (!ModelState.IsValid)
@@ -137,6 +142,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
+
                 // Retrieve data from the manager based on pagination parameters.
                 var data = await _manager.GetAllAsync(page,pageSize,jobId, search);
 
@@ -151,6 +157,7 @@ namespace FHP.Controllers.FHP
                     // Return OK response with the retrieved data.
                     return Ok(response);
                 }
+
                 // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.error;
@@ -165,8 +172,8 @@ namespace FHP.Controllers.FHP
         }
 
 
-
-        [HttpGet("getbyid")] //  API Endpoint for retrieving  by ID
+        // API Endpoint for retrieving  by ID
+        [HttpGet("getbyid")] 
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -175,8 +182,8 @@ namespace FHP.Controllers.FHP
                 return BadRequest(ModelState.GetErrorList()); 
             }
 
-            // Initializes the response object for returning the result
-            var response = new BaseResponseAddResponse<object>();
+               // Initializes the response object for returning the result
+               var response = new BaseResponseAddResponse<object>();
 
             try
             {
@@ -210,7 +217,8 @@ namespace FHP.Controllers.FHP
               
         }
 
-        [HttpDelete("delete/{id}")] // API Endpoint for deleting an employee by ID
+        //API Endpoint for deleting an employee by ID
+        [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -252,7 +260,8 @@ namespace FHP.Controllers.FHP
         }
 
 
-        [HttpGet("getall-job-employee")] // Endpoint for retrieving all job employee details
+        // API Endpoint for retrieving all job employee details
+        [HttpGet("getall-job-employee")] 
         public async Task<IActionResult> GetAllJobEmployeeAsync(int jobId)
         {
             // Checks if the model state is valid
@@ -297,6 +306,5 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
-
     }
 }
