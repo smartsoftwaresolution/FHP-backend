@@ -26,5 +26,7 @@ namespace FHP.dtos.FHP.JobPosting
         public Constants.JobPosting JobStatus { get; set; }
         public Constants.RecordStatus Status { get; set; }
         public string EmployerName { get; set; }
+        public Constants.JobProcessingStatus JobProcessingStatus { get; set; }
+
     }
 }

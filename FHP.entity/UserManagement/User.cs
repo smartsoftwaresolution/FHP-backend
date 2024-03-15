@@ -29,6 +29,6 @@ namespace FHP.entity.UserManagement
         public string MobileNumber { get; set; }
         public bool? IsVerifyByAdmin { get; set; }
         public int? Otp { get; set; }
-
+        public string EmploymentType { get; set; }
     }
 }

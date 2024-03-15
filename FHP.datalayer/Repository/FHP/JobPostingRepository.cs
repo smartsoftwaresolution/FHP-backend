@@ -100,7 +100,8 @@ namespace FHP.datalayer.Repository.FHP
                 UpdatedOn = s.jobPosting.UpdatedOn,
                 Status = s.jobPosting.Status,
                 JobStatus = s.jobPosting.JobStatus,
-                EmployerName = s.employer.FirstName + " " + s.employer.LastName
+                EmployerName = s.employer.FirstName + " " + s.employer.LastName,
+                JobProcessingStatus = s.jobPosting.JobProcessingStatus,
             }).AsNoTracking().ToListAsync();
 
 
@@ -133,7 +134,8 @@ namespace FHP.datalayer.Repository.FHP
                               UpdatedOn=s.UpdatedOn,
                               Status=s.Status,
                               JobStatus = s.JobStatus,
-                              EmployerName = e.FirstName + " " + e.LastName
+                              EmployerName = e.FirstName + " " + e.LastName,
+                              JobProcessingStatus = s.JobProcessingStatus,
 
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
