@@ -19,6 +19,6 @@ namespace FHP.models.UserManagement.User
         public string CompanyName { get; set; }
         public string MobileNumber { get; set; }
         public bool? IsVerifyByAdmin { get; set; }
-
+        public string EmploymentType { get; set; }
     }
 }

@@ -28,6 +28,7 @@ namespace FHP.utilities
 
 
         public enum JobPosting { Draft, Submitted, Cancel }
+        public enum JobOperationStatus { Shortlisting, InProcess, Reviewing,Hired }
         public enum EmployeeAvailability { Pending, Available, NotAvailable }
         public enum JobProcessingStatus { None,ShortListing, InProcess, Reviewing,Hired }
         public enum RecordStatus { Created, Active, Inactive, Deleted }

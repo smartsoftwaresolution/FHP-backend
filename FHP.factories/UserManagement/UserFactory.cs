@@ -39,6 +39,7 @@ namespace FHP.factories.UserManagement
             entity.Password = entity.Password;
             entity.UpdatedOn= Utility.GetDateTime();
             entity.MobileNumber = model.MobileNumber;
+            entity.EmploymentType = model.EmploymentType;
         }
     }
 }
