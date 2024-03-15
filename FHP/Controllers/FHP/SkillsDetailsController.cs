@@ -70,8 +70,9 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        
-        [HttpPut("edit")] // API endpoint to edit SkillDetail
+
+        // API endpoint to edit SkillDetail
+        [HttpPut("edit")] 
         public async Task<IActionResult> EditAsync(AddSkillsDetailModel model)
         {
             if (!ModelState.IsValid)

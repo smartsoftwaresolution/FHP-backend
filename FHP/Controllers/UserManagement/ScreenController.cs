@@ -1,5 +1,4 @@
-﻿using FHP.entity.UserManagement;
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.Screen;
@@ -24,8 +23,9 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
-      
-        [HttpPost("add")] //  API Endpoint for adding a new screen
+
+        //  API Endpoint for add  screen
+        [HttpPost("add")] 
         public async Task<IActionResult> AddAsync(AddScreenModel model)
         {
             if (!ModelState.IsValid)
@@ -77,7 +77,8 @@ namespace FHP.Controllers.UserManagement
 
         }
 
-       
+
+        //  API Endpoint for edit screen
         [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddScreenModel model)
         {
@@ -126,8 +127,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-    
-        [HttpGet("getall-pagination")]//  API Endpoint for retrieving all screens with pagination support
+        //  API Endpoint for retrieving all screens with pagination support
+        [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             // Checks if the model state is valid
@@ -172,8 +173,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-      
-        [HttpGet("getbyid")] // API Endpoint for retrieving an entity by its ID
+        // API Endpoint for retrieving an entity by its ID
+        [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             // Checks if the model state is valid
@@ -215,8 +216,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpDelete("delete/{id}")] // API  Endpoint for deleting an entity by its ID
+        // API  Endpoint for deleting an entity by its ID
+        [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {
             // Checks if the model state is valid

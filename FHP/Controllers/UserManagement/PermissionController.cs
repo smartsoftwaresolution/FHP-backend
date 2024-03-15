@@ -1,12 +1,8 @@
-﻿using FHP.entity.UserManagement;
-using FHP.infrastructure.Manager.UserManagement;
+﻿using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.Permission;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Bcpg.OpenPgp;
 
 namespace FHP.Controllers.UserManagement
 {
@@ -23,8 +19,8 @@ namespace FHP.Controllers.UserManagement
             _exceptionHandleService= exceptionHandleService;
         }
 
-  
-        [HttpPost("add")] //  API Endpoint for adding a new permission
+        //  API Endpoint for adding a new permission
+        [HttpPost("add")] 
         public async Task<IActionResult> AddAsync(AddPermissionModel model)
         {
             if (!ModelState.IsValid)
@@ -46,7 +42,7 @@ namespace FHP.Controllers.UserManagement
                     !string.IsNullOrEmpty(model.ScreenCode) &&
                     !string.IsNullOrEmpty(model.ScreenUrl))
                 {
-                    await _manager.AddAsync(model); // added
+                    await _manager.AddAsync(model); 
 
 
                     response.StatusCode = 200;
@@ -71,8 +67,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-        
-        [HttpPut("edit")] // API Endpoint for editing a permission
+        // API Endpoint for editing a permission
+        [HttpPut("edit")] 
         public async Task<IActionResult> EditAsync(AddPermissionModel model)
         {
             // Checks if the model state is valid
@@ -114,8 +110,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpGet("getall-pagination")] // API Endpoint for retrieving all permission with pagination
+        // API Endpoint for retrieving all permission with pagination
+        [HttpGet("getall-pagination")] 
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             // Checks if the model state is valid
@@ -160,9 +156,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-       
-       
-        [HttpGet("getbyid")] // API Endpoint for retrieving a permission by its ID
+
+        // API Endpoint for retrieving a permission by its ID
+        [HttpGet("getbyid")] 
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             // Checks if the model state is valid
@@ -205,8 +201,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-      
-        [HttpDelete("delete/{id}")] // API Endpoint for deleting a permission by its ID
+
+        // API Endpoint for deleting a permission by its ID
+        [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {
             // Checks if the model state is valid

@@ -26,7 +26,9 @@ namespace FHP.Controllers.FHP
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost("add")] // API endpoint to add Contract  
+
+        // API endpoint to add Contract
+        [HttpPost("add")]   
         public async Task<IActionResult> AddAsync(AddContractModel model)
         {
             if (!ModelState.IsValid)
@@ -48,7 +50,7 @@ namespace FHP.Controllers.FHP
                     && !string.IsNullOrEmpty(model.EmployerSignature))
 
                 {
-                    // Add the AdminSelectEmployee model asynchronously.
+                    // Add the contract model asynchronously.
                     await _manager.AddAsync(model);
 
                     // Commit the transaction.
@@ -73,7 +75,9 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpPut("edit")]  // API endpoint to edit Contract 
+
+        // API endpoint to edit Contract 
+        [HttpPut("edit")]  
         public async Task<IActionResult> EditAsync(AddContractModel model)
         {
             if (!ModelState.IsValid)
@@ -118,8 +122,8 @@ namespace FHP.Controllers.FHP
             }
         }
 
-
-        [HttpGet("getall-pagination")] // Get All Contract with Pagination and search filter
+        // Get All Contract with Pagination and search filter
+        [HttpGet("getall-pagination")] 
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             if (!ModelState.IsValid)
@@ -153,13 +157,14 @@ namespace FHP.Controllers.FHP
             catch (Exception ex)
             {
                 // Handle any exceptions using the provided exception handling service.
-                return await _exceptionHandleService.HandleException(ex); //exceptionHandle service.
+                return await _exceptionHandleService.HandleException(ex);
             }
 
         }
 
 
-        [HttpGet("getbyid")]  // Get By Id Contract
+        // Get By Id Contract 
+        [HttpGet("getbyid")] 
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -189,12 +194,13 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); //exceptionHandle service.
+                // Handle any exceptions using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 
-
-        [HttpDelete("delete/{id}")] // Delete Contract by Id
+        // Delete Contract by Id
+        [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -224,7 +230,8 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); //exceptionHandle service.
+                //exceptionHandle service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
     }
