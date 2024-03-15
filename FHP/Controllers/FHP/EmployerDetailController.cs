@@ -96,7 +96,8 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpPut("edit")]  //Edit EmployerDetail
+        //Edit EmployerDetail
+        [HttpPut("edit")]  
         public async Task<IActionResult> EditAsync([FromForm] AddEmployerDetailModel model)
         {
             // Check if the model state is valid

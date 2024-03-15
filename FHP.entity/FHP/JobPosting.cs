@@ -1,9 +1,4 @@
 ﻿using FHP.utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.entity.FHP
 {
@@ -27,5 +22,7 @@ namespace FHP.entity.FHP
         public Constants.JobPosting JobStatus { get; set; }
         public string CancelReason { get; set; }
         public Constants.JobProcessingStatus JobProcessingStatus { get; set; }
+        public string AdminJobTitle { get; set; }
+        public string AdminJobDescription { get; set; }
     }
 }

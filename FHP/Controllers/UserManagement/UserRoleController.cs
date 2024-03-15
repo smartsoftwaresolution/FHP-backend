@@ -1,4 +1,4 @@
-﻿using FHP.entity.UserManagement;
+﻿
 using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
@@ -24,8 +24,8 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
-        
-        [HttpPost("add")] // API Endpoint for adding a user role
+        // API Endpoint for adding a user role
+        [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddUserRoleModel model)
         {
             // Checks if the model state is valid
@@ -81,8 +81,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpPut("edit")] //  API Endpoint for editing a user role
+        //  API Endpoint for editing a user role
+        [HttpPut("edit")] 
         public async Task<IActionResult> Edit(AddUserRoleModel model)
         {
             // Checks if the model state is valid
@@ -130,9 +130,10 @@ namespace FHP.Controllers.UserManagement
                 return await _exceptionHandleService.HandleException(ex); 
             }
         }
-       
-        
-        [HttpGet("getall-pagination")] // API Endpoint for retrieving all user roles with pagination
+
+
+        // API Endpoint for retrieving all user roles with pagination
+        [HttpGet("getall-pagination")] 
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             // Checks if the model state is valid
@@ -176,8 +177,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpGet("getbyid")] // API Endpoint for retrieving a user role by its ID
+
+        // API Endpoint for retrieving a user role by its ID
+        [HttpGet("getbyid")] 
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             // Checks if the model state is valid
@@ -221,8 +223,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-       
-        [HttpDelete("delete/{id}")] // API Endpoint for deleting a user role by its ID
+        // API Endpoint for deleting a user role by its ID
+        [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {
             // Checks if the model state is valid

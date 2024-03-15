@@ -26,7 +26,7 @@ namespace FHP.factories.FHP
                 Status=Constants.RecordStatus.Active,
                 JobStatus = model.JobPosting,
                 CancelReason = "",
-                JobProcessingStatus = Constants.JobProcessingStatus.None,
+                JobProcessingStatus = Constants.JobProcessingStatus.InProcess,
             };
 
             return data;

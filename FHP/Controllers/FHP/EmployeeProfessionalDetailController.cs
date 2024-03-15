@@ -23,16 +23,21 @@ namespace FHP.Controllers.FHP
             _unitOfWork=unitOfWork;
         }
 
-        [HttpPost("add")] // Add EmployeeProfessionalDetail
+
+        // Add EmployeeProfessionalDetail
+        [HttpPost("add")] 
         public async Task<IActionResult> AddAsync(AddEmployeeProfessionalDetailModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  addition.
+
+            //The method then begins a database transaction to ensure data consistency during  addition.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
@@ -57,6 +62,7 @@ namespace FHP.Controllers.FHP
                     return Ok(response);
 
                 }
+
                 // If required fields are not provided, return a BadRequest response with an error message.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
@@ -64,21 +70,28 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex); //exception hadler service
+                //In case of any exceptions during the process, it rolls back the transaction.
+                await transaction.RollbackAsync();
+
+                //exception hadler service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
-        [HttpPut("edit")]  // Edit EmployeeProfessionalDetail
+        // Edit EmployeeProfessionalDetail
+        [HttpPut("edit")]  
         public async Task<IActionResult> EditAsync(AddEmployeeProfessionalDetailModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  updation.
+
+            //The method then begins a database transaction to ensure data consistency during  updation.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
@@ -103,17 +116,21 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex); //exception handler service
+                //In case of any exceptions during the process, it rolls back the transaction.
+                await transaction.RollbackAsync(); 
+
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
-        [HttpGet("getall-pagination")] // Get All EmployeeProfessionalDetail 
+        // Get All EmployeeProfessionalDetail 
+        [HttpGet("getall-pagination")] 
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,int userId,string? search)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponsePagination<object>();
@@ -137,17 +154,19 @@ namespace FHP.Controllers.FHP
             }
             catch( Exception ex)
             {
-              return  await _exceptionHandleService.HandleException(ex); // exception handler service
+                // exception handler service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
-
-        [HttpGet("getbyid")] // get by id EmployeeProfessionalDetail
+        // get by id EmployeeProfessionalDetail
+        [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAddResponse<object>();
@@ -174,17 +193,19 @@ namespace FHP.Controllers.FHP
             }
             catch (Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); // exception handler service
+                // exception handler service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
-        [HttpDelete("delete/{id}")] //delete EmployeeProfessionalDetail by id
+        //delete EmployeeProfessionalDetail by id
+        [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if(!ModelState.IsValid) 
-            { 
-            
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+            {
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAdd();
@@ -208,7 +229,8 @@ namespace FHP.Controllers.FHP
             }
             catch(Exception ex)
             {
-                return await _exceptionHandleService.HandleException(ex); // exception handler service
+                // exception handler service
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
     }

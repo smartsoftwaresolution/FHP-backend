@@ -1,15 +1,9 @@
-﻿using DocumentFormat.OpenXml.ExtendedProperties;
-using FHP.entity.UserManagement;
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.State;
-using FHP.services;
 using FHP.utilities;
-using Hangfire.States;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Bcpg.OpenPgp;
 
 namespace FHP.Controllers.UserManagement
 {
@@ -29,8 +23,8 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
-       
-        [HttpPost("add")] // API Endpoint for adding a State
+        // API Endpoint for add State
+        [HttpPost("add")] 
         public async Task<IActionResult> AddAsync(AddStateModel model)
         {
             // Checks if the model state is valid
@@ -81,8 +75,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpPut("edit")] // API Endpoint for updating a State
+
+        // API Endpoint for updating a State
+        [HttpPut("edit")] 
         public async Task<IActionResult> EditAsync(AddStateModel model)
         {
             // Checks if the model state is valid
@@ -134,8 +129,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpGet("getall-pagination")] // API  Endpoint for retrieving all entities with pagination
+
+        // API  Endpoint for retrieving all entities with pagination
+        [HttpGet("getall-pagination")] 
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
         {
             // Checks if the model state is valid
@@ -180,8 +176,9 @@ namespace FHP.Controllers.UserManagement
 
         }
 
-       
-        [HttpGet("getbyid")] // API Endpoint for retrieving an entity by its ID
+
+        // API Endpoint for retrieving an entity by its ID
+        [HttpGet("getbyid")] 
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             // Checks if the model state is valid
@@ -222,8 +219,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-       
-        [HttpGet("getby-countryId")] //  API Endpoint for retrieving data by country ID
+
+        //  API Endpoint for retrieving data by country ID
+        [HttpGet("getby-countryId")] 
         public async Task<IActionResult> GetByCountryIdAsync(int countryId)
         {
             // Checks if the model state is valid
@@ -269,8 +267,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-        
-        [HttpDelete("delete/{id}")] // API  Endpoint for deleting an entity by its ID
+        // API  Endpoint for deleting an entity by its ID
+        [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {
             // Checks if the model state is valid
@@ -313,7 +311,6 @@ namespace FHP.Controllers.UserManagement
                 return await _exceptionHandleService.HandleException(ex); 
             }
         }
-
 
     }
 }

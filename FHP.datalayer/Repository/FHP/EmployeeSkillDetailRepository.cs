@@ -1,15 +1,9 @@
-﻿using FHP.datalayer.Migrations;
-using FHP.dtos.FHP.EmployeeSkill;
+﻿using FHP.dtos.FHP.EmployeeSkill;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP.EmployeeSkillDetail;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.FHP
 {
@@ -26,7 +20,6 @@ namespace FHP.datalayer.Repository.FHP
         {
            await _dataContext.EmployeeSkillDetails.AddAsync(entity);
            await _dataContext.SaveChangesAsync();
-
         }
         public async Task AddAsync(AddEmployeeSkillDetailModel entity)
         {
@@ -55,18 +48,20 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<EmployeeSkillDetailDto> employeeSkillDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
+        public async Task<(List<EmployeeSkillDetailDto> employeeSkillDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search, string? skillName)
         {
-            var query = from s in _dataContext.EmployeeSkillDetails
-                        where s.Status != utilities.Constants.RecordStatus.Deleted
-                        select new { employeeSkillDetail = s };
+            var query = from s in _dataContext.EmployeeSkillDetails 
+                        join t in _dataContext.SkillsDetails on s.SkillId equals t.Id
+                        
+                        where s.Status != Constants.RecordStatus.Deleted
+                        select new { employeeSkillDetail = s , SkillsDetail= t };
 
             
 
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.employeeSkillDetail.UserId.ToString().Contains(search) ||
-                                       s.employeeSkillDetail.SkillId.ToString().Contains(search));
+                                         s.employeeSkillDetail.SkillId.ToString().Contains(search));
             }
 
             if(userId > 0)
@@ -89,10 +84,10 @@ namespace FHP.datalayer.Repository.FHP
                 Id = s.employeeSkillDetail.Id,
                 UserId = s.employeeSkillDetail.UserId,
                 SkillId = s.employeeSkillDetail.SkillId,
+                SkillName = s.SkillsDetail.SkillName,
                 CreatedOn = s.employeeSkillDetail.CreatedOn,
                 UpdatedOn = s.employeeSkillDetail.UpdatedOn,
                 Status = s.employeeSkillDetail.Status,
-
             }).AsNoTracking().ToListAsync();
 
             return (data, totalCount);
@@ -101,7 +96,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<EmployeeSkillDetailDto> GetByIdAsync(int id)
         {
            return await (from s in _dataContext.EmployeeSkillDetails
-                   where s.Status != utilities.Constants.RecordStatus.Deleted &&
+                   where s.Status != Constants.RecordStatus.Deleted &&
                    s.Id == id
 
                    select new EmployeeSkillDetailDto
@@ -119,7 +114,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task DeleteAsync(int id)
         {
             var data = await _dataContext.EmployeeSkillDetails.Where(s => s.Id == id).FirstOrDefaultAsync();
-            data.Status = utilities.Constants.RecordStatus.Deleted;
+            data.Status = Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
         }

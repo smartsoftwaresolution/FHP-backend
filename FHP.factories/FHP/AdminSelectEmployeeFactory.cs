@@ -16,7 +16,7 @@ namespace FHP.factories.FHP
             var data = new AdminSelectEmployee
             {
                 JobId = model.JobId,
-                EmployeeId = model.EmployeeId,
+               // EmployeeId = model.EmployeeId,
                 InProbationCancel = model.InProbationCancel,
                 IsSelected = model.IsSelected,
                 CreatedOn = Utility.GetDateTime()
@@ -27,7 +27,7 @@ namespace FHP.factories.FHP
         public static void Update(AdminSelectEmployee entity,AddAdminSelectEmployeeModel model)
         {
             entity.JobId = model.JobId;
-            entity.EmployeeId = model.EmployeeId;
+           // entity.EmployeeId = model.EmployeeId;
 
         }
     }

@@ -2,9 +2,7 @@
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.EmployeeEducationalDetail;
-using FHP.services;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.FHP
@@ -63,7 +61,7 @@ namespace FHP.Controllers.FHP
             catch (Exception ex)
             {
                 await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex); //exceptionHandle service.
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
@@ -102,7 +100,7 @@ namespace FHP.Controllers.FHP
             catch(Exception ex)
             {
                 await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex); //exceptionHandle service.
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 

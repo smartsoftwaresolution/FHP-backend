@@ -1,6 +1,4 @@
-﻿
-using FHP.entity.UserManagement;
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.User;
@@ -32,8 +30,8 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
         }
 
-     
-        [HttpPost("add")] // API Endpoint for adding a new user
+        // API Endpoint for add user
+        [HttpPost("add")] 
         public async Task<IActionResult> AddAsync(AddUserModel model)
         {
             // Checks if the model state is valid
@@ -101,8 +99,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-        
-        [HttpPut("edit")] // API Endpoint for editing an existing user
+        // API Endpoint for edit an existing user
+        [HttpPut("edit")]
         public async Task<IActionResult> EditAsync(AddUserModel model)
         {
             // Checks if the model state is valid
@@ -144,6 +142,7 @@ namespace FHP.Controllers.UserManagement
                 // Returns BadRequest response with the error message
                 return BadRequest(response);
             }
+
             catch (Exception ex)
             {
                 //In case of any exceptions during the process, it rolls back the transaction.
@@ -154,8 +153,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpGet("getall-pagination")] // get all User with pagination,based on roleName,sorting and searching
+
+        // get all User with pagination,based on roleName,sorting and searching
+        [HttpGet("getall-pagination")] 
         public async Task<IActionResult> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending)
         {
             // Checks if the model state is valid
@@ -199,9 +199,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-
-        
-        [HttpGet("getbyid")] //API Endpoint for retrieving by ID
+        //API Endpoint for retrieving by ID
+        [HttpGet("getbyid")] 
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             // Checks if the model state is valid
@@ -243,7 +242,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-        [HttpDelete("delete/{id}")] //API Endpoint for deleting an user by ID
+        //API Endpoint for deleting an user by ID
+        [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -285,8 +285,8 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpPatch("verify-user")] // API Endpoint for verifying a user
+        // API Endpoint for verifying a user
+        [HttpPatch("verify-user")]
         public async Task<IActionResult> VerifyUserAsync(int userId)
         {
 
@@ -330,8 +330,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpPatch("update-Profile-pic")] //  API Endpoint for updating user profile picture
+
+        //  API Endpoint for updating user profile picture
+        [HttpPatch("update-Profile-pic")] 
         public async Task<IActionResult> AddProfilePictureAsync(int userId, IFormFile? picUrl)
         {
             // Checks if the model state is valid
@@ -389,8 +390,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-      
-        [HttpPatch("enable-disble-employee-employer")] // API  Endpoint for enabling or disabling
+
+        // API  Endpoint for enabling or disabling
+        [HttpPatch("enable-disble-employee-employer")] 
         public async Task<IActionResult> EnableDisableUserAsync(int userId,string roleName)
         {
 
@@ -434,8 +436,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpPatch("verify-employer-by-admin")] //  API Endpoint for verifying an employer by admin
+
+        //  API Endpoint for verifying an employer by admin
+        [HttpPatch("verify-employer-by-admin")] 
         public async Task<IActionResult> VerifyEmployerByAdminAsync(int userId)
         {
             // Checks if the model state is valid

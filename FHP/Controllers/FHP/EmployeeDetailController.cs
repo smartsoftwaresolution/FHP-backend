@@ -27,16 +27,20 @@ namespace FHP.Controllers.FHP
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost("add")]  // Add Employee Detail 
+        // Add Employee Detail 
+        [HttpPost("add")]  
         public async Task<IActionResult> AddAsync([FromForm]AddEmployeeDetailModel model)
         {
             if(!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorList()); //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.
+                return BadRequest(ModelState.GetErrorList()); 
             }
 
             var response = new BaseResponseAdd();
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); //The method then begins a database transaction to ensure data consistency during  addition.
+
+            //The method then begins a database transaction to ensure data consistency during  addition.
+            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
 
             try
             {
@@ -79,14 +83,15 @@ namespace FHP.Controllers.FHP
 
             }
             catch(Exception ex) 
-            { 
-                await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex); //exceptionHandle service.
+            {
+                //In case of any exceptions during the process, it rolls back the transaction.
+                await transaction.RollbackAsync(); 
+                return await _exceptionHandleService.HandleException(ex); 
             }
         }
 
-
-        [HttpPut("edit")]  //  Edit Employee Detail
+        //  Edit Employee Detail
+        [HttpPut("edit")]  
         public async Task<IActionResult> EditAsync([FromForm] AddEmployeeDetailModel model)
         {
             if(!ModelState.IsValid)
@@ -128,7 +133,7 @@ namespace FHP.Controllers.FHP
             catch(Exception ex)
             {
                 await transaction.RollbackAsync(); //In case of any exceptions during the process, it rolls back the transaction.
-                return await _exceptionHandleService.HandleException(ex); //exceptionHandler service
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 

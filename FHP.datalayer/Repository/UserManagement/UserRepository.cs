@@ -109,7 +109,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 ProfileImg = s.user.ProfileImg,
                 MobileNumber = s.user.MobileNumber,
                 IsVerifyByAdmin = s.user.IsVerifyByAdmin,
-
+                EmploymentType = s.user.EmploymentType,
                 EmployeeDetails = (from e in _dataContext.EmployeeDetails
                                   where e.UserId == s.user.Id
                                   select new EmployeeDetailDto 
@@ -176,6 +176,7 @@ namespace FHP.datalayer.Repository.UserManagement
                               ProfileImg = s.ProfileImg,
                               MobileNumber =  s.MobileNumber,
                               IsVerifyByAdmin = s.IsVerifyByAdmin,
+                              EmploymentType = s.EmploymentType,
                           }).AsNoTracking().FirstOrDefaultAsync();
 
         }
@@ -219,6 +220,7 @@ namespace FHP.datalayer.Repository.UserManagement
                               MobileNumber =  s.MobileNumber,
                               IsVerifyByAdmin = s.IsVerifyByAdmin,
                               Otp = s.Otp,
+                              EmploymentType = s.EmploymentType,
                           }).AsNoTracking().FirstOrDefaultAsync();
 
         }
@@ -250,6 +252,7 @@ namespace FHP.datalayer.Repository.UserManagement
                               ProfileImg = s.ProfileImg,
                               MobileNumber =  s.MobileNumber,
                               IsVerifyByAdmin = s.IsVerifyByAdmin,
+                              EmploymentType = s.EmploymentType,
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 

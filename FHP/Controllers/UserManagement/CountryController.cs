@@ -213,7 +213,7 @@ namespace FHP.Controllers.UserManagement
 
                 try
                 {
-                // Checks if the provided ID is valid
+                    // Checks if the provided ID is valid
                     if (id <= 0)
                     {
                         response.StatusCode = 400;

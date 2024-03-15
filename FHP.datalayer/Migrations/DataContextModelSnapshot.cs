@@ -205,20 +205,32 @@ namespace FHP.datalayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AdminJobDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdminJobTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CancelReasons")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsAvailable")
+                        .HasColumnType("int");
 
                     b.Property<int>("JobId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -554,6 +566,12 @@ namespace FHP.datalayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdminJobDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdminJobTitle")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CancelReason")
@@ -951,6 +969,9 @@ namespace FHP.datalayer.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmploymentType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")

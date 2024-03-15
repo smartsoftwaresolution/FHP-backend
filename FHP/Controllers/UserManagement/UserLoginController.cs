@@ -34,8 +34,9 @@ namespace FHP.Controllers.UserManagement
             _emailSettingManager = emailSettingManager;
         }
 
-        
-        [HttpPost("userlogin-email")] // API Endpoint for user login by email
+
+        // API Endpoint for user login by email
+        [HttpPost("userlogin-email")] 
         public async Task<IActionResult> UserLoginAsync(UserLoginModel model)
         {
             // Checks if the model state is valid
@@ -112,7 +113,7 @@ namespace FHP.Controllers.UserManagement
                         login.RoleId  = data.RoleId;
                       
                       
-                        await _manager.UserLogIn(login); //userLogOn
+                        await _manager.UserLogIn(login); 
 
 
                         // Sets response status code and message
@@ -139,8 +140,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpPost("userlogin-governmentid")] // API Endpoint for user login by governmentId
+
+        // API Endpoint for user login by governmentId
+        [HttpPost("userlogin-governmentid")] 
         public async Task<IActionResult> UserLoginByGovId(UserLoginGovIdModel model)
         {
                 // Checks if the model state is valid
@@ -205,7 +207,7 @@ namespace FHP.Controllers.UserManagement
                             SigningCredentials=new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature)
                           };
 
-                          var token = tokenHandler.CreateToken(tokenDescription); //tokenHandler
+                          var token = tokenHandler.CreateToken(tokenDescription); 
 
 
                              // Logs user login
@@ -240,8 +242,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-        
-        [HttpPost("logout")] // Endpoint for user logout
+        // Endpoint for user logout
+        [HttpPost("logout")] 
         public async Task<IActionResult> UserLogOutAsync(int userId)
         {
             // Checks if the model state is valid
@@ -286,8 +288,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-        
-        [HttpPatch("change-password")] //  API Endpoint for changing user password
+        //  API Endpoint for changing user password
+        [HttpPatch("change-password")] 
         public async Task<IActionResult> ChangePasswordAsync(int userId, string password)
         {
             // Checks if the model state is valid
@@ -331,8 +333,8 @@ namespace FHP.Controllers.UserManagement
         }
 
 
-       
-        [HttpPatch("forgot-password")] //  API Endpoint for handling forgot password request
+        //  API Endpoint for handling forgot password request
+        [HttpPatch("forgot-password")] 
         public async Task<IActionResult> ForgotPasswordAsync( string email)
         {
             // Checks if the model state is valid
@@ -436,8 +438,9 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
-        
-        [HttpPatch("verify-email-otp")] // API Endpoint for verifying email OTP
+
+        // API Endpoint for verifying email OTP
+        [HttpPatch("verify-email-otp")] 
         public async Task<IActionResult> VerifyEmailOtpAsync(string email,int otp)
         {
             // Checks if the model state is valid

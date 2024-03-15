@@ -15,7 +15,7 @@ namespace FHP.infrastructure.Repository.FHP
         Task AddAsync(AddEmployeeSkillDetailModel entity);
         void Edit(EmployeeSkillDetail entity);
         Task<EmployeeSkillDetail> GetAsync(int id);
-        Task<(List<EmployeeSkillDetailDto> employeeSkillDetail, int totalCount)> GetAllAsync(int page, int pageSize, int userId, string? search);
+        Task<(List<EmployeeSkillDetailDto> employeeSkillDetail, int totalCount)> GetAllAsync(int page, int pageSize, int userId, string? search, string? skillName);
         Task<EmployeeSkillDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }
