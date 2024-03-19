@@ -1,4 +1,5 @@
 ﻿using FHP.dtos.FHP.JobPosting;
+using FHP.dtos.FHP.JobSkillDetail;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
@@ -103,6 +104,19 @@ namespace FHP.datalayer.Repository.FHP
                 JobStatus = s.jobPosting.JobStatus,
                 EmployerName = s.employer.FirstName + " " + s.employer.LastName,
                 JobProcessingStatus = s.jobPosting.JobProcessingStatus,
+                JobSkillDetails = s.jobPosting.JobSkillDetails
+                                              .Select( j => new JobSkillDetailDto 
+                                              { 
+                                                  Id = j.Id,
+                                                  JobId = j.JobId,
+                                                  SkillId = j.SkillId,
+                                                  SkillName = j.SkillDetail.SkillName,
+                                                  CreatedOn = j.CreatedOn,
+                                                  UpdatedOn = j.UpdatedOn,
+                                                  Status = j.Status,
+
+                                              }).ToList(),
+                
             }).AsNoTracking().ToListAsync();
 
 
@@ -137,7 +151,18 @@ namespace FHP.datalayer.Repository.FHP
                               JobStatus = s.JobStatus,
                               EmployerName = e.FirstName + " " + e.LastName,
                               JobProcessingStatus = s.JobProcessingStatus,
+                              JobSkillDetails = s.JobSkillDetails
+                                              .Select(j => new JobSkillDetailDto
+                                              {
+                                                  Id = j.Id,
+                                                  JobId = j.JobId,
+                                                  SkillId = j.SkillId,
+                                                  SkillName = j.SkillDetail.SkillName,
+                                                  CreatedOn = j.CreatedOn,
+                                                  UpdatedOn = j.UpdatedOn,
+                                                  Status = j.Status,
 
+                                              }).ToList(),
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 

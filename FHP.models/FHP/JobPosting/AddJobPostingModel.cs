@@ -16,6 +16,7 @@ namespace FHP.models.FHP.JobPosting
         public string Experience { get; set; }
         public string RolesAndResponsibilities { get; set; }
         public string Skills { get; set; }
+        public List<int> SkillId { get; set; }
         public string Address { get; set; }
         public string Payout { get; set; }
         public bool InProbationCancel { get; set; }
