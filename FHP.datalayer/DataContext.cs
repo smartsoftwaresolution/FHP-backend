@@ -34,6 +34,7 @@ namespace FHP.datalayer
         #endregion
 
         #region FHP
+        public DbSet<JobSkillDetail> JobSkillDetails { get; set; }
         public DbSet<SkillsDetail> SkillsDetails { get; set; }
         public DbSet<EmployeeDetail> EmployeeDetails { get; set; }
         public DbSet<EmployerDetail> EmployerDetails { get; set; }
@@ -66,6 +67,7 @@ namespace FHP.datalayer
 
             #region FHP
            
+            modelBuilder.ApplyConfiguration(new JobSkillDetailConfiguration());
             modelBuilder.ApplyConfiguration(new SkillsDetailConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeDetailConfiguration());
             modelBuilder.ApplyConfiguration(new EmployerDetailConfiguration());

@@ -27,6 +27,13 @@ namespace FHP.factories.FHP
                 JobStatus = model.JobPosting,
                 CancelReason = "",
                 JobProcessingStatus = Constants.JobProcessingStatus.InProcess,
+
+                JobSkillDetails = model.SkillId?.Select(s => new JobSkillDetail
+                {
+                    SkillId = s,
+                    Status = Constants.RecordStatus.Active,
+                    CreatedOn = Utility.GetDateTime()
+                }).ToList(),
             };
 
             return data;

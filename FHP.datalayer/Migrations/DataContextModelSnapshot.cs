@@ -634,6 +634,38 @@ namespace FHP.datalayer.Migrations
                     b.ToTable("JobPosting", (string)null);
                 });
 
+            modelBuilder.Entity("FHP.entity.FHP.JobSkillDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("JobSkillDetail", (string)null);
+                });
+
             modelBuilder.Entity("FHP.entity.FHP.SkillsDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -1213,6 +1245,25 @@ namespace FHP.datalayer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FHP.entity.FHP.JobSkillDetail", b =>
+                {
+                    b.HasOne("FHP.entity.FHP.JobPosting", "JobPosting")
+                        .WithMany("JobSkillDetails")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FHP.entity.FHP.SkillsDetail", "SkillDetail")
+                        .WithMany()
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobPosting");
+
+                    b.Navigation("SkillDetail");
+                });
+
             modelBuilder.Entity("FHP.entity.UserManagement.City", b =>
                 {
                     b.HasOne("FHP.entity.UserManagement.Country", "Country")
@@ -1322,6 +1373,11 @@ namespace FHP.datalayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.JobPosting", b =>
+                {
+                    b.Navigation("JobSkillDetails");
                 });
 #pragma warning restore 612, 618
         }
