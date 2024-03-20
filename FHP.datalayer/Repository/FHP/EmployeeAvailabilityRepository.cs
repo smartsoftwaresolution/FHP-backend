@@ -127,32 +127,53 @@ namespace FHP.datalayer.Repository.FHP
                           }).FirstOrDefaultAsync();
         }
 
-        public async Task<List<EmployeeAvailabilityDetailDto>> GetAllAvalibility(int JobId, Constants.EmployeeAvailability? employeeAvailability)
+        public async Task<(List<EmployeeAvailabilityDetailDto> getallAval ,int totalCount)> GetAllAvalibility(int page, int pageSize, string? search, int JobId, Constants.EmployeeAvailability? employeeAvailability)
         {
-            return await (from s in _dataContext.EmployeeAvailabilities
-                          join u in _dataContext.User on s.EmployeeId equals u.Id
-                          where s.Status != Constants.RecordStatus.Deleted && 
-                          s.JobId == JobId && (s.IsAvailable == employeeAvailability || employeeAvailability == null)
+            var query = from s in _dataContext.EmployeeAvailabilities
+                        join u in _dataContext.User on s.EmployeeId equals u.Id
 
-                          select new EmployeeAvailabilityDetailDto
-                          {
-                              Id = s.Id,
-                              UserId = s.UserId,
-                              JobId = s.JobId,
-                              EmployeeId = s.EmployeeId,
-                              IsAvailable = s.IsAvailable,
-                              CreatedOn = s.CreatedOn,
-                              Status = s.Status,
-                              AdminjobTitle = s.AdminJobTitle,
-                              AdminJobDescription = s.AdminJobDescription,
-                              UpdatedOn = s.UpdatedOn,
+                        where s.Status != Constants.RecordStatus.Deleted &&
+                        s.JobId == JobId && (s.IsAvailable == employeeAvailability || employeeAvailability == null)
+                        select new { getallAval = s, UserDetail = u };
 
-                              FirstName = u.FirstName,
-                              LastName = u.LastName,
-                              Email = u.Email,
-                              MobileNumber = u.MobileNumber,
-                              FullName = u.FirstName + " " + u.LastName,
-                          }).AsNoTracking().ToListAsync();
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.getallAval.JobId.ToString().Contains(search) ||
+                                        s.getallAval.EmployeeId.ToString().Contains(search));
+            }
+
+            var totalCount = await query.CountAsync();
+
+            query = query.OrderByDescending(s => s.getallAval.Id);
+
+            if(page > 0 && pageSize > 0)
+            {
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            }
+
+            var data = await query.Select(s => new EmployeeAvailabilityDetailDto
+            {
+                   Id = s.getallAval.Id,
+                   UserId = s.getallAval.UserId,
+                   JobId = s.getallAval.JobId,
+                   EmployeeId = s.getallAval.EmployeeId,
+                   IsAvailable = s.getallAval.IsAvailable,
+                   CreatedOn = s.getallAval.CreatedOn,
+                   Status = s.getallAval.Status,
+                   AdminjobTitle = s.getallAval.AdminJobTitle,
+                   AdminJobDescription = s.getallAval.AdminJobDescription,
+                   UpdatedOn = s.getallAval.UpdatedOn,
+
+                   FirstName = s.UserDetail.FirstName,
+                   LastName = s.UserDetail.LastName,
+                   Email = s.UserDetail.Email,
+                   MobileNumber = s.UserDetail.MobileNumber,
+                   FullName = s.UserDetail.FirstName + " " + s.UserDetail.LastName,
+
+            }).AsNoTracking().ToListAsync();
+
+            return (data, totalCount);
+                         
         }
 
         public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId)

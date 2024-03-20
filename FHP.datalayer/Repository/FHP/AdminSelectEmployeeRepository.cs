@@ -92,6 +92,8 @@ namespace FHP.datalayer.Repository.FHP
                                                             EmployeeName = s.employee.FirstName + " " + s.employee.LastName,
                                                             InProbationCancel = s.adminSelect.InProbationCancel,
                                                             IsSelected = s.adminSelect.IsSelected,
+                                                            Mobilenumber = s.employee.MobileNumber,
+                                                            Email = s.employee.Email
                                                          }) 
                                                          .AsNoTracking()
                                                          .ToListAsync();
@@ -113,7 +115,9 @@ namespace FHP.datalayer.Repository.FHP
                        EmployeeId=s.EmployeeId,
                        InProbationCancel=s.InProbationCancel,
                        IsSelected=s.IsSelected,
-                       EmployeeName = u.FirstName + " " + u.LastName
+                       EmployeeName = u.FirstName + " " + u.LastName,
+                       Mobilenumber = u.MobileNumber,
+                       Email = u.Email,
                    }).AsNoTracking().FirstOrDefaultAsync();
         }
 
