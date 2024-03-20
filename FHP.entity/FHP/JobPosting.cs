@@ -24,6 +24,7 @@ namespace FHP.entity.FHP
         public Constants.JobProcessingStatus JobProcessingStatus { get; set; }
         public string AdminJobTitle { get; set; }
         public string AdminJobDescription { get; set; }
+        public string EmploymentType { get; set; }
         public ICollection<JobSkillDetail> JobSkillDetails { get; set; }
     }
 }

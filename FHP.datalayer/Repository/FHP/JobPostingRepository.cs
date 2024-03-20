@@ -104,6 +104,7 @@ namespace FHP.datalayer.Repository.FHP
                 JobStatus = s.jobPosting.JobStatus,
                 EmployerName = s.employer.FirstName + " " + s.employer.LastName,
                 JobProcessingStatus = s.jobPosting.JobProcessingStatus,
+                EmploymentType=s.jobPosting.EmploymentType,
                 JobSkillDetails = s.jobPosting.JobSkillDetails
                                               .Select( j => new JobSkillDetailDto 
                                               { 
@@ -151,6 +152,7 @@ namespace FHP.datalayer.Repository.FHP
                               JobStatus = s.JobStatus,
                               EmployerName = e.FirstName + " " + e.LastName,
                               JobProcessingStatus = s.JobProcessingStatus,
+                              EmploymentType=s.EmploymentType,
                               JobSkillDetails = s.JobSkillDetails
                                               .Select(j => new JobSkillDetailDto
                                               {

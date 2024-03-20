@@ -19,6 +19,8 @@ namespace FHP.models.FHP.JobPosting
         public List<int> SkillId { get; set; }
         public string Address { get; set; }
         public string Payout { get; set; }
+
+        public string EmploymentType { get; set; }
         public bool InProbationCancel { get; set; }
         public Constants.JobPosting JobPosting { get; set; }
     }

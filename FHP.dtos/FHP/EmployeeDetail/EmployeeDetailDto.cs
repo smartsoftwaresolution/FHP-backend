@@ -19,6 +19,9 @@ namespace FHP.dtos.FHP.EmployeeDetail
         public int? CountryId { get; set; }
         public int? StateId { get; set; }
         public int? CityId { get; set; }
+        public string CountryName { get; set; }
+        public string StateName { get; set; }
+        public string CityName { get; set; }
         public string ResumeURL { get; set; }
         public string ProfileImgURL { get; set; }
         public bool IsAvailable { get; set; }

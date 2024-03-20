@@ -320,6 +320,8 @@ namespace FHP.datalayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("EmployeeDetail", (string)null);
                 });
 
@@ -554,6 +556,8 @@ namespace FHP.datalayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("EmployerDetail", (string)null);
                 });
 
@@ -588,6 +592,10 @@ namespace FHP.datalayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmploymentType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -1243,6 +1251,28 @@ namespace FHP.datalayer.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.EmployeeDetail", b =>
+                {
+                    b.HasOne("FHP.entity.UserManagement.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.EmployerDetail", b =>
+                {
+                    b.HasOne("FHP.entity.UserManagement.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("FHP.entity.FHP.JobSkillDetail", b =>
