@@ -16,7 +16,7 @@ namespace FHP.utilities
         public class Utility
         {
 
-            public static (DateTime startDate, DateTime endDate) GetSwitchDateRange(Constants.DaysType daysType, TimeZoneInfo timeZone)
+            /*public static (DateTime startDate, DateTime endDate) GetSwitchDateRange(Constants.DaysType daysType, TimeZoneInfo timeZone)
             {
                 DateTime utcNow = DateTime.UtcNow;
 
@@ -62,7 +62,7 @@ namespace FHP.utilities
 
                 return (startDate, endDate);
             }
-            public static (DateTime from, DateTime to) SetTimeAndConvertToUtc(DateTime from, DateTime to, TimeZoneInfo timeZone)
+           */ public static (DateTime from, DateTime to) SetTimeAndConvertToUtc(DateTime from, DateTime to, TimeZoneInfo timeZone)
             {
                 // Set the time component of 'from' to 00:00:00 (midnight) and 'to' to 23:59:59.
 

@@ -130,6 +130,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<List<EmployeeAvailabilityDetailDto>> GetAllAvalibility(int JobId, Constants.EmployeeAvailability? employeeAvailability)
         {
             return await (from s in _dataContext.EmployeeAvailabilities
+                          join u in _dataContext.User on s.EmployeeId equals u.Id
                           where s.Status != Constants.RecordStatus.Deleted && 
                           s.JobId == JobId && (s.IsAvailable == employeeAvailability || employeeAvailability == null)
 
@@ -145,6 +146,12 @@ namespace FHP.datalayer.Repository.FHP
                               AdminjobTitle = s.AdminJobTitle,
                               AdminJobDescription = s.AdminJobDescription,
                               UpdatedOn = s.UpdatedOn,
+
+                              FirstName = u.FirstName,
+                              LastName = u.LastName,
+                              Email = u.Email,
+                              MobileNumber = u.MobileNumber,
+                              FullName = u.FirstName + " " + u.LastName,
                           }).AsNoTracking().ToListAsync();
         }
 

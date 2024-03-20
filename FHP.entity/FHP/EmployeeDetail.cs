@@ -1,4 +1,5 @@
-﻿using FHP.utilities;
+﻿using FHP.entity.UserManagement;
+using FHP.utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,5 +37,7 @@ namespace FHP.entity.FHP
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public Constants.RecordStatus Status { get; set; }
+        
+        public City City { get; set; }
     }
 }

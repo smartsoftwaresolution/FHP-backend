@@ -13,6 +13,7 @@ namespace FHP.dtos.FHP.EmployeeAvailability
         public int UserId { get; set; }
         public int EmployeeId { get; set; }
         public int JobId { get; set; }
+        public string FullName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

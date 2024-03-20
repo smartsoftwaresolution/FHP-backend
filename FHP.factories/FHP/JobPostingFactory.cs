@@ -25,6 +25,7 @@ namespace FHP.factories.FHP
                 CreatedOn=Utility.GetDateTime(),
                 Status=Constants.RecordStatus.Active,
                 JobStatus = model.JobPosting,
+                EmploymentType = model.EmploymentType,
                 CancelReason = "",
                 JobProcessingStatus = Constants.JobProcessingStatus.InProcess,
 
@@ -51,6 +52,7 @@ namespace FHP.factories.FHP
             entity.Skills = model.Skills;
             entity.Address = model.Address;
             entity.Payout = model.Payout;
+            entity.EmploymentType = model.EmploymentType;
             entity.InProbationCancel = model.InProbationCancel;
             entity.UpdatedOn=Utility.GetDateTime();
         }
