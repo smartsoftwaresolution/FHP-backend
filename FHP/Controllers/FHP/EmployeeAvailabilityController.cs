@@ -262,7 +262,7 @@ namespace FHP.Controllers.FHP
 
         //GetAll by EmployeeAvalibility
         [HttpGet("GetAllAvalibility")] 
-        public async Task<IActionResult> GetAllAvalibility(int JobId,Constants.EmployeeAvailability? employeeAvailability)
+        public async Task<IActionResult> GetAllAvalibility(int page,int pageSize, string? search,int JobId,Constants.EmployeeAvailability? employeeAvailability)
         {
             if (!ModelState.IsValid)
             {
@@ -270,17 +270,18 @@ namespace FHP.Controllers.FHP
                 return BadRequest(ModelState.GetErrorList()); 
             }
 
-            var response = new BaseResponseAddResponse<object>();
+            var response = new BaseResponsePagination<object>();
 
             try
             {
 
                 // Call the manager method to get Employee availability by job id for the job.
-                var data = await _manager.GetAllAvalibility(JobId,employeeAvailability); 
-                if (data != null)
+                var data = await _manager.GetAllAvalibility(page,pageSize, search,JobId,employeeAvailability); 
+                if (data.getallAval != null)
                  {
                     response.StatusCode = 200;
-                    response.Data=data;
+                    response.Data=data.getallAval;
+                    response.TotalCount = data.totalCount;
                     return Ok(response);
                  }
 

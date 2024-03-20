@@ -44,9 +44,9 @@ namespace FHP.manager.FHP
             await _repository.DeleteAsync(id);
         }
 
-        public async Task<List<EmployeeAvailabilityDetailDto>> GetAllAvalibility(int JobId, Constants.EmployeeAvailability? employeeAvailability)
+        public async Task<(List<EmployeeAvailabilityDetailDto> getallAval ,int totalCount)> GetAllAvalibility(int page, int pageSize, string? search,int JobId, Constants.EmployeeAvailability? employeeAvailability)
         {
-            return await _repository.GetAllAvalibility(JobId,employeeAvailability);
+            return await _repository.GetAllAvalibility(page,pageSize,search,JobId,employeeAvailability);
         }
 
         public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId)
