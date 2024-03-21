@@ -1,13 +1,7 @@
 ﻿using FHP.dtos.FHP.AdminSelectEmployee;
-using FHP.dtos.FHP.JobPosting;
 using FHP.dtos.UserManagement.User;
 using FHP.entity.FHP;
 using FHP.models.FHP.AdminSelectEmployee;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.infrastructure.Repository.FHP
 {
@@ -22,5 +16,6 @@ namespace FHP.infrastructure.Repository.FHP
         Task DeleteAsync(int id);
         Task<(List<UserDetailDto> adminSelect, int totalCount)> GetAllJobEmployeeAsync(int jobId);
         Task AddAsync(AddAdminSelectEmployeeModel model);
+        Task<string> AcceptRejectAsync(int jobId,int employeeId);
     }
 }

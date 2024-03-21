@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\NewFolder\**" />
+    <Compile Remove="wwwroot\Attachments\NewFolder\**" />
     <Content Remove="Controllers\NewFolder\**" />
+    <Content Remove="wwwroot\Attachments\NewFolder\**" />
     <EmbeddedResource Remove="Controllers\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\Attachments\NewFolder\**" />
     <None Remove="Controllers\NewFolder\**" />
+    <None Remove="wwwroot\Attachments\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>

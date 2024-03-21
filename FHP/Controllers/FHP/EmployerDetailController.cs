@@ -162,7 +162,9 @@ namespace FHP.Controllers.FHP
                 // Return a BadRequest response with a list of errors if model state is not valid
                 return BadRequest(ModelState.GetErrorList());
             }
+
             var response = new BaseResponsePagination<object>();
+
             try
             {
                 // Retrieve all employer details with pagination
