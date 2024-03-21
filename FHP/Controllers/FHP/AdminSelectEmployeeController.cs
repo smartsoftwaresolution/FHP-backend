@@ -306,5 +306,41 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
+
+
+        //API Endpoint to Accept Reject 
+        [HttpPost("AdminAcceptReject")]
+        public async Task<IActionResult> AdminAcceptReject(int jobId, int employeeId)
+        {
+            // Checks if the model state is valid
+            if (!ModelState.IsValid)
+            {
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+               if(employeeId <= 0 && jobId <= 0)
+               {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required";
+                    return BadRequest(response);
+               }
+
+               string result = await _manager.AcceptRejectAsync(jobId, employeeId);
+
+                response.StatusCode = 200;
+                response.Message = $" {result} Succesfully! ";
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
     }
 }

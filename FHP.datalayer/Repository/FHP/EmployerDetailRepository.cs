@@ -47,6 +47,7 @@ namespace FHP.datalayer.Repository.FHP
         {
             var query = from s in _dataContext.EmployerDetails
                         where s.Status != utilities.Constants.RecordStatus.Deleted
+
                         select new { employerDetail = s };
 
 
@@ -75,7 +76,7 @@ namespace FHP.datalayer.Repository.FHP
             }
 
 
-            var data = await query.Select (s=> new EmployerDetailDto
+            var data = await query.Select ( s => new EmployerDetailDto
             {
                 Id = s.employerDetail.Id,
                 UserId = s.employerDetail.UserId,

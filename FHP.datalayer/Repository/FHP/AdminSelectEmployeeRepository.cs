@@ -74,7 +74,7 @@ namespace FHP.datalayer.Repository.FHP
             
             
 
-            var totalCount = await query.CountAsync();
+             var totalCount = await query.CountAsync();
 
             query = query.OrderByDescending(s => s.adminSelect.Id);
 
@@ -106,7 +106,7 @@ namespace FHP.datalayer.Repository.FHP
         {
           return  await (from s in _dataContext.AdminSelectEmployees
                          join u in _dataContext.User on s.EmployeeId equals u.Id
-                   where  s.Id == id
+                  where  s.Id == id
 
                    select new AdminSelectEmployeeDetailDto
                    {
@@ -162,6 +162,28 @@ namespace FHP.datalayer.Repository.FHP
             }).AsNoTracking().ToListAsync();
 
             return (data, totalcount);
+        }
+
+        public async Task<string> AcceptRejectAsync(int jobId, int employeeId)
+        {
+            string result = string.Empty;
+
+            var data = await _dataContext.AdminSelectEmployees.Where(s => s.EmployeeId == employeeId && s.JobId == jobId).FirstOrDefaultAsync();
+
+           if(data.IsSelected == false)
+            {
+                data.IsSelected = true;
+                result = "Accepted";
+            }
+            else
+            {
+                data.IsSelected = false;
+                result = "Rejected";
+            }
+
+            _dataContext.AdminSelectEmployees.Update(data);
+            await _dataContext.SaveChangesAsync();  
+            return result;
         }
     }
 }

@@ -48,6 +48,9 @@ namespace FHP.manager.FHP
             return await _repository.GetAllJobEmployeeAsync(jobId);
         }
 
-
+        public async Task<string> AcceptRejectAsync(int jobId, int employeeId)
+        {
+            return await _repository.AcceptRejectAsync(jobId, employeeId);
+        }
     }
 }

@@ -32,8 +32,7 @@ namespace FHP.utilities
         public enum EmployeeAvailability { Pending, Available, NotAvailable }
         public enum JobProcessingStatus { None,ShortListing, InProcess, Reviewing,Hired }
         public enum RecordStatus { Created, Active, Inactive, Deleted }
-        
-       
+
         public string SessionInfo_Name { get; private set; }
 
     }
