@@ -368,6 +368,12 @@ namespace FHP.datalayer.Repository.UserManagement
             return true;
         }
 
+        public async Task AddFCMToken(FCMToken entity)
+        {
+            await _dataContext.FCMTokens.AddAsync(entity);
+            await _dataContext.SaveChangesAsync();
+        }
+
 
     }
 }

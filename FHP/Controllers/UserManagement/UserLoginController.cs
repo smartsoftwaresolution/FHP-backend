@@ -116,6 +116,7 @@ namespace FHP.Controllers.UserManagement
                         await _manager.UserLogIn(login); 
 
 
+
                         // Sets response status code and message
                         response.StatusCode = (int)HttpStatusCode.OK;
                         response.Message = "User logged in Successfully!!";
@@ -137,6 +138,122 @@ namespace FHP.Controllers.UserManagement
             {
                 // Handle the exception using the provided exception handling service.
                 return await _exceptionHandleService.HandleException(ex); 
+            }
+        }
+
+        // API Endpoint for user login by email
+        [HttpPost("userlogin-email-v1")]
+        public async Task<IActionResult> UserLoginV1Async(UserLoginModel model)
+        {
+            // Checks if the model state is valid
+            if (!ModelState.IsValid)
+            {
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+
+            // Initializes the response object for returning the result
+            var response = new BaseResponse<object>();
+
+            try
+            {
+                // Retrieves user data by email
+                var data = await _manager.GetUserByEmail(model.Email);
+
+                // Checks if user data is not null
+                if (data != null)
+                {
+
+                    // Checks if the user account is inactive
+                    if (data.Status == Constants.RecordStatus.Inactive)
+                    {
+                        response.StatusCode = 400;
+                        response.Message = "account is inactive";
+                        return BadRequest(response);
+                    }
+
+                    // Validates the password
+                    if (!string.IsNullOrEmpty(data.Password) && utilities.Utility.Decrypt(model.Password, data.Password) == false)
+                    {
+                        response.Message = "Invalid password. Please enter your current valid password.";
+                        response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        return BadRequest(response);
+                    }
+
+                    // Checks if email is verified
+                    if (data.IsVerify == null || data.IsVerify == false)
+                    {
+                        response.Message = "email is send to your account,Plz verify the account first";
+                        response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        return BadRequest(response);
+                    }
+
+
+                    // Creates JWT token for authentication
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:secret"));
+                    var tokenDescription = new SecurityTokenDescriptor
+                    {
+                        Subject = new ClaimsIdentity(new[]
+                                {
+                                   new Claim("id", data.Id.ToString()),
+                                   new Claim("Email", data.Email.ToString()),
+                                   new Claim("RoleId", data.RoleId.ToString()),
+                                   new Claim("FirstName", data.FirstName.ToString()),
+                                   new Claim("RoleName", data.RoleName.ToString()),
+                               }),
+
+                        Audience = _configuration.GetValue<string>("Jwt:Audience"),
+                        Issuer = _configuration.GetValue<string>("Jwt:Issuer"),
+                        Expires = DateTime.UtcNow.AddDays(1),
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    };
+
+                    var token = tokenHandler.CreateToken(tokenDescription);
+
+                    // Logs user login
+                    LoginModule login = new LoginModule();
+                    login.CreatedOn = DateTime.UtcNow;
+                    login.UserId = data.Id;
+                    login.RoleId = data.RoleId;
+
+
+                    await _manager.UserLogIn(login);
+
+                    if (!string.IsNullOrEmpty(model.FCMToken))
+                    {
+                        var fcmdata = new FCMToken
+                        {
+                            UserId = data.Id,
+                            TokenFCM = model.FCMToken,
+                            CreatedOn = utilities.Utility.GetDateTime(),
+                            Status = Constants.RecordStatus.Active
+                        };
+                        await _manager.AddFCMToken(fcmdata);
+                    }
+
+                    // Sets response status code and message
+                    response.StatusCode = (int)HttpStatusCode.OK;
+                    response.Message = "User logged in Successfully!!";
+                    response.Data = tokenHandler.WriteToken(token);
+                    return Ok(response);
+                }
+
+                else
+                {
+                    // Returns a response indicating invalid email
+                    response.StatusCode = 400;
+                    response.Message = "Invalid Email";
+                    return BadRequest(response);
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 
