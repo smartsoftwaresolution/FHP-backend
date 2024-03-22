@@ -33,11 +33,11 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.CityId).IsRequired(false); 
             builder.Property(x => x.ResumeURL).IsRequired(false); 
             builder.Property(x => x.ProfileImgURL).IsRequired(false); 
-            builder.Property(x => x.IsAvailable).IsRequired(); 
+            builder.Property(x => x.IsAvailable).IsRequired(false); 
             builder.Property(x => x.Hobby).IsRequired(false); 
             builder.Property(x => x.PermanentAddress).IsRequired(); 
             builder.Property(x => x.AlternateAddress).IsRequired(false); 
-            builder.Property(x => x.Mobile).IsRequired(); 
+            builder.Property(x => x.Mobile).IsRequired(false); 
             builder.Property(x => x.Phone).IsRequired(false); 
             builder.Property(x => x.AlternatePhone).IsRequired(false);
             builder.Property(x => x.AlternateEmail).IsRequired(false);

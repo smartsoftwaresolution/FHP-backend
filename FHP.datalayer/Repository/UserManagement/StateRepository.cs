@@ -3,11 +3,6 @@ using FHP.entity.UserManagement;
 using FHP.infrastructure.Repository.UserManagement;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -48,12 +43,15 @@ namespace FHP.datalayer.Repository.UserManagement
 
             if (!string.IsNullOrEmpty(search))
             {
-                query=query.Where(s=>s.state.StateName.Contains(search));
+                query=query.Where(s => s.state.StateName.Contains(search));
             }
 
-            var totalCount = await query.CountAsync();
+
+            int  totalCount = await query.CountAsync();
 
             query = query.OrderByDescending(s => s.state.Id);
+
+           
 
             if (page > 0 && pageSize > 0)
             {
@@ -61,7 +59,7 @@ namespace FHP.datalayer.Repository.UserManagement
             }
 
 
-          var data =  await query.Select (s=> new StateDetailDto
+          var data =  await query.Select (s => new StateDetailDto
                                                     {
                                                        Id = s.state.Id,
                                                        StateName = s.state.StateName,

@@ -12,8 +12,6 @@ namespace FHP.models.FHP.EmployeeDetail
         public int Id { get; set; }
         public int UserId { get; set; }
 
-
-
         public string MaritalStatus { get; set; }
         public string Gender { get; set; }
         public DateTime DOB { get; set; }
@@ -30,10 +28,10 @@ namespace FHP.models.FHP.EmployeeDetail
         public string PermanentAddress { get; set; }
         public string AlternateAddress { get; set; }
         public string Mobile { get; set; }
-        public string Phone { get; set; }
-        public string AlternatePhone { get; set; }
+        public double Phone { get; set; }
+        public double AlternatePhone { get; set; }
         public string AlternateEmail { get; set; }
         public string EmergencyContactName { get; set; }
-        public string EmergencyContactNumber { get; set; }
+        public int EmergencyContactNumber { get; set; }
     }
 }

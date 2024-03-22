@@ -139,9 +139,11 @@ namespace FHP.Controllers.FHP
                     return Ok(response);
 
                 }
+
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
+
             }
             catch (Exception ex)
             {
@@ -153,7 +155,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        [HttpGet("getall-pagination")] 
+        [HttpGet("getall-pagination")]  
         public async Task<IActionResult> GetAllAsync(int page, int pageSize, int userId, string? search)
         {
             // Check if the model state is valid
@@ -169,13 +171,16 @@ namespace FHP.Controllers.FHP
             {
                 // Retrieve all employer details with pagination
                 var data = await _manager.GetAllAsync(page, pageSize, userId, search);
+
                 if (data.employerDetail != null)
                 {
-                    response.StatusCode = 200;
+                    
                     response.Data = data.employerDetail;
                     response.TotalCount = data.totalCount;
+                    response.StatusCode = 200;
                     return Ok(response);
                 }
+
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -210,6 +215,7 @@ namespace FHP.Controllers.FHP
                     response.Data = data;
                     return Ok(response);
                 }
+
                 response.StatusCode = 400;
                 response.Message = Constants.error;
                 return BadRequest(response);
@@ -257,5 +263,4 @@ namespace FHP.Controllers.FHP
             }
         }
     }
-
 }
