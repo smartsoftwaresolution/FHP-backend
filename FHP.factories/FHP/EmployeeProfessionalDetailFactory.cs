@@ -34,14 +34,14 @@ namespace FHP.factories.FHP
         public static void Update(EmployeeProfessionalDetail entity,AddEmployeeProfessionalDetailModel model)
         {
             entity.UserId = model.UserId;   
-            entity.JobDescription= model.JobDescription;
-            entity.StartDate= model.StartDate;
-            entity.EndDate= model.EndDate;
-            entity.CompanyName= model.CompanyName;
-            entity.CompanyLocation= model.CompanyLocation;
-            entity.Designation= model.Designation;
-            entity.EmploymentStatus= model.EmploymentStatus;    
-            entity.YearsOfExperience= model.YearsOfExperience;
+            entity.JobDescription = model.JobDescription;
+            entity.StartDate = model.StartDate;
+            entity.EndDate = model.EndDate;
+            entity.CompanyName = model.CompanyName;
+            entity.CompanyLocation = model.CompanyLocation;
+            entity.Designation = model.Designation;
+            entity.EmploymentStatus = model.EmploymentStatus;    
+            entity.YearsOfExperience = model.YearsOfExperience;
             entity.UpdatedOn = Utility.GetDateTime();
         }
     }

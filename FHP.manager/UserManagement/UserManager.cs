@@ -102,6 +102,10 @@ namespace FHP.manager.UserManagement
         {
             await _repository.AddFCMToken(entity);
         }
+        public async Task RemoveFCMToken(int userId, string fcmToken)
+        {
+            await _repository.RemoveFCMToken(userId, fcmToken);
+        }
 
     }
 }

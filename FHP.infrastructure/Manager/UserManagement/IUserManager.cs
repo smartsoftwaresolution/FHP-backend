@@ -22,5 +22,6 @@ namespace FHP.infrastructure.Manager.UserManagement
         Task VerifyEmployerByAdmin(int userId);
         Task<bool> SaveOtp(string email, int otp);
         Task AddFCMToken(FCMToken entity);
+        Task RemoveFCMToken(int userId,string fcmToken);
     }
 }

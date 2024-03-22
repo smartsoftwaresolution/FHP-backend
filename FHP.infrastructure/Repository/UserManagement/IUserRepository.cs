@@ -29,6 +29,7 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task<bool> SaveOtp(string email, int otp);
         Task AddFCMToken(FCMToken entity);
 
+        Task RemoveFCMToken(int userId, string fcmToken);
 
     }
 }

@@ -15,13 +15,16 @@ namespace FHP.Controllers.FHP
         private readonly IJobPostingManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISendNotificationService _sendNotificationService;
         public JobPostingController(IJobPostingManager manager,
                                     IExceptionHandleService exceptionHandleService,
-                                    IUnitOfWork unitOfWork)
+                                    IUnitOfWork unitOfWork,
+                                    ISendNotificationService sendNotificationService)
         {
-            _manager=manager;
-            _exceptionHandleService=exceptionHandleService;
-            _unitOfWork=unitOfWork;
+            _manager = manager;
+            _exceptionHandleService = exceptionHandleService;
+            _unitOfWork = unitOfWork;
+            _sendNotificationService = sendNotificationService;
         }
 
         // API endpoint to add jobposting 
@@ -55,7 +58,7 @@ namespace FHP.Controllers.FHP
                 {
                     // Adds the job posting asynchronously
                     await _manager.AddAsync(model);
-
+                    await _sendNotificationService.SendNotification("lala","heheh",2);
                     // commit transaction
                     await transaction.CommitAsync();
                     response.StatusCode = 200;

@@ -374,6 +374,12 @@ namespace FHP.datalayer.Repository.UserManagement
             await _dataContext.SaveChangesAsync();
         }
 
+        public async Task RemoveFCMToken(int userId, string fcmToken)
+        {
+            var data = await _dataContext.FCMTokens.Where(s => s.UserId == userId && s.TokenFCM == fcmToken).FirstOrDefaultAsync();
+            _dataContext.FCMTokens.Remove(data);
+            await _dataContext.SaveChangesAsync();
+        }
 
     }
 }

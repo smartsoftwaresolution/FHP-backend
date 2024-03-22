@@ -405,6 +405,55 @@ namespace FHP.Controllers.UserManagement
         }
 
 
+        // Endpoint for user logout
+        [HttpPatch("logout-v1")]
+        public async Task<IActionResult> LogOutAsync(int userId,string fcmToken)
+        {
+            // Checks if the model state is valid
+            if (!ModelState.IsValid)
+            {
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+
+            // Initializes the response object for returning the result
+            var response = new BaseResponse<object>();
+
+            try
+            {
+                // Checks if a valid user ID is provided
+                if (userId >= 0)
+                {
+                    // Calls the manager to log out the user asynchronously
+                    await _manager.UserLogOut(userId);
+
+                    await _manager.RemoveFCMToken(userId, fcmToken);
+
+                    // Sets StatusCode to 200 indicating success
+                    response.StatusCode = (int)HttpStatusCode.OK;
+                    response.Message = "User logged out Sucessfully. ";
+
+                    // Returns Ok response with the success message
+                    return Ok(response);
+                }
+
+                response.StatusCode = 400;
+                response.Message = "User Id must greater than zero.";
+
+                // Returns BadRequest response with the error message
+                return BadRequest(response);
+            }
+
+            catch (Exception ex)
+            {
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+
+
         //  API Endpoint for changing user password
         [HttpPatch("change-password")] 
         public async Task<IActionResult> ChangePasswordAsync(int userId, string password)

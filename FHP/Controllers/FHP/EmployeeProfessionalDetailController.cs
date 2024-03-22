@@ -42,7 +42,7 @@ namespace FHP.Controllers.FHP
             try
             {
                 // Check if all required fields are provided.
-                if (model.Id == 0 && model.UserId != 0 && model.YearsOfExperience != 0 && 
+                if (model.Id == 0 && model.UserId != 0  && 
                     !string.IsNullOrEmpty(model.JobDescription) &&
                     !string.IsNullOrEmpty(model.StartDate) &&
                     !string.IsNullOrEmpty(model.EndDate) && 
