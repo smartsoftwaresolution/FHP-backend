@@ -40,16 +40,17 @@ namespace FHP.Controllers.FHP
             var response = new BaseResponseAdd();
 
             //The method then begins a database transaction to ensure data consistency during  addition.
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             try
             {
-                if(model.Id == 0 &&  model.UserId != 0 && model.CountryId != 0 && model.StateId != 0  && model.CityId != 0
+                if (model.Id == 0 && model.UserId != 0 && model.CountryId != 0 && model.StateId != 0 && model.CityId != 0
+                   && model.Phone != 0.0 && model.AlternatePhone != 0.0   && model.EmergencyContactNumber != 0
+
                    && !string.IsNullOrEmpty(model.MaritalStatus)
                    && !string.IsNullOrEmpty(model.Gender)
-                   && !string.IsNullOrEmpty(model.PermanentAddress)
-                   && !string.IsNullOrEmpty(model.Mobile))
-                   
+                   && !string.IsNullOrEmpty(model.PermanentAddress))
+
                 {
                     string profileImg = string.Empty;
 
@@ -58,24 +59,25 @@ namespace FHP.Controllers.FHP
                     // Upload profile image if provided.
                     if (model.ProfileImgURL != null)
                     {
-                      profileImg =  await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL); // Profile Image Upload service
+                        profileImg = await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL); // Profile Image Upload service
                     }
                     // Upload resume if provided.
                     if (model.ResumeURL != null)
                     {
                         profileResume = await _fileUploadService.UploadIFormFileAsync(model.ResumeURL); //ResumeUrl Upload service
                     }
-                  
+
                     // Add Employee Detail asynchronously.
-                    await _manager.AddAsync(model,profileResume);
-                    
+                    await _manager.AddAsync(model, profileResume);
+
                     //commit the transaction.
-                    await transaction.CommitAsync(); 
+                    await transaction.CommitAsync();
 
                     response.StatusCode = 200;
                     response.Message = Constants.added;
                     return Ok(response);
                 }
+            
                 // If required values are not provided, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message= Constants.provideValues;
