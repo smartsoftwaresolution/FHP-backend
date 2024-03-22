@@ -28,11 +28,11 @@ namespace FHP.entity.FHP
         public string PermanentAddress { get; set; }
         public string AlternateAddress { get; set; }
         public string Mobile { get; set; }
-        public string Phone { get; set; }
-        public string AlternatePhone { get; set; }
+        public double Phone { get; set; }
+        public double AlternatePhone { get; set; }
         public string AlternateEmail { get; set; }
         public string EmergencyContactName { get; set; }
-        public string EmergencyContactNumber { get; set; }
+        public int EmergencyContactNumber { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
