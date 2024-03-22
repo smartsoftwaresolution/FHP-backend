@@ -45,7 +45,7 @@ namespace FHP.Controllers.FHP
             try
             {
                 if (model.Id == 0 && model.UserId != 0 && model.CountryId != 0 && model.StateId != 0 && model.CityId != 0
-                   && model.Phone != 0.0 && model.AlternatePhone != 0.0   && model.EmergencyContactNumber != 0
+                   && model.Phone != null && model.AlternatePhone != null   && model.EmergencyContactNumber != 0
 
                    && !string.IsNullOrEmpty(model.MaritalStatus)
                    && !string.IsNullOrEmpty(model.Gender)

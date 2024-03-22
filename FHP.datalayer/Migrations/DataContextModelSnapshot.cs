@@ -254,8 +254,8 @@ namespace FHP.datalayer.Migrations
                     b.Property<string>("AlternateEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AlternatePhone")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double?>("AlternatePhone")
+                        .HasColumnType("float");
 
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
@@ -272,8 +272,8 @@ namespace FHP.datalayer.Migrations
                     b.Property<string>("EmergencyContactName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmergencyContactNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("EmergencyContactNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -282,7 +282,7 @@ namespace FHP.datalayer.Migrations
                     b.Property<string>("Hobby")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAvailable")
+                    b.Property<bool?>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<string>("MaritalStatus")
@@ -290,15 +290,14 @@ namespace FHP.datalayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mobile")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PermanentAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double?>("Phone")
+                        .HasColumnType("float");
 
                     b.Property<string>("ProfileImgURL")
                         .HasColumnType("nvarchar(max)");
@@ -415,8 +414,9 @@ namespace FHP.datalayer.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("YearsOfExperience")
-                        .HasColumnType("int");
+                    b.Property<string>("YearsOfExperience")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
