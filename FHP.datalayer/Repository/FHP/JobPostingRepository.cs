@@ -1,4 +1,5 @@
-﻿using FHP.dtos.FHP.JobPosting;
+﻿using DocumentFormat.OpenXml.Office2019.Word.Cid;
+using FHP.dtos.FHP.JobPosting;
 using FHP.dtos.FHP.JobSkillDetail;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
@@ -35,7 +36,7 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId)
+        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int userId)
         {
             string rolename = string.Empty;
 
@@ -59,7 +60,7 @@ namespace FHP.datalayer.Repository.FHP
                 query =query.Where(s=> s.jobPosting.JobTitle.Contains(search) ||
                                        s.jobPosting.Experience.Contains(search) ||
                                        s.jobPosting.Address.Contains(search) ||
-                                       s.jobPosting.Skills.Contains(search));
+                                       s.jobPosting.Description.Contains(search));
             }
 
             
@@ -76,6 +77,10 @@ namespace FHP.datalayer.Repository.FHP
 
             query = query.OrderByDescending(s => s.jobPosting.Id);
 
+            /*if (ids != null)
+            {
+                query = query.Where(s => ids.Any(id => s.jobPosting.JobSkillDetails.Any(detail => detail.Id == id)));
+            }*/
 
             if (page > 0 && pageSize > 0 )
             {

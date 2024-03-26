@@ -277,13 +277,14 @@ namespace FHP.Controllers.FHP
 
                 // Call the manager method to get Employee availability by job id for the job.
                 var data = await _manager.GetAllAvalibility(page,pageSize, search,JobId,employeeAvailability); 
-                if (data.getallAval != null)
-                 {
+                
+                if (data.getallAval != null  && data.totalCount > 0)
+                {
                     response.StatusCode = 200;
-                    response.Data=data.getallAval;
+                    response.Data = data.getallAval;
                     response.TotalCount = data.totalCount;
                     return Ok(response);
-                 }
+                }
 
                 // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;

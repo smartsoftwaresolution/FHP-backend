@@ -131,15 +131,13 @@ namespace FHP.datalayer.Repository.FHP
         {
             var query = from s in _dataContext.EmployeeAvailabilities
                         join u in _dataContext.User on s.EmployeeId equals u.Id
-                        join j in _dataContext.JobPostings on s.EmployeeId equals j.Id
+                        join j in _dataContext.JobPostings on s.JobId equals j.Id
 
-                        where s.Status != Constants.RecordStatus.Deleted &&
-                        s.JobId == JobId && (s.IsAvailable == employeeAvailability || employeeAvailability == null)
-<<<<<<< HEAD
+                         where s.Status != Constants.RecordStatus.Deleted 
+                        
                         select new { getallAval = s, UserDetail = u , jobDetails = j};
-=======
-                        select new { getallAval = s, UserDetail = u, jobDetails = j };
->>>>>>> 01013d8ea97e0f485d34274f2a5d3c5477459b61
+
+
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -147,11 +145,23 @@ namespace FHP.datalayer.Repository.FHP
                                         s.getallAval.EmployeeId.ToString().Contains(search));
             }
 
+            if(JobId > 0)
+            {
+                query = query.Where(s=> s.getallAval.JobId == JobId);
+            }
+            
+            if(employeeAvailability != null)
+            {
+                query = query.Where(s => s.getallAval.IsAvailable == employeeAvailability);
+            }
             var totalCount = await query.CountAsync();
+
 
             query = query.OrderByDescending(s => s.getallAval.Id);
 
-            if(page > 0 && pageSize > 0)
+         
+
+            if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
@@ -174,17 +184,7 @@ namespace FHP.datalayer.Repository.FHP
                    MobileNumber = s.UserDetail.MobileNumber,
                    FullName = s.UserDetail.FirstName + " " + s.UserDetail.LastName,
                         
-                   JobTitle = s.jobDetails.JobTitle,
-                   Description = s.jobDetails.Description,
-                   Experience = s.jobDetails.Experience,
-                   RolesAndResponsibilities = s.jobDetails.RolesAndResponsibilities,
-                   Skills = s.jobDetails.Skills,
-                   Address = s.jobDetails.Address,
-                   Payout = s.jobDetails.Payout,
-                   EmploymentType = s.jobDetails.EmploymentType,
-                   InProbationCancel = s.jobDetails.InProbationCancel,
-                   JobStatus = s.jobDetails.JobStatus,  
-
+                  
                    JobTitle = s.jobDetails.JobTitle,
                    Description = s.jobDetails.Description,
                    Experience = s.jobDetails.Experience,
@@ -197,7 +197,7 @@ namespace FHP.datalayer.Repository.FHP
                    JobStatus = s.jobDetails.JobStatus,
 
 
-            }).AsNoTracking().ToListAsync();
+            }).ToListAsync();
 
             return (data, totalCount);
                          
