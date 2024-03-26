@@ -20,14 +20,14 @@ namespace FHP.services
             _env = env;
         }
 
-        public async Task<bool> SendNotification( string title, string body, int userId)
+        public async Task<bool> SendNotification( string title, string body, string token)
         {
             try
             {
                 var path = _env.ContentRootPath;
                 path = path + "\\Auth.json";
                 FirebaseApp app = null;
-                var data = await _dataContext.FCMTokens.Where(s => s.UserId == userId).ToListAsync();
+               // var data = await _dataContext.FCMTokens.Where(s => s.UserId == userId).ToListAsync();
                 try
                 {
                     app = FirebaseApp.Create(new AppOptions()
@@ -51,7 +51,8 @@ namespace FHP.services
                             Title = title,
                             Body = body,
                         },
-                        Token = "dHno0BNkQRBBzbews07wGt:APA91bEQ2x3h9WotaqXv6jweFzYdfj-XNz4QRaf9r5eJZHzTwDkiP-a_iAdzu01dAibojLNsURS1oGRO1XALh-WskGrNufyiFB3B0zd-0hlaH7-NQgAAFm5DGKIokvCQhaHYV04nLuFN"
+                      //  Token = "dHno0BNkQRBBzbews07wGt:APA91bEQ2x3h9WotaqXv6jweFzYdfj-XNz4QRaf9r5eJZHzTwDkiP-a_iAdzu01dAibojLNsURS1oGRO1XALh-WskGrNufyiFB3B0zd-0hlaH7-NQgAAFm5DGKIokvCQhaHYV04nLuFN"
+                      Token = token
                     };
                     await fcm.SendAsync(msg);
 

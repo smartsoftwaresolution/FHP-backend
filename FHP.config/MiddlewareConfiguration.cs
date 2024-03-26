@@ -50,7 +50,8 @@ namespace FHP.config
             services.AddScoped<IAdminSelectEmployeeManager, AdminSelectEmployeeManager>();
             services.AddScoped<IEmployeeSkillDetailManager, EmployeeSkillDetailManager>();
             services.AddScoped<IEmployeeAvailabilityManager, EmployeeAvailabilityManager>();
-            services.AddScoped<IEmployerContractConfirmationManager,EmployerContractConfirmationManager>(); 
+            services.AddScoped<IEmployerContractConfirmationManager,EmployerContractConfirmationManager>();
+            services.AddScoped<IFCMTokenManager,FCMTokenManager>(); 
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -76,6 +77,7 @@ namespace FHP.config
             services.AddScoped<IEmployeeSkillDetailRepository, EmployeeSkillDetailRepository>();
             services.AddScoped<IEmployeeAvailabilityRepository, EmployeeAvailabilityRepository>();
             services.AddScoped<IEmployerContractConfirmationRepository, EmployerContractConfirmationRepository>();
+            services.AddScoped<IFCMTokenRepository, FCMTokenRepository>();
         }
 
 

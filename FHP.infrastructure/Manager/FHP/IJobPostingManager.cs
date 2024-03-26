@@ -17,6 +17,6 @@ namespace FHP.infrastructure.Manager.FHP
         Task SubmitJobAsync(int jobId);
         Task CancelJobAsync(int jobId, string cancelReason);
         Task SetJobProcessingStatus(int jobId,Constants.JobProcessingStatus jobProcessingStatus);
-
+       // Task FcmTokenByRole(string role);
     }
 }
