@@ -43,6 +43,11 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.CreatedOn).IsRequired(); 
             builder.Property(x => x.UpdatedOn).IsRequired(false); 
             builder.Property(x => x.Status).IsRequired();
+
+           /* builder.HasOne(x => x.Country).WithMany().HasForeignKey(x => x.CountryId);
+            builder.HasOne(x => x.State).WithMany().HasForeignKey(x => x.StateIds);*/
+            builder.HasOne(x => x.City).WithMany().HasForeignKey(x => x.CityId);
+
         }
     }
 

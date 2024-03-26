@@ -26,7 +26,6 @@ namespace FHP.utilities
             public int StatusCode { get; set; }
             public T Data { get; set; }
             public int TotalCount { get; set; }
-          //  public int TotalPage { get; set; }
             public string Message { get; set; }
         }
 

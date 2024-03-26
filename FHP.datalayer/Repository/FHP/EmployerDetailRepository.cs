@@ -1,15 +1,8 @@
-﻿using FHP.dtos.FHP;
-using FHP.dtos.FHP.EmployerDetail;
+﻿using FHP.dtos.FHP.EmployerDetail;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
-using FHP.models.FHP;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.FHP
 {
@@ -41,13 +34,14 @@ namespace FHP.datalayer.Repository.FHP
             return await _dataContext.EmployerDetails.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-
-
         public async Task<(List<EmployerDetailDto> employerDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
         {
             var query = from s in _dataContext.EmployerDetails
-                        where s.Status != utilities.Constants.RecordStatus.Deleted
+                        where s.Status != Constants.RecordStatus.Deleted 
                         select new { employerDetail = s };
+
+
+          
 
 
             if (!string.IsNullOrEmpty(search))
@@ -58,16 +52,18 @@ namespace FHP.datalayer.Repository.FHP
                                        s.employerDetail.WebAddress.Contains(search));
             }
 
+
             if (userId > 0)
             {
                 query = query.Where(s => s.employerDetail.UserId == userId);
             }
-           
 
 
-            var totalCount = await query.CountAsync();
+
+            int totalCount = await query.CountAsync();
 
             query = query.OrderByDescending(s => s.employerDetail.Id);
+
 
             if (page > 0 && pageSize > 0)
             {
@@ -75,7 +71,7 @@ namespace FHP.datalayer.Repository.FHP
             }
 
 
-            var data = await query.Select (s=> new EmployerDetailDto
+            var data = await query.Select(s => new EmployerDetailDto
             {
                 Id = s.employerDetail.Id,
                 UserId = s.employerDetail.UserId,
@@ -86,6 +82,9 @@ namespace FHP.datalayer.Repository.FHP
                 CityId = s.employerDetail.CityId,
                 StateId = s.employerDetail.StateId,
                 CountryId = s.employerDetail.CountryId,
+                CountryName = s.employerDetail.City.Country.CountryName,
+                StateName = s.employerDetail.City.State.StateName,
+                CityName = s.employerDetail.City.CityName,
                 CompanyLogoURL = s.employerDetail.CompanyLogoURL,
                 Telephone = s.employerDetail.Telephone,
                 Fax = s.employerDetail.Fax,
@@ -97,17 +96,15 @@ namespace FHP.datalayer.Repository.FHP
                 UpdatedOn = s.employerDetail.UpdatedOn,
                 Status = s.employerDetail.Status,
 
-            })
-                .AsNoTracking()
-                .ToListAsync();
-
+            }).AsNoTracking().ToListAsync();
+                
             return (data, totalCount);
         }
 
         public async Task<EmployerDetailDto> GetByIdAsync(int id)
         {
            return  await (from s in _dataContext.EmployerDetails
-                   where s.Status != utilities.Constants.RecordStatus.Deleted
+                   where s.Status != Constants.RecordStatus.Deleted
                    && s.Id == id  
 
                    select new EmployerDetailDto
@@ -121,6 +118,9 @@ namespace FHP.datalayer.Repository.FHP
                        CityId=s.CityId,
                        StateId=s.StateId,
                        CountryId=s.CountryId,
+                       CountryName = s.City.Country.CountryName,
+                       StateName = s.City.State.StateName,
+                       CityName = s.City.CityName,
                        CompanyLogoURL=s.CompanyLogoURL,
                        Telephone=s.Telephone,
                        Fax=s.Fax,

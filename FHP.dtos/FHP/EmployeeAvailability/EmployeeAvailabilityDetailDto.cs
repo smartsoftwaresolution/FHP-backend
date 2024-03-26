@@ -13,6 +13,7 @@ namespace FHP.dtos.FHP.EmployeeAvailability
         public int UserId { get; set; }
         public int EmployeeId { get; set; }
         public int JobId { get; set; }
+        public string FullName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -23,5 +24,17 @@ namespace FHP.dtos.FHP.EmployeeAvailability
         public Constants.RecordStatus Status { get; set; }
         public string AdminjobTitle { get; set; }
         public string AdminJobDescription { get; set; }
+
+       
+        public string JobTitle { get; set; }
+        public string Description { get; set; }
+        public string Experience { get; set; }
+        public string RolesAndResponsibilities { get; set; }
+        public string Skills { get; set; }
+        public string Address { get; set; }
+        public string Payout { get; set; }
+        public string EmploymentType { get; set; }
+        public bool InProbationCancel { get; set; }
+        public Constants.JobPosting JobStatus { get; set; }
     }
 }

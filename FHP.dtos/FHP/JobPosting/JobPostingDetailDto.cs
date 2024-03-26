@@ -1,4 +1,6 @@
-﻿using FHP.utilities;
+﻿using FHP.dtos.FHP.JobSkillDetail;
+using FHP.entity.FHP;
+using FHP.utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +28,8 @@ namespace FHP.dtos.FHP.JobPosting
         public Constants.JobPosting JobStatus { get; set; }
         public Constants.RecordStatus Status { get; set; }
         public string EmployerName { get; set; }
+        public string EmploymentType { get; set; }
         public Constants.JobProcessingStatus JobProcessingStatus { get; set; }
-
+        public List<JobSkillDetailDto>? JobSkillDetails { get; set; }
     }
 }

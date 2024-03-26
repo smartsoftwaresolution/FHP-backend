@@ -18,6 +18,6 @@ namespace FHP.models.FHP.EmployeeProfessionalDetail
         public string CompanyLocation { get; set; }
         public string Designation { get; set; }
         public string EmploymentStatus { get; set; }
-        public int YearsOfExperience { get; set; }
+        public string YearsOfExperience { get; set; }
     }
 }

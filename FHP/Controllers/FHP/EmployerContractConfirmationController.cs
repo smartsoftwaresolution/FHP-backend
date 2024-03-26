@@ -135,7 +135,7 @@ namespace FHP.Controllers.FHP
                 if (data.employerContract != null)
                 {
                     response.StatusCode = 200;
-                    response.Data = data;
+                    response.Data = data.employerContract;
                     response.TotalCount = data.totalCount;
                     return Ok(response);
                 }

@@ -31,7 +31,9 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.RolesAndResponsibilities).IsRequired(); 
             builder.Property(x => x.ContractDuration).IsRequired(); 
             builder.Property(x => x.ContractStartTime).IsRequired(false); 
-            builder.Property(x => x.Skills); 
+
+            builder.Property(x => x.Skills).IsRequired(false); 
+
             builder.Property(x => x.Address).IsRequired(false); 
             builder.Property(x => x.Payout).IsRequired(); 
             builder.Property(x => x.InProbationCancel).IsRequired(); 
@@ -43,6 +45,7 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.JobProcessingStatus).IsRequired();
             builder.Property(x => x.AdminJobTitle).IsRequired(false);
             builder.Property(x => x.AdminJobDescription).IsRequired(false);
+            builder.Property(x => x.EmploymentType).IsRequired();
         }
     }
 

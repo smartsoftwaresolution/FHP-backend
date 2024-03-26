@@ -1,5 +1,6 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
+using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.JobPosting;
 using FHP.utilities;
@@ -15,13 +16,19 @@ namespace FHP.Controllers.FHP
         private readonly IJobPostingManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISendNotificationService _sendNotificationService;
+        private readonly IFCMTokenManager _tokenManager;
         public JobPostingController(IJobPostingManager manager,
                                     IExceptionHandleService exceptionHandleService,
-                                    IUnitOfWork unitOfWork)
+                                    IUnitOfWork unitOfWork,
+                                    ISendNotificationService sendNotificationService,
+                                    IFCMTokenManager tokenManager)
         {
-            _manager=manager;
-            _exceptionHandleService=exceptionHandleService;
-            _unitOfWork=unitOfWork;
+            _manager = manager;
+            _exceptionHandleService = exceptionHandleService;
+            _unitOfWork = unitOfWork;
+            _sendNotificationService = sendNotificationService;
+            _tokenManager = tokenManager;
         }
 
         // API endpoint to add jobposting 
@@ -55,7 +62,14 @@ namespace FHP.Controllers.FHP
                 {
                     // Adds the job posting asynchronously
                     await _manager.AddAsync(model);
-
+                    if (model.JobPosting == Constants.JobPosting.Submitted)
+                    {
+                        var token = await _tokenManager.FcmTokenByRole("admin");
+                        foreach (var t in token)
+                        {
+                            await _sendNotificationService.SendNotification("lala", "heheh", t.TokenFCM);
+                        }
+                    }
                     // commit transaction
                     await transaction.CommitAsync();
                     response.StatusCode = 200;

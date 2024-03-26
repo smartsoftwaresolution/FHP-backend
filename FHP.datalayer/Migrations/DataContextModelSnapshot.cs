@@ -254,8 +254,8 @@ namespace FHP.datalayer.Migrations
                     b.Property<string>("AlternateEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AlternatePhone")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double?>("AlternatePhone")
+                        .HasColumnType("float");
 
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
@@ -272,8 +272,8 @@ namespace FHP.datalayer.Migrations
                     b.Property<string>("EmergencyContactName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmergencyContactNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("EmergencyContactNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -282,7 +282,7 @@ namespace FHP.datalayer.Migrations
                     b.Property<string>("Hobby")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAvailable")
+                    b.Property<bool?>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<string>("MaritalStatus")
@@ -290,15 +290,14 @@ namespace FHP.datalayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mobile")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PermanentAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double?>("Phone")
+                        .HasColumnType("float");
 
                     b.Property<string>("ProfileImgURL")
                         .HasColumnType("nvarchar(max)");
@@ -319,6 +318,8 @@ namespace FHP.datalayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.ToTable("EmployeeDetail", (string)null);
                 });
@@ -413,8 +414,9 @@ namespace FHP.datalayer.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("YearsOfExperience")
-                        .HasColumnType("int");
+                    b.Property<string>("YearsOfExperience")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -554,6 +556,8 @@ namespace FHP.datalayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("EmployerDetail", (string)null);
                 });
 
@@ -588,6 +592,10 @@ namespace FHP.datalayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmploymentType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -632,6 +640,38 @@ namespace FHP.datalayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("JobPosting", (string)null);
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.JobSkillDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("JobSkillDetail", (string)null);
                 });
 
             modelBuilder.Entity("FHP.entity.FHP.SkillsDetail", b =>
@@ -812,6 +852,35 @@ namespace FHP.datalayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailSetting", (string)null);
+                });
+
+            modelBuilder.Entity("FHP.entity.UserManagement.FCMToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TokenFCM")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FCMToken", (string)null);
                 });
 
             modelBuilder.Entity("FHP.entity.UserManagement.LoginModule", b =>
@@ -1213,6 +1282,47 @@ namespace FHP.datalayer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FHP.entity.FHP.EmployeeDetail", b =>
+                {
+                    b.HasOne("FHP.entity.UserManagement.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.EmployerDetail", b =>
+                {
+                    b.HasOne("FHP.entity.UserManagement.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.JobSkillDetail", b =>
+                {
+                    b.HasOne("FHP.entity.FHP.JobPosting", "JobPosting")
+                        .WithMany("JobSkillDetails")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FHP.entity.FHP.SkillsDetail", "SkillDetail")
+                        .WithMany()
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobPosting");
+
+                    b.Navigation("SkillDetail");
+                });
+
             modelBuilder.Entity("FHP.entity.UserManagement.City", b =>
                 {
                     b.HasOne("FHP.entity.UserManagement.Country", "Country")
@@ -1322,6 +1432,11 @@ namespace FHP.datalayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.JobPosting", b =>
+                {
+                    b.Navigation("JobSkillDetails");
                 });
 #pragma warning restore 612, 618
         }

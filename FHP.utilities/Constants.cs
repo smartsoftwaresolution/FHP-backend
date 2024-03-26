@@ -32,53 +32,7 @@ namespace FHP.utilities
         public enum EmployeeAvailability { Pending, Available, NotAvailable }
         public enum JobProcessingStatus { None,ShortListing, InProcess, Reviewing,Hired }
         public enum RecordStatus { Created, Active, Inactive, Deleted }
-        public enum CallCampaignType { Sale, Dialable, Droppped }
-        public enum DealStatus { Active, Won, Lost }
-        public enum Label { Nothing, Sales, AS, All, Admin }
-        public enum TransactionStatus { Success, Failed }
-        public enum CustomerStatus { Nothing, New, Done, Lose, Approve, Reject }
-        public enum PaymentType { Service, Bonus }
-        public enum CustomFieldType { Others, Checkbox, File }
-        public enum EmailInvitationStatus { Sent, Accepted, Rejected }
-        public enum TemplateType { Voice, Video, SMS, Email, Agreement }
-        public enum RecordingTranscriptionRequestStatus { None, Requested, Approved }
-        public enum CallStatus
-        {
-            IN_CALL,
-            CLOSER,
-            WRAPUP,
-            PAUSED,
-            OFFLINE
-        }
-        public enum DistributionType { None, RoundRobin, FirstToClaim }
-        public enum CallCampaignCallingStatus { Nothing, Created, CallDone }
-        public enum PostType { }
-        public enum UserOrClientTypePermission { None, User, Client }
-        public enum DaysType { None, Today, ThisWeek, ThisMonth, LastMonth, LastThreeMonths }
-        public enum CallCampaignCustomerFilter { All, Approved, Rejected }
 
-        public enum DuplicateCriteria { none, OverWrite, Skip }
-        public enum DuplicateCheck { none, Mobile, Email }
-        public enum DuplicateRecord { none, Skipped, Overwrite }
-        public enum IsImported { Pending, Processing, Processed }
-        public enum EmailOpenType { None, Never, Once, Mulitple, All }
-        public enum CallsMadeType { None, Never, Once, Mulitple }
-        public enum ClickedLinkType { None, Never, Once, Mulitple } // email attachment
-        public enum PaymentPaidStatus { Due, Paid, Partially }
-        public enum PostCardTemplateType { PostCard, Letter }
-        public struct UserType
-        {
-            public const string Admin = "Administrator";
-            public const string Employee = "Employee";
-        }
-
-        public struct EmailTemplateType
-        {
-            public const string ToCustomerOnRegistration = "to_customer_on_registration.html";
-            public const string ToAdminOnCustomerRegistration = "to_admin_on_customer_registration.html";
-        }
-
-        public const string SessionKeyName = "CompanyTenantId";
         public string SessionInfo_Name { get; private set; }
 
     }

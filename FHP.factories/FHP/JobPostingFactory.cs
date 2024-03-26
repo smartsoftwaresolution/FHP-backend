@@ -25,8 +25,16 @@ namespace FHP.factories.FHP
                 CreatedOn=Utility.GetDateTime(),
                 Status=Constants.RecordStatus.Active,
                 JobStatus = model.JobPosting,
+                EmploymentType = model.EmploymentType,
                 CancelReason = "",
                 JobProcessingStatus = Constants.JobProcessingStatus.InProcess,
+
+                JobSkillDetails = model.SkillId?.Select(s => new JobSkillDetail
+                {
+                    SkillId = s,
+                    Status = Constants.RecordStatus.Active,
+                    CreatedOn = Utility.GetDateTime()
+                }).ToList(),
             };
 
             return data;
@@ -44,6 +52,7 @@ namespace FHP.factories.FHP
             entity.Skills = model.Skills;
             entity.Address = model.Address;
             entity.Payout = model.Payout;
+            entity.EmploymentType = model.EmploymentType;
             entity.InProbationCancel = model.InProbationCancel;
             entity.UpdatedOn=Utility.GetDateTime();
         }

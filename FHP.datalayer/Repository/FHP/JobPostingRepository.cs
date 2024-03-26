@@ -1,4 +1,6 @@
-﻿using FHP.dtos.FHP.JobPosting;
+﻿using DocumentFormat.OpenXml.Office2019.Word.Cid;
+using FHP.dtos.FHP.JobPosting;
+using FHP.dtos.FHP.JobSkillDetail;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
@@ -34,7 +36,7 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId)
+        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int userId)
         {
             string rolename = string.Empty;
 
@@ -58,7 +60,7 @@ namespace FHP.datalayer.Repository.FHP
                 query =query.Where(s=> s.jobPosting.JobTitle.Contains(search) ||
                                        s.jobPosting.Experience.Contains(search) ||
                                        s.jobPosting.Address.Contains(search) ||
-                                       s.jobPosting.Skills.Contains(search));
+                                       s.jobPosting.Description.Contains(search));
             }
 
             
@@ -68,13 +70,17 @@ namespace FHP.datalayer.Repository.FHP
             {
                 if (userId > 0)
                 {
-                    query = query.Where(s => s.jobPosting.UserId == userId);
+                    query = query.Where(s => s.jobPosting.UserId == userId );
                     totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted && s.jobPosting.JobStatus != Constants.JobPosting.Draft && s.jobPosting.UserId == userId);        
                 }
             }
 
             query = query.OrderByDescending(s => s.jobPosting.Id);
 
+            /*if (ids != null)
+            {
+                query = query.Where(s => ids.Any(id => s.jobPosting.JobSkillDetails.Any(detail => detail.Id == id)));
+            }*/
 
             if (page > 0 && pageSize > 0 )
             {
@@ -103,6 +109,20 @@ namespace FHP.datalayer.Repository.FHP
                 JobStatus = s.jobPosting.JobStatus,
                 EmployerName = s.employer.FirstName + " " + s.employer.LastName,
                 JobProcessingStatus = s.jobPosting.JobProcessingStatus,
+                EmploymentType=s.jobPosting.EmploymentType,
+                JobSkillDetails = s.jobPosting.JobSkillDetails
+                                              .Select( j => new JobSkillDetailDto 
+                                              { 
+                                                  Id = j.Id,
+                                                  JobId = j.JobId,
+                                                  SkillId = j.SkillId,
+                                                  SkillName = j.SkillDetail.SkillName,
+                                                  CreatedOn = j.CreatedOn,
+                                                  UpdatedOn = j.UpdatedOn,
+                                                  Status = j.Status,
+
+                                              }).ToList(),
+                
             }).AsNoTracking().ToListAsync();
 
 
@@ -137,7 +157,19 @@ namespace FHP.datalayer.Repository.FHP
                               JobStatus = s.JobStatus,
                               EmployerName = e.FirstName + " " + e.LastName,
                               JobProcessingStatus = s.JobProcessingStatus,
+                              EmploymentType=s.EmploymentType,
+                              JobSkillDetails = s.JobSkillDetails
+                                              .Select(j => new JobSkillDetailDto
+                                              {
+                                                  Id = j.Id,
+                                                  JobId = j.JobId,
+                                                  SkillId = j.SkillId,
+                                                  SkillName = j.SkillDetail.SkillName,
+                                                  CreatedOn = j.CreatedOn,
+                                                  UpdatedOn = j.UpdatedOn,
+                                                  Status = j.Status,
 
+                                              }).ToList(),
                           }).AsNoTracking().FirstOrDefaultAsync();
         }
 
