@@ -309,8 +309,8 @@ namespace FHP.Controllers.FHP
 
 
         //API Endpoint to Accept Reject 
-        [HttpPost("AdminAcceptReject")]
-        public async Task<IActionResult> AdminAcceptReject(int jobId, int employeeId)
+        [HttpPost("EmployerAcceptReject")]
+        public async Task<IActionResult> EmployerAcceptReject(int jobId, int employeeId)
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)

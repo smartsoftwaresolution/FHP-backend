@@ -33,7 +33,10 @@ namespace FHP.manager.FHP
             {
                 return "updated Successfully";
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 01013d8ea97e0f485d34274f2a5d3c5477459b61
             JobPostingFactory.Update(data,model);
             data.JobStatus = Constants.JobPosting.Submitted;
             _repoitory.Edit(data);

@@ -27,7 +27,9 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task ChangePassword(int userId, string password);
         Task VerifyEmployerByAdmin(int userId);
         Task<bool> SaveOtp(string email, int otp);
+        Task AddFCMToken(FCMToken entity);
 
+        Task RemoveFCMToken(int userId, string fcmToken);
 
     }
 }

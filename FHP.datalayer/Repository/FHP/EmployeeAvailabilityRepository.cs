@@ -135,7 +135,11 @@ namespace FHP.datalayer.Repository.FHP
 
                         where s.Status != Constants.RecordStatus.Deleted &&
                         s.JobId == JobId && (s.IsAvailable == employeeAvailability || employeeAvailability == null)
+<<<<<<< HEAD
                         select new { getallAval = s, UserDetail = u , jobDetails = j};
+=======
+                        select new { getallAval = s, UserDetail = u, jobDetails = j };
+>>>>>>> 01013d8ea97e0f485d34274f2a5d3c5477459b61
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -180,6 +184,18 @@ namespace FHP.datalayer.Repository.FHP
                    EmploymentType = s.jobDetails.EmploymentType,
                    InProbationCancel = s.jobDetails.InProbationCancel,
                    JobStatus = s.jobDetails.JobStatus,  
+
+                   JobTitle = s.jobDetails.JobTitle,
+                   Description = s.jobDetails.Description,
+                   Experience = s.jobDetails.Experience,
+                   RolesAndResponsibilities = s.jobDetails.RolesAndResponsibilities,
+                   Skills = s.jobDetails.Skills,
+                   Address = s.jobDetails.Address,
+                   Payout = s.jobDetails.Payout,
+                   EmploymentType = s.jobDetails.EmploymentType,
+                   InProbationCancel = s.jobDetails.InProbationCancel,
+                   JobStatus = s.jobDetails.JobStatus,
+
 
             }).AsNoTracking().ToListAsync();
 

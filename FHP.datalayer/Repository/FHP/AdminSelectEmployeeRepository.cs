@@ -167,10 +167,9 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<string> AcceptRejectAsync(int jobId, int employeeId)
         {
             string result = string.Empty;
-
             var data = await _dataContext.AdminSelectEmployees.Where(s => s.EmployeeId == employeeId && s.JobId == jobId).FirstOrDefaultAsync();
 
-           if(data.IsSelected == false)
+            if(data.IsSelected == false)
             {
                 data.IsSelected = true;
                 result = "Accepted";

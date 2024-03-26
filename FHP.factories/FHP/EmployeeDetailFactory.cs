@@ -28,7 +28,7 @@ namespace FHP.factories.FHP
                 Hobby = model.Hobby,
                 PermanentAddress = model.PermanentAddress,
                 AlternateAddress = model.AlternateAddress,
-                Mobile=model.Mobile,
+               // Mobile=model.Mobile,
                 Phone = model.Phone,
                 AlternatePhone = model.AlternatePhone,  
                 AlternateEmail = model.AlternateEmail,  
