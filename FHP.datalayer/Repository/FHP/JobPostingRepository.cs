@@ -69,7 +69,7 @@ namespace FHP.datalayer.Repository.FHP
             {
                 if (userId > 0)
                 {
-                    query = query.Where(s => s.jobPosting.UserId == userId);
+                    query = query.Where(s => s.jobPosting.UserId == userId );
                     totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted && s.jobPosting.JobStatus != Constants.JobPosting.Draft && s.jobPosting.UserId == userId);        
                 }
             }

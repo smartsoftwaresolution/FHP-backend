@@ -15,6 +15,7 @@ namespace FHP.manager.FHP
         {
             _repoitory=repoitory;
         }
+
         public async Task AddAsync(AddJobPostingModel model)
         {
            await _repoitory.AddAsync(JobPostingFactory.Create(model));
@@ -22,12 +23,19 @@ namespace FHP.manager.FHP
 
         public async Task<string> Edit(AddJobPostingModel model)
         {
-           var data = await _repoitory.GetAsync(model.Id);
+            var data = await _repoitory.GetAsync(model.Id);
             if(data.JobStatus == Constants.JobPosting.Submitted)
             {
                 return "job is submitted ,hence can't be updated";
             }
+
+            if(data.JobStatus != Constants.JobPosting.Draft)
+            {
+                return "updated Successfully";
+            }
+
             JobPostingFactory.Update(data,model);
+            data.JobStatus = Constants.JobPosting.Submitted;
             _repoitory.Edit(data);
             return "updated successfully";
         }
@@ -69,8 +77,5 @@ namespace FHP.manager.FHP
         {
             await _repoitory.SetJobProcessingStatus(jobId,jobProcessingStatus);
         }
-
-       
-
     }
 }

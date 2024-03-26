@@ -1,11 +1,6 @@
 ﻿using FHP.entity.FHP;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FHP.utilities;
 
 namespace FHP.datalayer.EntityConfiguration.FHP
