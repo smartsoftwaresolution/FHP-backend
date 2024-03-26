@@ -131,10 +131,11 @@ namespace FHP.datalayer.Repository.FHP
         {
             var query = from s in _dataContext.EmployeeAvailabilities
                         join u in _dataContext.User on s.EmployeeId equals u.Id
+                        join j in _dataContext.JobPostings on s.EmployeeId equals j.Id
 
                         where s.Status != Constants.RecordStatus.Deleted &&
                         s.JobId == JobId && (s.IsAvailable == employeeAvailability || employeeAvailability == null)
-                        select new { getallAval = s, UserDetail = u };
+                        select new { getallAval = s, UserDetail = u, jobDetails = j };
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -169,6 +170,18 @@ namespace FHP.datalayer.Repository.FHP
                    Email = s.UserDetail.Email,
                    MobileNumber = s.UserDetail.MobileNumber,
                    FullName = s.UserDetail.FirstName + " " + s.UserDetail.LastName,
+
+                   JobTitle = s.jobDetails.JobTitle,
+                   Description = s.jobDetails.Description,
+                   Experience = s.jobDetails.Experience,
+                   RolesAndResponsibilities = s.jobDetails.RolesAndResponsibilities,
+                   Skills = s.jobDetails.Skills,
+                   Address = s.jobDetails.Address,
+                   Payout = s.jobDetails.Payout,
+                   EmploymentType = s.jobDetails.EmploymentType,
+                   InProbationCancel = s.jobDetails.InProbationCancel,
+                   JobStatus = s.jobDetails.JobStatus,
+
 
             }).AsNoTracking().ToListAsync();
 

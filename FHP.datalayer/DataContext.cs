@@ -30,6 +30,7 @@ namespace FHP.datalayer
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<FCMToken> FCMTokens { get; set; }
 
         #endregion
 
@@ -63,10 +64,11 @@ namespace FHP.datalayer
             modelBuilder.ApplyConfiguration(new CountryConfiguration());
             modelBuilder.ApplyConfiguration(new StateConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
+            modelBuilder.ApplyConfiguration(new FCMTokenConfiguration());
             #endregion
 
             #region FHP
-           
+
             modelBuilder.ApplyConfiguration(new JobSkillDetailConfiguration());
             modelBuilder.ApplyConfiguration(new SkillsDetailConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeDetailConfiguration());

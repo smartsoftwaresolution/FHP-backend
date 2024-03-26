@@ -98,6 +98,14 @@ namespace FHP.manager.UserManagement
           return  await _repository.SaveOtp(email, otp);
         }
 
- 
+        public async Task AddFCMToken(FCMToken entity)
+        {
+            await _repository.AddFCMToken(entity);
+        }
+        public async Task RemoveFCMToken(int userId, string fcmToken)
+        {
+            await _repository.RemoveFCMToken(userId, fcmToken);
+        }
+
     }
 }
