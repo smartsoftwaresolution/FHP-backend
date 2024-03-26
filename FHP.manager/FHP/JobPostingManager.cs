@@ -27,7 +27,13 @@ namespace FHP.manager.FHP
             {
                 return "job is submitted ,hence can't be updated";
             }
+
+            if(data.JobStatus != Constants.JobPosting.Draft)
+            {
+                return "updated Successfully";
+            }
             JobPostingFactory.Update(data,model);
+            data.JobStatus = Constants.JobPosting.Submitted;
             _repoitory.Edit(data);
             return "updated successfully";
         }

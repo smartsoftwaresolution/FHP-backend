@@ -376,7 +376,6 @@ D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\ref\FHP.dll
 D:\FHP-BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.staticwebassets.runtime.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\appsettings.Development.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\appsettings.json
-C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Auth.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.staticwebassets.runtime.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.exe
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.deps.json
