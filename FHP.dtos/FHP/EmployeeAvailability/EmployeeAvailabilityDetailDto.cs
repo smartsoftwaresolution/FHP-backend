@@ -24,6 +24,8 @@ namespace FHP.dtos.FHP.EmployeeAvailability
         public Constants.RecordStatus Status { get; set; }
         public string AdminjobTitle { get; set; }
         public string AdminJobDescription { get; set; }
+
+       
         public string JobTitle { get; set; }
         public string Description { get; set; }
         public string Experience { get; set; }
