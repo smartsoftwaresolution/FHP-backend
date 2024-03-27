@@ -184,5 +184,18 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.SaveChangesAsync();  
             return result;
         }
+
+        public async Task<string> SetStatus(SetAdminSelectEmployeeModel model)
+        {
+            string result = string.Empty; 
+           
+            var data = await _dataContext.AdminSelectEmployees.Where(s => s.EmployeeId == model.EmployeeId && s.JobId == model.JobId).FirstOrDefaultAsync();
+            data.Status = model.ProcessingStatus;
+            result = data.Status.ToString();
+
+           _dataContext.AdminSelectEmployees.Update(data);
+           await _dataContext.SaveChangesAsync();
+           return result;
+        }
     }
 }

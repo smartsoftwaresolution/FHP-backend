@@ -1,5 +1,6 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
+using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.EmployeeAvailability;
 using FHP.utilities;
@@ -14,15 +15,20 @@ namespace FHP.Controllers.FHP
         private readonly IEmployeeAvailabilityManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IUnitOfWork _unitOfWork;
-
+        private readonly ISendNotificationService _sendNotificationService;
+        private readonly IFCMTokenManager _tokenManager;
 
         public EmployeeAvailabilityController(IEmployeeAvailabilityManager manager,
              IExceptionHandleService exceptionHandleService,
-             IUnitOfWork unitOfWork)
+             IUnitOfWork unitOfWork,
+             ISendNotificationService sendNotificationService,
+             IFCMTokenManager tokenManager)
         {
             _manager=manager;
             _exceptionHandleService=exceptionHandleService;
             _unitOfWork=unitOfWork;
+            _sendNotificationService = sendNotificationService;
+            _tokenManager = tokenManager;
         }
 
         //Add EmployeeAvailability
@@ -46,6 +52,14 @@ namespace FHP.Controllers.FHP
                 {
                     // Add the EmployeeAvailability model asynchronously.
                     await _manager.AddAsync(model);
+
+                    var token = await _tokenManager.FcmTokenByRole("employee");
+
+                    foreach(var t in token)
+                    {
+                        string body = $"Hello Dear \n\nWe hope this message finds you well. We are writing to inquire about your availability regarding the job opportunity recently posted for [Job Position]. Could you please let us know your current availability and any potential constraints regarding the job?\n\nYour prompt response would be highly appreciated.\n\nBest regards";
+                        await _sendNotificationService.SendNotification("Job Availability Inquiry", body, t.TokenFCM);
+                    }
                    
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
@@ -64,7 +78,6 @@ namespace FHP.Controllers.FHP
             {
                 //In case of any exceptions during the process, it rolls back the transaction.
                 await transaction.RollbackAsync(); 
-
                 return await _exceptionHandleService.HandleException(ex); 
 
             }
@@ -247,8 +260,21 @@ namespace FHP.Controllers.FHP
                     response.Message = "Id Required!";
                     return BadRequest(response);
                 }
+                
+              
+
                 // Call the manager method to set Employee availability for the job.
                 string result = await _manager.SetEmployeeAvalibility(model);
+
+                var token = await _tokenManager.FcmTokenByRole("admin");
+
+                foreach (var t in token)
+                {
+                    string body = "An employee is available for Job.";
+                    await _sendNotificationService.SendNotification("Employee Avalibililty", body, t.TokenFCM);
+                }
+
+
                 response.StatusCode = 200;
                 response.Message = $"Employee {result} Now!!"; 
                 return Ok(response);

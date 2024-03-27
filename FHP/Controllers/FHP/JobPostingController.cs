@@ -10,7 +10,6 @@ namespace FHP.Controllers.FHP
 {
     [Route("api/[controller]")]
     [ApiController]
-
     public class JobPostingController : ControllerBase
     {
         private readonly IJobPostingManager _manager;
@@ -62,14 +61,16 @@ namespace FHP.Controllers.FHP
                 {
                     // Adds the job posting asynchronously
                     await _manager.AddAsync(model);
+
                     if (model.JobPosting == Constants.JobPosting.Submitted)
-                    {
+                    {   
                         var token = await _tokenManager.FcmTokenByRole("admin");
                         foreach (var t in token)
                         {
                             await _sendNotificationService.SendNotification("lala", "heheh", t.TokenFCM);
                         }
                     }
+
                     // commit transaction
                     await transaction.CommitAsync();
                     response.StatusCode = 200;
