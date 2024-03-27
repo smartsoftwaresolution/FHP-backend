@@ -19,6 +19,7 @@ namespace FHP.factories.FHP
                // EmployeeId = model.EmployeeId,
                 InProbationCancel = model.InProbationCancel,
                 IsSelected = model.IsSelected,
+                Status = Constants.ProcessingStatus.InProcess,
                 CreatedOn = Utility.GetDateTime()
             };
             return data;

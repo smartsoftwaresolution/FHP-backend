@@ -17,5 +17,6 @@ namespace FHP.infrastructure.Repository.FHP
         Task<(List<UserDetailDto> adminSelect, int totalCount)> GetAllJobEmployeeAsync(int jobId);
         Task AddAsync(AddAdminSelectEmployeeModel model);
         Task<string> AcceptRejectAsync(int jobId,int employeeId);
+        Task<string> SetStatus(SetAdminSelectEmployeeModel model);
     }
 }
