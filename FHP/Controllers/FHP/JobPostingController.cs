@@ -67,7 +67,8 @@ namespace FHP.Controllers.FHP
                         var token = await _tokenManager.FcmTokenByRole("admin");
                         foreach (var t in token)
                         {
-                            await _sendNotificationService.SendNotification("lala", "heheh", t.TokenFCM);
+                            string body = "Dear Admin,\r\n\r\nA new job posting has been submitted. Please review the details and take appropriate action.\r\n\r\nThank you.";
+                            await _sendNotificationService.SendNotification("Job Posting Notification Sent to Admin Panel", body, t.TokenFCM);
                         }
                     }
                     // commit transaction
@@ -150,7 +151,7 @@ namespace FHP.Controllers.FHP
 
         // API endpoint to gell all jobposting with search
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId,string title)
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)

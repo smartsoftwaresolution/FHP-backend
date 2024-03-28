@@ -63,6 +63,8 @@ namespace FHP.datalayer.Repository.FHP
                                        s.jobPosting.Description.Contains(search));
             }
 
+           
+            
             
             var totalCount = await query.CountAsync();
 

@@ -19,7 +19,7 @@ namespace FHP.manager.UserManagement
 
         public async Task<List<FcmTokenDetailDto>> FcmTokenByRole(string roleName)
         {
-            return _repository.FcmTokenByRole(roleName);
+            return await _repository.FcmTokenByRole(roleName);
         }
 
     }
