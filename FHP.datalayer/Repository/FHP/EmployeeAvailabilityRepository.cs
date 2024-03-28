@@ -18,6 +18,7 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task AddAsync(AddEmployeeAvailabilityModel model)
         {
+            
             var employeeAvailability = model.EmployeeId.Select(employeeId => new EmployeeAvailability
             {
                 UserId = model.UserId,

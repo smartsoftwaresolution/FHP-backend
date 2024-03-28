@@ -10,6 +10,7 @@ namespace FHP.models.FHP.AdminSelectEmployee
     {
         public int Id { get; set; }
         public int JobId { get; set; }
+        public int EmployerId { get; set; }
         public List<int> EmployeeId { get; set; }
         public bool InProbationCancel { get; set; }
         public bool IsSelected { get; set; }

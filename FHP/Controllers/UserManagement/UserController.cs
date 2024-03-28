@@ -1,4 +1,5 @@
-﻿using FHP.infrastructure.DataLayer;
+﻿
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.User;
@@ -16,18 +17,25 @@ namespace FHP.Controllers.UserManagement
         private readonly IEmailService _emailService;
         private readonly IFileUploadService _fileUploadService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISendNotificationService _sendNotificationService;
+        private readonly IFCMTokenManager _fCMTokenManager;
+
         public UserController(IUserManager manager,
                               IExceptionHandleService exceptionHandleService,
                               IEmailService emailService,
                               IFileUploadService  fileUploadService,
-                              IUnitOfWork unitOfWork
-                              )
+                              IUnitOfWork unitOfWork,
+                              ISendNotificationService sendNotificationService,
+                              IFCMTokenManager fCMTokenManager)
+                              
         {
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
             _emailService = emailService;
             _fileUploadService = fileUploadService;
             _unitOfWork = unitOfWork;
+            _sendNotificationService = sendNotificationService;
+            _fCMTokenManager = fCMTokenManager;
         }
 
         // API Endpoint for add user
@@ -72,7 +80,25 @@ namespace FHP.Controllers.UserManagement
                     // Adds the new user and retrieves the generated user ID
                     userid = await _manager.AddAsync(model);
 
-                    // Sends a verification email to the user
+
+                   
+                        var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
+
+                        foreach(var token in tokens)
+                        {
+                            if (model.RoleName.ToLower().Contains("employee"))
+                            {
+                                await _sendNotificationService.SendNotification("SignUp", "employee registered successfully!!", token.TokenFCM);
+                            }
+                            else
+                            {
+                                 await _sendNotificationService.SendNotification("SignUp", "employer registered successfully!!", token.TokenFCM);
+
+                            }
+                        }
+                    
+                        
+                     // Sends a verification email to the user
                     await _emailService.SendverificationEmail(model.Email, userid);
 
                     // Commits the transaction as all operations are successful

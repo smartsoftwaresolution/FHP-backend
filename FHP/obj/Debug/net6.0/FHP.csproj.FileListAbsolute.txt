@@ -562,4 +562,8 @@ C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\refint\FHP.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.pdb
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.genruntimeconfig.cache
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\ref\FHP.dll
+<<<<<<< HEAD
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Auth.json
+=======
+D:\FHP-BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Auth.json
+>>>>>>> d5a239745cf0253bdf3755e5491cfcad2151477e

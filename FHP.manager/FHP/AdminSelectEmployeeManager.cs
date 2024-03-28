@@ -52,5 +52,10 @@ namespace FHP.manager.FHP
         {
             return await _repository.AcceptRejectAsync(jobId, employeeId);
         }
+
+        public async Task<string> SetStatus(SetAdminSelectEmployeeModel model)
+        {
+            return await _repository.SetStatus(model);
+        }
     }
 }

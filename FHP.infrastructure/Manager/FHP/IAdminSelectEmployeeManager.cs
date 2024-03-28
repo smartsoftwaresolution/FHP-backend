@@ -20,6 +20,7 @@ namespace FHP.infrastructure.Manager.FHP
         Task DeleteAsync(int id);
         Task<(List<UserDetailDto> adminSelect, int totalCount)> GetAllJobEmployeeAsync(int jobId);
         Task<string> AcceptRejectAsync(int jobId,int employeeId);
+        Task<string> SetStatus(SetAdminSelectEmployeeModel model);
 
     }
 }
