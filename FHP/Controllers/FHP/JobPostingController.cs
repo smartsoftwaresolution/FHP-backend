@@ -69,11 +69,9 @@ namespace FHP.Controllers.FHP
                         foreach (var t in token)
                         {
                             string body = "Dear Admin,\r\n\r\nA new job posting has been submitted. Please review the details and take appropriate action.\r\n\r\nThank you.";
-<<<<<<< HEAD
-                            await _sendNotificationService.SendNotification("Job Posting Notification Sent to Admin Panel", body, t.TokenFCM);
-=======
+
                             await _sendNotificationService.SendNotification("Job Created Successfully", body, t.TokenFCM);
->>>>>>> 674042930da20180237e8167a602ca0c611a1653
+
                         }
                     }
 

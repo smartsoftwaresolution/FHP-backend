@@ -1,5 +1,6 @@
 ﻿using FHP.dtos.FHP.Offer;
 using FHP.entity.FHP;
+using FHP.models.FHP.Offer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace FHP.infrastructure.Repository.FHP
         Task<Offer> GetAsync(int id);
         Task<(List<OfferDetailDto> offer, int totalCount)> GetAllAsync(int page, int pageSize, string? search);
         Task<OfferDetailDto> GetByIdAsync(int id);
-        Task DeleteAsync(int id);   
+        Task DeleteAsync(int id);
     }
 }

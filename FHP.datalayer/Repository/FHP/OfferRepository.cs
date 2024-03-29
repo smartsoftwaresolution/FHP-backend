@@ -1,6 +1,7 @@
 ﻿using FHP.dtos.FHP.Offer;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
+using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FHP.datalayer.Repository.FHP
@@ -19,9 +20,7 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.Offers.AddAsync(entity);
             await _dataContext.SaveChangesAsync();
         }
-
-      
-
+                   
         public void Edit(Offer entity)
         {
             _dataContext.Offers.Update(entity);
@@ -38,7 +37,7 @@ namespace FHP.datalayer.Repository.FHP
         {
 
             var query = from s in _dataContext.Offers
-                        where s.Status != utilities.Constants.RecordStatus.Deleted
+                        where s.Status != Constants.RecordStatus.Deleted
                         select new { offer = s };
 
             if(!string.IsNullOrEmpty(search))
@@ -57,18 +56,20 @@ namespace FHP.datalayer.Repository.FHP
             }
 
             var data = await query.Select(s => new OfferDetailDto
-            {
-                Id = s.offer.Id,
-                JobId = s.offer.JobId,
-                EmployeeId = s.offer.EmployeeId,
-                EmployerId = s.offer.EmployerId,
-                Title = s.offer.Title,
-                Description = s.offer.Description,
-                IsAccepted = s.offer.IsAccepted,
-                Status = s.offer.Status,
-                CreatedOn = s.offer.CreatedOn,
-                UpdatedOn = s.offer.UpdatedOn,
-            }).AsNoTracking().ToListAsync();
+                                                    {
+                                                                Id = s.offer.Id,
+                                                                JobId = s.offer.JobId,
+                                                                EmployeeId = s.offer.EmployeeId,
+                                                                EmployerId = s.offer.EmployerId,
+                                                                Title = s.offer.Title,
+                                                                Description = s.offer.Description,
+                                                                IsAccepted = s.offer.IsAccepted,
+                                                                Status = s.offer.Status,
+                                                                CreatedOn = s.offer.CreatedOn,
+                                                                UpdatedOn = s.offer.UpdatedOn,
+                                                    })
+                                                   .AsNoTracking()
+                                                   .ToListAsync();
 
 
             return (data, totalCount);
@@ -77,7 +78,8 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<OfferDetailDto> GetByIdAsync(int id)
         {
             return await (from s in _dataContext.Offers
-                          where s.Status != utilities.Constants.RecordStatus.Deleted && s.Id == id
+                          where s.Status != Constants.RecordStatus.Deleted && 
+                          s.Id == id
 
                           select new OfferDetailDto
                           {
@@ -97,10 +99,9 @@ namespace FHP.datalayer.Repository.FHP
         public async Task DeleteAsync(int id)
         {
             var data = await _dataContext.Offers.Where(s => s.Id == id).FirstOrDefaultAsync();
+            data.Status = Constants.RecordStatus.Deleted;  
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
         }
-
-        
     }
 }
