@@ -63,7 +63,7 @@ namespace FHP.Controllers.FHP
                         {
                             if(t.UserId == model.EmployerId)
                             {
-                                await _sendNotificationService.SendNotification("", "", t.TokenFCM);
+                                await _sendNotificationService.SendNotification("Sent", "", t.TokenFCM);
                             }
                         }
                     
@@ -150,13 +150,12 @@ namespace FHP.Controllers.FHP
 
         // Get All AdminSelectEmpoyeeDetail with Pagination and search filter
         [HttpGet("getall-pagination")] 
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,int jobId,string? search)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,int jobId,string? search,Constants.ProcessingStatus? status)
         {
             if (!ModelState.IsValid)
             {
                 // If the model state is not valid, return a BadRequest response with a list of errors.
                 return BadRequest(ModelState.GetErrorList()); 
-
             }
 
             var response = new BaseResponsePagination<object>(); // Response object for pagination.
@@ -165,7 +164,7 @@ namespace FHP.Controllers.FHP
             {
 
                 // Retrieve data from the manager based on pagination parameters.
-                var data = await _manager.GetAllAsync(page,pageSize,jobId, search);
+                var data = await _manager.GetAllAsync(page,pageSize,jobId, search,status);
 
                 // Check if data is retrieved successfully.
                 if (data.adminSelect != null)
@@ -359,7 +358,7 @@ namespace FHP.Controllers.FHP
 
                 foreach (var t in token)
                 {
-                    string body = $"employer {result} ";
+                    string body = $"employer {result}";
                     await _sendNotificationService.SendNotification("Application", body, t.TokenFCM);
                 }
                 foreach (var y in token1)

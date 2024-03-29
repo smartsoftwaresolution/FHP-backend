@@ -29,7 +29,7 @@ namespace FHP.Controllers.FHP
             _sendNotificationService = sendNotificationService;
             _tokenManager = tokenManager;
         }
-
+                   
         // API endpoint to add jobposting 
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync(AddJobPostingModel model)
@@ -65,10 +65,15 @@ namespace FHP.Controllers.FHP
                     if (model.JobPosting == Constants.JobPosting.Submitted)
                     {   
                         var token = await _tokenManager.FcmTokenByRole("admin");
+
                         foreach (var t in token)
                         {
                             string body = "Dear Admin,\r\n\r\nA new job posting has been submitted. Please review the details and take appropriate action.\r\n\r\nThank you.";
+<<<<<<< HEAD
                             await _sendNotificationService.SendNotification("Job Posting Notification Sent to Admin Panel", body, t.TokenFCM);
+=======
+                            await _sendNotificationService.SendNotification("Job Created Successfully", body, t.TokenFCM);
+>>>>>>> 674042930da20180237e8167a602ca0c611a1653
                         }
                     }
 
@@ -83,7 +88,8 @@ namespace FHP.Controllers.FHP
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
             }
-            catch (Exception ex)
+
+            catch(Exception ex)
             {
                 //In case of any exceptions during the process, it rolls back the transaction.
                 await transaction.RollbackAsync(); 
