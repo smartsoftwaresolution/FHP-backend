@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 D:\FHP-BackEnd\FHP\FHP\bin\Debug\net6.0\appsettings.Development.json
 D:\FHP-BackEnd\FHP\FHP\bin\Debug\net6.0\appsettings.json
 D:\FHP-BackEnd\FHP\FHP\bin\Debug\net6.0\FHP.exe
@@ -185,8 +187,10 @@ D:\FHP-BackEnd\FHP\FHP\obj\Debug\net6.0\refint\FHP.dll
 D:\FHP-BackEnd\FHP\FHP\obj\Debug\net6.0\FHP.pdb
 D:\FHP-BackEnd\FHP\FHP\obj\Debug\net6.0\FHP.genruntimeconfig.cache
 D:\FHP-BackEnd\FHP\FHP\obj\Debug\net6.0\ref\FHP.dll
+>>>>>>> 674042930da20180237e8167a602ca0c611a1653
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\appsettings.Development.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\appsettings.json
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Auth.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.staticwebassets.runtime.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.exe
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\FHP.deps.json
@@ -373,6 +377,8 @@ C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\refint\FHP.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.pdb
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.genruntimeconfig.cache
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\ref\FHP.dll
+<<<<<<< HEAD
+=======
 D:\FHP-BackEnd\FHP-backend\FHP\bin\Debug\net6.0\appsettings.Development.json
 D:\FHP-BackEnd\FHP-backend\FHP\bin\Debug\net6.0\appsettings.json
 D:\FHP-BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Auth.json
@@ -563,3 +569,4 @@ D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\refint\FHP.dll
 D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.pdb
 D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.genruntimeconfig.cache
 D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\ref\FHP.dll
+>>>>>>> 674042930da20180237e8167a602ca0c611a1653

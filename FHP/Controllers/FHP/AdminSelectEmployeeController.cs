@@ -354,13 +354,18 @@ namespace FHP.Controllers.FHP
 
                 
                 var token = await _tokenManager.FcmTokenByRole("admin");
+                var token1 = await _tokenManager.FcmTokenByRole("employee");
 
                 foreach (var t in token)
                 {
                     string body = $"employer {result}";
                     await _sendNotificationService.SendNotification("Application", body, t.TokenFCM);
                 }
-
+                foreach (var y in token1)
+                {
+                    string body = $"employer {result} ";
+                    await _sendNotificationService.SendNotification("Application", body, y.TokenFCM);
+                }
                 response.StatusCode = 200;
                 response.Message = $" {result} Succesfully! ";
                 return Ok(response);
