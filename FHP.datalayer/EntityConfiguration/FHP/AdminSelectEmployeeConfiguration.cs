@@ -27,6 +27,7 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.InProbationCancel).IsRequired(); 
             builder.Property(x => x.IsSelected).IsRequired(); 
             builder.Property(x => x.CreatedOn).IsRequired();
+            builder.Property(x => x.Status).IsRequired();
         }
     }
 

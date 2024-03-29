@@ -152,7 +152,7 @@ namespace FHP.Controllers.FHP
 
         // API endpoint to gell all jobposting with search
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId,string title)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId)
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)
