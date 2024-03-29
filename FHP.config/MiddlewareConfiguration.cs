@@ -52,6 +52,7 @@ namespace FHP.config
             services.AddScoped<IEmployeeAvailabilityManager, EmployeeAvailabilityManager>();
             services.AddScoped<IEmployerContractConfirmationManager,EmployerContractConfirmationManager>();
             services.AddScoped<IFCMTokenManager,FCMTokenManager>(); 
+            services.AddScoped<IOfferManager,OfferManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -78,6 +79,7 @@ namespace FHP.config
             services.AddScoped<IEmployeeAvailabilityRepository, EmployeeAvailabilityRepository>();
             services.AddScoped<IEmployerContractConfirmationRepository, EmployerContractConfirmationRepository>();
             services.AddScoped<IFCMTokenRepository, FCMTokenRepository>();
+            services.AddScoped<IOfferRepository, OfferRepository>();    
         }
 
 
@@ -85,7 +87,7 @@ namespace FHP.config
         {
             services.AddScoped<IExceptionHandleService, ExceptionHandleService>();
             services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped <IFileUploadService,FileUploadService>();   
+            services.AddScoped<IFileUploadService,FileUploadService>();   
 
         }
 

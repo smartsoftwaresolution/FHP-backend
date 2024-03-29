@@ -37,19 +37,25 @@ namespace FHP.datalayer.Repository.FHP
             return  await _dataContext.Contracts.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<(List<ContractDetailDto> contract, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<ContractDetailDto> contract, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int employeeId)
         {
             var query = from s in _dataContext.Contracts
-                        where s.Status != Constants.RecordStatus.Deleted
+                        where s.Status != Constants.RecordStatus.Deleted 
                         select new { contract = s };
 
              
             
+            if(employeeId > 0)
+            {
+                query = query.Where(s => s.contract.EmployeeId == employeeId);
+            }
+
             if(!string.IsNullOrEmpty(search))
             {
-                query =query.Where(s=>s.contract.EmployeeSignature.Contains(search) ||
-                                       s.contract.EmployerSignature.Contains(search) ||
-                                       s.contract.JobId.ToString().Contains(search));
+                query =query.Where(s => s.contract.EmployeeSignature.Contains(search) ||
+                                        s.contract.EmployerSignature.Contains(search) ||
+                                        s.contract.JobId.ToString().Contains(search) ||
+                                        s.contract.EmployeeId.ToString().Contains(search));
             }
 
             var totalCount = await query.CountAsync();
