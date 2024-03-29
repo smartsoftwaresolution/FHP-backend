@@ -172,9 +172,8 @@ namespace FHP.Controllers.FHP
                 // Retrieve all employer details with pagination
                 var data = await _manager.GetAllAsync(page, pageSize, userId, search);
 
-                if (data.employerDetail != null)
+                if (data.employerDetail != null && data.totalCount > 0)
                 {
-                    
                     response.Data = data.employerDetail;
                     response.TotalCount = data.totalCount;
                     response.StatusCode = 200;

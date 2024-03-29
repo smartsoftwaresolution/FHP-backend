@@ -1,11 +1,6 @@
 ﻿using FHP.entity.FHP;
 using FHP.models.FHP.AdminSelectEmployee;
 using FHP.utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.factories.FHP
 {
@@ -16,9 +11,10 @@ namespace FHP.factories.FHP
             var data = new AdminSelectEmployee
             {
                 JobId = model.JobId,
-               // EmployeeId = model.EmployeeId,
+             // EmployeeId = model.EmployeeId,
                 InProbationCancel = model.InProbationCancel,
                 IsSelected = model.IsSelected,
+                Status = Constants.ProcessingStatus.InProcess,
                 CreatedOn = Utility.GetDateTime()
             };
             return data;
@@ -27,7 +23,7 @@ namespace FHP.factories.FHP
         public static void Update(AdminSelectEmployee entity,AddAdminSelectEmployeeModel model)
         {
             entity.JobId = model.JobId;
-           // entity.EmployeeId = model.EmployeeId;
+         // entity.EmployeeId = model.EmployeeId;
 
         }
     }

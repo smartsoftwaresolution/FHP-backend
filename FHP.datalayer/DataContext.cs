@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using FHP.entity.UserManagement;
 using FHP.entity.FHP;
 using FHP.datalayer.EntityConfiguration.FHP;
+using System.Security.Policy;
 
 namespace FHP.datalayer
 {
@@ -48,6 +49,8 @@ namespace FHP.datalayer
         public DbSet<EmployeeAvailability> EmployeeAvailabilities { get; set; }
         public DbSet<EmployerContractConfirmation> EmployerContractConfirmations { get; set; }
 
+        public DbSet<Offer> Offers { get; set; }
+
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -81,6 +84,8 @@ namespace FHP.datalayer
             modelBuilder.ApplyConfiguration(new EmployeeSkillDetailsConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeAvailabilityConfiguration());
             modelBuilder.ApplyConfiguration(new EmployerContractConfirmationConfiguration());
+            modelBuilder.ApplyConfiguration(new OfferConfiguration());
+
 
             #endregion
         }

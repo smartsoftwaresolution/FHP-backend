@@ -51,7 +51,7 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<AdminSelectEmployeeDetailDto> adminSelect, int totalCount)> GetAllAsync(int page, int pageSize,int jobId, string? search)
+        public async Task<(List<AdminSelectEmployeeDetailDto> adminSelect, int totalCount)> GetAllAsync(int page, int pageSize,int jobId, string? search , Constants.ProcessingStatus? status)
         {
             var query = from s in _dataContext.AdminSelectEmployees
                         join e in _dataContext.User on s.EmployeeId equals e.Id
@@ -63,18 +63,23 @@ namespace FHP.datalayer.Repository.FHP
             {
                 query = query.Where(s=> s.adminSelect.JobId == jobId);
             }
+
+            if(status != null)
+            {
+                query = query.Where(s => s.adminSelect.Status == status);
+            }
              
            
-                if (!string.IsNullOrEmpty(search))
-                {
-                    query = query.Where(s => s.adminSelect.JobId.ToString().Contains(search) ||
-                                           s.adminSelect.EmployeeId.ToString().Contains(search) ||
-                                           s.adminSelect.InProbationCancel.ToString().Contains(search));
-                }
+           if (!string.IsNullOrEmpty(search))
+           {
+               query = query.Where(s => s.adminSelect.JobId.ToString().Contains(search) ||
+                                        s.adminSelect.EmployeeId.ToString().Contains(search) ||
+                                        s.adminSelect.InProbationCancel.ToString().Contains(search));
+           }
             
             
 
-             var totalCount = await query.CountAsync();
+            var totalCount = await query.CountAsync();
 
             query = query.OrderByDescending(s => s.adminSelect.Id);
 
@@ -177,12 +182,25 @@ namespace FHP.datalayer.Repository.FHP
             else
             {
                 data.IsSelected = false;
-                result = "Rejected";
+                result = "Reject";
             }
 
             _dataContext.AdminSelectEmployees.Update(data);
             await _dataContext.SaveChangesAsync();  
             return result;
+        }
+
+        public async Task<string> SetStatus(SetAdminSelectEmployeeModel model)
+        {
+            string result = string.Empty; 
+           
+            var data = await _dataContext.AdminSelectEmployees.Where(s => s.EmployeeId == model.EmployeeId && s.JobId == model.JobId).FirstOrDefaultAsync();
+            data.Status = model.ProcessingStatus;
+            result = data.Status.ToString();
+
+           _dataContext.AdminSelectEmployees.Update(data);
+           await _dataContext.SaveChangesAsync();
+           return result;
         }
     }
 }

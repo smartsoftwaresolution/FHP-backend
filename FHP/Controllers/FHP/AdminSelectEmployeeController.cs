@@ -1,5 +1,6 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
+using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.AdminSelectEmployee;
 using FHP.utilities;
@@ -14,13 +15,20 @@ namespace FHP.Controllers.FHP
         private readonly IAdminSelectEmployeeManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISendNotificationService _sendNotificationService;
+        private readonly IFCMTokenManager _tokenManager;
+
         public AdminSelectEmployeeController(IAdminSelectEmployeeManager manager,
                                              IExceptionHandleService exceptionHandleService,
-                                             IUnitOfWork unitOfWork)
+                                             IUnitOfWork unitOfWork,
+                                             ISendNotificationService sendNotificationService,
+                                             IFCMTokenManager tokenManager)
         {
             _manager = manager;
             _exceptionHandleService= exceptionHandleService;
             _unitOfWork= unitOfWork;
+            _sendNotificationService = sendNotificationService;
+            _tokenManager = tokenManager;
         }
 
 
@@ -47,6 +55,19 @@ namespace FHP.Controllers.FHP
                 {
                     // Add the AdminSelectEmployee model asynchronously.
                     await _manager.AddAsync(model);
+
+
+                       var token = await _tokenManager.FcmTokenByRole("employer");
+
+                        foreach (var t in token)
+                        {
+                            if(t.UserId == model.EmployerId)
+                            {
+                                await _sendNotificationService.SendNotification("Sent", "", t.TokenFCM);
+                            }
+                        }
+                    
+
 
                     // Commit the transaction.
                     await transaction.CommitAsync();
@@ -129,13 +150,12 @@ namespace FHP.Controllers.FHP
 
         // Get All AdminSelectEmpoyeeDetail with Pagination and search filter
         [HttpGet("getall-pagination")] 
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,int jobId,string? search)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,int jobId,string? search,Constants.ProcessingStatus? status)
         {
             if (!ModelState.IsValid)
             {
                 // If the model state is not valid, return a BadRequest response with a list of errors.
                 return BadRequest(ModelState.GetErrorList()); 
-
             }
 
             var response = new BaseResponsePagination<object>(); // Response object for pagination.
@@ -144,7 +164,7 @@ namespace FHP.Controllers.FHP
             {
 
                 // Retrieve data from the manager based on pagination parameters.
-                var data = await _manager.GetAllAsync(page,pageSize,jobId, search);
+                var data = await _manager.GetAllAsync(page,pageSize,jobId, search,status);
 
                 // Check if data is retrieved successfully.
                 if (data.adminSelect != null)
@@ -332,6 +352,20 @@ namespace FHP.Controllers.FHP
 
                string result = await _manager.AcceptRejectAsync(jobId, employeeId);
 
+                
+                var token = await _tokenManager.FcmTokenByRole("admin");
+                var token1 = await _tokenManager.FcmTokenByRole("employee");
+
+                foreach (var t in token)
+                {
+                    string body = $"employer {result}";
+                    await _sendNotificationService.SendNotification("Application", body, t.TokenFCM);
+                }
+                foreach (var y in token1)
+                {
+                    string body = $"employer {result} ";
+                    await _sendNotificationService.SendNotification("Application", body, y.TokenFCM);
+                }
                 response.StatusCode = 200;
                 response.Message = $" {result} Succesfully! ";
                 return Ok(response);
@@ -339,6 +373,36 @@ namespace FHP.Controllers.FHP
             catch(Exception ex)
             {
                 // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+        [HttpPost("Status")]
+        public async Task<IActionResult> EmployerStatus(SetAdminSelectEmployeeModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if(model.EmployeeId <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required!";
+                    return BadRequest(response);
+                }
+
+                string result = await _manager.SetStatus(model);
+                response.StatusCode = 200;
+                response.Message = $" {result} Now!!";
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
                 return await _exceptionHandleService.HandleException(ex);
             }
         }

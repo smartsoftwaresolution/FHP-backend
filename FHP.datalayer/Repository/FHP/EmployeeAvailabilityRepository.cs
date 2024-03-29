@@ -18,6 +18,7 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task AddAsync(AddEmployeeAvailabilityModel model)
         {
+            
             var employeeAvailability = model.EmployeeId.Select(employeeId => new EmployeeAvailability
             {
                 UserId = model.UserId,
@@ -222,7 +223,7 @@ namespace FHP.datalayer.Repository.FHP
                               AdminJobDescription = s.AdminJobDescription,
                               UpdatedOn = s.UpdatedOn,
                               
-                          }).AsNoTracking().ToListAsync();
+                          }).AsNoTracking().OrderByDescending(s=> s.Id).ToListAsync();
         }
 
         public async Task DeleteAsync(int id)
