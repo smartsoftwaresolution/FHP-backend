@@ -4,6 +4,7 @@ using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP.AdminSelectEmployee;
+using FHP.utilities;
 
 namespace FHP.manager.FHP
 {
@@ -23,14 +24,14 @@ namespace FHP.manager.FHP
 
         public async Task Edit(AddAdminSelectEmployeeModel model)
         {
-         var data=   await _repository.GetAsync(model.Id);
+            var data=   await _repository.GetAsync(model.Id);
             AdminSelectEmployeeFactory.Update(data, model);
             _repository.Edit(data);
         }
 
-        public async Task<(List<AdminSelectEmployeeDetailDto> adminSelect, int totalCount)> GetAllAsync(int page, int pageSize,int jobId, string? search)
+        public async Task<(List<AdminSelectEmployeeDetailDto> adminSelect, int totalCount)> GetAllAsync(int page, int pageSize,int jobId, string? search , Constants.ProcessingStatus? status)
         {
-           return await _repository.GetAllAsync(page, pageSize,jobId, search);
+           return await _repository.GetAllAsync(page, pageSize,jobId, search,status);
         }
 
         public async Task<AdminSelectEmployeeDetailDto> GetByIdAsync(int id)

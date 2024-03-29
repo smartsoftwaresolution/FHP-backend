@@ -60,7 +60,7 @@ namespace FHP.Controllers.UserManagement
                     {
 
                        // Checks if the user account is inactive
-                    if (data.Status == Constants.RecordStatus.Inactive)
+                     if (data.Status == Constants.RecordStatus.Inactive)
                         {
                             response.StatusCode = 400;
                             response.Message = "account is inactive";
