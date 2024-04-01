@@ -37,15 +37,21 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext.SaveChanges();
         }
 
-        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending = false)
+
+
+        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName, bool isAscending, string? skills, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities)
         {
-            
             var query = from s in _dataContext.User
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
-                        
-                        where s.Status != Constants.RecordStatus.Deleted 
-                        select new { user = s, t };
+                        join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.Id
+                        join j in _dataContext.JobPostings on s.Id equals j.Id
 
+                        where s.Status != Constants.RecordStatus.Deleted
+                        select new { user = s, t, employeedetail = e, job = j };
+
+
+
+            
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -66,11 +72,34 @@ namespace FHP.datalayer.Repository.UserManagement
                 else
                 {
                     query = query.Where(s => s.t.RoleName == roleName);
-
                 }
 
-            }          
-            
+            }
+
+            if (skills != null)
+            {
+                query = query.Where(s => s.job.Skills == skills);
+            }
+
+            if (employmentStatus != null)
+            {
+                query = query.Where(s => s.employeedetail.EmploymentStatus == employmentStatus);
+            }
+
+            if (experience != null)
+            {
+                query = query.Where(s => s.job.Experience == experience);
+            }
+
+            if (jobTitle != null)
+            {
+                query = query.Where(s => s.job.JobTitle == jobTitle);
+            }
+
+            if (rolesAndResponsibilities != null)
+            {
+                query = query.Where(s => s.job.RolesAndResponsibilities == rolesAndResponsibilities);
+            }
 
             var totalCount = await query.CountAsync();
 
@@ -84,7 +113,7 @@ namespace FHP.datalayer.Repository.UserManagement
             {
                 query = query.OrderByDescending(s => s.user.Id);
             }
-            
+
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
@@ -110,34 +139,41 @@ namespace FHP.datalayer.Repository.UserManagement
                 MobileNumber = s.user.MobileNumber,
                 IsVerifyByAdmin = s.user.IsVerifyByAdmin,
                 EmploymentType = s.user.EmploymentType,
+                Skills = s.job.Skills,
+                EmploymentStatus = s.employeedetail.EmploymentStatus,
+                JobTitle = s.job.JobTitle,
+                Experience = s.job.Experience,
+                RolesAndResponsibilities = s.job.RolesAndResponsibilities,
+
+
                 EmployeeDetails = (from e in _dataContext.EmployeeDetails
-                                  where e.UserId == s.user.Id
-                                  select new EmployeeDetailDto 
-                                  {
-                                      Id = e.Id,
-                                      UserId = e.UserId,
-                                      MaritalStatus = e.MaritalStatus,
-                                      Gender = e.Gender,
-                                      DOB = e.DOB,
-                                      CountryId = e.CountryId,
-                                      StateId = e.StateId,
-                                      CityId = e.CityId,
-                                      ResumeURL = e.ResumeURL,
-                                      ProfileImgURL = e.ProfileImgURL,
-                                      IsAvailable = e.IsAvailable,
-                                      Hobby = e.Hobby,
-                                      PermanentAddress = e.PermanentAddress,
-                                      AlternateAddress = e.AlternateAddress,
-                                      Mobile = e.Mobile,
-                                      Phone = e.Phone,
-                                      AlternateEmail = e.AlternateEmail,
-                                      AlternatePhone = e.AlternatePhone,
-                                      EmergencyContactName = e.EmergencyContactName,
-                                      EmergencyContactNumber = e.EmergencyContactNumber,
-                                      CreatedOn = e.CreatedOn,
-                                      UpdatedOn = e.UpdatedOn,
-                                      Status = e.Status,
-                                  })
+                                   where e.UserId == s.user.Id
+                                   select new EmployeeDetailDto
+                                   {
+                                       Id = e.Id,
+                                       UserId = e.UserId,
+                                       MaritalStatus = e.MaritalStatus,
+                                       Gender = e.Gender,
+                                       DOB = e.DOB,
+                                       CountryId = e.CountryId,
+                                       StateId = e.StateId,
+                                       CityId = e.CityId,
+                                       ResumeURL = e.ResumeURL,
+                                       ProfileImgURL = e.ProfileImgURL,
+                                       IsAvailable = e.IsAvailable,
+                                       Hobby = e.Hobby,
+                                       PermanentAddress = e.PermanentAddress,
+                                       AlternateAddress = e.AlternateAddress,
+                                       Mobile = e.Mobile,
+                                       Phone = e.Phone,
+                                       AlternateEmail = e.AlternateEmail,
+                                       AlternatePhone = e.AlternatePhone,
+                                       EmergencyContactName = e.EmergencyContactName,
+                                       EmergencyContactNumber = e.EmergencyContactNumber,
+                                       CreatedOn = e.CreatedOn,
+                                       UpdatedOn = e.UpdatedOn,
+                                       Status = e.Status,
+                                   })
                                   .AsNoTracking()
                                   .ToList(),
             })
@@ -146,7 +182,6 @@ namespace FHP.datalayer.Repository.UserManagement
 
 
             return (data, totalCount);
-
         }
 
         public async Task<UserDetailDto> GetByIdAsync(int id)
@@ -381,5 +416,6 @@ namespace FHP.datalayer.Repository.UserManagement
             await _dataContext.SaveChangesAsync();
         }
 
+       
     }
 }
