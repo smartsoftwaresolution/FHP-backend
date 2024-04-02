@@ -11,7 +11,7 @@ namespace FHP.infrastructure.Manager.FHP
         Task<(List<EmployeeAvailabilityDetailDto> employeeAval, int totalCount)> GetAllAsync(int page ,int pageSize,string? search,int employeeId, Constants.EmployeeAvailability? employeeAvailability);
         Task<EmployeeAvailabilityDetailDto> GetByIdAsync(int id);
         Task<(List<EmployeeAvailabilityDetailDto> getallAval , int totalCount)> GetAllAvalibility(int page, int pageSize, string? search,int JobId, Constants.EmployeeAvailability? employeeAvailability);
-        Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId);
+        Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId,string? search, Constants.EmployeeAvailability? IsAvailable);
         Task<string> SetEmployeeAvalibility(SetEmployeeAvailabilityModel model);
         Task DeleteAsync(int id);
        // Task GetByJobId(int jobId);

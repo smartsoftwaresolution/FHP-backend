@@ -168,7 +168,7 @@ namespace FHP.Controllers.FHP
 
         //GetByEmployeeId 
         [HttpGet("GetByEmployeeId")] 
-        public async Task<IActionResult> GetByEmployeeIdAsync(int employeeId)
+        public async Task<IActionResult> GetByEmployeeIdAsync(int employeeId,string? search, Constants.EmployeeAvailability? IsAvailable)
         {
             if (!ModelState.IsValid)
             {
@@ -181,7 +181,7 @@ namespace FHP.Controllers.FHP
             try
             {
                 // Retrieve AdminSelectEmployee data by Employee Id from the manager.
-                var data = await _manager.GetByEmployeeIdAsync(employeeId);
+                var data = await _manager.GetByEmployeeIdAsync(employeeId,search, IsAvailable);
 
                 // Check if data is retrieved successfully.
                 if (data != null)

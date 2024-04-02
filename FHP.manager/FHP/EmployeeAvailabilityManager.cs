@@ -49,9 +49,9 @@ namespace FHP.manager.FHP
             return await _repository.GetAllAvalibility(page,pageSize,search,JobId,employeeAvailability);
         }
 
-        public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId)
+        public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId,  string? search, Constants.EmployeeAvailability? IsAvailable)
         {
-            return await _repository.GetByEmployeeIdAsync(employeeId);
+            return await _repository.GetByEmployeeIdAsync(employeeId,search,IsAvailable);
         }
         
         public async Task<string> SetEmployeeAvalibility(SetEmployeeAvailabilityModel model)
