@@ -204,27 +204,74 @@ namespace FHP.datalayer.Repository.FHP
                          
         }
 
-        public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId)
+        public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId, string? search, Constants.EmployeeAvailability? IsAvailable)
         {
-            return await (from s in _dataContext.EmployeeAvailabilities
-                          where s.Status != Constants.RecordStatus.Deleted &&
-                          s.EmployeeId == employeeId
 
-                          select new EmployeeAvailabilityDetailDto
-                          {
-                              Id = s.Id,
-                              UserId = s.UserId,
-                              JobId = s.JobId,
-                              EmployeeId = s.EmployeeId,
-                              IsAvailable = s.IsAvailable,
-                              CreatedOn = s.CreatedOn,
-                              Status = s.Status,
-                              AdminjobTitle = s.AdminJobTitle,
-                              AdminJobDescription = s.AdminJobDescription,
-                              UpdatedOn = s.UpdatedOn,
-                              
-                          }).AsNoTracking().OrderByDescending(s=> s.Id).ToListAsync();
-        }
+            var query = from s in _dataContext.EmployeeAvailabilities
+                        where s.Status != Constants.RecordStatus.Deleted 
+                        select s;
+
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.EmployeeId.ToString().Contains(search));
+            }
+
+
+            if (employeeId > 0)
+            {
+                query = query.Where(s => s.EmployeeId == employeeId);
+            }
+
+            if (IsAvailable != null)
+            {
+                query = query.Where(s => s.IsAvailable == IsAvailable);
+            }
+
+
+            var totalCount = await query.CountAsync();
+
+            query = query.OrderByDescending(s => s.Id);
+
+            var data = await query.Select(s => new EmployeeAvailabilityDetailDto
+            {
+                Id = s.Id,
+                UserId = s.UserId,
+                JobId = s.JobId,
+                EmployeeId = s.EmployeeId,
+                IsAvailable = s.IsAvailable,
+                CreatedOn = s.CreatedOn,
+                Status = s.Status,
+                AdminjobTitle = s.AdminJobTitle,
+                AdminJobDescription = s.AdminJobDescription,
+                UpdatedOn = s.UpdatedOn,
+            }).AsNoTracking().ToListAsync();
+
+            return data;
+            
+
+
+                /*return await (from s in _dataContext.EmployeeAvailabilities
+                              where s.Status != Constants.RecordStatus.Deleted &&
+                              s.EmployeeId == employeeId
+
+
+
+                              select new EmployeeAvailabilityDetailDto
+                              {
+                                  Id = s.Id,
+                                  UserId = s.UserId,
+                                  JobId = s.JobId,
+                                  EmployeeId = s.EmployeeId,
+                                  IsAvailable = s.IsAvailable,
+                                  CreatedOn = s.CreatedOn,
+                                  Status = s.Status,
+                                  AdminjobTitle = s.AdminJobTitle,
+                                  AdminJobDescription = s.AdminJobDescription,
+                                  UpdatedOn = s.UpdatedOn,
+
+                              }).AsNoTracking().OrderByDescending(s=> s.Id).ToListAsync();*/
+            }
 
         public async Task DeleteAsync(int id)
         {
