@@ -86,6 +86,7 @@ namespace FHP.datalayer.Repository.FHP
                 CreatedOn = s.contract.CreatedOn,
                 UpdatedOn = s.contract.UpdatedOn,
                 Status = s.contract.Status,
+                Title = s.contract.Title,
             }).AsNoTracking().ToListAsync();
 
             return (data, totalCount);
@@ -115,6 +116,7 @@ namespace FHP.datalayer.Repository.FHP
                        CreatedOn = s.CreatedOn,
                        UpdatedOn = s.UpdatedOn,
                        Status = s.Status,
+                       Title = s.Title,
                    }).AsNoTracking().FirstOrDefaultAsync();
         }
 

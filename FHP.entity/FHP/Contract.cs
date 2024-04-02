@@ -14,6 +14,7 @@ namespace FHP.entity.FHP
         public int JobId { get; set; }
         public int EmployerId { get; set; }
         public DateTime Duration { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public string EmployeeSignature { get; set; }
         public string EmployerSignature { get; set; }

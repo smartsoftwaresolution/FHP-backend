@@ -5,6 +5,8 @@ using FHP.utilities;
 using FHP.dtos.FHP;
 using FHP.dtos.UserManagement.User;
 using FHP.dtos.FHP.EmployeeDetail;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Castle.Core.Internal;
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -184,9 +186,166 @@ namespace FHP.datalayer.Repository.UserManagement
             return (data, totalCount);
         }
 
+        public async Task<double> CalculateUserPercentage(int userId)
+        {
+            int totalProperties = 6;
+            int fulfilledProperties = 0;
+            var data = await _dataContext.User.Where(s => s.Id == userId).FirstOrDefaultAsync();
+            var role = await _dataContext.UserRole.Where(s => s.Id == data.RoleId).FirstOrDefaultAsync();
+
+            if (role.RoleName.ToLower().Contains("employee"))
+            {
+                totalProperties--;
+                if (!string.IsNullOrEmpty(data.GovernmentId)) fulfilledProperties++;
+
+            }
+
+            if (!string.IsNullOrEmpty(data.FirstName)) fulfilledProperties++;
+            if (!string.IsNullOrEmpty(data.LastName)) fulfilledProperties++;
+            if (!string.IsNullOrEmpty(data.Email)) fulfilledProperties++;
+            if (!string.IsNullOrEmpty(data.MobileNumber)) fulfilledProperties++;
+
+
+            if (role.RoleName.ToLower().Contains("employer"))
+            {
+                if (!string.IsNullOrEmpty(data.GovernmentId)) fulfilledProperties++;
+            }
+
+            // Calculate percentage based on the actual profile detail
+            double percentage = (double)fulfilledProperties / totalProperties * 100;
+
+          
+            return Math.Round(percentage, 2); // Round to two decimal places
+
+           
+        }
+
+
+        public async Task<double> CalculateEmployeeDetailPercentage(int userId)
+        {
+            int totalProperties = 17;
+            int fulfilledProperties = 0;
+            var data = await _dataContext.EmployeeDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+
+            if (data != null)
+            {
+
+
+
+                if (!string.IsNullOrEmpty(data.MaritalStatus)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.Gender)) fulfilledProperties++;
+                if (data.DOB != null) fulfilledProperties++;
+                if (data.CountryId != null) fulfilledProperties++;
+                if (data.StateId != null) fulfilledProperties++;
+                if (data.CityId != null) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.ResumeURL)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.ProfileImgURL)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.Hobby)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.PermanentAddress)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.AlternateAddress)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.Mobile)) fulfilledProperties++;
+                if (data.Phone != null) fulfilledProperties++;
+                if (data.AlternatePhone != null) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.AlternateEmail)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.EmergencyContactName)) fulfilledProperties++;
+                if (data.EmergencyContactNumber != null) fulfilledProperties++;
+
+
+
+                // Calculate percentage based on the actual profile detail
+                double percentage = (double)fulfilledProperties / totalProperties * 100;
+
+
+                return Math.Round(percentage, 2); // Round to two decimal places
+            }
+            return 0.0;
+
+        }
+
+
+        public async Task<double> CalculateEmployeeEducationalDetailPercentage(int userId)
+        {
+            int totalProperties = 5;
+            int fulfilledProperties = 0;
+            var data = await _dataContext.EmployeeEducationalDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+
+            if (data != null)
+            {
+
+
+
+                if (!string.IsNullOrEmpty(data.Education)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.NameOfBoardOrUniversity)) fulfilledProperties++;
+                if (data.YearOfCompletion != 0) fulfilledProperties++;
+                if (data.MarksObtained != null) fulfilledProperties++;
+                if (data.GPA != 0.0) fulfilledProperties++;
+
+
+
+                // Calculate percentage based on the actual profile detail
+                double percentage = (double)fulfilledProperties / totalProperties * 100;
+
+
+                return Math.Round(percentage, 2); // Round to two decimal places
+
+            }
+            return 0.0;
+        }
+
+        public async Task<double> CalculateEmployeeProfessionalDetailPercentage(int userId)
+        {
+            int totalProperties = 8;
+            int fulfilledProperties = 0;
+            var data = await _dataContext.EmployeeProfessionalDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+
+            if (data != null)
+            {
+
+
+                if (!string.IsNullOrEmpty(data.JobDescription)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.StartDate)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.EndDate)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.CompanyName)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.CompanyLocation)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.Designation)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.EmploymentStatus)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.YearsOfExperience)) fulfilledProperties++;
+
+
+
+                // Calculate percentage based on the actual profile detail
+                double percentage = (double)fulfilledProperties / totalProperties * 100;
+
+
+                return Math.Round(percentage, 2); // Round to two decimal places
+            }
+            return 0.0;
+
+        }
+        public async Task<double> CalculateEmployeeSkillDetailPercentage(int userId)
+        {
+            int totalProperties = 1;
+            int fulfilledProperties = 0;
+            var data = await _dataContext.EmployeeSkillDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+
+            if (data != null)
+            {
+
+
+                if (data.SkillId != 0) fulfilledProperties++;
+
+                // Calculate percentage based on the actual profile detail
+                double percentage = (double)fulfilledProperties / totalProperties * 100;
+
+
+                return Math.Round(percentage, 2); // Round to two decimal places
+            }
+            return 0.0;
+
+        }
         public async Task<UserDetailDto> GetByIdAsync(int id)
         {
-
+           
             return await (from s in _dataContext.User
                           join t in _dataContext.UserRole
                          on s.RoleId equals t.Id
