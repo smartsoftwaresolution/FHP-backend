@@ -36,7 +36,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<(List<OfferDetailDto> offer, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
         {
 
-            var query = from s in _dataContext.Offers
+            var query = from  s in _dataContext.Offers
                         where s.Status != Constants.RecordStatus.Deleted
                         select new { offer = s };
 
@@ -82,18 +82,20 @@ namespace FHP.datalayer.Repository.FHP
                           s.Id == id
 
                           select new OfferDetailDto
-                          {
-                              Id = s.Id,
-                              JobId = s.JobId,
-                              EmployeeId = s.EmployeeId,
-                              EmployerId = s.EmployerId,
-                              Title = s.Title,
-                              Description = s.Description,
-                              IsAccepted = s.IsAccepted,
-                              Status = s.Status,
-                              CreatedOn = s.CreatedOn,
-                              UpdatedOn = s.UpdatedOn,
-                          }).AsNoTracking().FirstOrDefaultAsync();
+                                                   {
+                                                      Id = s.Id,
+                                                      JobId = s.JobId,
+                                                      EmployeeId = s.EmployeeId,
+                                                      EmployerId = s.EmployerId,
+                                                      Title = s.Title,
+                                                      Description = s.Description,
+                                                      IsAccepted = s.IsAccepted,
+                                                      Status = s.Status,
+                                                      CreatedOn = s.CreatedOn,
+                                                      UpdatedOn = s.UpdatedOn,
+                                                   })
+                                                  .AsNoTracking()
+                                                  .FirstOrDefaultAsync();
         }
 
         public async Task DeleteAsync(int id)

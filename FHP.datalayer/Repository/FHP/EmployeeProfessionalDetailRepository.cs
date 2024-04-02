@@ -3,6 +3,7 @@ using FHP.entity.FHP;
 using FHP.factories.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -41,13 +42,32 @@ namespace FHP.datalayer.Repository.FHP
 
 
 
-        public async Task<(List<EmployeeProfessionalDetailDto> employeeProfessionalDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search)
+        public async Task<(List<EmployeeProfessionalDetailDto> employeeProfessionalDetail, int totalCount)> GetAllAsync(int page, int pageSize,int userId, string? search, string? jobDescription, string? designation, string? yearOfExperience)
         {
             var query = from s in _dataContext.EmployeeProfessionalDetails
-                        where s.Status != utilities.Constants.RecordStatus.Deleted
-                        select new { employeeProfessionalDetail =s  };
+                        where s.Status != Constants.RecordStatus.Deleted
+                        select new { employeeProfessionalDetail = s  };
 
 
+            if(jobDescription != null)
+            {
+                query = query.Where(s => s.employeeProfessionalDetail.JobDescription == jobDescription);
+            }
+
+            if(designation != null)
+            {
+                query = query.Where(s => s.employeeProfessionalDetail.Designation == designation);  
+            }
+
+            if(yearOfExperience != null)
+            {
+                query = query.Where(s => s.employeeProfessionalDetail.YearsOfExperience == yearOfExperience);
+            }
+
+            if (userId > 0)
+            {
+                query = query.Where(s => s.employeeProfessionalDetail.UserId == userId);
+            }
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -58,14 +78,6 @@ namespace FHP.datalayer.Repository.FHP
             }
 
 
-
-            if (userId > 0)
-            {
-                query = query.Where(s => s.employeeProfessionalDetail.UserId == userId);
-            }
-
-         
-
             var totalCount = await query.CountAsync();
 
             query = query.OrderByDescending(s => s.employeeProfessionalDetail.Id);
@@ -73,7 +85,7 @@ namespace FHP.datalayer.Repository.FHP
 
             if (page > 0 && pageSize > 0)
             {
-                query=query.Skip((page-1)*pageSize).Take(pageSize); 
+                query = query.Skip((page - 1) * pageSize).Take(pageSize); 
             }
 
 
@@ -125,7 +137,7 @@ namespace FHP.datalayer.Repository.FHP
         public async Task DeleteAsync(int id)
         {
             var data = await _dataContext.EmployeeProfessionalDetails.Where(s => s.Id == id).FirstOrDefaultAsync();
-            data.Status=Constants.RecordStatus.Deleted;
+            data.Status = Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
         }

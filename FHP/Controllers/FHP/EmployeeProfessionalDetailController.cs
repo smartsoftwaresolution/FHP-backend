@@ -125,7 +125,7 @@ namespace FHP.Controllers.FHP
 
         // Get All EmployeeProfessionalDetail 
         [HttpGet("getall-pagination")] 
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,int userId,string? search)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,int userId,string? search, string? jobDescription, string? designation, string? yearOfExperience)
         {
             if (!ModelState.IsValid)
             {
@@ -137,7 +137,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                var data = await _manager.GetAllAsync(page, pageSize,userId, search);
+                var data = await _manager.GetAllAsync(page, pageSize,userId, search,jobDescription,designation,yearOfExperience);
                 if(data.employeeProfessionalDetail != null)
                 {
                     response.StatusCode = 200;
