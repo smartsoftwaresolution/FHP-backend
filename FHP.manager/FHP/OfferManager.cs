@@ -23,9 +23,9 @@ namespace FHP.manager.FHP
         
         public async Task Edit(AddOfferModel model)
         {
-           var data = await _repository.GetAsync(model.Id);
-            OfferFactory.update(data, model);
-            _repository.Edit(data);
+             var data = await _repository.GetAsync(model.Id);
+             OfferFactory.update(data, model);
+             _repository.Edit(data);
         }
 
         public async Task<(List<OfferDetailDto> offer, int totalCount)> GetAllAsync(int page, int pageSize, string? search)

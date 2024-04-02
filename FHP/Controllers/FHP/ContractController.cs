@@ -1,12 +1,9 @@
-﻿using DocumentFormat.OpenXml.ExtendedProperties;
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.Contract;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NAudio.Midi;
 
 namespace FHP.Controllers.FHP
 {
@@ -124,8 +121,8 @@ namespace FHP.Controllers.FHP
 
         // Get All Contract with Pagination and search filter
         [HttpGet("getall-pagination")] 
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
-        {
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int employeeId)
+         {
             if (!ModelState.IsValid)
             {
                 //it returns a BadRequest response with a list of errors.
@@ -138,17 +135,17 @@ namespace FHP.Controllers.FHP
             {
 
                 // Retrieve data from the manager based on pagination parameters.
-                var data = await _manager.GetAllAsync(page,pageSize,search);
+                var data = await _manager.GetAllAsync(page,pageSize,search,employeeId);
 
                 // Check if data is retrieved successfully.
-                if (data.contract != null)
+                if (data.contract != null && data.totalCount > 0)
                 {
                     response.StatusCode = 200;
                     response.Data = data.contract;
                     response.TotalCount = data.totalCount;
                     return Ok(response);
                 }
-
+                
                 // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.error;

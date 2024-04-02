@@ -26,11 +26,18 @@ namespace FHP.dtos.UserManagement.User
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
 
+        public string Skills { get; set; }
+        public string Experience { get; set; }
+        public string JobTitle { get; set; }
+        public string RolesAndResponsibilities { get; set; }
+        public string EmploymentStatus { get; set; }
+
         public List<EmployeeDetailDto>? EmployeeDetails { get; set; }
         public string ProfileImg { get; set; }
         public string MobileNumber { get; set; }
         public bool? IsVerifyByAdmin { get; set; }
         public int? Otp { get; set; }
         public string EmploymentType { get; set; }
+
     }
 }

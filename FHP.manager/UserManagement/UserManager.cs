@@ -31,9 +31,9 @@ namespace FHP.manager.UserManagement
             _repository.Edit(data);
         }
 
-        public async Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page ,int pageSize,string? search,string? roleName,bool isAscending)
+        public async Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page ,int pageSize,string? search,string? roleName,bool isAscending, string? skills, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities)
         {
-            return await _repository.GetAllAsync(page,pageSize,search,roleName,isAscending);
+            return await _repository.GetAllAsync(page,pageSize,search,roleName,isAscending,skills,experience,employmentStatus,jobTitle,rolesAndResponsibilities);
         }
 
         public async Task<UserDetailDto> GetByIdAsync(int id)

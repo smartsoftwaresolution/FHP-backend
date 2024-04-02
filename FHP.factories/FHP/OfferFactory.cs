@@ -21,7 +21,7 @@ namespace FHP.factories.FHP
                 Title = model.Title,
                 Description = model.Description,
                 IsAccepted = model.IsAccepted,
-                Status = utilities.Constants.RecordStatus.Active,
+                Status = Constants.RecordStatus.Active,
                 CreatedOn = Utility.GetDateTime(),
             };
 

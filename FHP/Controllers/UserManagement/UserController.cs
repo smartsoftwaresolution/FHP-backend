@@ -182,7 +182,7 @@ namespace FHP.Controllers.UserManagement
 
         // get all User with pagination,based on roleName,sorting and searching
         [HttpGet("getall-pagination")] 
-        public async Task<IActionResult> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending)
+        public async Task<IActionResult> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending, string? skills,string? employmentStatus,string? experience,string? jobTitle,string? rolesAndResponsibilities)
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)
@@ -197,7 +197,7 @@ namespace FHP.Controllers.UserManagement
             try
             {
                 // Retrieve data from the manager based on pagination parameters.
-                var data = await _manager.GetAllAsync(page, pageSize, search, roleName,isAscending);
+                var data = await _manager.GetAllAsync(page, pageSize, search, roleName,isAscending,skills,employmentStatus,experience,jobTitle,rolesAndResponsibilities);
 
                 if (data.user != null)
                 {

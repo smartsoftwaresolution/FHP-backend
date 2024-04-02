@@ -129,10 +129,11 @@ namespace FHP.Controllers.FHP
             }
         }
 
-
+        // API endpoint to get all Offer 
         [HttpGet("getall-pagination")]
         public async Task<IActionResult> GetAllAsync(int page, int pageSize,string? search)
         {
+            // If the model state is not valid, return a BadRequest response with a list of errors.
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.GetErrorList());
@@ -144,7 +145,7 @@ namespace FHP.Controllers.FHP
             {
                 var data = await _manager.GetAllAsync(page,pageSize,search);
 
-                if(data.offer != null)
+                if(data.offer != null && data.totalCount > 0)
                 {
                     response.StatusCode = 200;
                     response.Data = data.offer;
@@ -208,7 +209,7 @@ namespace FHP.Controllers.FHP
 
         }
 
-        //API Endpoint for deleting an employee by ID
+        //API Endpoint for deleting an Offer by ID
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -234,7 +235,7 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                // Calls the manager to asynchronously delete the employee by ID
+                // Calls the manager to asynchronously delete the Offer by ID
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
