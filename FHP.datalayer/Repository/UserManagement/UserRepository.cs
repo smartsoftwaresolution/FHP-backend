@@ -45,11 +45,14 @@ namespace FHP.datalayer.Repository.UserManagement
         {
             var query = from s in _dataContext.User
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
-                        join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.Id
-                        join j in _dataContext.JobPostings on s.Id equals j.Id
+
+                        join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
+                        from ed in empDetails.DefaultIfEmpty()
+                        join j in _dataContext.JobPostings on s.Id equals j.UserId into jobPosting
+                        from jd in jobPosting.DefaultIfEmpty()
 
                         where s.Status != Constants.RecordStatus.Deleted
-                        select new { user = s, t, employeedetail = e, job = j };
+                        select new { user = s, t, employeedetail = ed, job = jd };
 
 
 
