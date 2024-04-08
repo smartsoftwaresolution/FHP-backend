@@ -41,5 +41,7 @@ namespace FHP.dtos.FHP.EmployeeDetail
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public Constants.RecordStatus Status { get; set; }
+
+
     }
 }
