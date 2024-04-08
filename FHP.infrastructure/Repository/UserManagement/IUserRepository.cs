@@ -30,6 +30,10 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task AddFCMToken(FCMToken entity);
 
         Task RemoveFCMToken(int userId, string fcmToken);
-
+        Task<double> CalculateUserPercentage(int userId);
+        Task<double> CalculateEmployeeDetailPercentage(int userId);
+        Task<double> CalculateEmployeeEducationalDetailPercentage(int userId);
+        Task<double> CalculateEmployeeProfessionalDetailPercentage(int userId);
+        Task<double> CalculateEmployeeSkillDetailPercentage(int userId);
     }
 }

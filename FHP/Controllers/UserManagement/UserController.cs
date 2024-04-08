@@ -505,5 +505,47 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        [HttpGet("profile-percentage")]
+        public async Task<IActionResult> GetProfilePercentageByUserIdAsync(int userId)
+        {
+            // Checks if the model state is valid
+            if (!ModelState.IsValid)
+            {
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+
+                double data = await _manager.ProfilePercentage(userId);
+
+                // Checks if data is found
+                if (data != 0.0)
+                {
+                    // Sets StatusCode to 200 indicating success
+                    response.StatusCode = 200;
+                    response.Data = data;
+
+                    // Returns Ok response with the success message
+                    return Ok(response);
+                }
+
+                response.StatusCode = 400;
+                response.Message = Constants.error;
+
+                // Returns BadRequest response with the error message
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
     }
 }
