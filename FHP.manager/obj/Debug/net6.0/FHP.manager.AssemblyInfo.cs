@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FHP.manager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+758c56d9872985456775a471497097578609d47e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ffcfc0af6fde0cd98f3bd86547575da0d7cc93c0")]
 [assembly: System.Reflection.AssemblyProductAttribute("FHP.manager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FHP.manager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
