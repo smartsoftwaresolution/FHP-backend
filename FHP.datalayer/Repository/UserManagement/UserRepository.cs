@@ -48,6 +48,7 @@ namespace FHP.datalayer.Repository.UserManagement
 
                         join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
                         from ed in empDetails.DefaultIfEmpty()
+
                         join j in _dataContext.JobPostings on s.Id equals j.UserId into jobPosting
                         from jd in jobPosting.DefaultIfEmpty()
 
@@ -86,14 +87,16 @@ namespace FHP.datalayer.Repository.UserManagement
                 query = query.Where(s => s.job.Skills == skills);
             }
 
-            if (employmentStatus != null)
-            {
-                query = query.Where(s => s.employeedetail.EmploymentStatus == employmentStatus);
-            }
+            
 
             if (experience != null)
             {
                 query = query.Where(s => s.job.Experience == experience);
+            }
+
+            if (employmentStatus != null)
+            {
+                query = query.Where(s => s.employeedetail.EmploymentStatus == employmentStatus);
             }
 
             if (jobTitle != null)
