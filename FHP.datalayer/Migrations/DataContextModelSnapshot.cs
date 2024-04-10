@@ -426,6 +426,8 @@ namespace FHP.datalayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("EmployeeProfessionalDetail", (string)null);
                 });
 
@@ -643,6 +645,8 @@ namespace FHP.datalayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("JobPosting", (string)null);
                 });
@@ -1340,6 +1344,17 @@ namespace FHP.datalayer.Migrations
                     b.Navigation("City");
                 });
 
+            modelBuilder.Entity("FHP.entity.FHP.EmployeeProfessionalDetail", b =>
+                {
+                    b.HasOne("FHP.entity.UserManagement.User", "User")
+                        .WithMany("ProfessionalDetails")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("FHP.entity.FHP.EmployerDetail", b =>
                 {
                     b.HasOne("FHP.entity.UserManagement.City", "City")
@@ -1349,6 +1364,17 @@ namespace FHP.datalayer.Migrations
                         .IsRequired();
 
                     b.Navigation("City");
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.JobPosting", b =>
+                {
+                    b.HasOne("FHP.entity.UserManagement.User", "User")
+                        .WithMany("JobPosts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FHP.entity.FHP.JobSkillDetail", b =>
@@ -1484,6 +1510,13 @@ namespace FHP.datalayer.Migrations
             modelBuilder.Entity("FHP.entity.FHP.JobPosting", b =>
                 {
                     b.Navigation("JobSkillDetails");
+                });
+
+            modelBuilder.Entity("FHP.entity.UserManagement.User", b =>
+                {
+                    b.Navigation("JobPosts");
+
+                    b.Navigation("ProfessionalDetails");
                 });
 #pragma warning restore 612, 618
         }

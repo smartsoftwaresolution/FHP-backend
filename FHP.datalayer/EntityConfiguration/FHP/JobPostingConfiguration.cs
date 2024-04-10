@@ -46,6 +46,11 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.AdminJobTitle).IsRequired(false);
             builder.Property(x => x.AdminJobDescription).IsRequired(false);
             builder.Property(x => x.EmploymentType).IsRequired();
+
+            builder.HasOne(x => x.User)
+            .WithMany(c => c.JobPosts)
+            .HasForeignKey(cf => cf.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 
