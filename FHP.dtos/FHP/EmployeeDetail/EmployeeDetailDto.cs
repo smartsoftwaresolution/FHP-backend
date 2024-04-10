@@ -43,5 +43,6 @@ namespace FHP.dtos.FHP.EmployeeDetail
         public Constants.RecordStatus Status { get; set; }
 
 
+
     }
 }
