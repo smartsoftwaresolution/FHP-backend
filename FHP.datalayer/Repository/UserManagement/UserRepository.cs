@@ -2,11 +2,10 @@
 using FHP.infrastructure.Repository.UserManagement;
 using Microsoft.EntityFrameworkCore;
 using FHP.utilities;
-using FHP.dtos.FHP;
 using FHP.dtos.UserManagement.User;
 using FHP.dtos.FHP.EmployeeDetail;
 using DocumentFormat.OpenXml.Office2010.Excel;
-using Castle.Core.Internal;
+using System.Linq.Dynamic.Core;
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -46,13 +45,13 @@ namespace FHP.datalayer.Repository.UserManagement
             var query = from s in _dataContext.User
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
 
-                        join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
-                        from ed in empDetails.DefaultIfEmpty()
-
                         join j in _dataContext.JobPostings on s.Id equals j.UserId into jobPosting
                         from jd in jobPosting.DefaultIfEmpty()
 
-                        where s.Status != Constants.RecordStatus.Deleted
+                        join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
+                        from ed in empDetails.DefaultIfEmpty()
+
+                        where s.Status != Constants.RecordStatus.Deleted 
                         select new { user = s, t, employeedetail = ed, job = jd };
 
 
@@ -127,6 +126,8 @@ namespace FHP.datalayer.Repository.UserManagement
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
 
+          
+
             var data = await query.Select(s => new UserDetailDto
             {
                 Id = s.user.Id,
@@ -187,7 +188,6 @@ namespace FHP.datalayer.Repository.UserManagement
             })
             .AsNoTracking()
             .ToListAsync();
-
 
             return (data, totalCount);
         }
