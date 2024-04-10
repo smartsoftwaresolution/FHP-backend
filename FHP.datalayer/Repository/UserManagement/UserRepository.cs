@@ -5,13 +5,11 @@ using FHP.utilities;
 using FHP.dtos.UserManagement.User;
 using FHP.dtos.FHP.EmployeeDetail;
 using DocumentFormat.OpenXml.Office2010.Excel;
-<<<<<<< HEAD
+
 using Castle.Core.Internal;
 using DocumentFormat.OpenXml.Drawing.ChartDrawing;
 using FHP.dtos.FHP.JobPosting;
-=======
 using System.Linq.Dynamic.Core;
->>>>>>> 131181990a470b70733a47a5e7feb72aba819a57
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -51,27 +49,18 @@ namespace FHP.datalayer.Repository.UserManagement
             var query = from s in _dataContext.User
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
 
-<<<<<<< HEAD
                         /*join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
                         from ed in empDetails.DefaultIfEmpty()*/
                       /*  join j in _dataContext.JobPostings on s.Id equals j.UserId into jobPosting
                         from jd in jobPosting.DefaultIfEmpty()*/
 
                         where s.Status != Constants.RecordStatus.Deleted
-                        select new { user = s, t,job = s.JobPosts/*, employeedetail = ed*/ };
-=======
-                        join j in _dataContext.JobPostings on s.Id equals j.UserId into jobPosting
-                        from jd in jobPosting.DefaultIfEmpty()
+                        select new { user = s, t,job = s.JobPosts,professional = s.ProfessionalDetails/*, employeedetail = ed*/ };
 
-                        join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
-                        from ed in empDetails.DefaultIfEmpty()
-
-                        where s.Status != Constants.RecordStatus.Deleted 
-                        select new { user = s, t, employeedetail = ed, job = jd };
->>>>>>> 131181990a470b70733a47a5e7feb72aba819a57
+                        
 
 
-
+            
             
 
             if (!string.IsNullOrEmpty(search))
@@ -102,24 +91,24 @@ namespace FHP.datalayer.Repository.UserManagement
                 query = query.Where(s => s.user.JobPosts.Any( r=> r.Skills == skills));
             }
 
-<<<<<<< HEAD
+
             if (employmentStatus != null)
             {
                 query = query.Where(s => s.user.ProfessionalDetails.Any(y=> y.EmploymentStatus == employmentStatus));
             }
-=======
+
             
->>>>>>> 131181990a470b70733a47a5e7feb72aba819a57
+
 
             if (experience != null)
             {
                 query = query.Where(s => /*s.job.Experience == experience */  s.user.JobPosts.Any(t => t.Experience == experience));
             }
 
-            if (employmentStatus != null)
+            /*if (employmentStatus != null)
             {
                 query = query.Where(s => s.employeedetail.EmploymentStatus == employmentStatus);
-            }
+            }*/
 
             if (jobTitle != null)
             {
@@ -169,7 +158,7 @@ namespace FHP.datalayer.Repository.UserManagement
                 MobileNumber = s.user.MobileNumber,
                 IsVerifyByAdmin = s.user.IsVerifyByAdmin,
                 EmploymentType = s.user.EmploymentType,
-                EmploymentStatus = _dataContext.EmployeeProfessionalDetails.Where( r=> r.UserId == s.user.Id).Select( n => n.EmploymentStatus).ToString() ?? "",
+                EmploymentStatus =  _dataContext.EmployeeProfessionalDetails.Where( r=> r.UserId == s.user.Id).Select( n => n.EmploymentStatus).ToString() ?? "",
                 // EmploymentStatus = s.employeedetail.EmploymentStatus,
                 /* Skills = s.job.Skills,
                  JobTitle = s.job.JobTitle,
