@@ -1,5 +1,6 @@
 ﻿using FHP.dtos.FHP;
 using FHP.dtos.FHP.EmployeeDetail;
+using FHP.dtos.FHP.JobPosting;
 using FHP.utilities;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace FHP.dtos.UserManagement.User
         public string JobTitle { get; set; }
         public string RolesAndResponsibilities { get; set; }
         public string EmploymentStatus { get; set; }
+        public List<JobPostingDto> JobPostingDetail { get; set; }
 
         public List<EmployeeDetailDto>? EmployeeDetails { get; set; }
         public string ProfileImg { get; set; }

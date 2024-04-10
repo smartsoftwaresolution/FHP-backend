@@ -51,9 +51,9 @@ namespace FHP.datalayer.Repository.FHP
             }
             var query = from s in _dataContext.JobPostings
                         join u in _dataContext.User on s.UserId equals u.Id
-                        join e in _dataContext.EmployeeAvailabilities on s.Id equals e.EmployeeId
+                      //  join e in _dataContext.EmployeeAvailabilities on s.Id equals e.EmployeeId
                         where s.Status != Constants.RecordStatus.Deleted 
-                        select new { jobPosting = s , employer = u, employee = e};
+                        select new { jobPosting = s , employer = u,/* employee = e*/};
 
 
             if(!string.IsNullOrEmpty(search))
@@ -110,7 +110,7 @@ namespace FHP.datalayer.Repository.FHP
                 UpdatedOn = s.jobPosting.UpdatedOn,
                 Status = s.jobPosting.Status,
                 JobStatus = s.jobPosting.JobStatus,
-                EmployeeId = s.employee.EmployeeId,
+                EmployeeId = s.employer.Id,
                 EmployerName = s.employer.FirstName + " " + s.employer.LastName,
                 JobProcessingStatus = s.jobPosting.JobProcessingStatus,
                 EmploymentType=s.jobPosting.EmploymentType,

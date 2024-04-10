@@ -216,7 +216,8 @@ namespace FHP.Controllers.FHP
                 }
 
                 response.StatusCode = 400;
-                response.Message = Constants.error;
+                response.Message = "no data avaiable";
+                response.Data = "";
                 return BadRequest(response);
             }
             catch (Exception ex)

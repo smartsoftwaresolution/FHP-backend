@@ -7,6 +7,8 @@ using FHP.dtos.UserManagement.User;
 using FHP.dtos.FHP.EmployeeDetail;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Castle.Core.Internal;
+using DocumentFormat.OpenXml.Drawing.ChartDrawing;
+using FHP.dtos.FHP.JobPosting;
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -46,13 +48,13 @@ namespace FHP.datalayer.Repository.UserManagement
             var query = from s in _dataContext.User
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
 
-                        join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
-                        from ed in empDetails.DefaultIfEmpty()
-                        join j in _dataContext.JobPostings on s.Id equals j.UserId into jobPosting
-                        from jd in jobPosting.DefaultIfEmpty()
+                        /*join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
+                        from ed in empDetails.DefaultIfEmpty()*/
+                      /*  join j in _dataContext.JobPostings on s.Id equals j.UserId into jobPosting
+                        from jd in jobPosting.DefaultIfEmpty()*/
 
                         where s.Status != Constants.RecordStatus.Deleted
-                        select new { user = s, t, employeedetail = ed, job = jd };
+                        select new { user = s, t,job = s.JobPosts/*, employeedetail = ed*/ };
 
 
 
@@ -83,27 +85,27 @@ namespace FHP.datalayer.Repository.UserManagement
 
             if (skills != null)
             {
-                query = query.Where(s => s.job.Skills == skills);
+                query = query.Where(s => s.user.JobPosts.Any( r=> r.Skills == skills));
             }
 
             if (employmentStatus != null)
             {
-                query = query.Where(s => s.employeedetail.EmploymentStatus == employmentStatus);
+                query = query.Where(s => s.user.ProfessionalDetails.Any(y=> y.EmploymentStatus == employmentStatus));
             }
 
             if (experience != null)
             {
-                query = query.Where(s => s.job.Experience == experience);
+                query = query.Where(s => /*s.job.Experience == experience */  s.user.JobPosts.Any(t => t.Experience == experience));
             }
 
             if (jobTitle != null)
             {
-                query = query.Where(s => s.job.JobTitle == jobTitle);
+                query = query.Where(s => /*s.job.JobTitle == jobTitle &&*/ s.user.JobPosts.Any(t => t.JobTitle == jobTitle));
             }
 
             if (rolesAndResponsibilities != null)
             {
-                query = query.Where(s => s.job.RolesAndResponsibilities == rolesAndResponsibilities);
+                query = query.Where(s => /*s.job.RolesAndResponsibilities == rolesAndResponsibilities &&*/ s.user.JobPosts.Any(t => t.RolesAndResponsibilities == rolesAndResponsibilities));
             }
 
             var totalCount = await query.CountAsync();
@@ -111,9 +113,7 @@ namespace FHP.datalayer.Repository.UserManagement
             if (isAscending == true)
             {
                 query = query.OrderBy(s => s.user.Id);
-
             }
-
             else
             {
                 query = query.OrderByDescending(s => s.user.Id);
@@ -144,12 +144,22 @@ namespace FHP.datalayer.Repository.UserManagement
                 MobileNumber = s.user.MobileNumber,
                 IsVerifyByAdmin = s.user.IsVerifyByAdmin,
                 EmploymentType = s.user.EmploymentType,
-                Skills = s.job.Skills,
-                EmploymentStatus = s.employeedetail.EmploymentStatus,
-                JobTitle = s.job.JobTitle,
-                Experience = s.job.Experience,
-                RolesAndResponsibilities = s.job.RolesAndResponsibilities,
+                EmploymentStatus = _dataContext.EmployeeProfessionalDetails.Where( r=> r.UserId == s.user.Id).Select( n => n.EmploymentStatus).ToString() ?? "",
+                // EmploymentStatus = s.employeedetail.EmploymentStatus,
+                /* Skills = s.job.Skills,
+                 JobTitle = s.job.JobTitle,
+                 Experience = s.job.Experience,
+                 RolesAndResponsibilities = s.job.RolesAndResponsibilities,*/
 
+                JobPostingDetail = (from j in _dataContext.JobPostings
+                                    where j.UserId == s.user.Id
+                                    select new JobPostingDto
+                                    {
+                                        Skills = j.Skills,
+                                        JobTitle = j.JobTitle,
+                                        RolesAndResponsibilities = j.RolesAndResponsibilities,
+                                        Experience = j.Experience,
+                                    }).ToList(),
 
                 EmployeeDetails = (from e in _dataContext.EmployeeDetails
                                    where e.UserId == s.user.Id
