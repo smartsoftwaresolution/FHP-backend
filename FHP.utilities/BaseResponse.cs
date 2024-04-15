@@ -25,6 +25,7 @@ namespace FHP.utilities
         {
             public int StatusCode { get; set; }
             public T Data { get; set; }
+            public List<T> Dataa { get; set; }
             public int TotalCount { get; set; }
             public string Message { get; set; }
         }
@@ -51,7 +52,8 @@ namespace FHP.utilities
             public string Message { get; set; }
         }
 
-        public class BaseResponseAdd
+
+         public class BaseResponseAdd
         {
             public int StatusCode { get; set; }
            

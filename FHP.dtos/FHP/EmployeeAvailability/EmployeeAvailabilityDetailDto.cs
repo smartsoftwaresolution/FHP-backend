@@ -18,6 +18,7 @@ namespace FHP.dtos.FHP.EmployeeAvailability
         public string LastName { get; set; }
         public string Email { get; set; }
         public string MobileNumber {  get; set; }
+        public string ProfileImg { get; set; }
         public Constants.EmployeeAvailability IsAvailable { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }

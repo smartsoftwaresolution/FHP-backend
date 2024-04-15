@@ -37,7 +37,7 @@ namespace FHP.datalayer.Repository.FHP
             return  await _dataContext.Contracts.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<(List<ContractDetailDto> contract, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int employeeId)
+        public async Task<(List<ContractDetailDto> contract, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int employeeId, int employerId)
         {
             var query = from s in _dataContext.Contracts
                         where s.Status != Constants.RecordStatus.Deleted 

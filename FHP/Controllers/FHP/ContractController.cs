@@ -121,7 +121,7 @@ namespace FHP.Controllers.FHP
 
         // Get All Contract with Pagination and search filter
         [HttpGet("getall-pagination")] 
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int employeeId)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int employeeId,int employerId)
          {
             if (!ModelState.IsValid)
             {
@@ -135,7 +135,7 @@ namespace FHP.Controllers.FHP
             {
 
                 // Retrieve data from the manager based on pagination parameters.
-                var data = await _manager.GetAllAsync(page,pageSize,search,employeeId);
+                var data = await _manager.GetAllAsync(page,pageSize,search,employeeId,employerId);
 
                 // Check if data is retrieved successfully.
                 if (data.contract != null && data.totalCount > 0)

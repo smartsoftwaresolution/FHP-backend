@@ -3,6 +3,7 @@ using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.AdminSelectEmployee;
+using FHP.services;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace FHP.Controllers.FHP
                                              IExceptionHandleService exceptionHandleService,
                                              IUnitOfWork unitOfWork,
                                              ISendNotificationService sendNotificationService,
+                                             IFileUploadService fileUploadService,
                                              IFCMTokenManager tokenManager)
         {
             _manager = manager;
@@ -162,12 +164,11 @@ namespace FHP.Controllers.FHP
 
             try
             {
-
                 // Retrieve data from the manager based on pagination parameters.
                 var data = await _manager.GetAllAsync(page,pageSize,jobId, search,status);
 
                 // Check if data is retrieved successfully.
-                if (data.adminSelect != null)
+                if (data.adminSelect != null && data.totalCount > 0)
                 {
                     // Set response status code, data, and total count for successful retrieval.
                     response.StatusCode = 200;

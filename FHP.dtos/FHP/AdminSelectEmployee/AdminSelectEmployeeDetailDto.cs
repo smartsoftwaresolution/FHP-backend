@@ -14,6 +14,7 @@ namespace FHP.dtos.FHP.AdminSelectEmployee
         public string EmployeeName { get; set; }
         public bool InProbationCancel { get; set; }
         public bool IsSelected { get; set; }
+        public string ProfileImg { get; set; }
         public DateTime CreatedOn { get; set; }
         public string Mobilenumber { get; set; }
         public string Email { get; set; }

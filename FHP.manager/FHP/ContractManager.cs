@@ -25,8 +25,6 @@ namespace FHP.manager.FHP
             await _repository.AddAsync(ContractFactory.Create(model));
         }
 
-  
-
         public async Task Edit(AddContractModel model)
         {
            var data = await _repository.GetAsync(model.Id);
@@ -34,9 +32,9 @@ namespace FHP.manager.FHP
             _repository.Edit(data);
         }
 
-        public async Task<(List<ContractDetailDto> contract, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int employeeId)
+        public async Task<(List<ContractDetailDto> contract, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int employeeId, int employerId)
         {
-            return await _repository.GetAllAsync(page, pageSize, search,employeeId);
+            return await _repository.GetAllAsync(page, pageSize, search,employeeId,employerId);
         }
 
         public async Task<ContractDetailDto> GetByIdAsync(int id)
