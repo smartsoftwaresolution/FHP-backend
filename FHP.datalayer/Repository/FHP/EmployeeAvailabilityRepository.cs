@@ -70,7 +70,8 @@ namespace FHP.datalayer.Repository.FHP
             {
                 query = query.Where(s => s.employeeAval.IsAvailable == employeeAvailability);
             }
-            if (!string.IsNullOrEmpty(search))
+
+            if(!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.employeeAval.JobId.ToString().Contains(search) ||
                                        s.employeeAval.EmployeeId.ToString().Contains(search));
@@ -87,22 +88,25 @@ namespace FHP.datalayer.Repository.FHP
 
 
             var data = await query.Select(s => new EmployeeAvailabilityDetailDto
-            {
-                Id= s.employeeAval.Id,
-                UserId= s.employeeAval.UserId,
-                JobId= s.employeeAval.JobId,    
-                EmployeeId= s.employeeAval.EmployeeId,
-                FirstName = s.UserDetail.FirstName,
-                LastName= s.UserDetail.LastName,
-                Email = s.UserDetail.Email,
-                MobileNumber = s.UserDetail.MobileNumber,
-                IsAvailable= s.employeeAval.IsAvailable,
-                CreatedOn = s.employeeAval.CreatedOn,
-                Status= s.employeeAval.Status,
-                AdminjobTitle = s.employeeAval.AdminJobTitle,
-                AdminJobDescription = s.employeeAval.AdminJobDescription,
-                UpdatedOn = s.employeeAval.UpdatedOn,
-            }).ToListAsync();
+                                            {
+                                                           Id= s.employeeAval.Id,
+                                                           UserId= s.employeeAval.UserId,
+                                                           JobId= s.employeeAval.JobId,    
+                                                           EmployeeId= s.employeeAval.EmployeeId,
+                                                           FirstName = s.UserDetail.FirstName,
+                                                           LastName= s.UserDetail.LastName,
+                                                           Email = s.UserDetail.Email,
+                                                           MobileNumber = s.UserDetail.MobileNumber,
+                                                           IsAvailable= s.employeeAval.IsAvailable,
+                                                           CreatedOn = s.employeeAval.CreatedOn,
+                                                           Status= s.employeeAval.Status,
+                                                           AdminjobTitle = s.employeeAval.AdminJobTitle,
+                                                           AdminJobDescription = s.employeeAval.AdminJobDescription,
+                                                           UpdatedOn = s.employeeAval.UpdatedOn,
+                                                           ProfileImg = s.UserDetail.ProfileImg,
+                                            })
+                                             .ToListAsync();
+
 
             return (data, totalCount);
         }
@@ -155,6 +159,7 @@ namespace FHP.datalayer.Repository.FHP
             {
                 query = query.Where(s => s.getallAval.IsAvailable == employeeAvailability);
             }
+
             var totalCount = await query.CountAsync();
 
 

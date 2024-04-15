@@ -54,12 +54,9 @@ namespace FHP.datalayer.Repository.FHP
                         join u in _dataContext.User on s.UserId equals u.Id
                       //  join e in _dataContext.EmployeeAvailabilities on s.Id equals e.EmployeeId
                         where s.Status != Constants.RecordStatus.Deleted 
-<<<<<<< HEAD
 
-                        select new { jobPosting = s , employer = u, employee = e};
-=======
                         select new { jobPosting = s , employer = u,/* employee = e*/};
->>>>>>> 3b05201837f7fc722056415f3f12286e15f21a9d
+
 
 
             if(!string.IsNullOrEmpty(search))
