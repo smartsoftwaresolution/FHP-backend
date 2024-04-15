@@ -103,7 +103,6 @@ namespace FHP.datalayer.Repository.FHP
                                                            AdminjobTitle = s.employeeAval.AdminJobTitle,
                                                            AdminJobDescription = s.employeeAval.AdminJobDescription,
                                                            UpdatedOn = s.employeeAval.UpdatedOn,
-                                                           ProfileImg = s.UserDetail.ProfileImg,
                                             })
                                              .ToListAsync();
 
@@ -173,37 +172,39 @@ namespace FHP.datalayer.Repository.FHP
             }
 
             var data = await query.Select(s => new EmployeeAvailabilityDetailDto
-            {
-                   Id = s.getallAval.Id,
-                   UserId = s.getallAval.UserId,
-                   JobId = s.getallAval.JobId,
-                   EmployeeId = s.getallAval.EmployeeId,
-                   IsAvailable = s.getallAval.IsAvailable,
-                   CreatedOn = s.getallAval.CreatedOn,
-                   Status = s.getallAval.Status,
-                   AdminjobTitle = s.getallAval.AdminJobTitle,
-                   AdminJobDescription = s.getallAval.AdminJobDescription,
-                   UpdatedOn = s.getallAval.UpdatedOn,
-                   FirstName = s.UserDetail.FirstName,
-                   LastName = s.UserDetail.LastName,
-                   Email = s.UserDetail.Email,
-                   MobileNumber = s.UserDetail.MobileNumber,
-                   FullName = s.UserDetail.FirstName + " " + s.UserDetail.LastName,
-                        
-                  
-                   JobTitle = s.jobDetails.JobTitle,
-                   Description = s.jobDetails.Description,
-                   Experience = s.jobDetails.Experience,
-                   RolesAndResponsibilities = s.jobDetails.RolesAndResponsibilities,
-                   Skills = s.jobDetails.Skills,
-                   Address = s.jobDetails.Address,
-                   Payout = s.jobDetails.Payout,
-                   EmploymentType = s.jobDetails.EmploymentType,
-                   InProbationCancel = s.jobDetails.InProbationCancel,
-                   JobStatus = s.jobDetails.JobStatus,
+                                        {
+                                                         Id = s.getallAval.Id,
+                                                         UserId = s.getallAval.UserId,
+                                                         JobId = s.getallAval.JobId,
+                                                         EmployeeId = s.getallAval.EmployeeId,
+                                                         IsAvailable = s.getallAval.IsAvailable,
+                                                         CreatedOn = s.getallAval.CreatedOn,
+                                                         Status = s.getallAval.Status,
+                                                         AdminjobTitle = s.getallAval.AdminJobTitle,
+                                                         AdminJobDescription = s.getallAval.AdminJobDescription,
+                                                         UpdatedOn = s.getallAval.UpdatedOn,
+                                                         FirstName = s.UserDetail.FirstName,
+                                                         LastName = s.UserDetail.LastName,
+                                                         Email = s.UserDetail.Email,
+                                                         MobileNumber = s.UserDetail.MobileNumber,
+                                                         FullName = s.UserDetail.FirstName + " " + s.UserDetail.LastName,
+                                                         ProfileImg = s.UserDetail.ProfileImg,
+
+                                                         JobTitle = s.jobDetails.JobTitle,
+                                                         Description = s.jobDetails.Description,
+                                                         Experience = s.jobDetails.Experience,
+                                                         RolesAndResponsibilities = s.jobDetails.RolesAndResponsibilities,
+                                                         Skills = s.jobDetails.Skills,
+                                                         Address = s.jobDetails.Address,
+                                                         Payout = s.jobDetails.Payout,
+                                                         EmploymentType = s.jobDetails.EmploymentType,
+                                                         InProbationCancel = s.jobDetails.InProbationCancel,
+                                                         JobStatus = s.jobDetails.JobStatus,
 
 
-            }).ToListAsync();
+                                         })
+                                          .ToListAsync();
+
 
             return (data, totalCount);
                          
