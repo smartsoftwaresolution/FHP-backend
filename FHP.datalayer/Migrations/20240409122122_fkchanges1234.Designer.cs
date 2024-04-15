@@ -4,6 +4,7 @@ using FHP.datalayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FHP.datalayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240409122122_fkchanges1234")]
+    partial class fkchanges1234
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -425,8 +427,6 @@ namespace FHP.datalayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("EmployeeProfessionalDetail", (string)null);
                 });
@@ -1344,17 +1344,6 @@ namespace FHP.datalayer.Migrations
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("FHP.entity.FHP.EmployeeProfessionalDetail", b =>
-                {
-                    b.HasOne("FHP.entity.UserManagement.User", "User")
-                        .WithMany("ProfessionalDetails")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("FHP.entity.FHP.EmployerDetail", b =>
                 {
                     b.HasOne("FHP.entity.UserManagement.City", "City")
@@ -1515,8 +1504,6 @@ namespace FHP.datalayer.Migrations
             modelBuilder.Entity("FHP.entity.UserManagement.User", b =>
                 {
                     b.Navigation("JobPosts");
-
-                    b.Navigation("ProfessionalDetails");
                 });
 #pragma warning restore 612, 618
         }

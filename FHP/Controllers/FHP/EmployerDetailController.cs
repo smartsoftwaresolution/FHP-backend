@@ -216,7 +216,9 @@ namespace FHP.Controllers.FHP
                 }
 
                 response.StatusCode = 400;
-                response.Message = "An Id related data not found";
+                response.Message = "no data avaiable";
+                response.Data = "";
+
                 return BadRequest(response);
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using FHP.utilities;
+﻿using FHP.entity.UserManagement;
+using FHP.utilities;
 
 namespace FHP.entity.FHP
 {
@@ -25,6 +26,7 @@ namespace FHP.entity.FHP
         public string AdminJobTitle { get; set; }
         public string AdminJobDescription { get; set; }
         public string EmploymentType { get; set; }
+        public virtual User User { get; set; }
         public ICollection<JobSkillDetail> JobSkillDetails { get; set; }
     }
 }
