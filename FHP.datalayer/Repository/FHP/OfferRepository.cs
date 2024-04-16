@@ -43,7 +43,9 @@ namespace FHP.datalayer.Repository.FHP
             if(!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.offer.EmployerId.ToString().Contains(search) ||
-                                         s.offer.EmployeeId.ToString().Contains(search));
+                                         s.offer.EmployeeId.ToString().Contains(search) ||
+                                         s.offer.Title.Contains(search) ||
+                                         s.offer.Description.Contains(search));
             }
 
             var totalCount = await query.CountAsync();
@@ -52,7 +54,7 @@ namespace FHP.datalayer.Repository.FHP
 
             if(page > 0 && pageSize  > 0)
             {
-                query = query.Skip(page - 1 * pageSize).Take(pageSize);
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
 
             var data = await query.Select(s => new OfferDetailDto

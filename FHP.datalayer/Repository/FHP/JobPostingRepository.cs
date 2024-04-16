@@ -199,7 +199,6 @@ namespace FHP.datalayer.Repository.FHP
                 data.Status = Constants.RecordStatus.Inactive;
                 result = "DeActivated";
             }
-
             else
             {
                 data.Status = Constants.RecordStatus.Active;

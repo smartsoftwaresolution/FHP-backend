@@ -145,7 +145,7 @@ namespace FHP.Controllers.FHP
             {
                 var data = await _manager.GetAllAsync(page,pageSize,search);
 
-                if(data.offer != null && data.totalCount > 0)
+                if(data.offer != null )
                 {
                     response.StatusCode = 200;
                     response.Data = data.offer;
