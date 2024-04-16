@@ -50,7 +50,7 @@ namespace FHP.manager.FHP
 
         public async Task<List<int>> UnreadAsync()
         {
-            await _repository.UnreadAsync();
+           return await _repository.UnreadAsync();
         }
 
     }
