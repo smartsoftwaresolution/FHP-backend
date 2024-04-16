@@ -146,7 +146,7 @@ namespace FHP.datalayer.Repository.FHP
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.getallAval.JobId.ToString().Contains(search) ||
-                                        s.getallAval.EmployeeId.ToString().Contains(search));
+                                         s.getallAval.EmployeeId.ToString().Contains(search));
             }
 
             if(JobId > 0)
