@@ -4,13 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using FHP.utilities;
 using FHP.dtos.UserManagement.User;
 using FHP.dtos.FHP.EmployeeDetail;
-using DocumentFormat.OpenXml.Office2010.Excel;
-
-using Castle.Core.Internal;
-using DocumentFormat.OpenXml.Drawing.ChartDrawing;
 using FHP.dtos.FHP.JobPosting;
 using System.Linq.Dynamic.Core;
-
+using FHP.dtos.FHP.EmployeeSkill;
 namespace FHP.datalayer.Repository.UserManagement
 {
     public class UserRepository : IUserRepository
@@ -44,7 +40,7 @@ namespace FHP.datalayer.Repository.UserManagement
 
 
 
-        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName, bool isAscending, string? skills, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities)
+        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName, bool isAscending, string? skills, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities, string? employmentType)
         {
             var query = from s in _dataContext.User
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
@@ -55,12 +51,7 @@ namespace FHP.datalayer.Repository.UserManagement
                         from jd in jobPosting.DefaultIfEmpty()*/
 
                         where s.Status != Constants.RecordStatus.Deleted
-                        select new { user = s, t,job = s.JobPosts,professional = s.ProfessionalDetails/*, employeedetail = ed*/ };
-
-                        
-
-
-            
+                        select new { user = s, t,job = s.JobPosts,professional = s.ProfessionalDetails,/*, employeedetail = ed*/ };
             
 
             if (!string.IsNullOrEmpty(search))
@@ -86,19 +77,23 @@ namespace FHP.datalayer.Repository.UserManagement
 
             }
 
+            
             if (skills != null)
             {
-                query = query.Where(s => s.user.JobPosts.Any( r=> r.Skills == skills));
+                query = query.Where(s => s.user.JobPosts.Any(detail => detail.Skills == skills));
             }
 
+            /*List<int> ids = new List<int>();*/
+           
+            /*if (ids != null)
+            {
+                query = query.Where(s => ids.Any(id => s.jobPosting.JobSkillDetails.Any(detail => detail.Id == id)));
+            }*/
 
             if (employmentStatus != null)
             {
-                query = query.Where(s => s.user.ProfessionalDetails.Any(y=> y.EmploymentStatus == employmentStatus));
+                query = query.Where(s => s.user.ProfessionalDetails.Any(y => y.EmploymentStatus == employmentStatus));
             }
-
-            
-
 
             if (experience != null)
             {
@@ -118,6 +113,11 @@ namespace FHP.datalayer.Repository.UserManagement
             if (rolesAndResponsibilities != null)
             {
                 query = query.Where(s => /*s.job.RolesAndResponsibilities == rolesAndResponsibilities &&*/ s.user.JobPosts.Any(t => t.RolesAndResponsibilities == rolesAndResponsibilities));
+            }
+
+            if(employmentType != null)
+            {
+                query = query.Where(s => s.user.EmploymentType == employmentType);
             }
 
             var totalCount = await query.CountAsync();
@@ -205,6 +205,21 @@ namespace FHP.datalayer.Repository.UserManagement
                                    })
                                   .AsNoTracking()
                                   .ToList(),
+
+                EmployeeSkillDetails = ( from k in _dataContext.EmployeeSkillDetails
+                                         join t in _dataContext.SkillsDetails on k.SkillId equals t.Id
+                                         where k.UserId == s.user.Id && k.Status != Constants.RecordStatus.Deleted
+                                         select new EmployeeSkillDetailDto
+                                         {
+                                             Id = k.Id,
+                                             UserId = k.UserId,
+                                             Status = k.Status,
+                                             SkillId = k.SkillId,
+                                             SkillName = t.SkillName,
+                                         })
+                                         .AsNoTracking()
+                                         .ToList(),
+                                         
             })
             .AsNoTracking()
             .ToListAsync();
