@@ -7,6 +7,7 @@ using FHP.dtos.FHP.EmployeeDetail;
 using FHP.dtos.FHP.JobPosting;
 using System.Linq.Dynamic.Core;
 using FHP.dtos.FHP.EmployeeSkill;
+
 namespace FHP.datalayer.Repository.UserManagement
 {
     public class UserRepository : IUserRepository
@@ -83,11 +84,11 @@ namespace FHP.datalayer.Repository.UserManagement
                 query = query.Where(s => s.user.JobPosts.Any(detail => detail.Skills == skills));
             }
 
-            /*List<int> ids = new List<int>();*/
-           
-            /*if (ids != null)
+            /*List<int> ids = new List<int>();
+
+            if (ids != null)
             {
-                query = query.Where(s => ids.Any(id => s.jobPosting.JobSkillDetails.Any(detail => detail.Id == id)));
+                query = query.Where(s => ids.Any(id => s.user.JobPosts.Any(detail => detail.Id == id)));
             }*/
 
             if (employmentStatus != null)
@@ -237,7 +238,7 @@ namespace FHP.datalayer.Repository.UserManagement
             if (role.RoleName.ToLower().Contains("employee"))
             {
                 totalProperties--;
-                if (!string.IsNullOrEmpty(data.GovernmentId)) fulfilledProperties++;
+                if(!string.IsNullOrEmpty(data.GovernmentId)) fulfilledProperties++;
 
             }
 

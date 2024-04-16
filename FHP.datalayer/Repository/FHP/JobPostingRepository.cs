@@ -36,7 +36,7 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int userId)
+        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int userId, bool? IsAdmin)
         {
            string rolename = string.Empty;
 
@@ -52,7 +52,7 @@ namespace FHP.datalayer.Repository.FHP
 
             var query = from s in _dataContext.JobPostings
                         join u in _dataContext.User on s.UserId equals u.Id
-                      //join e in _dataContext.EmployeeAvailabilities on s.Id equals e.EmployeeId
+                  //    join e in _dataContext.EmployeeAvailabilities on s.Id equals e.EmployeeId
                         where s.Status != Constants.RecordStatus.Deleted 
 
                         select new { jobPosting = s , employer = u,/* employee = e*/};
@@ -67,10 +67,15 @@ namespace FHP.datalayer.Repository.FHP
                                        s.jobPosting.Description.Contains(search));
             }
 
-           
-            
-            
+
+            if (IsAdmin == true)  
+            {
+                query = query.Where(s => s.jobPosting.JobStatus != Constants.JobPosting.Draft);
+            }
+
             var totalCount = await query.CountAsync();
+
+
 
             if (rolename.ToLower() != "admin")
             {
@@ -80,6 +85,8 @@ namespace FHP.datalayer.Repository.FHP
                     totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted && s.jobPosting.JobStatus != Constants.JobPosting.Draft && s.jobPosting.UserId == userId);        
                 }
             }
+
+           
 
           
 
