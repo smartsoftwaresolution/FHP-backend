@@ -1,5 +1,6 @@
 ﻿using FHP.dtos.FHP;
 using FHP.dtos.FHP.EmployeeDetail;
+using FHP.dtos.FHP.EmployeeSkill;
 using FHP.dtos.FHP.JobPosting;
 using FHP.utilities;
 using System;
@@ -35,6 +36,7 @@ namespace FHP.dtos.UserManagement.User
         public List<JobPostingDto> JobPostingDetail { get; set; }
 
         public List<EmployeeDetailDto>? EmployeeDetails { get; set; }
+        public List<EmployeeSkillDetailDto>? EmployeeSkillDetails { get; set; }
         public string ProfileImg { get; set; }
         public string MobileNumber { get; set; }
         public bool? IsVerifyByAdmin { get; set; }

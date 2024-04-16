@@ -3,7 +3,6 @@ using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.AdminSelectEmployee;
-using FHP.services;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -226,7 +225,8 @@ namespace FHP.Controllers.FHP
 
                 // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
-                response.Message = Constants.error;
+                response.Message = "No data Found.";
+                response.Data = "";
                 return BadRequest(response);
             }
 
@@ -362,6 +362,7 @@ namespace FHP.Controllers.FHP
                     string body = $"employer {result}";
                     await _sendNotificationService.SendNotification("Application", body, t.TokenFCM);
                 }
+
                 foreach (var y in token1)
                 {
                     string body = $"employer {result} ";

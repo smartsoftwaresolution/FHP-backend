@@ -52,7 +52,7 @@ namespace FHP.datalayer.Repository.FHP
 
             var query = from s in _dataContext.JobPostings
                         join u in _dataContext.User on s.UserId equals u.Id
-                      //  join e in _dataContext.EmployeeAvailabilities on s.Id equals e.EmployeeId
+                      //join e in _dataContext.EmployeeAvailabilities on s.Id equals e.EmployeeId
                         where s.Status != Constants.RecordStatus.Deleted 
 
                         select new { jobPosting = s , employer = u,/* employee = e*/};

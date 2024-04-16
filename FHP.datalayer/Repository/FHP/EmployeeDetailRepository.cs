@@ -1,4 +1,4 @@
-﻿using FHP.dtos.FHP;
+﻿
 using FHP.dtos.FHP.EmployeeDetail;
 using FHP.dtos.FHP.EmployeeEducationalDetail;
 using FHP.dtos.FHP.EmployeeProfessionalDetail;
@@ -36,36 +36,40 @@ namespace FHP.datalayer.Repository.FHP
             return await _dataContext.EmployeeDetails.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<(List<EmployeeDetailDto>employee,int totalCount)> GetAllAsync(int page,int pageSize,int userId, string? search)
+        public async Task<(List<EmployeeDetailDto> employee,int totalCount)> GetAllAsync(int page,int pageSize,int userId, string? search)
         {
 
-            var query =  from s in _dataContext.EmployeeDetails
-                              where s.Status != Constants.RecordStatus.Deleted
+            var query    =    from s in _dataContext.EmployeeDetails
+                              where s.Status != Constants.RecordStatus.Deleted 
                               select new { employee = s };
 
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where( s =>s.employee.Gender.Contains(search) ||
-                                         s.employee.Hobby.Contains(search) ||
-                                         s.employee.Mobile.Contains(search) || 
-                                         s.employee.AlternateEmail.Contains(search) ||
-                                         s.employee.Mobile.Contains(search));
+                query = query.Where( s => s.employee.Gender.Contains(search) ||
+                                          s.employee.Hobby.Contains(search) ||
+                                          s.employee.Mobile.Contains(search) || 
+                                          s.employee.AlternateEmail.Contains(search) ||
+                                          s.employee.Mobile.Contains(search));
             }
 
 
 
-            var totalCount = await query.CountAsync(); 
-
-            if(userId > 0)
+            if (userId > 0)
             {
                 query = query.Where(s => s.employee.UserId == userId);
             }
 
+
+
+            var totalCount = await query.CountAsync();
+
+
+           
             query = query.OrderByDescending(s => s.employee.Id);   // orderbyDescending
 
             if(page > 0 && pageSize > 0)
             {
-                query = query.Skip((page - 1) * pageSize);
+                query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
 
             
@@ -78,6 +82,9 @@ namespace FHP.datalayer.Repository.FHP
                                                                     CountryId = s.employee.CountryId,
                                                                     StateId = s.employee.StateId,
                                                                     CityId = s.employee.CityId,
+                                                                    CountryName = s.employee.City.Country.CountryName,
+                                                                    StateName = s.employee.City.State.StateName,
+                                                                    CityName = s.employee.City.CityName,
                                                                     ResumeURL = s.employee.ResumeURL,
                                                                     ProfileImgURL = s.employee.ProfileImgURL,
                                                                     IsAvailable = s.employee.IsAvailable,
