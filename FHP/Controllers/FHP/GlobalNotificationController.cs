@@ -195,6 +195,47 @@ namespace FHP.Controllers.FHP
 
 
 
+        [HttpGet("unread")]
+        public async Task<IActionResult> UnreadAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                // Handle any exceptions using the provided exception handling service.
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+                //   Retrieves SkillDetail data asynchronously by the provided ID
+                var data = await _manager.UnreadAsync();
+
+                // Checks if data is found
+                if (data != null)
+                {
+                    // Sets StatusCode to 200 indicating success
+                    response.StatusCode = 200;
+                    response.Data = data;
+
+                    // Returns Ok response with the data
+                    return Ok(response);
+                }
+                // If data retrieval fails, return a BadRequest response.
+                response.StatusCode = 400;
+                response.Message = Constants.error;
+                return BadRequest(response);
+
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
