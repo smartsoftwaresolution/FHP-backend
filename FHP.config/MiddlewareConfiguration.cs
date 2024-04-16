@@ -53,6 +53,7 @@ namespace FHP.config
             services.AddScoped<IEmployerContractConfirmationManager,EmployerContractConfirmationManager>();
             services.AddScoped<IFCMTokenManager,FCMTokenManager>(); 
             services.AddScoped<IOfferManager,OfferManager>();
+            services.AddScoped<IGlobalNotificationManager,GlobalNotificationManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -80,6 +81,7 @@ namespace FHP.config
             services.AddScoped<IEmployerContractConfirmationRepository, EmployerContractConfirmationRepository>();
             services.AddScoped<IFCMTokenRepository, FCMTokenRepository>();
             services.AddScoped<IOfferRepository, OfferRepository>();    
+            services.AddScoped<IGlobalNotificationRepository, GlobalNotificationRepository>();
         }
 
 
