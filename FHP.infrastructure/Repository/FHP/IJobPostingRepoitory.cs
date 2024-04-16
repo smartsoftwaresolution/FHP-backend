@@ -14,7 +14,7 @@ namespace FHP.infrastructure.Repository.FHP
         Task AddAsync(JobPosting entity);
         Task<JobPosting> GetAsync(int id);
         void Edit(JobPosting entity);
-        Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId);
+        Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int userId,bool? IsAdmin);
         Task<JobPostingDetailDto> GetByIdAsync(int id); 
         Task DeleteAsync(int id);
         Task<string> ActiveDeactiveAsync(int jobId);

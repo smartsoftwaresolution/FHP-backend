@@ -156,7 +156,7 @@ namespace FHP.Controllers.FHP
 
         // API endpoint to gell all jobposting with search
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId,bool? IsAdmin)
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)
@@ -170,7 +170,7 @@ namespace FHP.Controllers.FHP
             try
             {
                 // Retrieves all job postings asynchronously
-                var data = await _manager.GetAllAsync(page,pageSize,search,userId);
+                var data = await _manager.GetAllAsync(page,pageSize,search,userId,IsAdmin);
 
                 if (data.jobPosting != null)
                 {
