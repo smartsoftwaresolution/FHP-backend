@@ -50,6 +50,7 @@ namespace FHP.datalayer
         public DbSet<EmployerContractConfirmation> EmployerContractConfirmations { get; set; }
 
         public DbSet<Offer> Offers { get; set; }
+        public DbSet<GlobalNotification> GlobalNotifications { get; set; }
 
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -85,6 +86,7 @@ namespace FHP.datalayer
             modelBuilder.ApplyConfiguration(new EmployeeAvailabilityConfiguration());
             modelBuilder.ApplyConfiguration(new EmployerContractConfirmationConfiguration());
             modelBuilder.ApplyConfiguration(new OfferConfiguration());
+            modelBuilder.ApplyConfiguration(new GlobalNotificationConfiguration());
 
 
             #endregion
