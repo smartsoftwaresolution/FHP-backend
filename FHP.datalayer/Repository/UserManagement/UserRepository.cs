@@ -616,7 +616,5 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext.FCMTokens.Remove(data);
             await _dataContext.SaveChangesAsync();
         }
-
-       
     }
 }
