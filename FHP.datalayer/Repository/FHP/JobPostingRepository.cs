@@ -20,7 +20,7 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task AddAsync(JobPosting entity)
         {
-           await _dataContext.JobPostings.AddAsync(entity);
+            await _dataContext.JobPostings.AddAsync(entity);
             await _dataContext.SaveChangesAsync();
         }
 
@@ -139,7 +139,9 @@ namespace FHP.datalayer.Repository.FHP
 
                                               }).ToList(),
                 
-            }).AsNoTracking().ToListAsync();
+            })
+            .AsNoTracking()
+            .ToListAsync();
 
 
             return (data, totalCount);
@@ -186,7 +188,9 @@ namespace FHP.datalayer.Repository.FHP
                                                   Status = j.Status,
 
                                               }).ToList(),
-                          }).AsNoTracking().FirstOrDefaultAsync();
+                          })
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -224,6 +228,7 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext.JobPostings.Update(data);
             await _dataContext.SaveChangesAsync();
         }
+
         public async Task CancelJobAsync(int jobId, string cancelReason)
         {
             var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();

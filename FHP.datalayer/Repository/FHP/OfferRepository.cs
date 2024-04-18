@@ -33,7 +33,7 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<OfferDetailDto> offer, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<OfferDetailDto> offer, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int employeeId, int employerId)
         {
 
             var query = from  s in _dataContext.Offers
@@ -46,6 +46,16 @@ namespace FHP.datalayer.Repository.FHP
                                          s.offer.EmployeeId.ToString().Contains(search) ||
                                          s.offer.Title.Contains(search) ||
                                          s.offer.Description.Contains(search));
+            }
+
+            if(employeeId > 0)
+            {
+                query = query.Where(e => e.offer.EmployeeId == employeeId);
+            }
+
+            if(employerId > 0)
+            {
+                query = query.Where(e => e.offer.EmployerId == employerId);
             }
 
             var totalCount = await query.CountAsync();
@@ -106,6 +116,28 @@ namespace FHP.datalayer.Repository.FHP
             data.Status = Constants.RecordStatus.Deleted;  
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task<string> OfferAcceptRejectAsync(int id, int jobId, int employeeId)
+        {
+            string result = string.Empty;
+
+            var data = await _dataContext.Offers.Where(s => s.Id == id && s.JobId == jobId && s.EmployeeId == employeeId).FirstOrDefaultAsync();
+
+            if(data.IsAccepted == false)
+            {
+                data.IsAccepted = true;
+                result = "Accepted";
+            }
+            else
+            {
+                data.IsAccepted = false;
+                result = "Reject";
+            }
+
+            _dataContext.Offers.Update(data);
+            await _dataContext.SaveChangesAsync();
+            return result;
         }
     }
 }

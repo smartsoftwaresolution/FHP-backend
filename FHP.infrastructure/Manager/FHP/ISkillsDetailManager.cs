@@ -15,5 +15,6 @@ namespace FHP.infrastructure.Manager.FHP
         Task<(List<SkillsDetailDto> skill,int totalCount)> GetAllAsync(int page,int pageSize,string? search);
         Task<SkillsDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
+        Task DeleteByAllIdAsync(List<int> ids);
     }
 }

@@ -131,7 +131,7 @@ namespace FHP.Controllers.FHP
 
         // API endpoint to get all Offer 
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page, int pageSize,string? search)
+        public async Task<IActionResult> GetAllAsync(int page, int pageSize,string? search,int employeeId,int employerId)
         {
             // If the model state is not valid, return a BadRequest response with a list of errors.
             if (!ModelState.IsValid)
@@ -143,7 +143,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                var data = await _manager.GetAllAsync(page,pageSize,search);
+                var data = await _manager.GetAllAsync(page,pageSize,search,employeeId,employerId);
 
                 if(data.offer != null )
                 {
@@ -247,6 +247,38 @@ namespace FHP.Controllers.FHP
             catch (Exception ex)
             {
                 // Handle any exceptions using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
+        [HttpPost("OfferAcceptReject")]
+        public async Task<IActionResult> OfferAcceptRejectAsync(int id,int jobId,int employeeId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if(id <= 0 && jobId <= 0 && employeeId <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required";
+                    return BadRequest(response);    
+                }
+
+                string result = await _manager.OfferAcceptRejectAsync(id, jobId, employeeId);
+
+                response.StatusCode = 200;
+                response.Message = $"{result} Succesfully!";
+                return Ok(response);
+
+            }
+            catch(Exception ex)
+            {
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
