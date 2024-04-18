@@ -1,4 +1,4 @@
-﻿
+﻿ 
 using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
@@ -88,12 +88,11 @@ namespace FHP.Controllers.UserManagement
                         {
                             if (model.RoleName.ToLower().Contains("employee"))
                             {
-                                await _sendNotificationService.SendNotification("SignUp", "employee registered successfully!!", token.TokenFCM);
+                                await _sendNotificationService.SendNotification("A new employee has joined", "A new employee has joined the platform. Kindly review their information and greet them warmly", token.TokenFCM);
                             }
-                            else
+                            else if(model.RoleName.ToLower().Contains("employer"))
                             {
-                                 await _sendNotificationService.SendNotification("SignUp", "employer registered successfully!!", token.TokenFCM);
-
+                                 await _sendNotificationService.SendNotification("A new employer has joined", "A new employer has joined the platform. Kindly review their information and greet them warmly", token.TokenFCM);
                             }
                         }
                     
