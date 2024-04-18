@@ -22,23 +22,21 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task<int> GetAllEmployeeCountAsync()
         {
-            /*var data = await _dataContext.EmployeeDetails.CountAsync(s => s.Status != Constants.RecordStatus.Deleted && s.Id == id);
-            return data;*/
+            
             var r = await _dataContext.UserRole.Where(s => s.RoleName.ToLower().Contains("employee")).Select(s => s.Id).FirstOrDefaultAsync();
             return await _dataContext.User.CountAsync(s => s.RoleId == r && s.Status != Constants.RecordStatus.Deleted);
         }
 
         public async Task<int> GetAllEmployerCountAsync()
         {
-            /*var data = await _dataContext.EmployeeDetails.CountAsync(s => s.Status != Constants.RecordStatus.Deleted && s.Id == id);
-            return data;*/
+           
             var r = await _dataContext.UserRole.Where(s => s.RoleName.ToLower().Contains("employer")).Select(s => s.Id).FirstOrDefaultAsync();
             return await _dataContext.User.CountAsync(s => s.RoleId == r && s.Status != Constants.RecordStatus.Deleted);
         }
 
         public async Task<int> GetAllTeamCountAsync()
         {
-              return await _dataContext.User.CountAsync(s=> s.Status != Constants.RecordStatus.Deleted);
+            return await _dataContext.User.CountAsync(s=> s.Status != Constants.RecordStatus.Deleted);
         }
 
         public async Task<int> GetAllJobCountAsync()

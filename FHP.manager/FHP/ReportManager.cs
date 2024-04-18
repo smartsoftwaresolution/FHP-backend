@@ -20,11 +20,34 @@ namespace FHP.manager.FHP
 
         }
 
+        public Task<int> GetAllContractCountAsync()
+        {
+            return _reportRepository.GetAllContractCountAsync();
+        }
+
         public async Task<int> GetAllEmployeeCountAsync()
         {
             return await _reportRepository.GetAllEmployeeCountAsync();
         }
 
+        public async Task<int> GetAllEmployerCountAsync()
+        {
+            return await _reportRepository.GetAllEmployerCountAsync();
+        }
 
+        public Task<int> GetAllJobCountAsync()
+        {
+            return _reportRepository.GetAllJobCountAsync();
+        }
+
+        public Task<int> GetAllJobCountByUserIdAsync(int userId)
+        {
+            return _reportRepository.GetAllJobCountByUserIdAsync(userId);
+        }
+
+        public async Task<int> GetAllTeamCountAsync()
+        {
+            return await _reportRepository.GetAllTeamCountAsync();
+        }
     }
 }
