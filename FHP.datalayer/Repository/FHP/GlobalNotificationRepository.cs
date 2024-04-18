@@ -119,7 +119,6 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<List<int>> UnreadAsync()
         {
             return await _dataContext.GlobalNotifications.Where(s => s.IsRead == false).Select(s => s.Id).ToListAsync();
-            
         }
 
     }

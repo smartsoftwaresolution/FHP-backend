@@ -118,5 +118,18 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
         }
+
+        public async Task DeleteByIdsAsync(List<int> ids)
+        {
+            var data = await _dataContext.EmployeeSkillDetails.Where(s => ids.Contains(s.Id)).ToListAsync();
+
+            foreach(var item in data)
+            {
+                item.Status = Constants.RecordStatus.Deleted;
+                _dataContext.Update(item);
+            }
+
+            await _dataContext.SaveChangesAsync();
+        }
     }
 }

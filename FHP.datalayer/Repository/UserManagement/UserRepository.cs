@@ -7,8 +7,11 @@ using FHP.dtos.FHP.EmployeeDetail;
 using FHP.dtos.FHP.JobPosting;
 using System.Linq.Dynamic.Core;
 using FHP.dtos.FHP.EmployeeSkill;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Mvc;
 using FHP.entity.FHP;
+=======
+>>>>>>> 5b7386477948d4ea6c767bdbcad70c6d15b0d683
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -84,6 +87,16 @@ namespace FHP.datalayer.Repository.UserManagement
             /*if (skills != null)
             {
                 query = query.Where(s => s.user.JobPosts.Any(detail => detail.Skills == skills));
+<<<<<<< HEAD
+=======
+            }
+
+            /*List<int> ids = new List<int>();
+
+            if (ids != null)
+            {
+                query = query.Where(s => ids.Any(id => s.user.JobPosts.Any(detail => detail.Id == id)));
+>>>>>>> 5b7386477948d4ea6c767bdbcad70c6d15b0d683
             }*/
 
            /* List<int> ids = new List<int>();*/
@@ -261,7 +274,7 @@ namespace FHP.datalayer.Repository.UserManagement
             if (role.RoleName.ToLower().Contains("employee"))
             {
                 totalProperties--;
-                if (!string.IsNullOrEmpty(data.GovernmentId)) fulfilledProperties++;
+                if(!string.IsNullOrEmpty(data.GovernmentId)) fulfilledProperties++;
 
             }
 
@@ -639,7 +652,5 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext.FCMTokens.Remove(data);
             await _dataContext.SaveChangesAsync();
         }
-
-       
     }
 }

@@ -18,5 +18,6 @@ namespace FHP.infrastructure.Repository.FHP
         Task<(List<EmployeeSkillDetailDto> employeeSkillDetail, int totalCount)> GetAllAsync(int page, int pageSize, int userId, string? search, string? skillName);
         Task<EmployeeSkillDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
+        Task DeleteByIdsAsync(List<int> ids);
     }
 }
