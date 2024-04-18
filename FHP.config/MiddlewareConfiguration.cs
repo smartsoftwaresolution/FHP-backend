@@ -54,6 +54,7 @@ namespace FHP.config
             services.AddScoped<IFCMTokenManager,FCMTokenManager>(); 
             services.AddScoped<IOfferManager,OfferManager>();
             services.AddScoped<IGlobalNotificationManager,GlobalNotificationManager>();
+            services.AddScoped<IReportManager, ReportManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -82,6 +83,7 @@ namespace FHP.config
             services.AddScoped<IFCMTokenRepository, FCMTokenRepository>();
             services.AddScoped<IOfferRepository, OfferRepository>();    
             services.AddScoped<IGlobalNotificationRepository, GlobalNotificationRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();  
         }
 
 

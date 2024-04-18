@@ -46,5 +46,10 @@ namespace FHP.manager.FHP
         {
             await _repository.DeleteAsync(id);
         }
+
+        public async Task DeleteByIdsAsync(List<int> ids)
+        {
+            await _repository.DeleteByIdsAsync(ids);
+        }
     }
 }

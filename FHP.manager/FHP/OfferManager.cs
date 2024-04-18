@@ -28,9 +28,9 @@ namespace FHP.manager.FHP
              _repository.Edit(data);
         }
 
-        public async Task<(List<OfferDetailDto> offer, int totalCount)> GetAllAsync(int page, int pageSize, string? search)
+        public async Task<(List<OfferDetailDto> offer, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int employeeId, int employerId)
         {
-            return await _repository.GetAllAsync(page, pageSize, search);
+            return await _repository.GetAllAsync(page, pageSize, search,employeeId,employerId);
         }
 
         public async Task<OfferDetailDto> GetByIdAsync(int id)
@@ -41,6 +41,11 @@ namespace FHP.manager.FHP
         public async Task DeleteAsync(int id)
         {
             await _repository.DeleteAsync(id);
+        }
+
+        public async Task<string> OfferAcceptRejectAsync(int id, int jobId, int employeeId)
+        {
+           return  await _repository.OfferAcceptRejectAsync(id, jobId, employeeId);
         }
     }
 }

@@ -90,9 +90,22 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task DeleteAsync(int id)
         {
-            var data =await _dataContext.SkillsDetails.Where(s=>s.Id== id).FirstOrDefaultAsync();
+            var data =await _dataContext.SkillsDetails.Where(s => s.Id== id).FirstOrDefaultAsync();
             data.Status=Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteByAllIdAsync(List<int> ids)
+        {
+            var data = await _dataContext.SkillsDetails.Where(s => ids.Contains(s.Id)).ToListAsync();
+
+            foreach(var item in data)
+            {
+                item.Status=Constants.RecordStatus.Deleted;
+                _dataContext.Update(item);
+            }
+
             await _dataContext.SaveChangesAsync();
         }
     }
