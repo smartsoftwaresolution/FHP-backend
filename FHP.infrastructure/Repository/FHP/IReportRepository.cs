@@ -10,7 +10,7 @@ namespace FHP.infrastructure.Repository.FHP
     
     public interface IReportRepository
     {
-        Task<int> GetAllEmployeeAsync(int id);
+        Task<int> GetAllEmployeeCountAsync();
        
     }
 }

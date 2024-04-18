@@ -7,11 +7,10 @@ using FHP.dtos.FHP.EmployeeDetail;
 using FHP.dtos.FHP.JobPosting;
 using System.Linq.Dynamic.Core;
 using FHP.dtos.FHP.EmployeeSkill;
-<<<<<<< HEAD
+
 using Microsoft.AspNetCore.Mvc;
 using FHP.entity.FHP;
-=======
->>>>>>> 5b7386477948d4ea6c767bdbcad70c6d15b0d683
+
 
 namespace FHP.datalayer.Repository.UserManagement
 {

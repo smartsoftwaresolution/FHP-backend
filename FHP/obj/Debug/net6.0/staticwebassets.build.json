@@ -1,10 +1,6 @@
 {
   "Version": 1,
-<<<<<<< HEAD
-  "Hash": "aW3a5Eqcm9X2yBT5nRbvQL7r2s2oSOH79X268paCLoo=",
-=======
-  "Hash": "lcxpc4PxodMFQzzFJWuoooIwbvTJ/lA4Ebwf6CfA0EU=",
->>>>>>> 5b7386477948d4ea6c767bdbcad70c6d15b0d683
+  "Hash": "THfynNzxLUCCzdeagMZRrjsMmJ/iYAdLBNqgO+rYQyo=",
   "Source": "FHP",
   "BasePath": "_content/FHP",
   "Mode": "Default",
@@ -55,20 +51,15 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\33e92206-71c0-47e8-9903-5fb5b4128e97_CSS FAQS _ MCQS.docx"
     },
     {
-<<<<<<< HEAD
-      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\4f936b80-c153-4011-ac63-016ba4604649_HTML YS-1.docx",
-=======
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\34ffdb00-92a9-4b0e-9fd1-5cf64ab13da0_Employee Registration app.docx",
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\34ffdb00-92a9-4b0e-9fd1-5cf64ab13da0_Employee Registration app.docx",
       "SourceId": "FHP",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
       "BasePath": "_content/FHP",
       "RelativePath": "Attachments/Docs/34ffdb00-92a9-4b0e-9fd1-5cf64ab13da0_Employee Registration app.docx",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
@@ -77,8 +68,7 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\34ffdb00-92a9-4b0e-9fd1-5cf64ab13da0_Employee Registration app.docx"
     },
     {
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\4f936b80-c153-4011-ac63-016ba4604649_HTML YS-1.docx",
->>>>>>> 5b7386477948d4ea6c767bdbcad70c6d15b0d683
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\4f936b80-c153-4011-ac63-016ba4604649_HTML YS-1.docx",
       "SourceId": "FHP",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
@@ -112,20 +102,15 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\740852bf-563f-4027-91fb-81abc84a53fd_CSharpNotes (1).doc"
     },
     {
-<<<<<<< HEAD
-      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Images\\0c487262-562c-4392-aa53-fc24b9bc4fdf_rrr.jpg",
-=======
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\810cb0fe-4f2b-4fb5-b28a-bc17ae60a143_CSharpNotes (1).doc",
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\810cb0fe-4f2b-4fb5-b28a-bc17ae60a143_CSharpNotes (1).doc",
       "SourceId": "FHP",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
       "BasePath": "_content/FHP",
       "RelativePath": "Attachments/Docs/810cb0fe-4f2b-4fb5-b28a-bc17ae60a143_CSharpNotes (1).doc",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
@@ -134,17 +119,15 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\810cb0fe-4f2b-4fb5-b28a-bc17ae60a143_CSharpNotes (1).doc"
     },
     {
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\8361419e-e982-46e5-82d6-099132f410e0_Employee Registration app.docx",
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\8361419e-e982-46e5-82d6-099132f410e0_Employee Registration app.docx",
       "SourceId": "FHP",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
       "BasePath": "_content/FHP",
       "RelativePath": "Attachments/Docs/8361419e-e982-46e5-82d6-099132f410e0_Employee Registration app.docx",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
@@ -153,17 +136,15 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\8361419e-e982-46e5-82d6-099132f410e0_Employee Registration app.docx"
     },
     {
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\89217087-1df9-483e-9e11-d136e89a69b7_CSharpNotes (1).doc",
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\89217087-1df9-483e-9e11-d136e89a69b7_CSharpNotes (1).doc",
       "SourceId": "FHP",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
       "BasePath": "_content/FHP",
       "RelativePath": "Attachments/Docs/89217087-1df9-483e-9e11-d136e89a69b7_CSharpNotes (1).doc",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
@@ -172,17 +153,15 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\89217087-1df9-483e-9e11-d136e89a69b7_CSharpNotes (1).doc"
     },
     {
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\8e2baac2-b5e1-498d-ae57-d251270f145e_Employee Registration app.docx",
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\8e2baac2-b5e1-498d-ae57-d251270f145e_Employee Registration app.docx",
       "SourceId": "FHP",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
       "BasePath": "_content/FHP",
       "RelativePath": "Attachments/Docs/8e2baac2-b5e1-498d-ae57-d251270f145e_Employee Registration app.docx",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
@@ -191,17 +170,15 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\8e2baac2-b5e1-498d-ae57-d251270f145e_Employee Registration app.docx"
     },
     {
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\e8bdb929-431b-444e-9db4-12e1a703baf5_CSharpNotes (1).doc",
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\e8bdb929-431b-444e-9db4-12e1a703baf5_CSharpNotes (1).doc",
       "SourceId": "FHP",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
       "BasePath": "_content/FHP",
       "RelativePath": "Attachments/Docs/e8bdb929-431b-444e-9db4-12e1a703baf5_CSharpNotes (1).doc",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
@@ -210,17 +187,15 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\e8bdb929-431b-444e-9db4-12e1a703baf5_CSharpNotes (1).doc"
     },
     {
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\f4f4fb28-71cf-4843-985c-cf6072e06f3b_CSharpNotes (1).doc",
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\f4f4fb28-71cf-4843-985c-cf6072e06f3b_CSharpNotes (1).doc",
       "SourceId": "FHP",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
       "BasePath": "_content/FHP",
       "RelativePath": "Attachments/Docs/f4f4fb28-71cf-4843-985c-cf6072e06f3b_CSharpNotes (1).doc",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
@@ -229,17 +204,15 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\f4f4fb28-71cf-4843-985c-cf6072e06f3b_CSharpNotes (1).doc"
     },
     {
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\f8bb52cb-22ab-494c-b69e-43b4aca3adda_Employee Registration app.docx",
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Docs\\f8bb52cb-22ab-494c-b69e-43b4aca3adda_Employee Registration app.docx",
       "SourceId": "FHP",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\",
+      "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",
       "BasePath": "_content/FHP",
       "RelativePath": "Attachments/Docs/f8bb52cb-22ab-494c-b69e-43b4aca3adda_Employee Registration app.docx",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
@@ -248,8 +221,7 @@
       "OriginalItemSpec": "wwwroot\\Attachments\\Docs\\f8bb52cb-22ab-494c-b69e-43b4aca3adda_Employee Registration app.docx"
     },
     {
-      "Identity": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Images\\0c487262-562c-4392-aa53-fc24b9bc4fdf_rrr.jpg",
->>>>>>> 5b7386477948d4ea6c767bdbcad70c6d15b0d683
+      "Identity": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\Attachments\\Images\\0c487262-562c-4392-aa53-fc24b9bc4fdf_rrr.jpg",
       "SourceId": "FHP",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\wwwroot\\",

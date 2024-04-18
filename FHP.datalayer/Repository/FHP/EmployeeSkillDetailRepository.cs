@@ -130,6 +130,11 @@ namespace FHP.datalayer.Repository.FHP
             }
 
             await _dataContext.SaveChangesAsync();
+
+
+           /* var itemsToDelete = await _dataContext.EmployeeSkillDetails.Where(s => ids.Contains(s.Id)).ToListAsync();
+            _dataContext.EmployeeSkillDetails.RemoveRange(itemsToDelete);
+            await _dataContext.SaveChangesAsync();*/
         }
     }
 }

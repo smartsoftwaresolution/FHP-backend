@@ -20,7 +20,7 @@ namespace FHP.Controllers.FHP
         }
 
         [HttpGet("GetAllEmployee")]
-        public async Task<IActionResult> GetAllEmployeeAsync(int id)
+        public async Task<IActionResult> GetAllEmployeeAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -31,7 +31,7 @@ namespace FHP.Controllers.FHP
 
             try
             {
-             var data = await _reportManager.GetAllEmployeeAsync(id);
+             var data = await _reportManager.GetAllEmployeeCountAsync();
 
                 if(data != null)
                 {
