@@ -9,6 +9,6 @@ namespace FHP.infrastructure.Manager.FHP
 {
     public  interface IReportManager
     {
-        Task<int> GetAllEmployeeAsync(int id);
+        Task<int> GetAllEmployeeCountAsync();
     }
 }

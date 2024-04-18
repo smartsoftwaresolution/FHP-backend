@@ -20,10 +20,41 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext = dataContext; 
         }
 
-        public async Task<int> GetAllEmployeeAsync(int id)
+        public async Task<int> GetAllEmployeeCountAsync()
         {
-            var data = await _dataContext.EmployeeDetails.CountAsync(s => s.Status != Constants.RecordStatus.Deleted && s.Id == id);
-            return data;
+            /*var data = await _dataContext.EmployeeDetails.CountAsync(s => s.Status != Constants.RecordStatus.Deleted && s.Id == id);
+            return data;*/
+            var r = await _dataContext.UserRole.Where(s => s.RoleName.ToLower().Contains("employee")).Select(s => s.Id).FirstOrDefaultAsync();
+            return await _dataContext.User.CountAsync(s => s.RoleId == r && s.Status != Constants.RecordStatus.Deleted);
         }
+
+        public async Task<int> GetAllEmployerCountAsync()
+        {
+            /*var data = await _dataContext.EmployeeDetails.CountAsync(s => s.Status != Constants.RecordStatus.Deleted && s.Id == id);
+            return data;*/
+            var r = await _dataContext.UserRole.Where(s => s.RoleName.ToLower().Contains("employer")).Select(s => s.Id).FirstOrDefaultAsync();
+            return await _dataContext.User.CountAsync(s => s.RoleId == r && s.Status != Constants.RecordStatus.Deleted);
+        }
+
+        public async Task<int> GetAllTeamCountAsync()
+        {
+              return await _dataContext.User.CountAsync(s=> s.Status != Constants.RecordStatus.Deleted);
+        }
+
+        public async Task<int> GetAllJobCountAsync()
+        {
+            return await _dataContext.JobPostings.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+        }
+
+        public async Task<int> GetAllJobCountByUserIdAsync(int userId)
+        {
+            return await _dataContext.JobPostings.CountAsync(s => s.Status != Constants.RecordStatus.Deleted && s.UserId == userId);
+        }
+
+        public async Task<int> GetAllContractCountAsync()
+        {
+            return await _dataContext.Contracts.CountAsync(s => s.Status != Constants.RecordStatus.Deleted);
+        }
+
     }
 }

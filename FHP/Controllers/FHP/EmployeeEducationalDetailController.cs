@@ -120,7 +120,7 @@ namespace FHP.Controllers.FHP
                 var data = await _manager.GetAllAsync(page, pageSize,userId,search);
 
                 // Check if the retrieved data is not null.
-                if (data.employeeeducationaldetail != null && data.totalCount > 0)
+                if (data.employeeeducationaldetail != null)
                 {
                     response.StatusCode = 200;
                     response.Data = data.employeeeducationaldetail;

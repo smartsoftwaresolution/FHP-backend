@@ -167,7 +167,7 @@ namespace FHP.Controllers.FHP
                 var data = await _manager.GetAllAsync(page,pageSize,jobId, search,status);
 
                 // Check if data is retrieved successfully.
-                if (data.adminSelect != null && data.totalCount > 0)
+                if (data.adminSelect != null )
                 {
                     // Set response status code, data, and total count for successful retrieval.
                     response.StatusCode = 200;

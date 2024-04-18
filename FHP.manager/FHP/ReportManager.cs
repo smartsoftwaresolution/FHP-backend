@@ -20,9 +20,9 @@ namespace FHP.manager.FHP
 
         }
 
-        public async Task<int> GetAllEmployeeAsync(int id)
+        public async Task<int> GetAllEmployeeCountAsync()
         {
-            return await _reportRepository.GetAllEmployeeAsync(id);
+            return await _reportRepository.GetAllEmployeeCountAsync();
         }
 
 
