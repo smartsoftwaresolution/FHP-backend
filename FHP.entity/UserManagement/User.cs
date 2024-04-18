@@ -35,5 +35,6 @@ namespace FHP.entity.UserManagement
 
         public ICollection<JobPosting> JobPosts { get; set; }
         public ICollection<EmployeeProfessionalDetail> ProfessionalDetails { get; set; }
+        public ICollection<EmployeeSkillDetail> SkillDetails { get; set; }
     }
 }

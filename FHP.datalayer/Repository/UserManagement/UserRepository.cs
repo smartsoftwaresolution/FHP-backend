@@ -8,6 +8,10 @@ using FHP.dtos.FHP.JobPosting;
 using System.Linq.Dynamic.Core;
 using FHP.dtos.FHP.EmployeeSkill;
 
+using Microsoft.AspNetCore.Mvc;
+using FHP.entity.FHP;
+
+
 namespace FHP.datalayer.Repository.UserManagement
 {
     public class UserRepository : IUserRepository
@@ -41,9 +45,9 @@ namespace FHP.datalayer.Repository.UserManagement
 
 
 
-        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName, bool isAscending, string? skills, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities, string? employmentType)
+        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName, bool isAscending,List<int> ids, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities, string? employmentType)
         {
-            var query = from s in _dataContext.User
+            var query = from s in _dataContext.User.Include( i=> i.SkillDetails).Include(t=> t.ProfessionalDetails)
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
 
                         /*join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
@@ -52,7 +56,7 @@ namespace FHP.datalayer.Repository.UserManagement
                         from jd in jobPosting.DefaultIfEmpty()*/
 
                         where s.Status != Constants.RecordStatus.Deleted
-                        select new { user = s, t,job = s.JobPosts,professional = s.ProfessionalDetails,/*, employeedetail = ed*/ };
+                        select new { user = s, t,job = s.JobPosts,professional = s.ProfessionalDetails/*, employeedetail = ed*/ };
             
 
             if (!string.IsNullOrEmpty(search))
@@ -79,9 +83,11 @@ namespace FHP.datalayer.Repository.UserManagement
             }
 
             
-            if (skills != null)
+            /*if (skills != null)
             {
                 query = query.Where(s => s.user.JobPosts.Any(detail => detail.Skills == skills));
+<<<<<<< HEAD
+=======
             }
 
             /*List<int> ids = new List<int>();
@@ -89,7 +95,36 @@ namespace FHP.datalayer.Repository.UserManagement
             if (ids != null)
             {
                 query = query.Where(s => ids.Any(id => s.user.JobPosts.Any(detail => detail.Id == id)));
+>>>>>>> 5b7386477948d4ea6c767bdbcad70c6d15b0d683
             }*/
+
+           /* List<int> ids = new List<int>();*/
+
+            if (ids != null && ids.Count > 0)
+            {
+                // Get the IDs of users having EmployeeSkillDetails with the provided IDs
+                var userIdsWithMatchingSkills = await _dataContext.User
+                    .Where(user => user.SkillDetails.Any(detail => ids.Contains(detail.SkillId)))
+                    .Select(user => user.Id)
+                    .ToListAsync();
+
+                // Filter the main query based on the retrieved user IDs
+                query = query.Where(join => userIdsWithMatchingSkills.Contains(join.user.Id));
+
+                /* var skillIds = await _dataContext.SkillsDetails
+                                                             .Where(skill => ids.Contains(skill.Id))
+                                                             .Select(skill => skill.Id)
+                                                             .ToListAsync();
+
+                 query = query.Where(s => skillIds.Any(id => s.user.SkillDetails
+                                                  .Any(detail => detail.SkillId == id)));*/
+
+
+                /* var idsArray = ids.ToArray();
+                 query = query.Where(q => idsArray.Any(id => q.user.SkillDetails.Any(detail => detail.Id == id)));
+ */
+                /* query = query.Where(s => ids.Any(id => s.user.SkillDetails.Any(detail => detail.SkillId == id)));*/
+            }
 
             if (employmentStatus != null)
             {

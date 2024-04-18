@@ -46,14 +46,12 @@ namespace FHP.Controllers.FHP
             {
                 if (model.Id == 0 && model.UserId != 0 && model.CountryId != 0 && model.StateId != 0 && model.CityId != 0
                    && model.Phone != null && model.AlternatePhone != null   && model.EmergencyContactNumber != 0
-
                    && !string.IsNullOrEmpty(model.MaritalStatus)
                    && !string.IsNullOrEmpty(model.Gender)
                    && !string.IsNullOrEmpty(model.PermanentAddress))
 
                 {
                     string profileImg = string.Empty;
-
                     string profileResume = string.Empty;
 
                     // Upload profile image if provided.
@@ -61,6 +59,7 @@ namespace FHP.Controllers.FHP
                     {
                         profileImg = await _fileUploadService.UploadIFormFileAsync(model.ProfileImgURL); // Profile Image Upload service
                     }
+                   
                     // Upload resume if provided.
                     if (model.ResumeURL != null)
                     {

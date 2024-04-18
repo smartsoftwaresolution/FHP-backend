@@ -138,7 +138,7 @@ namespace FHP.Controllers.FHP
                 var data = await _manager.GetAllAsync(page,pageSize,search,employeeId,employerId);
 
                 // Check if data is retrieved successfully.
-                if (data.contract != null && data.totalCount > 0)
+                if (data.contract != null)
                 {
                     response.StatusCode = 200;
                     response.Data = data.contract;

@@ -30,6 +30,12 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.CreatedOn).IsRequired();
             builder.Property(x => x.UpdatedOn).IsRequired(false);
             builder.Property(x => x.Status).IsRequired();
+
+
+            builder.HasOne(x => x.User)
+            .WithMany(c => c.SkillDetails)
+            .HasForeignKey(cf => cf.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
