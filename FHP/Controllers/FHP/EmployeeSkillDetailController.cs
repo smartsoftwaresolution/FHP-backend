@@ -30,7 +30,7 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.y
                 return BadRequest(ModelState.GetErrorList());  
             }
 
