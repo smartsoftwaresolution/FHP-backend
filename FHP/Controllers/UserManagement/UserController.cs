@@ -102,6 +102,7 @@ namespace FHP.Controllers.UserManagement
 
                     // Commits the transaction as all operations are successful
                     await transaction.CommitAsync();
+                    response.StatusCode = 200;
                     response.Message = Constants.added;
 
                     // Returns Ok response with the success message

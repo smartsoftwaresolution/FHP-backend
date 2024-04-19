@@ -53,13 +53,13 @@ namespace FHP.Controllers.FHP
                     // Add the EmployeeAvailability model asynchronously.
                     await _manager.AddAsync(model);
 
-                    var token = await _tokenManager.FcmTokenByRole("employee");
+                    /*var token = await _tokenManager.FcmTokenByRole("employee");
 
                     foreach(var t in token)
                     {
                         string body = $"Hello Dear \n\nWe hope this message finds you well. We are writing to inquire about your availability regarding the job opportunity recently posted for [Job Position]. Could you please let us know your current availability and any potential constraints regarding the job?\n\nYour prompt response would be highly appreciated.\n\nBest regards";
                         await _sendNotificationService.SendNotification("Job Availability Inquiry", body, t.TokenFCM);
-                    }
+                    }*/
                    
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
@@ -213,6 +213,7 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAddResponse<object>();
+
             try
             {
 
@@ -267,12 +268,15 @@ namespace FHP.Controllers.FHP
                 // Call the manager method to set Employee availability for the job.
                 string result = await _manager.SetEmployeeAvalibility(model);
 
-                var token = await _tokenManager.FcmTokenByRole("admin");
-
-                foreach (var t in token)
+                if (model.EmployeeAvailability == Constants.EmployeeAvailability.Available)
                 {
-                    string body = "An employee is available for Job.";
-                    await _sendNotificationService.SendNotification("Employee Avalibililty", body, t.TokenFCM);
+                    var token = await _tokenManager.FcmTokenByRole("admin");
+
+                    foreach (var t in token)
+                    {
+                        string body = "An employee is available for Job.";
+                        await _sendNotificationService.SendNotification("Employee Avalibililty", body, t.TokenFCM);
+                    }
                 }
 
 

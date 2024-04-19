@@ -58,15 +58,15 @@ namespace FHP.Controllers.FHP
                     await _manager.AddAsync(model);
 
 
-                       var token = await _tokenManager.FcmTokenByRole("employer");
+                     /*  var token = await _tokenManager.FcmTokenByRole("employer");
 
                         foreach (var t in token)
                         {
                             if(t.UserId == model.EmployerId)
                             {
-                                await _sendNotificationService.SendNotification("Sent", "", t.TokenFCM);
+                                await _sendNotificationService.SendNotification("Sent", "OK", t.TokenFCM);
                             }
-                        }
+                        }*/
                     
 
 
@@ -351,23 +351,26 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                }
 
-               string result = await _manager.AcceptRejectAsync(jobId, employeeId);
+                string result = await _manager.AcceptRejectAsync(jobId, employeeId);
 
-                
+                /*
                 var token = await _tokenManager.FcmTokenByRole("admin");
-                var token1 = await _tokenManager.FcmTokenByRole("employee");
 
                 foreach (var t in token)
                 {
                     string body = $"employer {result}";
-                    await _sendNotificationService.SendNotification("Application", body, t.TokenFCM);
+                    await _sendNotificationService.SendNotification("Employer Accepted", body, t.TokenFCM);
                 }
+
+
+                var token1 = await _tokenManager.FcmTokenByRole("employee");
 
                 foreach (var y in token1)
                 {
                     string body = $"employer {result} ";
-                    await _sendNotificationService.SendNotification("Application", body, y.TokenFCM);
-                }
+                    await _sendNotificationService.SendNotification("", body, y.TokenFCM);
+                }*/
+
                 response.StatusCode = 200;
                 response.Message = $" {result} Succesfully! ";
                 return Ok(response);
