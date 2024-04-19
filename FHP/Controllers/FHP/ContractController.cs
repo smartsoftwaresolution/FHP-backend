@@ -1,7 +1,9 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
+using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.Contract;
+using FHP.services;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,13 +16,20 @@ namespace FHP.Controllers.FHP
         private readonly IContractManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISendNotificationService _sendNotificationService;
+        private readonly IFCMTokenManager _fCMTokenManager;
+
         public ContractController(IContractManager manager, 
                                   IExceptionHandleService exceptionHandleService,
-                                  IUnitOfWork unitOfWork)
+                                  IUnitOfWork unitOfWork,
+                                  ISendNotificationService sendNotificationService,
+                                  IFCMTokenManager fCMTokenManager)
         {
             _manager=manager;
             _exceptionHandleService = exceptionHandleService;
             _unitOfWork = unitOfWork;
+            _sendNotificationService = sendNotificationService;
+            _fCMTokenManager = fCMTokenManager;
         }
 
 
@@ -49,6 +58,24 @@ namespace FHP.Controllers.FHP
                 {
                     // Add the contract model asynchronously.
                     await _manager.AddAsync(model);
+
+
+                   /* var token = await _fCMTokenManager.FcmTokenByRole("admin");
+
+                    foreach (var t in token)
+                    {
+                        string body = "I hope this message finds you well. I am writing to inform you about a new contract that has been created Please review the details of the contract at your earliest convenience.";
+                        await _sendNotificationService.SendNotification("Dear sir a new contract has been created", body, t.TokenFCM);
+                    }
+
+
+                    var token1 = await _fCMTokenManager.FcmTokenByRole("employee");
+
+                    foreach (var y in token1)
+                    {
+                        string body = "I trust this message finds you well. I am writing to inform you that a new contract has been created Please carefully examine the terms and conditions outlined in the contract.. Should you have any questions or require clarification on any aspect, do not hesitate to reach out to me.";
+                        await _sendNotificationService.SendNotification("contract has been created", body, y.TokenFCM);
+                    }*/
 
                     // Commit the transaction.
                     await transaction.CommitAsync();  

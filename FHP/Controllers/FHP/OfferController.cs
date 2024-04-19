@@ -1,7 +1,9 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
+using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.Offer;
+using FHP.services;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,14 +16,20 @@ namespace FHP.Controllers.FHP
         private readonly IOfferManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IFCMTokenManager _fCMTokenManager;
+        private readonly ISendNotificationService _sendNotificationService;
 
         public OfferController(IOfferManager manager,
                               IExceptionHandleService exceptionHandleService,
-                              IUnitOfWork unitOfWork)
+                              IUnitOfWork unitOfWork,
+                              IFCMTokenManager fCMTokenManager,
+                              ISendNotificationService sendNotificationService)
         {
             _manager  = manager;
             _exceptionHandleService = exceptionHandleService;
             _unitOfWork = unitOfWork;
+            _fCMTokenManager = fCMTokenManager;
+            _sendNotificationService = sendNotificationService;
         }
 
         // API endpoint to add Offer 
@@ -49,6 +57,9 @@ namespace FHP.Controllers.FHP
                 {
 
                     await _manager.AddAsync(model);
+
+
+                   
 
                     // Commit the transaction.
                     await transaction.CommitAsync();
