@@ -428,7 +428,7 @@ namespace FHP.Controllers.UserManagement
                     // Calls the manager to log out the user asynchronously
                     await _manager.UserLogOut(userId);
 
-                    await _manager.RemoveFCMToken(userId, fcmToken);
+                   // await _manager.RemoveFCMToken(userId, fcmToken);
 
                     // Sets StatusCode to 200 indicating success
                     response.StatusCode = (int)HttpStatusCode.OK;
@@ -546,7 +546,7 @@ namespace FHP.Controllers.UserManagement
                         msg = "OTP send"
                     };
 
-                    var emailSeting = await _emailSettingManager.GetByIdAsync(1);
+                    var emailSeting = await _emailSettingManager.GetByIdAsync(2);
 
                     // Constructs email message
                     MailMessage mail = new MailMessage();
