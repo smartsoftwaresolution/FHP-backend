@@ -39,7 +39,7 @@ namespace FHP.Controllers.UserManagement
         }
 
         // API Endpoint for add user
-        [HttpPost("add")] 
+        [HttpPost("add")]  
         public async Task<IActionResult> AddAsync(AddUserModel model)
         {
             // Checks if the model state is valid

@@ -1,4 +1,5 @@
 ﻿using FHP.datalayer.Repository.FHP;
+using FHP.dtos.FHP.DashBoard;
 using FHP.dtos.FHP.EmployeeDetail;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
@@ -23,6 +24,11 @@ namespace FHP.manager.FHP
         public Task<int> GetAllContractCountAsync()
         {
             return _reportRepository.GetAllContractCountAsync();
+        }
+
+        public async Task<DashBoardDto> GetAllCount(string rolename)
+        {
+            return await _reportRepository.GetAllCount(rolename);
         }
 
         public async Task<int> GetAllEmployeeCountAsync()

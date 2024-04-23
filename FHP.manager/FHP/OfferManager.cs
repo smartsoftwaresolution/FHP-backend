@@ -43,9 +43,14 @@ namespace FHP.manager.FHP
             await _repository.DeleteAsync(id);
         }
 
-        public async Task<string> OfferAcceptRejectAsync(int id, int jobId, int employeeId)
+        /*public async Task<string> OfferAcceptRejectAsync(int id, int jobId, int employeeId)
         {
            return  await _repository.OfferAcceptRejectAsync(id, jobId, employeeId);
+        }*/
+
+        public async Task<string> OfferAcceptRejectAsync(SetOfferStatusModel model)
+        {
+            return await _repository.OfferAcceptRejectAsync(model);
         }
     }
 }

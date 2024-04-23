@@ -47,7 +47,7 @@ namespace FHP.datalayer.Repository.UserManagement
 
         public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName, bool isAscending,List<int> ids, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities, string? employmentType)
         {
-            var query = from s in _dataContext.User.Include( i=> i.SkillDetails).Include(t=> t.ProfessionalDetails)
+            var query = from s in _dataContext.User.Include( i => i.SkillDetails).Include(t => t.ProfessionalDetails)
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
 
                         /*join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
