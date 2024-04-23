@@ -261,7 +261,7 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex);
             }
         }
-
+/*
         [HttpPost("OfferAcceptReject")]
         public async Task<IActionResult> OfferAcceptRejectAsync(int id,int jobId,int employeeId)
         {
@@ -291,6 +291,37 @@ namespace FHP.Controllers.FHP
             catch(Exception ex)
             {
                 return await _exceptionHandleService.HandleException(ex);
+            }
+        }*/
+
+        [HttpPost("OfferAcceptReject")]
+        public async Task<IActionResult> AcceptRejectAsync(SetOfferStatusModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd(); 
+
+            try
+            {
+                if(model.EmployeeId <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required";
+                    return BadRequest(response);
+                }
+
+                string result = await _manager.OfferAcceptRejectAsync(model);
+
+                response.StatusCode = 200;
+                response.Message = $"Offer {result} Succesfully!!";
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);   
             }
         }
     }

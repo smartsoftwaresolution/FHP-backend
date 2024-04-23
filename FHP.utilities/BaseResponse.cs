@@ -54,11 +54,11 @@ namespace FHP.utilities
 
 
          public class BaseResponseAdd
-        {
+         {
             public int StatusCode { get; set; }
            
             public string Message { get; set; }
-        }
+         }
         public class BaseResponseAddResponse<T>
         {
             public int StatusCode { get; set; }
@@ -74,33 +74,22 @@ namespace FHP.utilities
             public int TotalCount { get; set; }
         }
 
-        public class ResponseDashboardCounts
+        public class ResponseDashboardCounts<T>
         {
-            #region
+
             public int StatusCode { get; set; }
-            public decimal AverageHandleTime { get; set; }
-            public decimal AverageWaitTime { get; set; }
-            public decimal Conversion { get; set; }
-            public int ClientCustomers { get; set; }
-            public int Calls { get; set; }
-            public int Sales { get; set; }
-
-            public int AgentLoggedIn { get; set; }
-            public int AgentInCalls { get; set; }
-            public int AgentsWaiting { get; set; }
-            public int AgentsPaused { get; set; }
-            #endregion
-
-          
-          //public int DialLevel { get; set; }
-            public int DialableLeads { get; set; }
-            public decimal ContactRate { get; set; }
-            public int WaitingCalls { get; set; }
-            public int DroppedCalls { get; set; }
-            public decimal DropRate { get; set; }
             public string Message { get; set; }
+            public T Data { get; set; }
+          /*  public int TotalEmployee { get; set; }
+            public int TotalEmployer { get; set; }
+            public int TotalUser { get; set; }
+            public int TotalJobPost { get; set; }
+            public int TotalJobPostById { get; set; }
+            public int TotalContract { get; set; }*/
+          
         }
 
+       
         public class BaseResponseDealCount
         {
             public int DealCount { get; set; }

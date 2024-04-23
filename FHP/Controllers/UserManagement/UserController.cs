@@ -39,7 +39,7 @@ namespace FHP.Controllers.UserManagement
         }
 
         // API Endpoint for add user
-        [HttpPost("add")] 
+        [HttpPost("add")]  
         public async Task<IActionResult> AddAsync(AddUserModel model)
         {
             // Checks if the model state is valid
@@ -82,7 +82,7 @@ namespace FHP.Controllers.UserManagement
 
 
                    
-                       /* var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
+                        var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
 
                         foreach(var token in tokens)
                         {
@@ -94,7 +94,7 @@ namespace FHP.Controllers.UserManagement
                             {
                                  await _sendNotificationService.SendNotification("A new employer has joined", "A new employer has joined the platform. Kindly review their information and greet them warmly", token.TokenFCM);
                             }
-                        }*/
+                        }
                     
                         
                      // Sends a verification email to the user

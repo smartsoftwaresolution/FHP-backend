@@ -1,4 +1,5 @@
-﻿using FHP.dtos.FHP.EmployeeDetail;
+﻿using FHP.dtos.FHP.DashBoard;
+using FHP.dtos.FHP.EmployeeDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace FHP.infrastructure.Manager.FHP
         Task<int> GetAllJobCountAsync();
         Task<int> GetAllJobCountByUserIdAsync(int userId);
         Task<int> GetAllContractCountAsync();
+
+        Task<DashBoardDto> GetAllCount(string rolename);
 
     }
 }

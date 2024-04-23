@@ -1,6 +1,7 @@
 ﻿using FHP.dtos.FHP.Offer;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
+using FHP.models.FHP.Offer;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 
@@ -118,26 +119,53 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task<string> OfferAcceptRejectAsync(int id, int jobId, int employeeId)
+        public async Task<string> OfferAcceptRejectAsync(SetOfferStatusModel model)
         {
             string result = string.Empty;
 
-            var data = await _dataContext.Offers.Where(s => s.Id == id && s.JobId == jobId && s.EmployeeId == employeeId).FirstOrDefaultAsync();
+            var data = await _dataContext.Offers.Where(s => s.EmployeeId == model.EmployeeId && s.EmployerId == model.EmployerId && s.JobId == model.JobId).FirstOrDefaultAsync();
 
-            if(data.IsAccepted == false)
+            if(model.IsAvaliable == Constants.OfferStatus.Accepted)
             {
-                data.IsAccepted = true;
+                data.IsAvaliable = Constants.OfferStatus.Accepted;
+                data.CancelReason = model.CancelReason;
+                data.UpdatedOn = Utility.GetDateTime();
                 result = "Accepted";
             }
+
             else
             {
-                data.IsAccepted = false;
-                result = "Reject";
+                data.IsAvaliable = Constants.OfferStatus.Rejected;
+                data.CancelReason = model.CancelReason;
+                data.UpdatedOn = Utility.GetDateTime();
+                result = "Rejected";
             }
 
             _dataContext.Offers.Update(data);
             await _dataContext.SaveChangesAsync();
-            return result;
+            return result; 
         }
+
+        /* public async Task<string> OfferAcceptRejectAsync(int id, int jobId, int employeeId)
+         {
+             string result = string.Empty;
+
+             var data = await _dataContext.Offers.Where(s => s.Id == id && s.JobId == jobId && s.EmployeeId == employeeId).FirstOrDefaultAsync();
+
+             if(data.IsAccepted == false)
+             {
+                 data.IsAccepted = true;
+                 result = "Accepted";
+             }
+             else
+             {
+                 data.IsAccepted = false;
+                 result = "Reject";
+             }
+
+             _dataContext.Offers.Update(data);
+             await _dataContext.SaveChangesAsync();
+             return result;
+         }*/
     }
 }
