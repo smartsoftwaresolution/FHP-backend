@@ -268,7 +268,7 @@ namespace FHP.Controllers.FHP
                 // Call the manager method to set Employee availability for the job.
                 string result = await _manager.SetEmployeeAvalibility(model);
 
-                if (model.EmployeeAvailability == Constants.EmployeeAvailability.Available)
+               /* if (model.EmployeeAvailability == Constants.EmployeeAvailability.Available)
                 {
                     var token = await _tokenManager.FcmTokenByRole("admin");
 
@@ -277,7 +277,7 @@ namespace FHP.Controllers.FHP
                         string body = "An employee is available for Job.";
                         await _sendNotificationService.SendNotification("Employee Avalibililty", body, t.TokenFCM);
                     }
-                }
+                }*/
 
 
                 response.StatusCode = 200;
