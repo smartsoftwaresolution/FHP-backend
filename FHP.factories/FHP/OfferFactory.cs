@@ -20,7 +20,9 @@ namespace FHP.factories.FHP
                 EmployerId = model.EmployerId,
                 Title = model.Title,
                 Description = model.Description,
-                IsAccepted = model.IsAccepted,
+               // IsAccepted = model.IsAccepted,
+               IsAvaliable = Constants.OfferStatus.Pending,
+               CancelReason = model.CancelReason,
                 Status = Constants.RecordStatus.Active,
                 CreatedOn = Utility.GetDateTime(),
             };

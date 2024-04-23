@@ -22,9 +22,13 @@ namespace FHP.datalayer.EntityConfiguration.FHP
             builder.Property(x => x.Title).IsRequired();
             builder.Property(x => x.Description).IsRequired();
             builder.Property(x => x.Status).IsRequired();
-            builder.Property(x => x.IsAccepted).IsRequired();
+          
             builder.Property(x => x.CreatedOn).IsRequired();
             builder.Property(x => x.UpdatedOn).IsRequired(false);
+
+            builder.Property(x => x.IsAvaliable).IsRequired();
+            builder.Property(x => x.CancelReason).IsRequired(false);
+
         }
     }
 }
