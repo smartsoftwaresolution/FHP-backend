@@ -1,5 +1,4 @@
-﻿ 
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.User;
@@ -17,7 +16,7 @@ namespace FHP.Controllers.UserManagement
         private readonly IEmailService _emailService;
         private readonly IFileUploadService _fileUploadService;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ISendNotificationService _sendNotificationService;
+        private readonly ISendNotificationService _notifyService;
         private readonly IFCMTokenManager _fCMTokenManager;
 
         public UserController(IUserManager manager,
@@ -25,7 +24,7 @@ namespace FHP.Controllers.UserManagement
                               IEmailService emailService,
                               IFileUploadService  fileUploadService,
                               IUnitOfWork unitOfWork,
-                              ISendNotificationService sendNotificationService,
+                              ISendNotificationService notifyService,
                               IFCMTokenManager fCMTokenManager)
                               
         {
@@ -34,13 +33,14 @@ namespace FHP.Controllers.UserManagement
             _emailService = emailService;
             _fileUploadService = fileUploadService;
             _unitOfWork = unitOfWork;
-            _sendNotificationService = sendNotificationService;
+            _notifyService = notifyService;
             _fCMTokenManager = fCMTokenManager;
         }
 
         // API Endpoint for add user
         [HttpPost("add")]  
         public async Task<IActionResult> AddAsync(AddUserModel model)
+        
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)
@@ -78,26 +78,25 @@ namespace FHP.Controllers.UserManagement
                     }
 
                     // Adds the new user and retrieves the generated user ID
-                    userid = await _manager.AddAsync(model);
+                        userid = await _manager.AddAsync(model);
 
 
-                   
-                        var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
 
-                        foreach(var token in tokens)
+                  /*  var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
+
+                    foreach (var token in tokens)
+                    {
+                        if (model.RoleName.ToLower().Contains("employee"))
                         {
-                            if (model.RoleName.ToLower().Contains("employee"))
-                            {
-                                await _sendNotificationService.SendNotification("A new employee has joined", "A new employee has joined the platform. Kindly review their information and greet them warmly", token.TokenFCM);
-                            }
-                            else if(model.RoleName.ToLower().Contains("employer"))
-                            {
-                                 await _sendNotificationService.SendNotification("A new employer has joined", "A new employer has joined the platform. Kindly review their information and greet them warmly", token.TokenFCM);
-                            }
+                            string body = "A new employee has joined the platform. Kindly review their information and greet them warmly";
+
+                            await _notifyService.SendNotificationAsync("A new employee has joined", body, token.TokenFCM);
                         }
-                    
-                        
-                     // Sends a verification email to the user
+
+                    }*/
+
+
+                    // Sends a verification email to the user
                     await _emailService.SendverificationEmail(model.Email, userid);
 
                     // Commits the transaction as all operations are successful
@@ -105,8 +104,12 @@ namespace FHP.Controllers.UserManagement
                     response.StatusCode = 200;
                     response.Message = Constants.added;
 
+
+                  
+
+
                     // Returns Ok response with the success message
-                    return Ok(response);
+                    return Ok(response); 
                 }
 
                 response.StatusCode = 400;
@@ -114,6 +117,7 @@ namespace FHP.Controllers.UserManagement
                 return BadRequest(response);
 
             }
+            
             catch (Exception ex)
             {
                 // Rolls back the transaction in case of any exceptions during the process

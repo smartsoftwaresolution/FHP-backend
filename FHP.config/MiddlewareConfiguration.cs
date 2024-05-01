@@ -25,7 +25,7 @@ namespace FHP.config
         public static void ConfigureUow(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ISendNotificationService, SendNotificationService>();    
+            
         }
         public static void ConfigureManager(IServiceCollection services)
         {
@@ -91,9 +91,8 @@ namespace FHP.config
         {
             services.AddScoped<IExceptionHandleService, ExceptionHandleService>();
             services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<IFileUploadService,FileUploadService>();   
-
+            services.AddScoped<IFileUploadService,FileUploadService>();
+            
         }
-
     }
 }
