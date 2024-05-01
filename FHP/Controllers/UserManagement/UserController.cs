@@ -16,7 +16,7 @@ namespace FHP.Controllers.UserManagement
         private readonly IEmailService _emailService;
         private readonly IFileUploadService _fileUploadService;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ISendNotificationService _notifyService;
+        
         private readonly IFCMTokenManager _fCMTokenManager;
 
         public UserController(IUserManager manager,
@@ -24,7 +24,7 @@ namespace FHP.Controllers.UserManagement
                               IEmailService emailService,
                               IFileUploadService  fileUploadService,
                               IUnitOfWork unitOfWork,
-                              ISendNotificationService notifyService,
+                            
                               IFCMTokenManager fCMTokenManager)
                               
         {
@@ -33,7 +33,7 @@ namespace FHP.Controllers.UserManagement
             _emailService = emailService;
             _fileUploadService = fileUploadService;
             _unitOfWork = unitOfWork;
-            _notifyService = notifyService;
+           
             _fCMTokenManager = fCMTokenManager;
         }
 
@@ -82,18 +82,19 @@ namespace FHP.Controllers.UserManagement
 
 
 
-                  /*  var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
 
-                    foreach (var token in tokens)
-                    {
-                        if (model.RoleName.ToLower().Contains("employee"))
-                        {
-                            string body = "A new employee has joined the platform. Kindly review their information and greet them warmly";
+                    /*  var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
 
-                            await _notifyService.SendNotificationAsync("A new employee has joined", body, token.TokenFCM);
-                        }
+                     foreach(var token in tokens.OrderByDescending(s=> s.Id))
+                      {
+                          if (model.RoleName.ToLower().Contains("employee"))
+                          {
+                              string body = "A new employee has joined the platform. Kindly review their information and greet them warmly";
 
-                    }*/
+                              await _notifyService.SendNotificationAsync("A new employee has joined", body, token.TokenFCM);
+                          }
+
+                      }*/
 
 
                     // Sends a verification email to the user
