@@ -84,7 +84,7 @@ namespace FHP.Controllers.UserManagement
                    
                         var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
 
-                        foreach(var token in tokens)
+                        foreach(var token in tokens.OrderByDescending(s=> s.Id))
                         {
                             if (model.RoleName.ToLower().Contains("employee"))
                             {
