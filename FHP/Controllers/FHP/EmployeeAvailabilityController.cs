@@ -280,6 +280,20 @@ namespace FHP.Controllers.FHP
                 }*/
 
 
+                if(result == "Available")
+                {
+                    var adminToken = await _tokenManager.FcmTokenByRole("admin");
+                    string adminMessage = $" employee {result}";
+
+                    if(adminToken != null)
+                    {
+                        await _sendNotificationService.SendNotification("employee avaliable", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+                }
+
+
+
+
                 response.StatusCode = 200;
                 response.Message = $"Employee {result} Now!!"; 
                 return Ok(response);
@@ -308,9 +322,15 @@ namespace FHP.Controllers.FHP
 
                 // Call the manager method to get Employee availability by job id for the job.
                 var data = await _manager.GetAllAvalibility(page,pageSize, search,JobId,employeeAvailability); 
+
+
+
                 
                 if (data.getallAval != null  && data.totalCount > 0)
                 {
+
+                    
+
                     response.StatusCode = 200;
                     response.Data = data.getallAval;
                     response.TotalCount = data.totalCount;

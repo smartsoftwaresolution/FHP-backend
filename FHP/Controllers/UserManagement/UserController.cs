@@ -16,7 +16,7 @@ namespace FHP.Controllers.UserManagement
         private readonly IEmailService _emailService;
         private readonly IFileUploadService _fileUploadService;
         private readonly IUnitOfWork _unitOfWork;
-        
+        private readonly ISendNotificationService _sendNotificationService;
         private readonly IFCMTokenManager _fCMTokenManager;
 
         public UserController(IUserManager manager,
@@ -24,7 +24,7 @@ namespace FHP.Controllers.UserManagement
                               IEmailService emailService,
                               IFileUploadService  fileUploadService,
                               IUnitOfWork unitOfWork,
-                            
+                              ISendNotificationService sendNotificationService,
                               IFCMTokenManager fCMTokenManager)
                               
         {
@@ -33,7 +33,7 @@ namespace FHP.Controllers.UserManagement
             _emailService = emailService;
             _fileUploadService = fileUploadService;
             _unitOfWork = unitOfWork;
-           
+            _sendNotificationService = sendNotificationService;
             _fCMTokenManager = fCMTokenManager;
         }
 
@@ -82,19 +82,54 @@ namespace FHP.Controllers.UserManagement
 
 
 
+                    //If employee or employer is register notification goes to admin panel
+                    /* var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
 
-                    /*  var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
+                     foreach (var token in tokens.OrderByDescending(s => s.Id))
+                     {
+                         if (model.RoleName.ToLower().Contains("employee"))
+                         {
+                             string body = "A new employee has joined the platform. Kindly review their information and greet them warmly";
 
-                     foreach(var token in tokens.OrderByDescending(s=> s.Id))
-                      {
-                          if (model.RoleName.ToLower().Contains("employee"))
-                          {
-                              string body = "A new employee has joined the platform. Kindly review their information and greet them warmly";
+                             await _sendNotificationService.SendNotification("A new employee has joined", body, token.TokenFCM);
+                         }
 
-                              await _notifyService.SendNotificationAsync("A new employee has joined", body, token.TokenFCM);
-                          }
+                         else if (model.RoleName.ToLower().Contains("employer"))
+                         {
+                             string body = "A new employee has joined the platform. Kindly review their information and greet them warmly";
 
-                      }*/
+                             await _sendNotificationService.SendNotification("A new employer has joined", body, token.TokenFCM);
+                         }
+                     }
+ */
+
+                    var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
+
+                    // Check if tokens exist
+                    if (tokens.Any())
+                    {
+                        string body = "";
+                        string Title = "";
+
+                        if (model.RoleName.ToLower().Contains("employee"))
+                        {
+                            body = "A new employee has joined the platform.\r\n\r\nKindly review their information and greet them warmly";
+                            Title = "A new employee has joined";
+                        }
+
+                        else if (model.RoleName.ToLower().Contains("employer"))
+                        {
+                            body = "A new employer has joined the platform.\r\n\r\nKindly review their information and greet them warmly";
+                            Title = "A new employer has joined";
+                        }
+
+                        // Send notification using the first token found in the list
+                        var token = tokens.FirstOrDefault();
+                        if (token != null)
+                        {
+                            await _sendNotificationService.SendNotification(Title, body, token.TokenFCM);
+                        }
+                    }
 
 
                     // Sends a verification email to the user

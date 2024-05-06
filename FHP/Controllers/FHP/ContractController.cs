@@ -3,7 +3,6 @@ using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.Contract;
-using FHP.services;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,25 +58,48 @@ namespace FHP.Controllers.FHP
                     // Add the contract model asynchronously.
                     await _manager.AddAsync(model);
 
+                  
 
-                   /* var token = await _fCMTokenManager.FcmTokenByRole("admin");
+                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
 
-                    foreach (var t in token)
+                    var token = adminToken.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                    if(token != null)
                     {
-                        string body = "I hope this message finds you well. I am writing to inform you about a new contract that has been created Please review the details of the contract at your earliest convenience.";
-                        await _sendNotificationService.SendNotification("Dear sir a new contract has been created", body, t.TokenFCM);
+                        string adminMessage = "Hello, A contract has been signed by both employer and employee";
+                        await _sendNotificationService.SendNotification("New Contract Notification", adminMessage, token.TokenFCM);
                     }
 
+                    var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
+                    var tokens = employeeToken.OrderByDescending(s => s.Id).FirstOrDefault();
 
-                    var token1 = await _fCMTokenManager.FcmTokenByRole("employee");
-
-                    foreach (var y in token1)
+                    if(tokens != null)
                     {
-                        string body = "I trust this message finds you well. I am writing to inform you that a new contract has been created Please carefully examine the terms and conditions outlined in the contract.. Should you have any questions or require clarification on any aspect, do not hesitate to reach out to me.";
-                        await _sendNotificationService.SendNotification("contract has been created", body, y.TokenFCM);
+                        string employeeMessage = "Hi";
+                        await _sendNotificationService.SendNotification("New contract notification", employeeMessage, tokens.TokenFCM);
+                    }
+
+                   /* var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
+
+                    var allTokens = adminToken.Concat(employeeToken).Select(t => t.TokenFCM).FirstOrDefault();
+
+                    if (allTokens != null)
+                    {
+                      string message = "A new contract has been created. Please review the details at your earliest convenience.";
+
+                      await _sendNotificationService.SendNotification("New Contract Notification", message, allTokens);
                     }*/
 
-                    // Commit the transaction.
+                    /* string adminbody = "I hope this message finds you well. I am writing to inform you about a new contract that has been created Please review the details of the contract at your earliest convenience.";
+
+                     string employeebody = "I trust this message finds you well. I am writing to inform you that a new contract has been created Please carefully examine the terms and conditions outlined in the contract.. Should you have any questions or require clarification on any aspect, do not hesitate to reach out to me.";
+
+                     await _sendNotificationService.SendNotification("Dear sir a new contract has been created", adminbody, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+
+                     await _sendNotificationService.SendNotification("Dear sir a new contract has been created", adminbody, employeeToken.Select(t => t.TokenFCM).FirstOrDefault());*/
+
+                    // Commit the transaction. 
+
                     await transaction.CommitAsync();  
                     response.StatusCode = 200;
                     response.Message = Constants.added;

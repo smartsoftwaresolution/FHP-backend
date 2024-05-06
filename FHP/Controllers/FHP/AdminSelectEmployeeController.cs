@@ -1,4 +1,5 @@
-﻿using FHP.infrastructure.DataLayer;
+﻿
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
@@ -23,7 +24,8 @@ namespace FHP.Controllers.FHP
                                              IUnitOfWork unitOfWork,
                                              ISendNotificationService sendNotificationService,
                                              IFileUploadService fileUploadService,
-                                             IFCMTokenManager tokenManager)
+                                             IFCMTokenManager tokenManager
+                                             )
         {
             _manager = manager;
             _exceptionHandleService= exceptionHandleService;
@@ -58,16 +60,30 @@ namespace FHP.Controllers.FHP
                     await _manager.AddAsync(model);
 
 
-                     /*  var token = await _tokenManager.FcmTokenByRole("employer");
+                     /* var token = await _tokenManager.FcmTokenByRole("employer");
 
-                        foreach (var t in token)
-                        {
-                            if(t.UserId == model.EmployerId)
-                            {
-                                await _sendNotificationService.SendNotification("Sent", "OK", t.TokenFCM);
-                            }
-                        }*/
+                       foreach (var t in token)
+                       {
+                           if(t.UserId == model.EmployerId)
+                           {
+                               await _sendNotificationService.SendNotification("Sent", "OK", t.TokenFCM);
+                           }
+                       }*/
+
                     
+                        var employertoken = await _tokenManager.FcmTokenByRole("employer");
+
+                        var token = employertoken.FirstOrDefault();
+
+                       if(token != null && token.UserId == model.EmployerId)
+                       {
+                         string message = "Ok";
+
+                         await _sendNotificationService.SendNotification("Sent", message, token.TokenFCM);
+                       }
+
+
+
 
 
                     // Commit the transaction.
@@ -370,6 +386,34 @@ namespace FHP.Controllers.FHP
                     string body = $"employer {result} ";
                     await _sendNotificationService.SendNotification("", body, y.TokenFCM);
                 }*/
+
+                /*var adminToken = await _tokenManager.FcmTokenByRole("admin");
+                string adminMessage = $"employer {result} ";*/
+
+                /* var employeeToken = await _tokenManager.FcmTokenByRole("employee");
+                 string employeeMessage = $"employer {result} ";*/
+
+
+                if (result == "Accepted")
+                {
+                    var adminToken = await _tokenManager.FcmTokenByRole("admin");
+                    string adminMessage = $"employer{result}";
+
+                    if (adminToken != null)
+                    {
+                        await _sendNotificationService.SendNotification(" Acknowledgement of Employment Acceptance", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+
+                    var employeeToken = await _tokenManager.FcmTokenByRole("employee");
+                    string employeeMessage = $"employer {result}";
+
+                    if (employeeToken != null)
+                    {
+                        await _sendNotificationService.SendNotification(" Acknowledgement of Employment Acceptance", employeeMessage, employeeToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+                }
+
+
 
                 response.StatusCode = 200;
                 response.Message = $" {result} Succesfully! ";

@@ -3,7 +3,6 @@ using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.Offer;
-using FHP.services;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -58,8 +57,27 @@ namespace FHP.Controllers.FHP
 
                     await _manager.AddAsync(model);
 
+                    
+                      var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
+                      var token = adminToken.OrderByDescending(s => s.Id).FirstOrDefault();
 
-                   
+                      if(token != null)
+                      {
+                        string adminMessage = "A offer has been send sucessfully!";
+                        await _sendNotificationService.SendNotification("Offer", adminMessage, token.TokenFCM);
+                      }
+
+                      var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
+                      var tokens = employeeToken.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                      if (tokens != null)
+                      {
+                        string employeeMessage = "A offer has been send sucessfully!";
+                        await _sendNotificationService.SendNotification("Offer",employeeMessage, tokens.TokenFCM);
+                      }
+
+                    
+
 
                     // Commit the transaction.
                     await transaction.CommitAsync();
@@ -314,6 +332,56 @@ namespace FHP.Controllers.FHP
                 }
 
                 string result = await _manager.OfferAcceptRejectAsync(model);
+
+
+                if(result == "Available")
+                {
+                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
+                    string adminMessage = $" employee {result}";
+
+                    if(adminToken != null)
+                    {
+                        await _sendNotificationService.SendNotification("Offer Acceptance", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+                }
+
+                else if(result == "Rejected")
+                {
+                    var adminToken1 = await _fCMTokenManager.FcmTokenByRole("admin");
+                    string adminMessage1 = $"employee {result}";
+
+                    if (adminToken1 != null)
+                    {
+
+                      await _sendNotificationService.SendNotification("Offer Rejected", adminMessage1, adminToken1.Select(t => t.TokenFCM).FirstOrDefault());
+                        
+                    }
+                }
+
+
+
+                if (result == "Available")
+                {
+                    var employerToken = await _fCMTokenManager.FcmTokenByRole("employer");
+                    string employerMessage = $" employee {result}";
+
+                    if (employerToken != null)
+                    {
+                        await _sendNotificationService.SendNotification("Offer Acceptance",employerMessage , employerToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+                }
+                else if (result == "Rejected")
+                {
+                    var employerToken1 = await _fCMTokenManager.FcmTokenByRole("employer");
+                    string employerMessage1 = $"employee {result}";
+
+                    if (employerToken1 != null)
+                    {  
+
+                      await _sendNotificationService.SendNotification("Offer Rejected", employerMessage1, employerToken1.Select(t => t.TokenFCM).FirstOrDefault());
+
+                    }
+                }
 
                 response.StatusCode = 200;
                 response.Message = $"Offer {result} Succesfully!!";

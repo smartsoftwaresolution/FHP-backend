@@ -9,6 +9,7 @@ namespace FHP.models.FHP.Offer
 {
     public class SetOfferStatusModel
     {
+        public int Id { get; set; }
         public int JobId { get; set; }
         public int EmployeeId { get; set; }
         public int EmployerId { get; set; }
