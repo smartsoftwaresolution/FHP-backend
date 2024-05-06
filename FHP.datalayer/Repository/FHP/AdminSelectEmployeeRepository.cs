@@ -98,8 +98,9 @@ namespace FHP.datalayer.Repository.FHP
                                                             InProbationCancel = s.adminSelect.InProbationCancel,
                                                             IsSelected = s.adminSelect.IsSelected,
                                                             Mobilenumber = s.employee.MobileNumber,
-                                                            Email = s.employee.Email
-                                                         }) 
+                                                            Email = s.employee.Email,
+                                                            ProfileImg = s.employee.ProfileImg,
+            }) 
                                                          .AsNoTracking()
                                                          .ToListAsync();
 

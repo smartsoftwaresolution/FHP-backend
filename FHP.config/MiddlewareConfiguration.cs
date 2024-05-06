@@ -25,7 +25,7 @@ namespace FHP.config
         public static void ConfigureUow(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ISendNotificationService, SendNotificationService>();    
+            
         }
         public static void ConfigureManager(IServiceCollection services)
         {
@@ -52,6 +52,9 @@ namespace FHP.config
             services.AddScoped<IEmployeeAvailabilityManager, EmployeeAvailabilityManager>();
             services.AddScoped<IEmployerContractConfirmationManager,EmployerContractConfirmationManager>();
             services.AddScoped<IFCMTokenManager,FCMTokenManager>(); 
+            services.AddScoped<IOfferManager,OfferManager>();
+            services.AddScoped<IGlobalNotificationManager,GlobalNotificationManager>();
+            services.AddScoped<IReportManager, ReportManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -78,6 +81,9 @@ namespace FHP.config
             services.AddScoped<IEmployeeAvailabilityRepository, EmployeeAvailabilityRepository>();
             services.AddScoped<IEmployerContractConfirmationRepository, EmployerContractConfirmationRepository>();
             services.AddScoped<IFCMTokenRepository, FCMTokenRepository>();
+            services.AddScoped<IOfferRepository, OfferRepository>();    
+            services.AddScoped<IGlobalNotificationRepository, GlobalNotificationRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();  
         }
 
 
@@ -85,9 +91,8 @@ namespace FHP.config
         {
             services.AddScoped<IExceptionHandleService, ExceptionHandleService>();
             services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped <IFileUploadService,FileUploadService>();   
-
+            services.AddScoped<IFileUploadService,FileUploadService>();
+            services.AddScoped<ISendNotificationService,SendNotificationService>();
         }
-
     }
 }

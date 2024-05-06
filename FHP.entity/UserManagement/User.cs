@@ -1,4 +1,5 @@
-﻿using FHP.utilities;
+﻿using FHP.entity.FHP;
+using FHP.utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,5 +31,10 @@ namespace FHP.entity.UserManagement
         public bool? IsVerifyByAdmin { get; set; }
         public int? Otp { get; set; }
         public string EmploymentType { get; set; }
+
+
+        public ICollection<JobPosting> JobPosts { get; set; }
+        public ICollection<EmployeeProfessionalDetail> ProfessionalDetails { get; set; }
+        public ICollection<EmployeeSkillDetail> SkillDetails { get; set; }
     }
 }

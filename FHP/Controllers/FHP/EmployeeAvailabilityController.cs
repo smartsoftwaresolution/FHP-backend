@@ -53,13 +53,13 @@ namespace FHP.Controllers.FHP
                     // Add the EmployeeAvailability model asynchronously.
                     await _manager.AddAsync(model);
 
-                    var token = await _tokenManager.FcmTokenByRole("employee");
+                    /*var token = await _tokenManager.FcmTokenByRole("employee");
 
                     foreach(var t in token)
                     {
                         string body = $"Hello Dear \n\nWe hope this message finds you well. We are writing to inquire about your availability regarding the job opportunity recently posted for [Job Position]. Could you please let us know your current availability and any potential constraints regarding the job?\n\nYour prompt response would be highly appreciated.\n\nBest regards";
                         await _sendNotificationService.SendNotification("Job Availability Inquiry", body, t.TokenFCM);
-                    }
+                    }*/
                    
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
@@ -138,7 +138,7 @@ namespace FHP.Controllers.FHP
                 return BadRequest(ModelState.GetErrorList()); 
             }
 
-                                    var response = new BaseResponsePagination<object>(); 
+             var response = new BaseResponsePagination<object>(); 
              
             try
             {
@@ -168,7 +168,7 @@ namespace FHP.Controllers.FHP
 
         //GetByEmployeeId 
         [HttpGet("GetByEmployeeId")] 
-        public async Task<IActionResult> GetByEmployeeIdAsync(int employeeId)
+        public async Task<IActionResult> GetByEmployeeIdAsync(int employeeId,string? search, Constants.EmployeeAvailability? IsAvailable)
         {
             if (!ModelState.IsValid)
             {
@@ -181,7 +181,7 @@ namespace FHP.Controllers.FHP
             try
             {
                 // Retrieve AdminSelectEmployee data by Employee Id from the manager.
-                var data = await _manager.GetByEmployeeIdAsync(employeeId);
+                var data = await _manager.GetByEmployeeIdAsync(employeeId,search, IsAvailable);
 
                 // Check if data is retrieved successfully.
                 if (data != null)
@@ -213,6 +213,7 @@ namespace FHP.Controllers.FHP
             }
 
             var response = new BaseResponseAddResponse<object>();
+
             try
             {
 
@@ -267,13 +268,30 @@ namespace FHP.Controllers.FHP
                 // Call the manager method to set Employee availability for the job.
                 string result = await _manager.SetEmployeeAvalibility(model);
 
-                var token = await _tokenManager.FcmTokenByRole("admin");
-
-                foreach (var t in token)
+               /* if (model.EmployeeAvailability == Constants.EmployeeAvailability.Available)
                 {
-                    string body = "An employee is available for Job.";
-                    await _sendNotificationService.SendNotification("Employee Avalibililty", body, t.TokenFCM);
+                    var token = await _tokenManager.FcmTokenByRole("admin");
+
+                    foreach (var t in token)
+                    {
+                        string body = "An employee is available for Job.";
+                        await _sendNotificationService.SendNotification("Employee Avalibililty", body, t.TokenFCM);
+                    }
+                }*/
+
+
+                if(result == "Available")
+                {
+                    var adminToken = await _tokenManager.FcmTokenByRole("admin");
+                    string adminMessage = $" employee {result}";
+
+                    if(adminToken != null)
+                    {
+                        await _sendNotificationService.SendNotification("employee avaliable", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
                 }
+
+
 
 
                 response.StatusCode = 200;
@@ -304,9 +322,15 @@ namespace FHP.Controllers.FHP
 
                 // Call the manager method to get Employee availability by job id for the job.
                 var data = await _manager.GetAllAvalibility(page,pageSize, search,JobId,employeeAvailability); 
+
+
+
                 
                 if (data.getallAval != null  && data.totalCount > 0)
                 {
+
+                    
+
                     response.StatusCode = 200;
                     response.Data = data.getallAval;
                     response.TotalCount = data.totalCount;

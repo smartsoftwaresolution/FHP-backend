@@ -192,6 +192,9 @@ namespace FHP.datalayer.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
@@ -423,6 +426,8 @@ namespace FHP.datalayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("EmployeeProfessionalDetail", (string)null);
                 });
 
@@ -450,6 +455,8 @@ namespace FHP.datalayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("EmployeeSkillDetail", (string)null);
                 });
@@ -564,6 +571,41 @@ namespace FHP.datalayer.Migrations
                     b.ToTable("EmployerDetail", (string)null);
                 });
 
+            modelBuilder.Entity("FHP.entity.FHP.GlobalNotification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GlobalNotification", (string)null);
+                });
+
             modelBuilder.Entity("FHP.entity.FHP.JobPosting", b =>
                 {
                     b.Property<int>("Id")
@@ -641,6 +683,8 @@ namespace FHP.datalayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("JobPosting", (string)null);
                 });
 
@@ -674,6 +718,51 @@ namespace FHP.datalayer.Migrations
                     b.HasIndex("SkillId");
 
                     b.ToTable("JobSkillDetail", (string)null);
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.Offer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CancelReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IsAvaliable")
+                        .HasColumnType("int");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Offer", (string)null);
                 });
 
             modelBuilder.Entity("FHP.entity.FHP.SkillsDetail", b =>
@@ -1295,6 +1384,28 @@ namespace FHP.datalayer.Migrations
                     b.Navigation("City");
                 });
 
+            modelBuilder.Entity("FHP.entity.FHP.EmployeeProfessionalDetail", b =>
+                {
+                    b.HasOne("FHP.entity.UserManagement.User", "User")
+                        .WithMany("ProfessionalDetails")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.EmployeeSkillDetail", b =>
+                {
+                    b.HasOne("FHP.entity.UserManagement.User", "User")
+                        .WithMany("SkillDetails")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("FHP.entity.FHP.EmployerDetail", b =>
                 {
                     b.HasOne("FHP.entity.UserManagement.City", "City")
@@ -1304,6 +1415,17 @@ namespace FHP.datalayer.Migrations
                         .IsRequired();
 
                     b.Navigation("City");
+                });
+
+            modelBuilder.Entity("FHP.entity.FHP.JobPosting", b =>
+                {
+                    b.HasOne("FHP.entity.UserManagement.User", "User")
+                        .WithMany("JobPosts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FHP.entity.FHP.JobSkillDetail", b =>
@@ -1439,6 +1561,15 @@ namespace FHP.datalayer.Migrations
             modelBuilder.Entity("FHP.entity.FHP.JobPosting", b =>
                 {
                     b.Navigation("JobSkillDetails");
+                });
+
+            modelBuilder.Entity("FHP.entity.UserManagement.User", b =>
+                {
+                    b.Navigation("JobPosts");
+
+                    b.Navigation("ProfessionalDetails");
+
+                    b.Navigation("SkillDetails");
                 });
 #pragma warning restore 612, 618
         }

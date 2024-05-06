@@ -33,11 +33,12 @@ namespace FHP.services
                     app = FirebaseApp.Create(new AppOptions()
                     {
                         Credential = GoogleCredential.FromFile(path)
-                    }, "rigup-dev");
+                        
+                    }, "testing-45eba") ;
                 }
                 catch(Exception ex)
                 {
-                    app = FirebaseApp.GetInstance("rigup-dev");
+                    app = FirebaseApp.GetInstance("testing-45eba");
                 }
 
                 var fcm = FirebaseAdmin.Messaging.FirebaseMessaging.GetMessaging(app);
@@ -59,8 +60,13 @@ namespace FHP.services
                 
                 return true;
             }
-
-            catch(Exception ex)
+            catch (FirebaseException ex)
+            {
+                // Handle Firebase-related exceptions
+                Console.WriteLine($"FirebaseException: {ex.Message}");
+                throw;
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

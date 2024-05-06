@@ -1,5 +1,4 @@
-﻿
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.User;
@@ -39,8 +38,9 @@ namespace FHP.Controllers.UserManagement
         }
 
         // API Endpoint for add user
-        [HttpPost("add")] 
+        [HttpPost("add")]  
         public async Task<IActionResult> AddAsync(AddUserModel model)
+        
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)
@@ -78,35 +78,74 @@ namespace FHP.Controllers.UserManagement
                     }
 
                     // Adds the new user and retrieves the generated user ID
-                    userid = await _manager.AddAsync(model);
+                        userid = await _manager.AddAsync(model);
 
 
-                   
-                        var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
 
-                        foreach(var token in tokens)
+                    //If employee or employer is register notification goes to admin panel
+                    /* var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
+
+                     foreach (var token in tokens.OrderByDescending(s => s.Id))
+                     {
+                         if (model.RoleName.ToLower().Contains("employee"))
+                         {
+                             string body = "A new employee has joined the platform. Kindly review their information and greet them warmly";
+
+                             await _sendNotificationService.SendNotification("A new employee has joined", body, token.TokenFCM);
+                         }
+
+                         else if (model.RoleName.ToLower().Contains("employer"))
+                         {
+                             string body = "A new employee has joined the platform. Kindly review their information and greet them warmly";
+
+                             await _sendNotificationService.SendNotification("A new employer has joined", body, token.TokenFCM);
+                         }
+                     }
+ */
+
+                    var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
+
+                    // Check if tokens exist
+                    if (tokens.Any())
+                    {
+                        string body = "";
+                        string Title = "";
+
+                        if (model.RoleName.ToLower().Contains("employee"))
                         {
-                            if (model.RoleName.ToLower().Contains("employee"))
-                            {
-                                await _sendNotificationService.SendNotification("SignUp", "employee registered successfully!!", token.TokenFCM);
-                            }
-                            else
-                            {
-                                 await _sendNotificationService.SendNotification("SignUp", "employer registered successfully!!", token.TokenFCM);
-
-                            }
+                            body = "A new employee has joined the platform.\r\n\r\nKindly review their information and greet them warmly";
+                            Title = "A new employee has joined";
                         }
-                    
-                        
-                     // Sends a verification email to the user
+
+                        else if (model.RoleName.ToLower().Contains("employer"))
+                        {
+                            body = "A new employer has joined the platform.\r\n\r\nKindly review their information and greet them warmly";
+                            Title = "A new employer has joined";
+                        }
+
+                        // Send notification using the first token found in the list
+                        var token = tokens.FirstOrDefault();
+                        if (token != null)
+                        {
+                            await _sendNotificationService.SendNotification(Title, body, token.TokenFCM);
+                        }
+                    }
+
+
+                    // Sends a verification email to the user
                     await _emailService.SendverificationEmail(model.Email, userid);
 
                     // Commits the transaction as all operations are successful
                     await transaction.CommitAsync();
+                    response.StatusCode = 200;
                     response.Message = Constants.added;
 
+
+                  
+
+
                     // Returns Ok response with the success message
-                    return Ok(response);
+                    return Ok(response); 
                 }
 
                 response.StatusCode = 400;
@@ -114,6 +153,7 @@ namespace FHP.Controllers.UserManagement
                 return BadRequest(response);
 
             }
+            
             catch (Exception ex)
             {
                 // Rolls back the transaction in case of any exceptions during the process
@@ -182,7 +222,7 @@ namespace FHP.Controllers.UserManagement
 
         // get all User with pagination,based on roleName,sorting and searching
         [HttpGet("getall-pagination")] 
-        public async Task<IActionResult> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending)
+        public async Task<IActionResult> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending,[FromQuery] List<int> ids, string? employmentStatus,string? experience,string? jobTitle,string? rolesAndResponsibilities,string? employmentType)
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)
@@ -197,7 +237,7 @@ namespace FHP.Controllers.UserManagement
             try
             {
                 // Retrieve data from the manager based on pagination parameters.
-                var data = await _manager.GetAllAsync(page, pageSize, search, roleName,isAscending);
+                var data = await _manager.GetAllAsync(page, pageSize, search, roleName,isAscending,ids,employmentStatus,experience,jobTitle,rolesAndResponsibilities,employmentType);
 
                 if (data.user != null)
                 {
@@ -502,6 +542,48 @@ namespace FHP.Controllers.UserManagement
             {
                 // Handle any exceptions using the provided exception handling service.
                 return await _exceptionHandleService.HandleException(ex);    
+            }
+        }
+
+
+        [HttpGet("profile-percentage")]
+        public async Task<IActionResult> GetProfilePercentageByUserIdAsync(int userId)
+        {
+            // Checks if the model state is valid
+            if (!ModelState.IsValid)
+            {
+                // Returns a BadRequest response with a list of errors if model state is not valid
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+
+                double data = await _manager.ProfilePercentage(userId);
+
+                // Checks if data is found
+                if (data != 0.0)
+                {
+                    // Sets StatusCode to 200 indicating success
+                    response.StatusCode = 200;
+                    response.Data = data;
+
+                    // Returns Ok response with the success message
+                    return Ok(response);
+                }
+
+                response.StatusCode = 400;
+                response.Message = Constants.error;
+
+                // Returns BadRequest response with the error message
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception using the provided exception handling service.
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
+using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.Offer;
 using FHP.utilities;
@@ -14,14 +15,20 @@ namespace FHP.Controllers.FHP
         private readonly IOfferManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IFCMTokenManager _fCMTokenManager;
+        private readonly ISendNotificationService _sendNotificationService;
 
         public OfferController(IOfferManager manager,
                               IExceptionHandleService exceptionHandleService,
-                              IUnitOfWork unitOfWork)
+                              IUnitOfWork unitOfWork,
+                              IFCMTokenManager fCMTokenManager,
+                              ISendNotificationService sendNotificationService)
         {
             _manager  = manager;
             _exceptionHandleService = exceptionHandleService;
             _unitOfWork = unitOfWork;
+            _fCMTokenManager = fCMTokenManager;
+            _sendNotificationService = sendNotificationService;
         }
 
         // API endpoint to add Offer 
@@ -49,6 +56,28 @@ namespace FHP.Controllers.FHP
                 {
 
                     await _manager.AddAsync(model);
+
+                    
+                      var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
+                      var token = adminToken.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                      if(token != null)
+                      {
+                        string adminMessage = "A offer has been send sucessfully!";
+                        await _sendNotificationService.SendNotification("Offer", adminMessage, token.TokenFCM);
+                      }
+
+                      var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
+                      var tokens = employeeToken.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                      if (tokens != null)
+                      {
+                        string employeeMessage = "A offer has been send sucessfully!";
+                        await _sendNotificationService.SendNotification("Offer",employeeMessage, tokens.TokenFCM);
+                      }
+
+                    
+
 
                     // Commit the transaction.
                     await transaction.CommitAsync();
@@ -129,10 +158,11 @@ namespace FHP.Controllers.FHP
             }
         }
 
-
+        // API endpoint to get all Offer 
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page, int pageSize,string? search)
+        public async Task<IActionResult> GetAllAsync(int page, int pageSize,string? search,int employeeId,int employerId)
         {
+            // If the model state is not valid, return a BadRequest response with a list of errors.
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.GetErrorList());
@@ -142,9 +172,9 @@ namespace FHP.Controllers.FHP
 
             try
             {
-                var data = await _manager.GetAllAsync(page,pageSize,search);
+                var data = await _manager.GetAllAsync(page,pageSize,search,employeeId,employerId);
 
-                if(data.offer != null)
+                if(data.offer != null )
                 {
                     response.StatusCode = 200;
                     response.Data = data.offer;
@@ -208,7 +238,7 @@ namespace FHP.Controllers.FHP
 
         }
 
-        //API Endpoint for deleting an employee by ID
+        //API Endpoint for deleting an Offer by ID
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -234,7 +264,7 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                // Calls the manager to asynchronously delete the employee by ID
+                // Calls the manager to asynchronously delete the Offer by ID
                 await _manager.DeleteAsync(id);
                 response.StatusCode = 200;
                 response.Message = Constants.deleted;
@@ -247,6 +277,119 @@ namespace FHP.Controllers.FHP
             {
                 // Handle any exceptions using the provided exception handling service.
                 return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+/*
+        [HttpPost("OfferAcceptReject")]
+        public async Task<IActionResult> OfferAcceptRejectAsync(int id,int jobId,int employeeId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if(id <= 0 && jobId <= 0 && employeeId <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required";
+                    return BadRequest(response);    
+                }
+
+                string result = await _manager.OfferAcceptRejectAsync(id, jobId, employeeId);
+
+                response.StatusCode = 200;
+                response.Message = $"{result} Succesfully!";
+                return Ok(response);
+
+            }
+            catch(Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }*/
+
+        [HttpPost("OfferAcceptReject")]
+        public async Task<IActionResult> AcceptRejectAsync(SetOfferStatusModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd(); 
+
+            try
+            {
+                if(model.EmployeeId <= 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Id Required";
+                    return BadRequest(response);
+                }
+
+                string result = await _manager.OfferAcceptRejectAsync(model);
+
+
+                if(result == "Available")
+                {
+                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
+                    string adminMessage = $" employee {result}";
+
+                    if(adminToken != null)
+                    {
+                        await _sendNotificationService.SendNotification("Offer Acceptance", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+                }
+
+                else if(result == "Rejected")
+                {
+                    var adminToken1 = await _fCMTokenManager.FcmTokenByRole("admin");
+                    string adminMessage1 = $"employee {result}";
+
+                    if (adminToken1 != null)
+                    {
+
+                      await _sendNotificationService.SendNotification("Offer Rejected", adminMessage1, adminToken1.Select(t => t.TokenFCM).FirstOrDefault());
+                        
+                    }
+                }
+
+
+
+                if (result == "Available")
+                {
+                    var employerToken = await _fCMTokenManager.FcmTokenByRole("employer");
+                    string employerMessage = $" employee {result}";
+
+                    if (employerToken != null)
+                    {
+                        await _sendNotificationService.SendNotification("Offer Acceptance",employerMessage , employerToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+                }
+                else if (result == "Rejected")
+                {
+                    var employerToken1 = await _fCMTokenManager.FcmTokenByRole("employer");
+                    string employerMessage1 = $"employee {result}";
+
+                    if (employerToken1 != null)
+                    {  
+
+                      await _sendNotificationService.SendNotification("Offer Rejected", employerMessage1, employerToken1.Select(t => t.TokenFCM).FirstOrDefault());
+
+                    }
+                }
+
+                response.StatusCode = 200;
+                response.Message = $"Offer {result} Succesfully!!";
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);   
             }
         }
     }

@@ -12,8 +12,11 @@ namespace FHP.infrastructure.Manager.FHP
     {
         Task AddAsync(AddOfferModel model);
         Task Edit(AddOfferModel model);
-        Task<(List<OfferDetailDto> offer, int totalCount)> GetAllAsync(int page, int pageSize, string? search);
+        Task<(List<OfferDetailDto> offer, int totalCount)> GetAllAsync(int page, int pageSize, string? search,int employeeId,int employerId);
         Task<OfferDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
+
+        // Task<string> OfferAcceptRejectAsync(int id, int jobId, int employeeId);
+        Task<string> OfferAcceptRejectAsync(SetOfferStatusModel model);
     }
 }

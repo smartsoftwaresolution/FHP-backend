@@ -1,4 +1,5 @@
-﻿using FHP.infrastructure.DataLayer;
+﻿
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
@@ -22,7 +23,9 @@ namespace FHP.Controllers.FHP
                                              IExceptionHandleService exceptionHandleService,
                                              IUnitOfWork unitOfWork,
                                              ISendNotificationService sendNotificationService,
-                                             IFCMTokenManager tokenManager)
+                                             IFileUploadService fileUploadService,
+                                             IFCMTokenManager tokenManager
+                                             )
         {
             _manager = manager;
             _exceptionHandleService= exceptionHandleService;
@@ -57,16 +60,30 @@ namespace FHP.Controllers.FHP
                     await _manager.AddAsync(model);
 
 
-                       var token = await _tokenManager.FcmTokenByRole("employer");
+                     /* var token = await _tokenManager.FcmTokenByRole("employer");
 
-                        foreach (var t in token)
-                        {
-                            if(t.UserId == model.EmployerId)
-                            {
-                                await _sendNotificationService.SendNotification("Sent", "", t.TokenFCM);
-                            }
-                        }
+                       foreach (var t in token)
+                       {
+                           if(t.UserId == model.EmployerId)
+                           {
+                               await _sendNotificationService.SendNotification("Sent", "OK", t.TokenFCM);
+                           }
+                       }*/
+
                     
+                        var employertoken = await _tokenManager.FcmTokenByRole("employer");
+
+                        var token = employertoken.FirstOrDefault();
+
+                       if(token != null && token.UserId == model.EmployerId)
+                       {
+                         string message = "Ok";
+
+                         await _sendNotificationService.SendNotification("Sent", message, token.TokenFCM);
+                       }
+
+
+
 
 
                     // Commit the transaction.
@@ -162,12 +179,11 @@ namespace FHP.Controllers.FHP
 
             try
             {
-
                 // Retrieve data from the manager based on pagination parameters.
                 var data = await _manager.GetAllAsync(page,pageSize,jobId, search,status);
 
                 // Check if data is retrieved successfully.
-                if (data.adminSelect != null)
+                if (data.adminSelect != null )
                 {
                     // Set response status code, data, and total count for successful retrieval.
                     response.StatusCode = 200;
@@ -225,7 +241,8 @@ namespace FHP.Controllers.FHP
 
                 // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
-                response.Message = Constants.error;
+                response.Message = "No data Found.";
+                response.Data = "";
                 return BadRequest(response);
             }
 
@@ -350,22 +367,54 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                }
 
-               string result = await _manager.AcceptRejectAsync(jobId, employeeId);
+                string result = await _manager.AcceptRejectAsync(jobId, employeeId);
 
-                
+                /*
                 var token = await _tokenManager.FcmTokenByRole("admin");
-                var token1 = await _tokenManager.FcmTokenByRole("employee");
 
                 foreach (var t in token)
                 {
                     string body = $"employer {result}";
-                    await _sendNotificationService.SendNotification("Application", body, t.TokenFCM);
+                    await _sendNotificationService.SendNotification("Employer Accepted", body, t.TokenFCM);
                 }
+
+
+                var token1 = await _tokenManager.FcmTokenByRole("employee");
+
                 foreach (var y in token1)
                 {
                     string body = $"employer {result} ";
-                    await _sendNotificationService.SendNotification("Application", body, y.TokenFCM);
+                    await _sendNotificationService.SendNotification("", body, y.TokenFCM);
+                }*/
+
+                /*var adminToken = await _tokenManager.FcmTokenByRole("admin");
+                string adminMessage = $"employer {result} ";*/
+
+                /* var employeeToken = await _tokenManager.FcmTokenByRole("employee");
+                 string employeeMessage = $"employer {result} ";*/
+
+
+                if (result == "Accepted")
+                {
+                    var adminToken = await _tokenManager.FcmTokenByRole("admin");
+                    string adminMessage = $"employer{result}";
+
+                    if (adminToken != null)
+                    {
+                        await _sendNotificationService.SendNotification(" Acknowledgement of Employment Acceptance", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+
+                    var employeeToken = await _tokenManager.FcmTokenByRole("employee");
+                    string employeeMessage = $"employer {result}";
+
+                    if (employeeToken != null)
+                    {
+                        await _sendNotificationService.SendNotification(" Acknowledgement of Employment Acceptance", employeeMessage, employeeToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
                 }
+
+
+
                 response.StatusCode = 200;
                 response.Message = $" {result} Succesfully! ";
                 return Ok(response);

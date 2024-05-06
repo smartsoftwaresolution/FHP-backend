@@ -30,7 +30,7 @@ namespace FHP.Controllers.FHP
         {
             if (!ModelState.IsValid)
             {
-                //it returns a BadRequest response with a list of errors.
+                //it returns a BadRequest response with a list of errors.y
                 return BadRequest(ModelState.GetErrorList());  
             }
 
@@ -178,6 +178,7 @@ namespace FHP.Controllers.FHP
                 response.Message = Constants.error;
                 return BadRequest(response);
             }
+
             catch(Exception ex) 
             {
                 // exception handler service
@@ -219,6 +220,37 @@ namespace FHP.Controllers.FHP
             {
                 // exceptionHandler service
                 return await _exceptionHandleService.HandleException(ex); 
+            }
+        }
+
+        [HttpDelete("delete-by-ids")]
+        public async Task<IActionResult> DeleteByIdsAsync([FromQuery] List<int> ids)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if(ids == null)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Ids Required";
+                    return BadRequest(response);
+                }
+
+                await _manager.DeleteByIdsAsync(ids);
+                response.StatusCode = 200;
+                response.Message = Constants.deleted;
+                return Ok(response);
+
+            }
+            catch(Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
             }
         }
     }

@@ -14,7 +14,7 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task<int> AddAsync(User entity,string roleName);
         Task<User> GetAsync(int id);
         void Edit(User entity);
-        Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page,int pageSize,string? search,string? roleName,bool isAscending);
+        Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page,int pageSize,string? search,string? roleName,bool isAscending, List<int> ids, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities, string? employmentType);
         Task<UserDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);   
         Task<UserDetailDto> GetUserByEmail(string Email);
@@ -30,6 +30,10 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task AddFCMToken(FCMToken entity);
 
         Task RemoveFCMToken(int userId, string fcmToken);
-
+        Task<double> CalculateUserPercentage(int userId);
+        Task<double> CalculateEmployeeDetailPercentage(int userId);
+        Task<double> CalculateEmployeeEducationalDetailPercentage(int userId);
+        Task<double> CalculateEmployeeProfessionalDetailPercentage(int userId);
+        Task<double> CalculateEmployeeSkillDetailPercentage(int userId);
     }
 }

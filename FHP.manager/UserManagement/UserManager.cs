@@ -1,4 +1,5 @@
 ﻿using FHP.dtos.UserManagement.User;
+using FHP.entity.FHP;
 using FHP.entity.UserManagement;
 using FHP.factories.UserManagement;
 using FHP.infrastructure.Manager.UserManagement;
@@ -31,9 +32,9 @@ namespace FHP.manager.UserManagement
             _repository.Edit(data);
         }
 
-        public async Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page ,int pageSize,string? search,string? roleName,bool isAscending)
+        public async Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page ,int pageSize,string? search,string? roleName,bool isAscending, List<int> ids, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities, string? employmentType)
         {
-            return await _repository.GetAllAsync(page,pageSize,search,roleName,isAscending);
+            return await _repository.GetAllAsync(page,pageSize,search,roleName,isAscending,ids,experience,employmentStatus,jobTitle,rolesAndResponsibilities,employmentType);
         }
 
         public async Task<UserDetailDto> GetByIdAsync(int id)
@@ -107,5 +108,32 @@ namespace FHP.manager.UserManagement
             await _repository.RemoveFCMToken(userId, fcmToken);
         }
 
+
+        public async Task<double> ProfilePercentage(int userId)
+        {
+            // Define weightage for each detail type
+            double weightageUserDetail = 0.2;
+            double weightageEmployeeDetail = 0.3;
+            double weightageEmployeeEducationalDetail = 0.2;
+            double weightageEmployeeProfessionalDetail = 0.2;
+            double weightageEmployeeSkillDetail = 0.1;
+
+            // Calculate detail fulfillment percentage for each detail type
+            double fulfillmentPercentageEmployeeDetail = await _repository.CalculateUserPercentage(userId);
+            double fulfillmentPercentageEmployeeDetail2 = await _repository.CalculateEmployeeDetailPercentage(userId);
+            double fulfillmentPercentageEmployeeEducationalDetail = await _repository.CalculateEmployeeEducationalDetailPercentage(userId);
+            double fulfillmentPercentageEmployeeProfessionalDetail = await _repository.CalculateEmployeeProfessionalDetailPercentage(userId);
+            double fulfillmentPercentageEmployeeSkillDetail = await _repository.CalculateEmployeeSkillDetailPercentage(userId);
+
+
+            double overallPercentage =
+           (fulfillmentPercentageEmployeeDetail * weightageUserDetail) +
+           (fulfillmentPercentageEmployeeDetail2 * weightageEmployeeDetail) +
+           (fulfillmentPercentageEmployeeEducationalDetail * weightageEmployeeEducationalDetail) +
+           (fulfillmentPercentageEmployeeProfessionalDetail * weightageEmployeeProfessionalDetail) +
+           (fulfillmentPercentageEmployeeSkillDetail * weightageEmployeeSkillDetail);
+
+            return overallPercentage;
+        }
     }
 }

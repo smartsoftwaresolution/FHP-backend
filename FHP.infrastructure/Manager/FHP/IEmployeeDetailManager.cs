@@ -18,6 +18,5 @@ namespace FHP.infrastructure.Manager.FHP
         Task DeleteAsync(int id);
         Task<string> SetAvailabilityAsync(int id);
         Task<CompleteEmployeeDetailDto> GetAllByIdAsync(int id);
-
     }
 }

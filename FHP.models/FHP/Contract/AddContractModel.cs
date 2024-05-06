@@ -19,6 +19,7 @@ namespace FHP.models.FHP.Contract
         public bool IsRequestToChangeAccepted { get; set; }
         public bool IsSignedByEmployee { get; set; }
         public bool IsSignedByEmployer { get; set; }
+        public string Title { get; set; }
 
     }
 }

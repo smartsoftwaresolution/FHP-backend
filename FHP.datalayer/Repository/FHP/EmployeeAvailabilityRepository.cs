@@ -70,7 +70,8 @@ namespace FHP.datalayer.Repository.FHP
             {
                 query = query.Where(s => s.employeeAval.IsAvailable == employeeAvailability);
             }
-            if (!string.IsNullOrEmpty(search))
+
+            if(!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.employeeAval.JobId.ToString().Contains(search) ||
                                        s.employeeAval.EmployeeId.ToString().Contains(search));
@@ -87,22 +88,24 @@ namespace FHP.datalayer.Repository.FHP
 
 
             var data = await query.Select(s => new EmployeeAvailabilityDetailDto
-            {
-                Id= s.employeeAval.Id,
-                UserId= s.employeeAval.UserId,
-                JobId= s.employeeAval.JobId,    
-                EmployeeId= s.employeeAval.EmployeeId,
-                FirstName = s.UserDetail.FirstName,
-                LastName= s.UserDetail.LastName,
-                Email = s.UserDetail.Email,
-                MobileNumber = s.UserDetail.MobileNumber,
-                IsAvailable= s.employeeAval.IsAvailable,
-                CreatedOn = s.employeeAval.CreatedOn,
-                Status= s.employeeAval.Status,
-                AdminjobTitle = s.employeeAval.AdminJobTitle,
-                AdminJobDescription = s.employeeAval.AdminJobDescription,
-                UpdatedOn = s.employeeAval.UpdatedOn,
-            }).ToListAsync();
+                                            {
+                                                           Id= s.employeeAval.Id,
+                                                           UserId= s.employeeAval.UserId,
+                                                           JobId= s.employeeAval.JobId,    
+                                                           EmployeeId= s.employeeAval.EmployeeId,
+                                                           FirstName = s.UserDetail.FirstName,
+                                                           LastName= s.UserDetail.LastName,
+                                                           Email = s.UserDetail.Email,
+                                                           MobileNumber = s.UserDetail.MobileNumber,
+                                                           IsAvailable= s.employeeAval.IsAvailable,
+                                                           CreatedOn = s.employeeAval.CreatedOn,
+                                                           Status= s.employeeAval.Status,
+                                                           AdminjobTitle = s.employeeAval.AdminJobTitle,
+                                                           AdminJobDescription = s.employeeAval.AdminJobDescription,
+                                                           UpdatedOn = s.employeeAval.UpdatedOn,
+                                            })
+                                             .ToListAsync();
+
 
             return (data, totalCount);
         }
@@ -143,7 +146,7 @@ namespace FHP.datalayer.Repository.FHP
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s => s.getallAval.JobId.ToString().Contains(search) ||
-                                        s.getallAval.EmployeeId.ToString().Contains(search));
+                                         s.getallAval.EmployeeId.ToString().Contains(search));
             }
 
             if(JobId > 0)
@@ -155,6 +158,7 @@ namespace FHP.datalayer.Repository.FHP
             {
                 query = query.Where(s => s.getallAval.IsAvailable == employeeAvailability);
             }
+
             var totalCount = await query.CountAsync();
 
 
@@ -168,63 +172,112 @@ namespace FHP.datalayer.Repository.FHP
             }
 
             var data = await query.Select(s => new EmployeeAvailabilityDetailDto
-            {
-                   Id = s.getallAval.Id,
-                   UserId = s.getallAval.UserId,
-                   JobId = s.getallAval.JobId,
-                   EmployeeId = s.getallAval.EmployeeId,
-                   IsAvailable = s.getallAval.IsAvailable,
-                   CreatedOn = s.getallAval.CreatedOn,
-                   Status = s.getallAval.Status,
-                   AdminjobTitle = s.getallAval.AdminJobTitle,
-                   AdminJobDescription = s.getallAval.AdminJobDescription,
-                   UpdatedOn = s.getallAval.UpdatedOn,
-                   FirstName = s.UserDetail.FirstName,
-                   LastName = s.UserDetail.LastName,
-                   Email = s.UserDetail.Email,
-                   MobileNumber = s.UserDetail.MobileNumber,
-                   FullName = s.UserDetail.FirstName + " " + s.UserDetail.LastName,
-                        
-                  
-                   JobTitle = s.jobDetails.JobTitle,
-                   Description = s.jobDetails.Description,
-                   Experience = s.jobDetails.Experience,
-                   RolesAndResponsibilities = s.jobDetails.RolesAndResponsibilities,
-                   Skills = s.jobDetails.Skills,
-                   Address = s.jobDetails.Address,
-                   Payout = s.jobDetails.Payout,
-                   EmploymentType = s.jobDetails.EmploymentType,
-                   InProbationCancel = s.jobDetails.InProbationCancel,
-                   JobStatus = s.jobDetails.JobStatus,
+                                        {
+                                                         Id = s.getallAval.Id,
+                                                         UserId = s.getallAval.UserId,
+                                                         JobId = s.getallAval.JobId,
+                                                         EmployeeId = s.getallAval.EmployeeId,
+                                                         IsAvailable = s.getallAval.IsAvailable,
+                                                         CreatedOn = s.getallAval.CreatedOn,
+                                                         Status = s.getallAval.Status,
+                                                         AdminjobTitle = s.getallAval.AdminJobTitle,
+                                                         AdminJobDescription = s.getallAval.AdminJobDescription,
+                                                         UpdatedOn = s.getallAval.UpdatedOn,
+                                                         FirstName = s.UserDetail.FirstName,
+                                                         LastName = s.UserDetail.LastName,
+                                                         Email = s.UserDetail.Email,
+                                                         MobileNumber = s.UserDetail.MobileNumber,
+                                                         FullName = s.UserDetail.FirstName + " " + s.UserDetail.LastName,
+                                                         ProfileImg = s.UserDetail.ProfileImg,
+
+                                                         JobTitle = s.jobDetails.JobTitle,
+                                                         Description = s.jobDetails.Description,
+                                                         Experience = s.jobDetails.Experience,
+                                                         RolesAndResponsibilities = s.jobDetails.RolesAndResponsibilities,
+                                                         Skills = s.jobDetails.Skills,
+                                                         Address = s.jobDetails.Address,
+                                                         Payout = s.jobDetails.Payout,
+                                                         EmploymentType = s.jobDetails.EmploymentType,
+                                                         InProbationCancel = s.jobDetails.InProbationCancel,
+                                                         JobStatus = s.jobDetails.JobStatus,
 
 
-            }).ToListAsync();
+                                         })
+                                          .ToListAsync();
+
 
             return (data, totalCount);
                          
         }
 
-        public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId)
+        public async Task<List<EmployeeAvailabilityDetailDto>> GetByEmployeeIdAsync(int employeeId, string? search, Constants.EmployeeAvailability? IsAvailable)
         {
-            return await (from s in _dataContext.EmployeeAvailabilities
-                          where s.Status != Constants.RecordStatus.Deleted &&
-                          s.EmployeeId == employeeId
 
-                          select new EmployeeAvailabilityDetailDto
-                          {
-                              Id = s.Id,
-                              UserId = s.UserId,
-                              JobId = s.JobId,
-                              EmployeeId = s.EmployeeId,
-                              IsAvailable = s.IsAvailable,
-                              CreatedOn = s.CreatedOn,
-                              Status = s.Status,
-                              AdminjobTitle = s.AdminJobTitle,
-                              AdminJobDescription = s.AdminJobDescription,
-                              UpdatedOn = s.UpdatedOn,
-                              
-                          }).AsNoTracking().OrderByDescending(s=> s.Id).ToListAsync();
-        }
+            var query = from s in _dataContext.EmployeeAvailabilities
+                        where s.Status != Constants.RecordStatus.Deleted 
+                        select s;
+
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.EmployeeId.ToString().Contains(search));
+            }
+
+
+            if (employeeId > 0)
+            {
+                query = query.Where(s => s.EmployeeId == employeeId);
+            }
+
+            if (IsAvailable != null)
+            {
+                query = query.Where(s => s.IsAvailable == IsAvailable);
+            }
+
+
+            var totalCount = await query.CountAsync();
+
+            query = query.OrderByDescending(s => s.Id);
+
+            var data = await query.Select(s => new EmployeeAvailabilityDetailDto
+            {
+                Id = s.Id,
+                UserId = s.UserId,
+                JobId = s.JobId,
+                EmployeeId = s.EmployeeId,
+                IsAvailable = s.IsAvailable,
+                CreatedOn = s.CreatedOn,
+                Status = s.Status,
+                AdminjobTitle = s.AdminJobTitle,
+                AdminJobDescription = s.AdminJobDescription,
+                UpdatedOn = s.UpdatedOn,
+            }).AsNoTracking().ToListAsync();
+
+            return data;
+            
+
+
+                /*return await (from s in _dataContext.EmployeeAvailabilities
+                              where s.Status != Constants.RecordStatus.Deleted &&
+                              s.EmployeeId == employeeId
+
+
+
+                              select new EmployeeAvailabilityDetailDto
+                              {
+                                  Id = s.Id,
+                                  UserId = s.UserId,
+                                  JobId = s.JobId,
+                                  EmployeeId = s.EmployeeId,
+                                  IsAvailable = s.IsAvailable,
+                                  CreatedOn = s.CreatedOn,
+                                  Status = s.Status,
+                                  AdminjobTitle = s.AdminJobTitle,
+                                  AdminJobDescription = s.AdminJobDescription,
+                                  UpdatedOn = s.UpdatedOn,
+
+                              }).AsNoTracking().OrderByDescending(s=> s.Id).ToListAsync();*/
+            }
 
         public async Task DeleteAsync(int id)
         {

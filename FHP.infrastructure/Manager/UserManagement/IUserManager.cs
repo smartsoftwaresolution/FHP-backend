@@ -8,7 +8,7 @@ namespace FHP.infrastructure.Manager.UserManagement
     {
         Task<int> AddAsync(AddUserModel model);
         Task EditAsync(AddUserModel model);
-        Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page,int pageSize,string? search,string? roleName,bool isAscending);
+        Task<(List<UserDetailDto> user,int totalCount)> GetAllAsync(int page,int pageSize,string? search,string? roleName,bool isAscending, List<int> ids, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities,string? employmentType);
         Task<UserDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
         Task<UserDetailDto> GetUserByEmail(string Email);
@@ -23,5 +23,6 @@ namespace FHP.infrastructure.Manager.UserManagement
         Task<bool> SaveOtp(string email, int otp);
         Task AddFCMToken(FCMToken entity);
         Task RemoveFCMToken(int userId,string fcmToken);
+        Task<double> ProfilePercentage(int userId);
     }
 }

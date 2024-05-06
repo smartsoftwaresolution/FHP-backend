@@ -2,9 +2,15 @@
 using FHP.infrastructure.Repository.UserManagement;
 using Microsoft.EntityFrameworkCore;
 using FHP.utilities;
-using FHP.dtos.FHP;
 using FHP.dtos.UserManagement.User;
 using FHP.dtos.FHP.EmployeeDetail;
+using FHP.dtos.FHP.JobPosting;
+using System.Linq.Dynamic.Core;
+using FHP.dtos.FHP.EmployeeSkill;
+
+using Microsoft.AspNetCore.Mvc;
+using FHP.entity.FHP;
+
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -37,15 +43,21 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext.SaveChanges();
         }
 
-        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName,bool isAscending = false)
-        {
-            
-            var query = from s in _dataContext.User
-                        join t in _dataContext.UserRole on s.RoleId equals t.Id
-                        
-                        where s.Status != Constants.RecordStatus.Deleted 
-                        select new { user = s, t };
 
+
+        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName, bool isAscending,List<int> ids, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities, string? employmentType)
+        {
+            var query = from s in _dataContext.User.Include( i=> i.SkillDetails).Include(t=> t.ProfessionalDetails)
+                        join t in _dataContext.UserRole on s.RoleId equals t.Id
+
+                        /*join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
+                        from ed in empDetails.DefaultIfEmpty()*/
+                      /*  join j in _dataContext.JobPostings on s.Id equals j.UserId into jobPosting
+                        from jd in jobPosting.DefaultIfEmpty()*/
+
+                        where s.Status != Constants.RecordStatus.Deleted
+                        select new { user = s, t,job = s.JobPosts,professional = s.ProfessionalDetails/*, employeedetail = ed*/ };
+            
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -66,29 +78,101 @@ namespace FHP.datalayer.Repository.UserManagement
                 else
                 {
                     query = query.Where(s => s.t.RoleName == roleName);
-
                 }
 
-            }          
+            }
+
             
+            /*if (skills != null)
+            {
+                query = query.Where(s => s.user.JobPosts.Any(detail => detail.Skills == skills));
+<<<<<<< HEAD
+=======
+            }
+
+            /*List<int> ids = new List<int>();
+
+            if (ids != null)
+            {
+                query = query.Where(s => ids.Any(id => s.user.JobPosts.Any(detail => detail.Id == id)));
+>>>>>>> 5b7386477948d4ea6c767bdbcad70c6d15b0d683
+            }*/
+
+           /* List<int> ids = new List<int>();*/
+
+            if (ids != null && ids.Count > 0)
+            {
+                // Get the IDs of users having EmployeeSkillDetails with the provided IDs
+                var userIdsWithMatchingSkills = await _dataContext.User
+                    .Where(user => user.SkillDetails.Any(detail => ids.Contains(detail.SkillId)))
+                    .Select(user => user.Id)
+                    .ToListAsync();
+
+                // Filter the main query based on the retrieved user IDs
+                query = query.Where(join => userIdsWithMatchingSkills.Contains(join.user.Id));
+
+                /* var skillIds = await _dataContext.SkillsDetails
+                                                             .Where(skill => ids.Contains(skill.Id))
+                                                             .Select(skill => skill.Id)
+                                                             .ToListAsync();
+
+                 query = query.Where(s => skillIds.Any(id => s.user.SkillDetails
+                                                  .Any(detail => detail.SkillId == id)));*/
+
+
+                /* var idsArray = ids.ToArray();
+                 query = query.Where(q => idsArray.Any(id => q.user.SkillDetails.Any(detail => detail.Id == id)));
+ */
+                /* query = query.Where(s => ids.Any(id => s.user.SkillDetails.Any(detail => detail.SkillId == id)));*/
+            }
+
+            if (employmentStatus != null)
+            {
+                query = query.Where(s => s.user.ProfessionalDetails.Any(y => y.EmploymentStatus == employmentStatus));
+            }
+
+            if (experience != null)
+            {
+                query = query.Where(s => /*s.job.Experience == experience */  s.user.JobPosts.Any(t => t.Experience == experience));
+            }
+
+            /*if (employmentStatus != null)
+            {
+                query = query.Where(s => s.employeedetail.EmploymentStatus == employmentStatus);
+            }*/
+
+            if (jobTitle != null)
+            {
+                query = query.Where(s => /*s.job.JobTitle == jobTitle &&*/ s.user.JobPosts.Any(t => t.JobTitle == jobTitle));
+            }
+
+            if (rolesAndResponsibilities != null)
+            {
+                query = query.Where(s => /*s.job.RolesAndResponsibilities == rolesAndResponsibilities &&*/ s.user.JobPosts.Any(t => t.RolesAndResponsibilities == rolesAndResponsibilities));
+            }
+
+            if(employmentType != null)
+            {
+                query = query.Where(s => s.user.EmploymentType == employmentType);
+            }
 
             var totalCount = await query.CountAsync();
 
             if (isAscending == true)
             {
                 query = query.OrderBy(s => s.user.Id);
-
             }
-
             else
             {
                 query = query.OrderByDescending(s => s.user.Id);
             }
-            
+
             if (page > 0 && pageSize > 0)
             {
                 query = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
+
+          
 
             var data = await query.Select(s => new UserDetailDto
             {
@@ -110,48 +194,235 @@ namespace FHP.datalayer.Repository.UserManagement
                 MobileNumber = s.user.MobileNumber,
                 IsVerifyByAdmin = s.user.IsVerifyByAdmin,
                 EmploymentType = s.user.EmploymentType,
+                EmploymentStatus =  _dataContext.EmployeeProfessionalDetails.Where( r=> r.UserId == s.user.Id).Select( n => n.EmploymentStatus).ToString() ?? "",
+                // EmploymentStatus = s.employeedetail.EmploymentStatus,
+                /* Skills = s.job.Skills,
+                 JobTitle = s.job.JobTitle,
+                 Experience = s.job.Experience,
+                 RolesAndResponsibilities = s.job.RolesAndResponsibilities,*/
+
+                JobPostingDetail = (from j in _dataContext.JobPostings
+                                    where j.UserId == s.user.Id
+                                    select new JobPostingDto
+                                    {
+                                        Skills = j.Skills,
+                                        JobTitle = j.JobTitle,
+                                        RolesAndResponsibilities = j.RolesAndResponsibilities,
+                                        Experience = j.Experience,
+                                    }).ToList(),
+
                 EmployeeDetails = (from e in _dataContext.EmployeeDetails
-                                  where e.UserId == s.user.Id
-                                  select new EmployeeDetailDto 
-                                  {
-                                      Id = e.Id,
-                                      UserId = e.UserId,
-                                      MaritalStatus = e.MaritalStatus,
-                                      Gender = e.Gender,
-                                      DOB = e.DOB,
-                                      CountryId = e.CountryId,
-                                      StateId = e.StateId,
-                                      CityId = e.CityId,
-                                      ResumeURL = e.ResumeURL,
-                                      ProfileImgURL = e.ProfileImgURL,
-                                      IsAvailable = e.IsAvailable,
-                                      Hobby = e.Hobby,
-                                      PermanentAddress = e.PermanentAddress,
-                                      AlternateAddress = e.AlternateAddress,
-                                      Mobile = e.Mobile,
-                                      Phone = e.Phone,
-                                      AlternateEmail = e.AlternateEmail,
-                                      AlternatePhone = e.AlternatePhone,
-                                      EmergencyContactName = e.EmergencyContactName,
-                                      EmergencyContactNumber = e.EmergencyContactNumber,
-                                      CreatedOn = e.CreatedOn,
-                                      UpdatedOn = e.UpdatedOn,
-                                      Status = e.Status,
-                                  })
+                                   where e.UserId == s.user.Id
+                                   select new EmployeeDetailDto
+                                   {
+                                       Id = e.Id,
+                                       UserId = e.UserId,
+                                       MaritalStatus = e.MaritalStatus,
+                                       Gender = e.Gender,
+                                       DOB = e.DOB,
+                                       CountryId = e.CountryId,
+                                       StateId = e.StateId,
+                                       CityId = e.CityId,
+                                       ResumeURL = e.ResumeURL,
+                                       ProfileImgURL = e.ProfileImgURL,
+                                       IsAvailable = e.IsAvailable,
+                                       Hobby = e.Hobby,
+                                       PermanentAddress = e.PermanentAddress,
+                                       AlternateAddress = e.AlternateAddress,
+                                       Mobile = e.Mobile,
+                                       Phone = e.Phone,
+                                       AlternateEmail = e.AlternateEmail,
+                                       AlternatePhone = e.AlternatePhone,
+                                       EmergencyContactName = e.EmergencyContactName,
+                                       EmergencyContactNumber = e.EmergencyContactNumber,
+                                       CreatedOn = e.CreatedOn,
+                                       UpdatedOn = e.UpdatedOn,
+                                       Status = e.Status,
+                                   })
                                   .AsNoTracking()
                                   .ToList(),
+
+                EmployeeSkillDetails = ( from k in _dataContext.EmployeeSkillDetails
+                                         join t in _dataContext.SkillsDetails on k.SkillId equals t.Id
+                                         where k.UserId == s.user.Id && k.Status != Constants.RecordStatus.Deleted
+                                         select new EmployeeSkillDetailDto
+                                         {
+                                             Id = k.Id,
+                                             UserId = k.UserId,
+                                             Status = k.Status,
+                                             SkillId = k.SkillId,
+                                             SkillName = t.SkillName,
+                                         })
+                                         .AsNoTracking()
+                                         .ToList(),
+                                         
             })
             .AsNoTracking()
             .ToListAsync();
 
-
             return (data, totalCount);
+        }
+
+        public async Task<double> CalculateUserPercentage(int userId)
+        {
+            int totalProperties = 6;
+            int fulfilledProperties = 0;
+            var data = await _dataContext.User.Where(s => s.Id == userId).FirstOrDefaultAsync();
+            var role = await _dataContext.UserRole.Where(s => s.Id == data.RoleId).FirstOrDefaultAsync();
+
+            if (role.RoleName.ToLower().Contains("employee"))
+            {
+                totalProperties--;
+                if(!string.IsNullOrEmpty(data.GovernmentId)) fulfilledProperties++;
+
+            }
+
+            if (!string.IsNullOrEmpty(data.FirstName)) fulfilledProperties++;
+            if (!string.IsNullOrEmpty(data.LastName)) fulfilledProperties++;
+            if (!string.IsNullOrEmpty(data.Email)) fulfilledProperties++;
+            if (!string.IsNullOrEmpty(data.MobileNumber)) fulfilledProperties++;
+
+
+            if (role.RoleName.ToLower().Contains("employer"))
+            {
+                if (!string.IsNullOrEmpty(data.GovernmentId)) fulfilledProperties++;
+            }
+
+            // Calculate percentage based on the actual profile detail
+            double percentage = (double)fulfilledProperties / totalProperties * 100;
+
+          
+            return Math.Round(percentage, 2); // Round to two decimal places
+
+           
+        }
+
+
+        public async Task<double> CalculateEmployeeDetailPercentage(int userId)
+        {
+            int totalProperties = 17;
+            int fulfilledProperties = 0;
+            var data = await _dataContext.EmployeeDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+
+            if (data != null)
+            {
+
+
+
+                if (!string.IsNullOrEmpty(data.MaritalStatus)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.Gender)) fulfilledProperties++;
+                if (data.DOB != null) fulfilledProperties++;
+                if (data.CountryId != null) fulfilledProperties++;
+                if (data.StateId != null) fulfilledProperties++;
+                if (data.CityId != null) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.ResumeURL)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.ProfileImgURL)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.Hobby)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.PermanentAddress)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.AlternateAddress)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.Mobile)) fulfilledProperties++;
+                if (data.Phone != null) fulfilledProperties++;
+                if (data.AlternatePhone != null) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.AlternateEmail)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.EmergencyContactName)) fulfilledProperties++;
+                if (data.EmergencyContactNumber != null) fulfilledProperties++;
+
+
+
+                // Calculate percentage based on the actual profile detail
+                double percentage = (double)fulfilledProperties / totalProperties * 100;
+
+
+                return Math.Round(percentage, 2); // Round to two decimal places
+            }
+            return 0.0;
 
         }
 
+
+        public async Task<double> CalculateEmployeeEducationalDetailPercentage(int userId)
+        {
+            int totalProperties = 5;
+            int fulfilledProperties = 0;
+            var data = await _dataContext.EmployeeEducationalDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+
+            if (data != null)
+            {
+
+
+
+                if (!string.IsNullOrEmpty(data.Education)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.NameOfBoardOrUniversity)) fulfilledProperties++;
+                if (data.YearOfCompletion != 0) fulfilledProperties++;
+                if (data.MarksObtained != null) fulfilledProperties++;
+                if (data.GPA != 0.0) fulfilledProperties++;
+
+
+
+                // Calculate percentage based on the actual profile detail
+                double percentage = (double)fulfilledProperties / totalProperties * 100;
+
+
+                return Math.Round(percentage, 2); // Round to two decimal places
+
+            }
+            return 0.0;
+        }
+
+        public async Task<double> CalculateEmployeeProfessionalDetailPercentage(int userId)
+        {
+            int totalProperties = 8;
+            int fulfilledProperties = 0;
+            var data = await _dataContext.EmployeeProfessionalDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+
+            if (data != null)
+            {
+
+
+                if (!string.IsNullOrEmpty(data.JobDescription)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.StartDate)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.EndDate)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.CompanyName)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.CompanyLocation)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.Designation)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.EmploymentStatus)) fulfilledProperties++;
+                if (!string.IsNullOrEmpty(data.YearsOfExperience)) fulfilledProperties++;
+
+
+
+                // Calculate percentage based on the actual profile detail
+                double percentage = (double)fulfilledProperties / totalProperties * 100;
+
+
+                return Math.Round(percentage, 2); // Round to two decimal places
+            }
+            return 0.0;
+
+        }
+        public async Task<double> CalculateEmployeeSkillDetailPercentage(int userId)
+        {
+            int totalProperties = 1;
+            int fulfilledProperties = 0;
+            var data = await _dataContext.EmployeeSkillDetails.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+
+            if (data != null)
+            {
+
+
+                if (data.SkillId != 0) fulfilledProperties++;
+
+                // Calculate percentage based on the actual profile detail
+                double percentage = (double)fulfilledProperties / totalProperties * 100;
+
+
+                return Math.Round(percentage, 2); // Round to two decimal places
+            }
+            return 0.0;
+
+        }
         public async Task<UserDetailDto> GetByIdAsync(int id)
         {
-
+           
             return await (from s in _dataContext.User
                           join t in _dataContext.UserRole
                          on s.RoleId equals t.Id
@@ -221,7 +492,9 @@ namespace FHP.datalayer.Repository.UserManagement
                               IsVerifyByAdmin = s.IsVerifyByAdmin,
                               Otp = s.Otp,
                               EmploymentType = s.EmploymentType,
-                          }).AsNoTracking().FirstOrDefaultAsync();
+                          })
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync();
 
         }
 
@@ -380,6 +653,5 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext.FCMTokens.Remove(data);
             await _dataContext.SaveChangesAsync();
         }
-
     }
 }

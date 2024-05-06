@@ -23,6 +23,12 @@ namespace FHP.datalayer.Repository.FHP
         }
         public async Task AddAsync(AddEmployeeSkillDetailModel entity)
         {
+            var  data= await _dataContext.EmployeeSkillDetails.Where(s => s.UserId == entity.UserId).ToListAsync(); 
+            if(data.Count > 0)
+            {
+                _dataContext.EmployeeSkillDetails.RemoveRange(data);
+                await _dataContext.SaveChangesAsync();
+            }
             var employeeSkillDetails = entity.SkillId.Select(skillId => new EmployeeSkillDetail
             {
                 UserId = entity.UserId,
@@ -34,6 +40,8 @@ namespace FHP.datalayer.Repository.FHP
             await _dataContext.EmployeeSkillDetails.AddRangeAsync(employeeSkillDetails);
             await _dataContext.SaveChangesAsync();
         }
+       
+        
         public void Edit(EmployeeSkillDetail entity)
         {
             _dataContext.EmployeeSkillDetails.Update(entity);
@@ -117,6 +125,24 @@ namespace FHP.datalayer.Repository.FHP
             data.Status = Constants.RecordStatus.Deleted;
             _dataContext.Update(data);
             await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteByIdsAsync(List<int> ids)
+        {
+            var data = await _dataContext.EmployeeSkillDetails.Where(s => ids.Contains(s.Id)).ToListAsync();
+
+            foreach(var item in data)
+            {
+                item.Status = Constants.RecordStatus.Deleted;
+                _dataContext.Update(item);
+            }
+
+            await _dataContext.SaveChangesAsync();
+
+
+           /* var itemsToDelete = await _dataContext.EmployeeSkillDetails.Where(s => ids.Contains(s.Id)).ToListAsync();
+            _dataContext.EmployeeSkillDetails.RemoveRange(itemsToDelete);
+            await _dataContext.SaveChangesAsync();*/
         }
     }
 }

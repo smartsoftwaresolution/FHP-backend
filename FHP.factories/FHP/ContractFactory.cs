@@ -29,6 +29,7 @@ namespace FHP.factories.FHP
                 IsSignedByEmployer=model.IsSignedByEmployer,
                 CreatedOn=Utility.GetDateTime(),
                 Status=Constants.RecordStatus.Active,
+                Title = model.Title,
             };
             return data;
         }
@@ -47,7 +48,8 @@ namespace FHP.factories.FHP
             entity.IsRequestToChangeAccepted = model.IsRequestToChangeAccepted;
             entity.IsSignedByEmployee=model.IsSignedByEmployee;
             entity.IsSignedByEmployer = model.IsSignedByEmployer;
-            entity.UpdatedOn=Utility.GetDateTime(); 
+            entity.UpdatedOn=Utility.GetDateTime();
+            entity.Title = model.Title;
         }
     }
 }

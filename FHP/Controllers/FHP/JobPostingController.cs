@@ -7,7 +7,7 @@ using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.FHP
-{
+{ 
     [Route("api/[controller]")]
     [ApiController]
     public class JobPostingController : ControllerBase
@@ -55,25 +55,37 @@ namespace FHP.Controllers.FHP
                     && !string.IsNullOrEmpty(model.Experience)
                     && !string.IsNullOrEmpty(model.RolesAndResponsibilities)
                     && !string.IsNullOrEmpty(model.Skills)
-                    && !string.IsNullOrEmpty(model.Address)
+                    && !string.IsNullOrEmpty(model.Address) 
                     && !string.IsNullOrEmpty(model.Payout))
                     
                 {
                     // Adds the job posting asynchronously
                     await _manager.AddAsync(model);
 
-                    if (model.JobPosting == Constants.JobPosting.Submitted)
-                    {   
+                    /*if (model.JobPosting == Constants.JobPosting.Submitted)
+                    {
                         var token = await _tokenManager.FcmTokenByRole("admin");
 
-                        foreach (var t in token)
+                        foreach (var t in token.OrderByDescending(s => s.Id))
                         {
                             string body = "Dear Admin,\r\n\r\nA new job posting has been submitted. Please review the details and take appropriate action.\r\n\r\nThank you.";
-<<<<<<< HEAD
-                            await _sendNotificationService.SendNotification("Job Posting Notification Sent to Admin Panel", body, t.TokenFCM);
-=======
-                            await _sendNotificationService.SendNotification("Job Created Successfully", body, t.TokenFCM);
->>>>>>> 674042930da20180237e8167a602ca0c611a1653
+
+                            await _sendNotificationService.SendNotification("A new job post created ", body, t.TokenFCM);
+
+                        }
+                    }
+*/
+                    
+                    if (model.JobPosting == Constants.JobPosting.Submitted)
+                    {
+                        var admintoken = await _tokenManager.FcmTokenByRole("admin");
+                        var token = admintoken.OrderByDescending(s => s.Id).FirstOrDefault(); 
+
+                        if (token != null)
+                        {
+                            string body = "Dear Admin,\r\n\r\nA new job posting has been submitted. Please review the details and take appropriate action.\r\n\r\nThank you.";
+
+                            await _sendNotificationService.SendNotification("A new job post created ", body, token.TokenFCM); 
                         }
                     }
 
@@ -158,7 +170,7 @@ namespace FHP.Controllers.FHP
 
         // API endpoint to gell all jobposting with search
         [HttpGet("getall-pagination")]
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId)
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int userId,bool? IsAdmin)
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)
@@ -172,7 +184,7 @@ namespace FHP.Controllers.FHP
             try
             {
                 // Retrieves all job postings asynchronously
-                var data = await _manager.GetAllAsync(page,pageSize,search,userId);
+                var data = await _manager.GetAllAsync(page,pageSize,search,userId,IsAdmin);
 
                 if (data.jobPosting != null)
                 {

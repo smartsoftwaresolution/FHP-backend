@@ -172,7 +172,7 @@ namespace FHP.Controllers.FHP
                 // Retrieve all employer details with pagination
                 var data = await _manager.GetAllAsync(page, pageSize, userId, search);
 
-                if (data.employerDetail != null && data.totalCount > 0)
+                if (data.employerDetail != null )
                 {
                     response.Data = data.employerDetail;
                     response.TotalCount = data.totalCount;
@@ -216,7 +216,9 @@ namespace FHP.Controllers.FHP
                 }
 
                 response.StatusCode = 400;
-                response.Message = Constants.error;
+                response.Message = "no data avaiable";
+                response.Data = "";
+
                 return BadRequest(response);
             }
             catch (Exception ex)

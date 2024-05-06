@@ -232,5 +232,35 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex); 
             }
         }
+
+        [HttpDelete("delete-by-ids")]
+        public async Task<IActionResult> DeleteByIdsAsync([FromQuery] List<int> ids)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                if (ids == null)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Ids Required";
+                    return BadRequest(response);
+                }
+
+                await _manager.DeleteByAllIdAsync(ids);
+                response.StatusCode = 200;
+                response.Message = Constants.deleted;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
     }
 }

@@ -1,12 +1,10 @@
-﻿using DocumentFormat.OpenXml.ExtendedProperties;
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
+using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.FHP.Contract;
 using FHP.utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NAudio.Midi;
 
 namespace FHP.Controllers.FHP
 {
@@ -17,13 +15,20 @@ namespace FHP.Controllers.FHP
         private readonly IContractManager _manager;
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISendNotificationService _sendNotificationService;
+        private readonly IFCMTokenManager _fCMTokenManager;
+
         public ContractController(IContractManager manager, 
                                   IExceptionHandleService exceptionHandleService,
-                                  IUnitOfWork unitOfWork)
+                                  IUnitOfWork unitOfWork,
+                                  ISendNotificationService sendNotificationService,
+                                  IFCMTokenManager fCMTokenManager)
         {
             _manager=manager;
             _exceptionHandleService = exceptionHandleService;
             _unitOfWork = unitOfWork;
+            _sendNotificationService = sendNotificationService;
+            _fCMTokenManager = fCMTokenManager;
         }
 
 
@@ -53,7 +58,48 @@ namespace FHP.Controllers.FHP
                     // Add the contract model asynchronously.
                     await _manager.AddAsync(model);
 
-                    // Commit the transaction.
+                  
+
+                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
+
+                    var token = adminToken.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                    if(token != null)
+                    {
+                        string adminMessage = "Hello, A contract has been signed by both employer and employee";
+                        await _sendNotificationService.SendNotification("New Contract Notification", adminMessage, token.TokenFCM);
+                    }
+
+                    var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
+                    var tokens = employeeToken.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                    if(tokens != null)
+                    {
+                        string employeeMessage = "Hi";
+                        await _sendNotificationService.SendNotification("New contract notification", employeeMessage, tokens.TokenFCM);
+                    }
+
+                   /* var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
+
+                    var allTokens = adminToken.Concat(employeeToken).Select(t => t.TokenFCM).FirstOrDefault();
+
+                    if (allTokens != null)
+                    {
+                      string message = "A new contract has been created. Please review the details at your earliest convenience.";
+
+                      await _sendNotificationService.SendNotification("New Contract Notification", message, allTokens);
+                    }*/
+
+                    /* string adminbody = "I hope this message finds you well. I am writing to inform you about a new contract that has been created Please review the details of the contract at your earliest convenience.";
+
+                     string employeebody = "I trust this message finds you well. I am writing to inform you that a new contract has been created Please carefully examine the terms and conditions outlined in the contract.. Should you have any questions or require clarification on any aspect, do not hesitate to reach out to me.";
+
+                     await _sendNotificationService.SendNotification("Dear sir a new contract has been created", adminbody, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+
+                     await _sendNotificationService.SendNotification("Dear sir a new contract has been created", adminbody, employeeToken.Select(t => t.TokenFCM).FirstOrDefault());*/
+
+                    // Commit the transaction. 
+
                     await transaction.CommitAsync();  
                     response.StatusCode = 200;
                     response.Message = Constants.added;
@@ -124,8 +170,8 @@ namespace FHP.Controllers.FHP
 
         // Get All Contract with Pagination and search filter
         [HttpGet("getall-pagination")] 
-        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search)
-        {
+        public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int employeeId,int employerId)
+         {
             if (!ModelState.IsValid)
             {
                 //it returns a BadRequest response with a list of errors.
@@ -138,7 +184,7 @@ namespace FHP.Controllers.FHP
             {
 
                 // Retrieve data from the manager based on pagination parameters.
-                var data = await _manager.GetAllAsync(page,pageSize,search);
+                var data = await _manager.GetAllAsync(page,pageSize,search,employeeId,employerId);
 
                 // Check if data is retrieved successfully.
                 if (data.contract != null)
@@ -148,7 +194,7 @@ namespace FHP.Controllers.FHP
                     response.TotalCount = data.totalCount;
                     return Ok(response);
                 }
-
+                
                 // If data retrieval fails, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.error;

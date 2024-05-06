@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2019.Word.Cid;
+﻿
 using FHP.dtos.FHP.JobPosting;
 using FHP.dtos.FHP.JobSkillDetail;
 using FHP.entity.FHP;
@@ -20,7 +20,7 @@ namespace FHP.datalayer.Repository.FHP
 
         public async Task AddAsync(JobPosting entity)
         {
-           await _dataContext.JobPostings.AddAsync(entity);
+            await _dataContext.JobPostings.AddAsync(entity);
             await _dataContext.SaveChangesAsync();
         }
 
@@ -36,9 +36,9 @@ namespace FHP.datalayer.Repository.FHP
         }
 
 
-        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int userId)
+        public async Task<(List<JobPostingDetailDto> jobPosting, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int userId, bool? IsAdmin)
         {
-            string rolename = string.Empty;
+           string rolename = string.Empty;
 
             if (userId > 0)
             {
@@ -49,25 +49,33 @@ namespace FHP.datalayer.Repository.FHP
                                    where s.Id == userId
                                    select t.RoleName).FirstOrDefaultAsync();
             }
+
             var query = from s in _dataContext.JobPostings
                         join u in _dataContext.User on s.UserId equals u.Id
-                        join e in _dataContext.EmployeeAvailabilities on s.Id equals e.EmployeeId
+                  //    join e in _dataContext.EmployeeAvailabilities on s.Id equals e.EmployeeId
                         where s.Status != Constants.RecordStatus.Deleted 
-                        select new { jobPosting = s , employer = u, employee = e};
+
+                        select new { jobPosting = s , employer = u,/* employee = e*/};
+
 
 
             if(!string.IsNullOrEmpty(search))
             {
-                query =query.Where(s=> s.jobPosting.JobTitle.Contains(search) ||
+                query =query.Where(s => s.jobPosting.JobTitle.Contains(search) ||
                                        s.jobPosting.Experience.Contains(search) ||
                                        s.jobPosting.Address.Contains(search) ||
                                        s.jobPosting.Description.Contains(search));
             }
 
-           
-            
-            
+
+            if (IsAdmin == true)  
+            {
+                query = query.Where(s => s.jobPosting.JobStatus != Constants.JobPosting.Draft);
+            }
+
             var totalCount = await query.CountAsync();
+
+
 
             if (rolename.ToLower() != "admin")
             {
@@ -77,6 +85,10 @@ namespace FHP.datalayer.Repository.FHP
                     totalCount = await query.CountAsync(s => s.jobPosting.Status != Constants.RecordStatus.Deleted && s.jobPosting.JobStatus != Constants.JobPosting.Draft && s.jobPosting.UserId == userId);        
                 }
             }
+
+           
+
+          
 
             query = query.OrderByDescending(s => s.jobPosting.Id);
 
@@ -110,7 +122,7 @@ namespace FHP.datalayer.Repository.FHP
                 UpdatedOn = s.jobPosting.UpdatedOn,
                 Status = s.jobPosting.Status,
                 JobStatus = s.jobPosting.JobStatus,
-                EmployeeId = s.employee.EmployeeId,
+                EmployeeId = s.employer.Id,
                 EmployerName = s.employer.FirstName + " " + s.employer.LastName,
                 JobProcessingStatus = s.jobPosting.JobProcessingStatus,
                 EmploymentType=s.jobPosting.EmploymentType,
@@ -127,7 +139,9 @@ namespace FHP.datalayer.Repository.FHP
 
                                               }).ToList(),
                 
-            }).AsNoTracking().ToListAsync();
+            })
+            .AsNoTracking()
+            .ToListAsync();
 
 
             return (data, totalCount);
@@ -174,7 +188,9 @@ namespace FHP.datalayer.Repository.FHP
                                                   Status = j.Status,
 
                                               }).ToList(),
-                          }).AsNoTracking().FirstOrDefaultAsync();
+                          })
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -194,7 +210,6 @@ namespace FHP.datalayer.Repository.FHP
                 data.Status = Constants.RecordStatus.Inactive;
                 result = "DeActivated";
             }
-
             else
             {
                 data.Status = Constants.RecordStatus.Active;
@@ -213,6 +228,7 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext.JobPostings.Update(data);
             await _dataContext.SaveChangesAsync();
         }
+
         public async Task CancelJobAsync(int jobId, string cancelReason)
         {
             var data = await _dataContext.JobPostings.Where(s => s.Id == jobId).FirstOrDefaultAsync();

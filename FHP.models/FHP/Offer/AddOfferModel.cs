@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FHP.utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace FHP.models.FHP.Offer
         public int EmployerId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public bool IsAccepted { get; set; }
+        public Constants.OfferStatus IsAvaliable { get; set; }
+        public string CancelReason { get; set; }
     }
 }
