@@ -14,17 +14,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Auth.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AuthorizeNet" Version="2.0.3" />
     <PackageReference Include="ClosedXML" Version="0.102.1" />
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="DocumentFormat.OpenXmlSDK" Version="2.0.0" />
     <PackageReference Include="EPPlus" Version="6.2.8" />
     <PackageReference Include="Faker.Net" Version="1.5.138" />
-    <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
+    <PackageReference Include="FirebaseAdmin" Version="2.4.1" />
     <PackageReference Include="Google.Apis" Version="1.60.0" />
     <PackageReference Include="Google.Apis.Gmail.v1" Version="1.50.0.2235" />
     <PackageReference Include="Hangfire" Version="1.7.33" />
