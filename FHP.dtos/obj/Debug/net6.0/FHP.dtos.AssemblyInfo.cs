@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FHP.dtos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+69338fd73c3ec6cd9c33fb5a19596eba08650f0e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94f6b172bd6d36666ba53f14aa7d3009871745ac")]
 [assembly: System.Reflection.AssemblyProductAttribute("FHP.dtos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FHP.dtos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

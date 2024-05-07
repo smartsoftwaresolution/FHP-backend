@@ -71,15 +71,15 @@ namespace FHP.Controllers.FHP
                        }*/
 
                     
-                        var employertoken = await _tokenManager.FcmTokenByRole("employer");
+                        var employeetoken = await _tokenManager.FcmTokenByRole("employee");
 
-                        var token = employertoken.FirstOrDefault();
+                        var token = employeetoken.FirstOrDefault();
 
-                       if(token != null && token.UserId == model.EmployerId)
+                       if(token != null)
                        {
-                         string message = "Ok";
+                         string message = "You have received a job request from the admin. Please review the detail.";
 
-                         await _sendNotificationService.SendNotification("Sent", message, token.TokenFCM);
+                         await _sendNotificationService.SendNotification("Job Request", message, token.TokenFCM);
                        }
 
 

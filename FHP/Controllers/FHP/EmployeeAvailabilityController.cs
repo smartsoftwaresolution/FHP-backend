@@ -60,7 +60,15 @@ namespace FHP.Controllers.FHP
                         string body = $"Hello Dear \n\nWe hope this message finds you well. We are writing to inquire about your availability regarding the job opportunity recently posted for [Job Position]. Could you please let us know your current availability and any potential constraints regarding the job?\n\nYour prompt response would be highly appreciated.\n\nBest regards";
                         await _sendNotificationService.SendNotification("Job Availability Inquiry", body, t.TokenFCM);
                     }*/
-                   
+
+                   /* var employeeToken = await _tokenManager.FcmTokenByRole("employee");
+                    string employeeMessage = "You have received a job request from the admin. Please review the detail.";
+
+                    if(employeeToken != null)
+                    {
+                        await _sendNotificationService.SendNotification("Job Request", employeeMessage, employeeToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+*/
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
                     response.StatusCode = 200;

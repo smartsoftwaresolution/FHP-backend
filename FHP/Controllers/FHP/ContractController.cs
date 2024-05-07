@@ -75,7 +75,7 @@ namespace FHP.Controllers.FHP
 
                     if(tokens != null)
                     {
-                        string employeeMessage = "Hi";
+                        string employeeMessage = "Hello A contract has been signed";
                         await _sendNotificationService.SendNotification("New contract notification", employeeMessage, tokens.TokenFCM);
                     }
 
