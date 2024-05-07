@@ -8,6 +8,6 @@ namespace FHP.infrastructure.Service
 {
     public interface ISendNotificationService
     {
-        Task<bool> SendNotification( string title, string body, string token);
+        Task<bool> SendNotification(string title, string body, string token);
     }
 }

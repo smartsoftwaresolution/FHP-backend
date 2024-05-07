@@ -266,7 +266,7 @@
           }
         }
       },
-      "FirebaseAdmin/2.3.0": {
+      "FirebaseAdmin/2.4.1": {
         "type": "package",
         "dependencies": {
           "Google.Api.Gax.Rest": "3.2.0",
@@ -284,19 +284,57 @@
           }
         }
       },
-      "Google.Api.Gax/3.2.0": {
+      "Google.Api.CommonProtos/2.7.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "1.0.0",
-          "Newtonsoft.Json": "12.0.3"
+          "Google.Protobuf": "[3.21.0, 4.0.0)"
         },
         "compile": {
-          "lib/netstandard2.0/Google.Api.Gax.dll": {
+          "lib/netstandard2.0/Google.Api.CommonProtos.dll": {
             "related": ".pdb;.xml"
           }
         },
         "runtime": {
-          "lib/netstandard2.0/Google.Api.Gax.dll": {
+          "lib/netstandard2.0/Google.Api.CommonProtos.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Api.Gax/4.3.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
+          "Newtonsoft.Json": "13.0.2"
+        },
+        "compile": {
+          "lib/netstandard2.1/Google.Api.Gax.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Google.Api.Gax.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Api.Gax.Grpc/4.3.1": {
+        "type": "package",
+        "dependencies": {
+          "Google.Api.CommonProtos": "2.7.0",
+          "Google.Api.Gax": "4.3.1",
+          "Google.Apis.Auth": "[1.58.0, 2.0.0)",
+          "Grpc.Auth": "[2.51.0, 3.0.0)",
+          "Grpc.Core.Api": "[2.51.0, 3.0.0)",
+          "Grpc.Net.Client": "[2.51.0, 3.0.0)",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/Google.Api.Gax.Grpc.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Google.Api.Gax.Grpc.dll": {
             "related": ".pdb;.xml"
           }
         }
@@ -334,11 +372,11 @@
           }
         }
       },
-      "Google.Apis.Auth/1.50.0": {
+      "Google.Apis.Auth/1.58.0": {
         "type": "package",
         "dependencies": {
-          "Google.Apis": "1.50.0",
-          "Google.Apis.Core": "1.50.0"
+          "Google.Apis": "1.58.0",
+          "Google.Apis.Core": "1.58.0"
         },
         "compile": {
           "lib/netstandard2.0/Google.Apis.Auth.PlatformServices.dll": {},
@@ -382,6 +420,153 @@
         },
         "runtime": {
           "lib/netstandard2.0/Google.Apis.Gmail.v1.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Cloud.Firestore/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Cloud.Firestore.V1": "3.2.0",
+          "System.Collections.Immutable": "6.0.0",
+          "System.Linq.Async": "6.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.1/Google.Cloud.Firestore.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Google.Cloud.Firestore.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Cloud.Firestore.V1/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Api.Gax.Grpc": "[4.3.1, 5.0.0)",
+          "Google.Cloud.Location": "[2.0.0, 3.0.0)",
+          "Google.LongRunning": "[3.0.0, 4.0.0)"
+        },
+        "compile": {
+          "lib/netstandard2.1/Google.Cloud.Firestore.V1.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Google.Cloud.Firestore.V1.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Cloud.Location/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Api.Gax.Grpc": "[4.0.0, 5.0.0)"
+        },
+        "compile": {
+          "lib/netstandard2.1/Google.Cloud.Location.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Google.Cloud.Location.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.LongRunning/3.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Api.Gax.Grpc": "[4.0.0, 5.0.0)"
+        },
+        "compile": {
+          "lib/netstandard2.1/Google.LongRunning.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Google.LongRunning.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Protobuf/3.21.0": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/Google.Protobuf.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0/Google.Protobuf.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Grpc.Auth/2.51.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Apis.Auth": "1.46.0",
+          "Grpc.Core.Api": "2.51.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Grpc.Auth.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Grpc.Auth.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Grpc.Core.Api/2.51.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Memory": "4.5.3"
+        },
+        "compile": {
+          "lib/netstandard2.1/Grpc.Core.Api.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Grpc.Core.Api.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Grpc.Net.Client/2.51.0": {
+        "type": "package",
+        "dependencies": {
+          "Grpc.Net.Common": "2.51.0",
+          "Microsoft.Extensions.Logging.Abstractions": "3.0.3"
+        },
+        "compile": {
+          "lib/net6.0/Grpc.Net.Client.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Grpc.Net.Client.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Grpc.Net.Common/2.51.0": {
+        "type": "package",
+        "dependencies": {
+          "Grpc.Core.Api": "2.51.0"
+        },
+        "compile": {
+          "lib/net6.0/Grpc.Net.Common.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Grpc.Net.Common.dll": {
             "related": ".pdb;.xml"
           }
         }
@@ -1246,10 +1431,12 @@
           }
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/1.0.0": {
+      "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {}
+          "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
           "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
@@ -1758,6 +1945,25 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.Hosting.Abstractions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.Http/6.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
+          "Microsoft.Extensions.Logging": "6.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.0",
+          "Microsoft.Extensions.Options": "6.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Http.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Http.dll": {
             "related": ".xml"
           }
         }
@@ -3402,6 +3608,22 @@
           "lib/netstandard1.6/System.Linq.dll": {}
         }
       },
+      "System.Linq.Async/6.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
+        },
+        "compile": {
+          "ref/net6.0/System.Linq.Async.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Linq.Async.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.Linq.Dynamic.Core/1.2.12": {
         "type": "package",
         "compile": {
@@ -4479,13 +4701,16 @@
         "dependencies": {
           "FHP.datalayer": "1.0.0",
           "FHP.infrastructure": "1.0.0",
-          "FirebaseAdmin": "2.3.0",
+          "FirebaseAdmin": "2.4.1",
+          "Google.Cloud.Firestore": "3.2.0",
           "Hangfire.Core": "1.7.33",
           "HtmlAgilityPack": "1.11.58",
           "MailKit": "2.15.0",
           "Microsoft.Extensions.Configuration.Abstractions": "6.0.0",
+          "Microsoft.Extensions.Http": "6.0.0",
           "MimeKit": "2.15.1",
-          "NReco.Logging.File": "1.1.7"
+          "NReco.Logging.File": "1.1.7",
+          "System.Net.Http": "4.3.4"
         },
         "compile": {
           "bin/placeholder/FHP.services.dll": {}
@@ -4828,14 +5053,14 @@
         "lib/netstandard2.1/de-DE/Faker.Net.Standard.2.1.resources.dll"
       ]
     },
-    "FirebaseAdmin/2.3.0": {
-      "sha512": "ror9V68bFWdr3VXoCPQrAAJ1ZA8dyLzIHJvy53BmoD83Ze9VuWC9hPBicPqqOANP3VTMWnylC7xci59UEMuU4A==",
+    "FirebaseAdmin/2.4.1": {
+      "sha512": "BJLg+dZVZEozaqWdDEjKXPRwno8xz9RJyMC7WtaP2uns34LNoaYVX2IJnOlBfVA1sW2LSBOYusYNldD1qQwoZA==",
       "type": "package",
-      "path": "firebaseadmin/2.3.0",
+      "path": "firebaseadmin/2.4.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "firebaseadmin.2.3.0.nupkg.sha512",
+        "firebaseadmin.2.4.1.nupkg.sha512",
         "firebaseadmin.nuspec",
         "lib/net461/FirebaseAdmin.dll",
         "lib/net461/FirebaseAdmin.xml",
@@ -4843,23 +5068,61 @@
         "lib/netstandard2.0/FirebaseAdmin.xml"
       ]
     },
-    "Google.Api.Gax/3.2.0": {
-      "sha512": "0OjahFAHTOoprSgvJiQ6/fIQLrUYU4QIFgkuJ51/lcmhZbuXxB3ycPk3JTVEvx6A5yQBL14wgmHgwXLcEsnu3Q==",
+    "Google.Api.CommonProtos/2.7.0": {
+      "sha512": "Wpg4yRGJxX8FE3Ife+Gsj556MDHuki4KqVlZ1jOvvFX6yianI/hbScgvGUlteM9uu7vzbfCyKLc0Sv5/53M3hg==",
       "type": "package",
-      "path": "google.api.gax/3.2.0",
+      "path": "google.api.commonprotos/2.7.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "NuGetIcon.png",
-        "google.api.gax.3.2.0.nupkg.sha512",
+        "google.api.commonprotos.2.7.0.nupkg.sha512",
+        "google.api.commonprotos.nuspec",
+        "lib/net461/Google.Api.CommonProtos.dll",
+        "lib/net461/Google.Api.CommonProtos.pdb",
+        "lib/net461/Google.Api.CommonProtos.xml",
+        "lib/netstandard2.0/Google.Api.CommonProtos.dll",
+        "lib/netstandard2.0/Google.Api.CommonProtos.pdb",
+        "lib/netstandard2.0/Google.Api.CommonProtos.xml"
+      ]
+    },
+    "Google.Api.Gax/4.3.1": {
+      "sha512": "5ga69CUb1FQvI53J2zVcD8bDAtWp9ywsRdU/GMPOV16GgolFKM8PmsJNjZcxdPMYJgcttsUYglh5NmoeBRCAkg==",
+      "type": "package",
+      "path": "google.api.gax/4.3.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.api.gax.4.3.1.nupkg.sha512",
         "google.api.gax.nuspec",
-        "lib/net461/Google.Api.Gax.dll",
-        "lib/net461/Google.Api.Gax.pdb",
-        "lib/net461/Google.Api.Gax.xml",
-        "lib/netstandard2.0/Google.Api.Gax.dll",
-        "lib/netstandard2.0/Google.Api.Gax.pdb",
-        "lib/netstandard2.0/Google.Api.Gax.xml"
+        "lib/net462/Google.Api.Gax.dll",
+        "lib/net462/Google.Api.Gax.pdb",
+        "lib/net462/Google.Api.Gax.xml",
+        "lib/netstandard2.1/Google.Api.Gax.dll",
+        "lib/netstandard2.1/Google.Api.Gax.pdb",
+        "lib/netstandard2.1/Google.Api.Gax.xml"
+      ]
+    },
+    "Google.Api.Gax.Grpc/4.3.1": {
+      "sha512": "9SCjLjWIRcKtDdnhPQd9XmcbF/jTn/P/PCr5S9rE5CQJkDBo2FfguIudnGeUzy26OUOokutqNl/0VJwU1a5CBw==",
+      "type": "package",
+      "path": "google.api.gax.grpc/4.3.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.api.gax.grpc.4.3.1.nupkg.sha512",
+        "google.api.gax.grpc.nuspec",
+        "lib/net462/Google.Api.Gax.Grpc.dll",
+        "lib/net462/Google.Api.Gax.Grpc.pdb",
+        "lib/net462/Google.Api.Gax.Grpc.xml",
+        "lib/netstandard2.1/Google.Api.Gax.Grpc.dll",
+        "lib/netstandard2.1/Google.Api.Gax.Grpc.pdb",
+        "lib/netstandard2.1/Google.Api.Gax.Grpc.xml"
       ]
     },
     "Google.Api.Gax.Rest/3.2.0": {
@@ -4904,21 +5167,25 @@
         "lib/netstandard2.0/Google.Apis.xml"
       ]
     },
-    "Google.Apis.Auth/1.50.0": {
-      "sha512": "y6hqXcDzTA5tj3Qasr97anpIc+gGJC9QlWJnGSRvp7o4/c4b4Bd5tBgqyJKhgfBMo+HugXGcYh17Kvm5SB3v6g==",
+    "Google.Apis.Auth/1.58.0": {
+      "sha512": "8HAVH23c/O6ODdpedkw/2B3VqG4YKEMk0v0Sb6tEz7GRaiqGwdMntytr7iez0iFvCFDA5SkHnYDCNCIztnSMhA==",
       "type": "package",
-      "path": "google.apis.auth/1.50.0",
+      "path": "google.apis.auth/1.58.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "NuGetIcon.png",
-        "google.apis.auth.1.50.0.nupkg.sha512",
+        "google.apis.auth.1.58.0.nupkg.sha512",
         "google.apis.auth.nuspec",
         "lib/net45/Google.Apis.Auth.PlatformServices.dll",
         "lib/net45/Google.Apis.Auth.dll",
         "lib/net45/Google.Apis.Auth.pdb",
         "lib/net45/Google.Apis.Auth.xml",
+        "lib/net461/Google.Apis.Auth.PlatformServices.dll",
+        "lib/net461/Google.Apis.Auth.dll",
+        "lib/net461/Google.Apis.Auth.pdb",
+        "lib/net461/Google.Apis.Auth.xml",
         "lib/netstandard1.3/Google.Apis.Auth.PlatformServices.dll",
         "lib/netstandard1.3/Google.Apis.Auth.dll",
         "lib/netstandard1.3/Google.Apis.Auth.pdb",
@@ -4976,6 +5243,207 @@
         "lib/netstandard2.0/Google.Apis.Gmail.v1.dll",
         "lib/netstandard2.0/Google.Apis.Gmail.v1.pdb",
         "lib/netstandard2.0/Google.Apis.Gmail.v1.xml"
+      ]
+    },
+    "Google.Cloud.Firestore/3.2.0": {
+      "sha512": "9LhYcjkH+MJ7e22sUOnsjVa3a1kvCitkiksM/2tTiESxy3RULaVSatfIm1jhAe0OZWttNtjFf7dZz6/gQH2Eug==",
+      "type": "package",
+      "path": "google.cloud.firestore/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.cloud.firestore.3.2.0.nupkg.sha512",
+        "google.cloud.firestore.nuspec",
+        "lib/net462/Google.Cloud.Firestore.dll",
+        "lib/net462/Google.Cloud.Firestore.pdb",
+        "lib/net462/Google.Cloud.Firestore.xml",
+        "lib/netstandard2.1/Google.Cloud.Firestore.dll",
+        "lib/netstandard2.1/Google.Cloud.Firestore.pdb",
+        "lib/netstandard2.1/Google.Cloud.Firestore.xml"
+      ]
+    },
+    "Google.Cloud.Firestore.V1/3.2.0": {
+      "sha512": "S65apg3dh+pHFbpwjSLKYY4fVyH/ZtYNZMT+2CCAfdwzGLwptYU9NvOXYlS/14EBYgqj2HbO4iCS2Ude2Gdh1A==",
+      "type": "package",
+      "path": "google.cloud.firestore.v1/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.cloud.firestore.v1.3.2.0.nupkg.sha512",
+        "google.cloud.firestore.v1.nuspec",
+        "lib/net462/Google.Cloud.Firestore.V1.dll",
+        "lib/net462/Google.Cloud.Firestore.V1.pdb",
+        "lib/net462/Google.Cloud.Firestore.V1.xml",
+        "lib/netstandard2.1/Google.Cloud.Firestore.V1.dll",
+        "lib/netstandard2.1/Google.Cloud.Firestore.V1.pdb",
+        "lib/netstandard2.1/Google.Cloud.Firestore.V1.xml"
+      ]
+    },
+    "Google.Cloud.Location/2.0.0": {
+      "sha512": "qxJ6dATru5XYQzuE8f3izGKPE14Zpc5mEBEROMM/FXYzMug+3ezoRktcD00l2nmMeJ7CIwWZjx9uRpDIiZTLEA==",
+      "type": "package",
+      "path": "google.cloud.location/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.cloud.location.2.0.0.nupkg.sha512",
+        "google.cloud.location.nuspec",
+        "lib/net462/Google.Cloud.Location.dll",
+        "lib/net462/Google.Cloud.Location.pdb",
+        "lib/net462/Google.Cloud.Location.xml",
+        "lib/netstandard2.1/Google.Cloud.Location.dll",
+        "lib/netstandard2.1/Google.Cloud.Location.pdb",
+        "lib/netstandard2.1/Google.Cloud.Location.xml"
+      ]
+    },
+    "Google.LongRunning/3.0.0": {
+      "sha512": "8+ctm1v0P90BX1fqQqyTaIrc/5zTTou3kyOsiLUJ6b1vfS/VtzF+L5onJoUDRAY0NWARSQBe73tewFm3ijWpYw==",
+      "type": "package",
+      "path": "google.longrunning/3.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.longrunning.3.0.0.nupkg.sha512",
+        "google.longrunning.nuspec",
+        "lib/net462/Google.LongRunning.dll",
+        "lib/net462/Google.LongRunning.pdb",
+        "lib/net462/Google.LongRunning.xml",
+        "lib/netstandard2.1/Google.LongRunning.dll",
+        "lib/netstandard2.1/Google.LongRunning.pdb",
+        "lib/netstandard2.1/Google.LongRunning.xml"
+      ]
+    },
+    "Google.Protobuf/3.21.0": {
+      "sha512": "LKtDRauLeBFzwhK7JKpzvyNCvIxYRPX9mHjeuTj3gtG9F6JnSVqF1X2h+UZnQB47Ihi4+EipvbU1fEG7XNa30A==",
+      "type": "package",
+      "path": "google.protobuf/3.21.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "google.protobuf.3.21.0.nupkg.sha512",
+        "google.protobuf.nuspec",
+        "lib/net45/Google.Protobuf.dll",
+        "lib/net45/Google.Protobuf.pdb",
+        "lib/net45/Google.Protobuf.xml",
+        "lib/net5.0/Google.Protobuf.dll",
+        "lib/net5.0/Google.Protobuf.pdb",
+        "lib/net5.0/Google.Protobuf.xml",
+        "lib/netstandard1.1/Google.Protobuf.dll",
+        "lib/netstandard1.1/Google.Protobuf.pdb",
+        "lib/netstandard1.1/Google.Protobuf.xml",
+        "lib/netstandard2.0/Google.Protobuf.dll",
+        "lib/netstandard2.0/Google.Protobuf.pdb",
+        "lib/netstandard2.0/Google.Protobuf.xml"
+      ]
+    },
+    "Grpc.Auth/2.51.0": {
+      "sha512": "VYWlTq9xYvPpOAu2ISYQdgU3Qx6/h+iKjjmhGHBU1LvqsFAof0dYgIMqib69JjayI6les0qryPGu5Z5V5UNkfQ==",
+      "type": "package",
+      "path": "grpc.auth/2.51.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "grpc.auth.2.51.0.nupkg.sha512",
+        "grpc.auth.nuspec",
+        "lib/net462/Grpc.Auth.dll",
+        "lib/net462/Grpc.Auth.pdb",
+        "lib/net462/Grpc.Auth.xml",
+        "lib/netstandard1.5/Grpc.Auth.dll",
+        "lib/netstandard1.5/Grpc.Auth.pdb",
+        "lib/netstandard1.5/Grpc.Auth.xml",
+        "lib/netstandard2.0/Grpc.Auth.dll",
+        "lib/netstandard2.0/Grpc.Auth.pdb",
+        "lib/netstandard2.0/Grpc.Auth.xml",
+        "packageIcon.png"
+      ]
+    },
+    "Grpc.Core.Api/2.51.0": {
+      "sha512": "WUYCnxZKfdBWCKNs08lWFRoTjESt3iyFDthsZu5KcWguZ4OnnXrTu/K5mIdO+R9dUhuw5Xm1ygUrI1e2q8d1YA==",
+      "type": "package",
+      "path": "grpc.core.api/2.51.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "grpc.core.api.2.51.0.nupkg.sha512",
+        "grpc.core.api.nuspec",
+        "lib/net462/Grpc.Core.Api.dll",
+        "lib/net462/Grpc.Core.Api.pdb",
+        "lib/net462/Grpc.Core.Api.xml",
+        "lib/netstandard1.5/Grpc.Core.Api.dll",
+        "lib/netstandard1.5/Grpc.Core.Api.pdb",
+        "lib/netstandard1.5/Grpc.Core.Api.xml",
+        "lib/netstandard2.0/Grpc.Core.Api.dll",
+        "lib/netstandard2.0/Grpc.Core.Api.pdb",
+        "lib/netstandard2.0/Grpc.Core.Api.xml",
+        "lib/netstandard2.1/Grpc.Core.Api.dll",
+        "lib/netstandard2.1/Grpc.Core.Api.pdb",
+        "lib/netstandard2.1/Grpc.Core.Api.xml",
+        "packageIcon.png"
+      ]
+    },
+    "Grpc.Net.Client/2.51.0": {
+      "sha512": "6XybyqUGn5+8UTMRKAfbM+aXagR3qxHROIEeFyul5gvh/dF3UqpnpnTkcRKIae4n5+Bt8j1J1VdNqYyEvYoYyg==",
+      "type": "package",
+      "path": "grpc.net.client/2.51.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "grpc.net.client.2.51.0.nupkg.sha512",
+        "grpc.net.client.nuspec",
+        "lib/net5.0/Grpc.Net.Client.dll",
+        "lib/net5.0/Grpc.Net.Client.pdb",
+        "lib/net5.0/Grpc.Net.Client.xml",
+        "lib/net6.0/Grpc.Net.Client.dll",
+        "lib/net6.0/Grpc.Net.Client.pdb",
+        "lib/net6.0/Grpc.Net.Client.xml",
+        "lib/net7.0/Grpc.Net.Client.dll",
+        "lib/net7.0/Grpc.Net.Client.pdb",
+        "lib/net7.0/Grpc.Net.Client.xml",
+        "lib/netstandard2.0/Grpc.Net.Client.dll",
+        "lib/netstandard2.0/Grpc.Net.Client.pdb",
+        "lib/netstandard2.0/Grpc.Net.Client.xml",
+        "lib/netstandard2.1/Grpc.Net.Client.dll",
+        "lib/netstandard2.1/Grpc.Net.Client.pdb",
+        "lib/netstandard2.1/Grpc.Net.Client.xml",
+        "packageIcon.png"
+      ]
+    },
+    "Grpc.Net.Common/2.51.0": {
+      "sha512": "lAymSKjOHFopWt7RAF/Rxkf7SKGZaj+tJdabcnobm6XkdHX1zIQdkByeqIwmJesDbbCTpLEae6oSrn4eWWE9TQ==",
+      "type": "package",
+      "path": "grpc.net.common/2.51.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "grpc.net.common.2.51.0.nupkg.sha512",
+        "grpc.net.common.nuspec",
+        "lib/net5.0/Grpc.Net.Common.dll",
+        "lib/net5.0/Grpc.Net.Common.pdb",
+        "lib/net5.0/Grpc.Net.Common.xml",
+        "lib/net6.0/Grpc.Net.Common.dll",
+        "lib/net6.0/Grpc.Net.Common.pdb",
+        "lib/net6.0/Grpc.Net.Common.xml",
+        "lib/net7.0/Grpc.Net.Common.dll",
+        "lib/net7.0/Grpc.Net.Common.pdb",
+        "lib/net7.0/Grpc.Net.Common.xml",
+        "lib/netstandard2.0/Grpc.Net.Common.dll",
+        "lib/netstandard2.0/Grpc.Net.Common.pdb",
+        "lib/netstandard2.0/Grpc.Net.Common.xml",
+        "lib/netstandard2.1/Grpc.Net.Common.dll",
+        "lib/netstandard2.1/Grpc.Net.Common.pdb",
+        "lib/netstandard2.1/Grpc.Net.Common.xml",
+        "packageIcon.png"
       ]
     },
     "Hangfire/1.7.33": {
@@ -5769,13 +6237,14 @@
         "microsoft.aspnetcore.webutilities.nuspec"
       ]
     },
-    "Microsoft.Bcl.AsyncInterfaces/1.0.0": {
-      "sha512": "K63Y4hORbBcKLWH5wnKgzyn7TOfYzevIEwIedQHBIkmkEBA9SCqgvom+XTuE+fAFGvINGkhFItaZ2dvMGdT5iw==",
+    "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
+      "sha512": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg==",
       "type": "package",
-      "path": "microsoft.bcl.asyncinterfaces/1.0.0",
+      "path": "microsoft.bcl.asyncinterfaces/6.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "Icon.png",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll",
@@ -5784,13 +6253,9 @@
         "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.xml",
         "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
         "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.xml",
-        "microsoft.bcl.asyncinterfaces.1.0.0.nupkg.sha512",
+        "microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
         "microsoft.bcl.asyncinterfaces.nuspec",
-        "ref/net461/Microsoft.Bcl.AsyncInterfaces.dll",
-        "ref/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll",
-        "ref/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
-        "useSharedDesignerContext.txt",
-        "version.txt"
+        "useSharedDesignerContext.txt"
       ]
     },
     "Microsoft.CSharp/4.5.0": {
@@ -6398,6 +6863,25 @@
         "lib/netstandard2.0/Microsoft.Extensions.Hosting.Abstractions.xml",
         "microsoft.extensions.hosting.abstractions.2.2.0.nupkg.sha512",
         "microsoft.extensions.hosting.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Http/6.0.0": {
+      "sha512": "15+pa2G0bAMHbHewaQIdr/y6ag2H3yh4rd9hTXavtWDzQBkvpe2RMqFg8BxDpcQWssmjmBApGPcw93QRz6YcMg==",
+      "type": "package",
+      "path": "microsoft.extensions.http/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.Http.dll",
+        "lib/net461/Microsoft.Extensions.Http.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Http.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Http.xml",
+        "microsoft.extensions.http.6.0.0.nupkg.sha512",
+        "microsoft.extensions.http.nuspec",
+        "useSharedDesignerContext.txt"
       ]
     },
     "Microsoft.Extensions.Identity.Core/6.0.21": {
@@ -9367,6 +9851,34 @@
         "system.linq.nuspec"
       ]
     },
+    "System.Linq.Async/6.0.1": {
+      "sha512": "0YhHcaroWpQ9UCot3Pizah7ryAzQhNvobLMSxeDIGmnXfkQn8u5owvpOH0K6EVB+z9L7u6Cc4W17Br/+jyttEQ==",
+      "type": "package",
+      "path": "system.linq.async/6.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Logo.png",
+        "lib/net48/System.Linq.Async.dll",
+        "lib/net48/System.Linq.Async.xml",
+        "lib/net6.0/System.Linq.Async.dll",
+        "lib/net6.0/System.Linq.Async.xml",
+        "lib/netstandard2.0/System.Linq.Async.dll",
+        "lib/netstandard2.0/System.Linq.Async.xml",
+        "lib/netstandard2.1/System.Linq.Async.dll",
+        "lib/netstandard2.1/System.Linq.Async.xml",
+        "ref/net48/System.Linq.Async.dll",
+        "ref/net48/System.Linq.Async.xml",
+        "ref/net6.0/System.Linq.Async.dll",
+        "ref/net6.0/System.Linq.Async.xml",
+        "ref/netstandard2.0/System.Linq.Async.dll",
+        "ref/netstandard2.0/System.Linq.Async.xml",
+        "ref/netstandard2.1/System.Linq.Async.dll",
+        "ref/netstandard2.1/System.Linq.Async.xml",
+        "system.linq.async.6.0.1.nupkg.sha512",
+        "system.linq.async.nuspec"
+      ]
+    },
     "System.Linq.Dynamic.Core/1.2.12": {
       "sha512": "wJDLhidcJnLAJeZ4z10YVAxMm4rTW0zlYmUjriJTo4eGLHD5NKZOm6qFabkn5TinbfZ6LM9LeYFPyiQMpRly3Q==",
       "type": "package",
@@ -11851,7 +12363,7 @@
       "FHP.services >= 1.0.0",
       "FHP.utilities >= 1.0.0",
       "Faker.Net >= 1.5.138",
-      "FirebaseAdmin >= 2.3.0",
+      "FirebaseAdmin >= 2.4.1",
       "Google.Apis >= 1.60.0",
       "Google.Apis.Gmail.v1 >= 1.50.0.2235",
       "Hangfire >= 1.7.33",
@@ -11872,23 +12384,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lenovo\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\HP\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\FHP.csproj",
+      "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\FHP.csproj",
       "projectName": "FHP",
-      "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\FHP.csproj",
-      "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-      "outputPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP\\obj\\",
+      "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\FHP.csproj",
+      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+      "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11902,26 +12410,26 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.config\\FHP.config.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.config\\FHP.config.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.config\\FHP.config.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.config\\FHP.config.csproj"
             },
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj"
             },
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj"
             },
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj"
             },
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj"
             },
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj"
             },
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
             }
           }
         }
@@ -11962,7 +12470,7 @@
           },
           "FirebaseAdmin": {
             "target": "Package",
-            "version": "[2.3.0, )"
+            "version": "[2.4.1, )"
           },
           "Google.Apis": {
             "target": "Package",
@@ -12054,11 +12562,31 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   },
   "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.AspNetCore.Authentication.JwtBearer' 3.1.10 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-q7cg-43mg-qp69",
+      "libraryId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.IdentityModel.Tokens.Jwt' 6.20.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52",
+      "libraryId": "System.IdentityModel.Tokens.Jwt",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",

@@ -10340,23 +10340,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lenovo\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\HP\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj",
+      "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj",
       "projectName": "FHP.datalayer",
-      "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj",
-      "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-      "outputPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.datalayer\\obj\\",
+      "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj",
+      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+      "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.datalayer\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10370,17 +10366,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj"
             },
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
             },
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.infrastructure\\FHP.infrastructure.csproj"
             },
-            "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
-              "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
+            "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
+              "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
             }
           }
         }
@@ -10460,8 +10456,30 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.IdentityModel.Tokens.Jwt' 6.12.2 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52",
+      "libraryId": "System.IdentityModel.Tokens.Jwt",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1904",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Linq.Dynamic.Core' 1.2.12 has a known critical severity vulnerability, https://github.com/advisories/GHSA-w65q-jcmv-28gj",
+      "libraryId": "System.Linq.Dynamic.Core",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

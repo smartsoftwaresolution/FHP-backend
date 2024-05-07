@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj": {}
+    "D:\\FHP-BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj": {}
   },
   "projects": {
-    "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
+    "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj",
+        "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj",
         "projectName": "FHP.dtos",
-        "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj",
-        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\obj\\",
+        "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -31,14 +28,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
-                "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
+              "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
+                "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
               },
-              "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
-                "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj"
+              "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
+                "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj"
               },
-              "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
-                "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
+              "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
+                "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
               }
             }
           }
@@ -78,24 +75,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
+    "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj",
+        "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj",
         "projectName": "FHP.entity",
-        "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj",
-        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\obj\\",
+        "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -109,8 +103,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
-                "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
+              "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
+                "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
               }
             }
           }
@@ -146,24 +140,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj": {
+    "D:\\FHP-BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj",
+        "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj",
         "projectName": "FHP.factories",
-        "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj",
-        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.factories\\obj\\",
+        "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.factories\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -177,14 +168,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
-                "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj"
+              "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj": {
+                "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj"
               },
-              "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
-                "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
+              "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
+                "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
               },
-              "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
-                "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj"
+              "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
+                "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj"
               }
             }
           }
@@ -232,24 +223,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
+    "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj",
+        "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj",
         "projectName": "FHP.models",
-        "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj",
-        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\obj\\",
+        "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.models\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -263,11 +251,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
-                "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
+              "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj": {
+                "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.entity\\FHP.entity.csproj"
               },
-              "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
-                "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
+              "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
+                "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj"
               }
             }
           }
@@ -307,24 +295,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
+    "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj",
+        "projectUniqueName": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj",
         "projectName": "FHP.utilities",
-        "projectPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj",
-        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.utilities\\obj\\",
+        "projectPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\FHP.utilities.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "D:\\FHP-BackEnd\\FHP-backend\\FHP.utilities\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -391,7 +376,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

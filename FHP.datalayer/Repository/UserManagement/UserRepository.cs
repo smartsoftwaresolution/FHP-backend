@@ -492,7 +492,9 @@ namespace FHP.datalayer.Repository.UserManagement
                               IsVerifyByAdmin = s.IsVerifyByAdmin,
                               Otp = s.Otp,
                               EmploymentType = s.EmploymentType,
-                          }).AsNoTracking().FirstOrDefaultAsync();
+                          })
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync();
 
         }
 

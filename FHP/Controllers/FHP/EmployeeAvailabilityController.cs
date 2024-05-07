@@ -60,7 +60,15 @@ namespace FHP.Controllers.FHP
                         string body = $"Hello Dear \n\nWe hope this message finds you well. We are writing to inquire about your availability regarding the job opportunity recently posted for [Job Position]. Could you please let us know your current availability and any potential constraints regarding the job?\n\nYour prompt response would be highly appreciated.\n\nBest regards";
                         await _sendNotificationService.SendNotification("Job Availability Inquiry", body, t.TokenFCM);
                     }*/
-                   
+
+                   /* var employeeToken = await _tokenManager.FcmTokenByRole("employee");
+                    string employeeMessage = "You have received a job request from the admin. Please review the detail.";
+
+                    if(employeeToken != null)
+                    {
+                        await _sendNotificationService.SendNotification("Job Request", employeeMessage, employeeToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+*/
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
                     response.StatusCode = 200;
@@ -280,6 +288,20 @@ namespace FHP.Controllers.FHP
                 }*/
 
 
+                if(result == "Available")
+                {
+                    var adminToken = await _tokenManager.FcmTokenByRole("admin");
+                    string adminMessage = $" employee {result}";
+
+                    if(adminToken != null)
+                    {
+                        await _sendNotificationService.SendNotification("employee avaliable", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+                    }
+                }
+
+
+
+
                 response.StatusCode = 200;
                 response.Message = $"Employee {result} Now!!"; 
                 return Ok(response);
@@ -308,9 +330,15 @@ namespace FHP.Controllers.FHP
 
                 // Call the manager method to get Employee availability by job id for the job.
                 var data = await _manager.GetAllAvalibility(page,pageSize, search,JobId,employeeAvailability); 
+
+
+
                 
                 if (data.getallAval != null  && data.totalCount > 0)
                 {
+
+                    
+
                     response.StatusCode = 200;
                     response.Data = data.getallAval;
                     response.TotalCount = data.totalCount;
