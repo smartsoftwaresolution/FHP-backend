@@ -66,7 +66,7 @@ namespace FHP.Controllers.FHP
                        {
                            if(t.UserId == model.EmployerId)
                            {
-                               await _sendNotificationService.SendNotification("Sent", "OK", t.TokenFCM);
+                              await _sendNotificationService.SendNotification("Sent", "OK", t.TokenFCM);
                            }
                        }*/
 
@@ -75,7 +75,7 @@ namespace FHP.Controllers.FHP
 
                         var token = employeetoken.FirstOrDefault();
 
-                       if(token != null)
+                       if(token != null && token.UserId == model.EmployerId)
                        {
                          string message = "You have received a job request from the admin. Please review the detail.";
 
@@ -255,7 +255,7 @@ namespace FHP.Controllers.FHP
         }
 
         //API Endpoint for deleting an employee by ID
-        [HttpDelete("delete/{id}")] 
+        [HttpDelete("delete/{id}")]   
         public async Task<IActionResult> DeleteAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -456,4 +456,4 @@ namespace FHP.Controllers.FHP
             }
         }
     }
-}
+}  
