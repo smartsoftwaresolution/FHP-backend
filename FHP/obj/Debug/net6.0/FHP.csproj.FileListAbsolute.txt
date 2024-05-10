@@ -389,3 +389,15 @@ D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\refint\FHP.dll
 D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.pdb
 D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.genruntimeconfig.cache
 D:\FHP-BackEnd\FHP-backend\FHP\obj\Debug\net6.0\ref\FHP.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Google.Api.CommonProtos.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Google.Api.Gax.Grpc.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Google.Cloud.Firestore.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Google.Cloud.Firestore.V1.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Google.Cloud.Location.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Google.LongRunning.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Google.Protobuf.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Grpc.Auth.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Grpc.Core.Api.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Grpc.Net.Client.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Grpc.Net.Common.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\System.Linq.Async.dll
