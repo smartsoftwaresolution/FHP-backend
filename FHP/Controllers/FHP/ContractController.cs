@@ -62,7 +62,7 @@ namespace FHP.Controllers.FHP
 
                     var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
 
-                    var token = adminToken.OrderByDescending(s => s.Id).FirstOrDefault();
+                    var token = adminToken.FirstOrDefault();
 
                     if(token != null)
                     {
@@ -71,7 +71,7 @@ namespace FHP.Controllers.FHP
                     }
 
                     var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
-                    var tokens = employeeToken.OrderByDescending(s => s.Id).FirstOrDefault();
+                    var tokens = employeeToken.FirstOrDefault();
 
                     if(tokens != null)
                     {
