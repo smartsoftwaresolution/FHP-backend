@@ -79,7 +79,7 @@ namespace FHP.Controllers.FHP
                     if (model.JobPosting == Constants.JobPosting.Submitted)
                     {
                         var admintoken = await _tokenManager.FcmTokenByRole("admin");
-                        var token = admintoken.OrderByDescending(s => s.Id).FirstOrDefault(); 
+                        var token = admintoken.FirstOrDefault(); 
 
                         if (token != null)
                         {
