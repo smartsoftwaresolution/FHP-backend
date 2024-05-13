@@ -165,7 +165,7 @@ namespace FHP.datalayer.Repository.FHP
              {
                  data.IsAccepted = false;
                  result = "Reject";
-             }
+             } 
 
              _dataContext.Offers.Update(data);
              await _dataContext.SaveChangesAsync();

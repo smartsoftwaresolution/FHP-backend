@@ -16,6 +16,6 @@ namespace FHP.models.FHP.Offer
         public string Title { get; set; }
         public string Description { get; set; }
         public Constants.OfferStatus IsAvaliable { get; set; }
-        public string CancelReason { get; set; }
+       // public string CancelReason { get; set; }
     }
 }

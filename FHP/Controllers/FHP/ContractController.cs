@@ -60,7 +60,7 @@ namespace FHP.Controllers.FHP
 
                   
 
-                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
+                    var adminToken = (await _fCMTokenManager.FcmTokenByRole("admin")).DistinctBy(t => t.TokenFCM);
 
                     var token = adminToken.FirstOrDefault();
 
@@ -70,8 +70,8 @@ namespace FHP.Controllers.FHP
                         await _sendNotificationService.SendNotification("New Contract Notification", adminMessage, token.TokenFCM);
                     }
 
-                    var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
-                    var tokens = employeeToken.FirstOrDefault();
+                    var employeeToken = (await _fCMTokenManager.FcmTokenByRole("employee")).DistinctBy(t => t.TokenFCM);
+                    var tokens = employeeToken. FirstOrDefault();
 
                     if(tokens != null)
                     {

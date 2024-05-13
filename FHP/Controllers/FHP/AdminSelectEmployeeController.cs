@@ -75,7 +75,7 @@ namespace FHP.Controllers.FHP
 
                         var token = employeetoken.FirstOrDefault();
 
-                       if(token != null && token.UserId == model.EmployerId)
+                       if(token != null)
                        {
                          string message = "You have received a job request from the admin. Please review the detail.";
 
@@ -397,21 +397,23 @@ namespace FHP.Controllers.FHP
                 if (result == "Accepted")
                 {
                     var adminToken = await _tokenManager.FcmTokenByRole("admin");
-                    string adminMessage = $"employer{result}";
+                    var employeeToken = await _tokenManager.FcmTokenByRole("employee");
+
+                    string adminMessage = "Dear Admin,\r\n\r\nWe wanted to inform you that the request has been accepted by the employer. Please take note of this for your records and any further necessary action.";
+                    string employeeMessage = "We're pleased to inform you that your request has been accepted by the employer. Please proceed accordingly as discussed. If you have any questions or need further assistance, feel free to reach out to us.";
 
                     if (adminToken != null)
                     {
-                        await _sendNotificationService.SendNotification(" Acknowledgement of Employment Acceptance", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+                        await _sendNotificationService.SendNotification("Acknowledgement of Employment Acceptance", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
                     }
-
-                    var employeeToken = await _tokenManager.FcmTokenByRole("employee");
-                    string employeeMessage = $"employer {result}";
 
                     if (employeeToken != null)
                     {
-                        await _sendNotificationService.SendNotification(" Acknowledgement of Employment Acceptance", employeeMessage, employeeToken.Select(t => t.TokenFCM).FirstOrDefault());
+                        await _sendNotificationService.SendNotification("Acknowledgement of Employment Acceptance", employeeMessage, employeeToken.Select(t => t.TokenFCM).FirstOrDefault());
                     }
                 }
+
+
 
 
 
