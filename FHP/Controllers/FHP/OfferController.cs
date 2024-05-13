@@ -57,27 +57,43 @@ namespace FHP.Controllers.FHP
 
                       await _manager.AddAsync(model);
 
-                    
-                      var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
-                      var token = adminToken.FirstOrDefault();
 
-                      if(token != null)
-                      {
-                        string adminMessage = "A offer has been send sucessfully!";
-                        await _sendNotificationService.SendNotification("Offer", adminMessage, token.TokenFCM);
-                      }
 
-                      var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
-                      var tokens = employeeToken.FirstOrDefault();
+                    /* var adminTokens = (await _fCMTokenManager.FcmTokenByRole("admin")).DistinctBy(t => t.TokenFCM);
 
-                      if (tokens != null)
-                      {
-                        string employeeMessage = "A offer has been send sucessfully!";
-                        await _sendNotificationService.SendNotification("Offer",employeeMessage, tokens.TokenFCM);
-                      }
 
-                    
+                     var employeeTokens = (await _fCMTokenManager.FcmTokenByRole("employee")).DistinctBy(t => t.TokenFCM);
 
+
+                     string notificationMessage = "An offer has been sent successfully!";
+
+
+                     foreach (var adminToken in adminTokens)
+                     {
+                         await _sendNotificationService.SendNotification("Offer", notificationMessage, adminToken.TokenFCM);
+                     }
+
+
+                     foreach (var employeeToken in employeeTokens)
+                     {
+                         await _sendNotificationService.SendNotification("Offer", notificationMessage, employeeToken.TokenFCM);
+                     }*/
+
+                    var admintoken = await _fCMTokenManager.FcmTokenByRole("admin");
+                    var token = admintoken.FirstOrDefault();
+                    if(token != null)
+                    {
+                        string body = "An offer has been sent successfully!";
+                        await _sendNotificationService.SendNotification("Offer", body, token.TokenFCM);
+                    }
+
+                    var employeetoken = await _fCMTokenManager.FcmTokenByRole("employee");
+                    var token1 = admintoken.FirstOrDefault();
+                    if (token != null)
+                    {
+                        string body = "An offer has been sent successfully!";
+                        await _sendNotificationService.SendNotification("Offer", body, token1.TokenFCM);
+                    }
 
                     // Commit the transaction.
                     await transaction.CommitAsync();
@@ -331,13 +347,14 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
+
                 string result = await _manager.OfferAcceptRejectAsync(model);
 
 
-                if(result == "Available")
+                if(result == "Accepted")
                 {
                     var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
-                    string adminMessage = $" employee {result}";
+                    string adminMessage = "The offer has been accepted by the employee. Please proceed accordingly.";
 
                     if(adminToken != null)
                     {
@@ -347,41 +364,39 @@ namespace FHP.Controllers.FHP
 
                 else if(result == "Rejected")
                 {
-                    var adminToken1 = await _fCMTokenManager.FcmTokenByRole("admin");
-                    string adminMessage1 = $"employee {result}";
+                    var admin1 = await _fCMTokenManager.FcmTokenByRole("admin");
+                    string admin1msg = "The offer has been rejected by the employee";
 
-                    if (adminToken1 != null)
+                    if(admin1 != null)
                     {
-
-                      await _sendNotificationService.SendNotification("Offer Rejected", adminMessage1, adminToken1.Select(t => t.TokenFCM).FirstOrDefault());
-                        
+                        await _sendNotificationService.SendNotification("Offer Rejected", admin1msg, admin1.Select(t => t.TokenFCM).FirstOrDefault());
                     }
                 }
 
+              
 
-
-                if (result == "Available")
+                if (result == "Accepted")
                 {
                     var employerToken = await _fCMTokenManager.FcmTokenByRole("employer");
-                    string employerMessage = $" employee {result}";
+                    string employerMessage = "The offer has been accepted by the employee. Please proceed accordingly.";
 
                     if (employerToken != null)
                     {
                         await _sendNotificationService.SendNotification("Offer Acceptance",employerMessage , employerToken.Select(t => t.TokenFCM).FirstOrDefault());
                     }
                 }
+
                 else if (result == "Rejected")
                 {
-                    var employerToken1 = await _fCMTokenManager.FcmTokenByRole("employer");
-                    string employerMessage1 = $"employee {result}";
+                    var employer1 = await _fCMTokenManager.FcmTokenByRole("employer");
+                    string employer1msg = "The offer has been rejected by the employee";
 
-                    if (employerToken1 != null)
-                    {  
-
-                      await _sendNotificationService.SendNotification("Offer Rejected", employerMessage1, employerToken1.Select(t => t.TokenFCM).FirstOrDefault());
-
+                    if (employer1 != null)
+                    {
+                        await _sendNotificationService.SendNotification("Offer Rejected", employer1msg, employer1.Select(t => t.TokenFCM).FirstOrDefault());
                     }
                 }
+
 
                 response.StatusCode = 200;
                 response.Message = $"Offer {result} Succesfully!!";
