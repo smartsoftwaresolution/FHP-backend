@@ -62,24 +62,11 @@ namespace FHP.Controllers.FHP
                     // Adds the job posting asynchronously
                     await _manager.AddAsync(model);
 
-                    /*if (model.JobPosting == Constants.JobPosting.Submitted)
-                    {
-                        var token = await _tokenManager.FcmTokenByRole("admin");
-
-                        foreach (var t in token.OrderByDescending(s => s.Id))
-                        {
-                            string body = "Dear Admin,\r\n\r\nA new job posting has been submitted. Please review the details and take appropriate action.\r\n\r\nThank you.";
-
-                            await _sendNotificationService.SendNotification("A new job post created ", body, t.TokenFCM);
-
-                        }
-                    }
-*/
-                    
+                  /*  
                     if (model.JobPosting == Constants.JobPosting.Submitted)
                     {
                         var admintoken = await _tokenManager.FcmTokenByRole("admin");
-                        var token = admintoken.FirstOrDefault(); 
+                        var token = admintoken.OrderByDescending(s => s.Id).FirstOrDefault();
 
                         if (token != null)
                         {
@@ -87,7 +74,7 @@ namespace FHP.Controllers.FHP
 
                             await _sendNotificationService.SendNotification("A new job post created ", body, token.TokenFCM); 
                         }
-                    }
+                    }*/
 
                     // commit transaction
                     await transaction.CommitAsync();
