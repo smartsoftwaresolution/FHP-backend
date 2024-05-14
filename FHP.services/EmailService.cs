@@ -18,7 +18,7 @@ namespace FHP.services
         public async Task SendverificationEmail(string email,int userId)
         {
             MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress("sabeel.softw@gmail.com"));
+            message.From.Add(new MailboxAddress("   "));
             message.To.Add(new MailboxAddress(email));
             message.Subject = "Email Verfication";
             string emailBody = "http://localhost:3000/email-verification/" + userId;

@@ -82,27 +82,6 @@ namespace FHP.Controllers.UserManagement
 
 
 
-                    //If employee or employer is register notification goes to admin panel
-                    /* var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
-
-                     foreach (var token in tokens.OrderByDescending(s => s.Id))
-                     {
-                         if (model.RoleName.ToLower().Contains("employee"))
-                         {
-                             string body = "A new employee has joined the platform. Kindly review their information and greet them warmly";
-
-                             await _sendNotificationService.SendNotification("A new employee has joined", body, token.TokenFCM);
-                         }
-
-                         else if (model.RoleName.ToLower().Contains("employer"))
-                         {
-                             string body = "A new employee has joined the platform. Kindly review their information and greet them warmly";
-
-                             await _sendNotificationService.SendNotification("A new employer has joined", body, token.TokenFCM);
-                         }
-                     }
- */
-
                     var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
 
                     // Check if tokens exist

@@ -12,7 +12,7 @@ namespace FHP.Controllers.FHP
     [ApiController]
     public class OfferController : ControllerBase
     {
-        private readonly IOfferManager _manager;
+        private readonly IOfferManager _manager;   
         private readonly IExceptionHandleService _exceptionHandleService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFCMTokenManager _fCMTokenManager;
@@ -55,44 +55,24 @@ namespace FHP.Controllers.FHP
                     !string.IsNullOrEmpty(model.Description))
                 {
 
-                      await _manager.AddAsync(model);
-
-
-
-                    /* var adminTokens = (await _fCMTokenManager.FcmTokenByRole("admin")).DistinctBy(t => t.TokenFCM);
-
-
-                     var employeeTokens = (await _fCMTokenManager.FcmTokenByRole("employee")).DistinctBy(t => t.TokenFCM);
-
-
-                     string notificationMessage = "An offer has been sent successfully!";
-
-
-                     foreach (var adminToken in adminTokens)
-                     {
-                         await _sendNotificationService.SendNotification("Offer", notificationMessage, adminToken.TokenFCM);
-                     }
-
-
-                     foreach (var employeeToken in employeeTokens)
-                     {
-                         await _sendNotificationService.SendNotification("Offer", notificationMessage, employeeToken.TokenFCM);
-                     }*/
+                    await _manager.AddAsync(model);
 
                     var admintoken = await _fCMTokenManager.FcmTokenByRole("admin");
                     var token = admintoken.FirstOrDefault();
-                    if(token != null)
+
+                    if (token != null)
                     {
-                        string body = "An offer has been sent successfully!";
-                        await _sendNotificationService.SendNotification("Offer", body, token.TokenFCM);
+                        string adminbody = "An offer has been sent successfully!";
+                        await _sendNotificationService.SendNotification("Offer", adminbody, token.TokenFCM);
                     }
 
                     var employeetoken = await _fCMTokenManager.FcmTokenByRole("employee");
-                    var token1 = admintoken.FirstOrDefault();
-                    if (token != null)
+                    var token1 = employeetoken .FirstOrDefault();
+                         
+                    if (token1 != null)
                     {
-                        string body = "An offer has been sent successfully!";
-                        await _sendNotificationService.SendNotification("Offer", body, token1.TokenFCM);
+                        string employeebody = "An offer has been sent successfully!";
+                        await _sendNotificationService.SendNotification("Offer", employeebody, token1.TokenFCM);
                     }
 
                     // Commit the transaction.
@@ -351,51 +331,26 @@ namespace FHP.Controllers.FHP
                 string result = await _manager.OfferAcceptRejectAsync(model);
 
 
-                if(result == "Accepted")
+               /* if (result == "Accepted")
                 {
-                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
-                    string adminMessage = "The offer has been accepted by the employee. Please proceed accordingly.";
+                         var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
+                         var Token = adminToken.FirstOrDefault();
 
-                    if(adminToken != null)
+                    if (Token != null)
                     {
-                        await _sendNotificationService.SendNotification("Offer Acceptance", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+                         string adminMessage = "The offer has been accepted by the employee. Please proceed accordingly.";
+                         await _sendNotificationService.SendNotification("Offer Acceptance - Admin", adminMessage, Token.TokenFCM);
                     }
-                }
 
-                else if(result == "Rejected")
-                {
-                    var admin1 = await _fCMTokenManager.FcmTokenByRole("admin");
-                    string admin1msg = "The offer has been rejected by the employee";
+                        var employerToken = await _fCMTokenManager.FcmTokenByRole("employer");
+                        var tokens = employerToken.FirstOrDefault();
 
-                    if(admin1 != null)
+                    if (tokens != null)
                     {
-                        await _sendNotificationService.SendNotification("Offer Rejected", admin1msg, admin1.Select(t => t.TokenFCM).FirstOrDefault());
+                        string employerMessage = "The offer has been accepted by the employee. Please proceed accordingly.";
+                        await _sendNotificationService.SendNotification("Offer Acceptance - Employer", employerMessage, tokens.TokenFCM);
                     }
-                }
-
-              
-
-                if (result == "Accepted")
-                {
-                    var employerToken = await _fCMTokenManager.FcmTokenByRole("employer");
-                    string employerMessage = "The offer has been accepted by the employee. Please proceed accordingly.";
-
-                    if (employerToken != null)
-                    {
-                        await _sendNotificationService.SendNotification("Offer Acceptance",employerMessage , employerToken.Select(t => t.TokenFCM).FirstOrDefault());
-                    }
-                }
-
-                else if (result == "Rejected")
-                {
-                    var employer1 = await _fCMTokenManager.FcmTokenByRole("employer");
-                    string employer1msg = "The offer has been rejected by the employee";
-
-                    if (employer1 != null)
-                    {
-                        await _sendNotificationService.SendNotification("Offer Rejected", employer1msg, employer1.Select(t => t.TokenFCM).FirstOrDefault());
-                    }
-                }
+                }*/
 
 
                 response.StatusCode = 200;
