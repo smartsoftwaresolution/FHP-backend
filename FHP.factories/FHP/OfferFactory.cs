@@ -22,7 +22,7 @@ namespace FHP.factories.FHP
                 Description = model.Description,
                // IsAccepted = model.IsAccepted,
                IsAvaliable = Constants.OfferStatus.Pending,
-               CancelReason = model.CancelReason,
+              // CancelReason = model.CancelReason,
                 Status = Constants.RecordStatus.Active,
                 CreatedOn = Utility.GetDateTime(),
             };

@@ -276,26 +276,26 @@ namespace FHP.Controllers.FHP
                 // Call the manager method to set Employee availability for the job.
                 string result = await _manager.SetEmployeeAvalibility(model);
 
-               /* if (model.EmployeeAvailability == Constants.EmployeeAvailability.Available)
-                {
-                    var token = await _tokenManager.FcmTokenByRole("admin");
+                /* if (model.EmployeeAvailability == Constants.EmployeeAvailability.Available)
+                 {
+                     var token = await _tokenManager.FcmTokenByRole("admin");
 
-                    foreach (var t in token)
-                    {
-                        string body = "An employee is available for Job.";
-                        await _sendNotificationService.SendNotification("Employee Avalibililty", body, t.TokenFCM);
-                    }
-                }*/
+                     foreach (var t in token)
+                     {
+                         string body = "An employee is available for Job.";
+                         await _sendNotificationService.SendNotification("Employee Avalibililty", body, t.TokenFCM);
+                     }
+                 }*/
 
 
-                if(result == "Available")
+                if (result == "Available")
                 {
                     var adminToken = await _tokenManager.FcmTokenByRole("admin");
-                    string adminMessage = $" employee {result}";
+                    string adminMessage = "An employee is succesfully accepted job requested for this job.";
 
-                    if(adminToken != null)
+                    if (adminToken != null)
                     {
-                        await _sendNotificationService.SendNotification("employee avaliable", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
+                        await _sendNotificationService.SendNotification("Employee Job Request", adminMessage, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
                     }
                 }
 
@@ -329,20 +329,33 @@ namespace FHP.Controllers.FHP
             {
 
                 // Call the manager method to get Employee availability by job id for the job.
-                var data = await _manager.GetAllAvalibility(page,pageSize, search,JobId,employeeAvailability); 
+                var data = await _manager.GetAllAvalibility(page,pageSize, search,JobId,employeeAvailability);
 
 
 
                 
+                
+                
                 if (data.getallAval != null  && data.totalCount > 0)
                 {
-
-                    
-
                     response.StatusCode = 200;
                     response.Data = data.getallAval;
                     response.TotalCount = data.totalCount;
                     return Ok(response);
+                }
+
+
+                if (employeeAvailability == Constants.EmployeeAvailability.Available)
+                {
+                    var employeetoken = await _tokenManager.FcmTokenByRole("employee");
+                    var token = employeetoken.FirstOrDefault();
+
+                    if(token != null)
+                    {
+                        string employeemessage = "Congratulations! You have been shortlisted for a job.";
+
+                        await _sendNotificationService.SendNotification("Shortlisted for Job", employeemessage, token.TokenFCM);
+                    }
                 }
 
                 // If data retrieval fails, return a BadRequest response.

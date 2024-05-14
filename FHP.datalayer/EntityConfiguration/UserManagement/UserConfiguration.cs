@@ -43,9 +43,6 @@ namespace FHP.datalayer.EntityConfiguration.UserManagement
             builder.Property(x => x.IsVerifyByAdmin).IsRequired(false);
             builder.Property(x => x.Otp).IsRequired(false);
             builder.Property(x => x.EmploymentType).IsRequired(false);
-
-
-
         }
     }
 }

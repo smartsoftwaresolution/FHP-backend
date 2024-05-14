@@ -15,7 +15,6 @@ namespace FHP.dtos.FHP.Offer
         public int EmployerId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-
         public Constants.OfferStatus IsAvaliable { get; set; }
         public string CancelReason { get; set; }
         public Constants.RecordStatus Status { get; set; }
