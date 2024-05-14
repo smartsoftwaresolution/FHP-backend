@@ -127,7 +127,7 @@ namespace FHP.datalayer.Repository.FHP
         {
             string result = string.Empty;
 
-            var data = await _dataContext.Offers.Where(s => s.EmployeeId == model.EmployeeId && s.EmployerId == model.EmployerId && s.JobId == model.JobId).FirstOrDefaultAsync();
+            var data = await _dataContext.Offers.Where(s => s.EmployeeId == model.EmployeeId && s.EmployerId == model.EmployerId && s.JobId == model.JobId && s.Id == model.Id).FirstOrDefaultAsync();
 
             if(model.IsAvaliable == Constants.OfferStatus.Accepted)
             {

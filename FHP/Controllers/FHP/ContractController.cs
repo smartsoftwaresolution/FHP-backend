@@ -58,7 +58,7 @@ namespace FHP.Controllers.FHP
                     // Add the contract model asynchronously.
                     await _manager.AddAsync(model);
 
-                  
+                  /*
 
                     var adminToken = (await _fCMTokenManager.FcmTokenByRole("admin")).DistinctBy(t => t.TokenFCM);
 
@@ -77,27 +77,9 @@ namespace FHP.Controllers.FHP
                     {
                         string employeeMessage = "Hello A contract has been signed";
                         await _sendNotificationService.SendNotification("New contract notification", employeeMessage, tokens.TokenFCM);
-                    }
-
-                   /* var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
-
-                    var allTokens = adminToken.Concat(employeeToken).Select(t => t.TokenFCM).FirstOrDefault();
-
-                    if (allTokens != null)
-                    {
-                      string message = "A new contract has been created. Please review the details at your earliest convenience.";
-
-                      await _sendNotificationService.SendNotification("New Contract Notification", message, allTokens);
                     }*/
 
-                    /* string adminbody = "I hope this message finds you well. I am writing to inform you about a new contract that has been created Please review the details of the contract at your earliest convenience.";
-
-                     string employeebody = "I trust this message finds you well. I am writing to inform you that a new contract has been created Please carefully examine the terms and conditions outlined in the contract.. Should you have any questions or require clarification on any aspect, do not hesitate to reach out to me.";
-
-                     await _sendNotificationService.SendNotification("Dear sir a new contract has been created", adminbody, adminToken.Select(t => t.TokenFCM).FirstOrDefault());
-
-                     await _sendNotificationService.SendNotification("Dear sir a new contract has been created", adminbody, employeeToken.Select(t => t.TokenFCM).FirstOrDefault());*/
-
+                   
                     // Commit the transaction. 
 
                     await transaction.CommitAsync();  

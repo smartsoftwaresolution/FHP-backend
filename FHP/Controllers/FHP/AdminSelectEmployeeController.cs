@@ -59,28 +59,17 @@ namespace FHP.Controllers.FHP
                     // Add the AdminSelectEmployee model asynchronously.
                     await _manager.AddAsync(model);
 
-
-                     /* var token = await _tokenManager.FcmTokenByRole("employer");
-
-                       foreach (var t in token)
-                       {
-                           if(t.UserId == model.EmployerId)
-                           {
-                              await _sendNotificationService.SendNotification("Sent", "OK", t.TokenFCM);
-                           }
-                       }*/
-
                     
-                        var employeetoken = await _tokenManager.FcmTokenByRole("employee");
+                      /*  var employeetoken = await _tokenManager.FcmTokenByRole("employee");
 
                         var token = employeetoken.FirstOrDefault();
 
                        if(token != null)
                        {
-                         string message = "You have received a job request from the admin. Please review the detail.";
+                          string message = "You have received a job request from the admin. Please review the detail.";
 
-                         await _sendNotificationService.SendNotification("Job Request", message, token.TokenFCM);
-                       }
+                          await _sendNotificationService.SendNotification("Job Request", message, token.TokenFCM);
+                       }*/
 
 
 
@@ -369,32 +358,8 @@ namespace FHP.Controllers.FHP
 
                 string result = await _manager.AcceptRejectAsync(jobId, employeeId);
 
-                /*
-                var token = await _tokenManager.FcmTokenByRole("admin");
 
-                foreach (var t in token)
-                {
-                    string body = $"employer {result}";
-                    await _sendNotificationService.SendNotification("Employer Accepted", body, t.TokenFCM);
-                }
-
-
-                var token1 = await _tokenManager.FcmTokenByRole("employee");
-
-                foreach (var y in token1)
-                {
-                    string body = $"employer {result} ";
-                    await _sendNotificationService.SendNotification("", body, y.TokenFCM);
-                }*/
-
-                /*var adminToken = await _tokenManager.FcmTokenByRole("admin");
-                string adminMessage = $"employer {result} ";*/
-
-                /* var employeeToken = await _tokenManager.FcmTokenByRole("employee");
-                 string employeeMessage = $"employer {result} ";*/
-
-
-                if (result == "Accepted")
+               /* if (result == "Accepted")
                 {
                     var adminToken = await _tokenManager.FcmTokenByRole("admin");
                     var employeeToken = await _tokenManager.FcmTokenByRole("employee");
@@ -415,7 +380,7 @@ namespace FHP.Controllers.FHP
 
 
 
-
+*/
 
                 response.StatusCode = 200;
                 response.Message = $" {result} Succesfully! ";
