@@ -58,28 +58,27 @@ namespace FHP.Controllers.FHP
                     // Add the contract model asynchronously.
                     await _manager.AddAsync(model);
 
-                  /*
 
-                    var adminToken = (await _fCMTokenManager.FcmTokenByRole("admin")).DistinctBy(t => t.TokenFCM);
 
-                    var token = adminToken.FirstOrDefault();
+                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
+                    var token = adminToken.OrderByDescending(a => a.Id).FirstOrDefault();
 
-                    if(token != null)
+                    var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
+                    var tokens = employeeToken.OrderByDescending(e => e.Id).FirstOrDefault(); 
+
+                    if (token != null)
                     {
-                        string adminMessage = "Hello, A contract has been signed by both employer and employee";
-                        await _sendNotificationService.SendNotification("New Contract Notification", adminMessage, token.TokenFCM);
+                        string adminMessage = "Hello, A new contract has been created singed.";
+                        await _sendNotificationService.SendNotification("Contract created", adminMessage, token.TokenFCM);
                     }
 
-                    var employeeToken = (await _fCMTokenManager.FcmTokenByRole("employee")).DistinctBy(t => t.TokenFCM);
-                    var tokens = employeeToken. FirstOrDefault();
-
-                    if(tokens != null)
+                    if (tokens != null)
                     {
-                        string employeeMessage = "Hello A contract has been signed";
-                        await _sendNotificationService.SendNotification("New contract notification", employeeMessage, tokens.TokenFCM);
-                    }*/
+                        string employeeMessage = "Hello A contract has been signed by employee. please signed contract for further process.";
+                        await _sendNotificationService.SendNotification("cContract created", employeeMessage, tokens.TokenFCM);
+                    }
 
-                   
+
                     // Commit the transaction. 
 
                     await transaction.CommitAsync();  
