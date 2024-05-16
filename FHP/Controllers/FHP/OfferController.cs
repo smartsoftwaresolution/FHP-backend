@@ -58,7 +58,10 @@ namespace FHP.Controllers.FHP
                     await _manager.AddAsync(model);
 
                     var admintoken = await _fCMTokenManager.FcmTokenByRole("admin");
-                    var token = admintoken.FirstOrDefault();
+                    var token = admintoken.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                    var employeetoken = await _fCMTokenManager.FcmTokenByRole("employee");
+                    var token1 = employeetoken.OrderByDescending(s => s.Id).FirstOrDefault();
 
                     if (token != null)
                     {
@@ -66,12 +69,9 @@ namespace FHP.Controllers.FHP
                         await _sendNotificationService.SendNotification("Offer", adminbody, token.TokenFCM);
                     }
 
-                    var employeetoken = await _fCMTokenManager.FcmTokenByRole("employee");
-                    var token1 = employeetoken .FirstOrDefault();
-                         
                     if (token1 != null)
                     {
-                        string employeebody = "An offer has been sent successfully!";
+                        string employeebody = "An a offer has been sent successfully!";
                         await _sendNotificationService.SendNotification("Offer", employeebody, token1.TokenFCM);
                     }
 
@@ -328,29 +328,28 @@ namespace FHP.Controllers.FHP
                 }
 
 
-                string result = await _manager.OfferAcceptRejectAsync(model);
+                    string result = await _manager.OfferAcceptRejectAsync(model);
 
+                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
+                    var Token = adminToken.OrderByDescending(a => a.Id).FirstOrDefault();
 
-               /* if (result == "Accepted")
+                    var employerToken = await _fCMTokenManager.FcmTokenByRole("employer");
+                    var tokens = employerToken.OrderByDescending(e => e.Id).FirstOrDefault();
+
+                if (result == "Accepted")
                 {
-                         var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
-                         var Token = adminToken.FirstOrDefault();
-
                     if (Token != null)
                     {
-                         string adminMessage = "The offer has been accepted by the employee. Please proceed accordingly.";
-                         await _sendNotificationService.SendNotification("Offer Acceptance - Admin", adminMessage, Token.TokenFCM);
+                        string adminMessage = "The offer has been accepted by the employee. Please proceed accordingly.";
+                        await _sendNotificationService.SendNotification("Offer Accept", adminMessage, Token.TokenFCM);
                     }
-
-                        var employerToken = await _fCMTokenManager.FcmTokenByRole("employer");
-                        var tokens = employerToken.FirstOrDefault();
 
                     if (tokens != null)
                     {
                         string employerMessage = "The offer has been accepted by the employee. Please proceed accordingly.";
-                        await _sendNotificationService.SendNotification("Offer Acceptance - Employer", employerMessage, tokens.TokenFCM);
+                        await _sendNotificationService.SendNotification("Offer Accept", employerMessage, tokens.TokenFCM);
                     }
-                }*/
+                }
 
 
                 response.StatusCode = 200;

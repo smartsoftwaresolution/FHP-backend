@@ -82,7 +82,7 @@ namespace FHP.Controllers.UserManagement
 
 
 
-                    var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
+                      var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
 
                     // Check if tokens exist
                     if (tokens.Any())
@@ -92,13 +92,13 @@ namespace FHP.Controllers.UserManagement
 
                         if (model.RoleName.ToLower().Contains("employee"))
                         {
-                            body = "A new employee has joined the platform.\r\n\r\nKindly review their information and greet them warmly";
+                            body = "A new employee has joined the platform.Kindly review their information and greet them warmly";
                             Title = "A new employee has joined";
                         }
 
                         else if (model.RoleName.ToLower().Contains("employer"))
                         {
-                            body = "A new employer has joined the platform.\r\n\r\nKindly review their information and greet them warmly";
+                            body = "A new employer has joined the platform.Kindly review their information and greet them warmly";
                             Title = "A new employer has joined";
                         }
 
