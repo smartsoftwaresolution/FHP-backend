@@ -19,10 +19,10 @@ namespace FHP.Controllers.FHP
         private readonly IFCMTokenManager _tokenManager;
 
         public EmployeeAvailabilityController(IEmployeeAvailabilityManager manager,
-             IExceptionHandleService exceptionHandleService,
-             IUnitOfWork unitOfWork,
-             ISendNotificationService sendNotificationService,
-             IFCMTokenManager tokenManager)
+                                              IExceptionHandleService exceptionHandleService,
+                                              IUnitOfWork unitOfWork,
+                                              ISendNotificationService sendNotificationService,
+                                              IFCMTokenManager tokenManager)
         {
             _manager=manager;
             _exceptionHandleService=exceptionHandleService;
@@ -52,6 +52,17 @@ namespace FHP.Controllers.FHP
                 {
                     // Add the EmployeeAvailability model asynchronously.
                     await _manager.AddAsync(model);
+
+                    var admintoken = await _tokenManager.FcmTokenByRole("employee");
+                    var token = admintoken.OrderByDescending(e => e.Id).FirstOrDefault();
+
+                    if(token != null)
+                    {
+                        string employeeMessage = "Congratulation you have received job request.";
+                        await _sendNotificationService.SendNotification("Job request.", employeeMessage, token.TokenFCM);
+                    }
+
+
 
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
@@ -263,7 +274,6 @@ namespace FHP.Controllers.FHP
 
                 if (model.EmployeeAvailability == Constants.EmployeeAvailability.Available)
                 {
-
                     if (token != null)
                     {
                         string adminMessage = "An employee is succesfully accepted job requested for this job.";

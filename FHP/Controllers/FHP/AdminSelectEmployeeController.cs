@@ -73,8 +73,6 @@ namespace FHP.Controllers.FHP
 
 
 
-
-
                     // Commit the transaction.
                     await transaction.CommitAsync();
 
@@ -356,17 +354,15 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                }
 
-                
                    string result = await _manager.AcceptRejectAsync(jobId, employeeId);
-
+                  
                    var adminToken = await _tokenManager.FcmTokenByRole("admin");
-                   var adminTokens = adminToken.OrderByDescending(a => a.Id).FirstOrDefault();
 
                    var employeeToken = await _tokenManager.FcmTokenByRole("employee");
-                   var employeeTokens = employeeToken.OrderByDescending(e => e.Id).FirstOrDefault();
 
                 if (result == "Accepted")
                 {
+                    var adminTokens = adminToken.OrderByDescending(a => a.Id).FirstOrDefault();
                    
                     if (adminTokens != null)
                     {
@@ -375,16 +371,14 @@ namespace FHP.Controllers.FHP
                     }
 
 
+                    var employeeTokens = employeeToken.OrderByDescending(e => e.Id).FirstOrDefault();
+
                     if (employeeTokens != null)
                     {
                         string employeeMessage = "We're pleased to inform you that your request has been accepted by the employer.";
                         await _sendNotificationService.SendNotification("Acknowledgement of employment acceptance", employeeMessage, employeeTokens.TokenFCM);
                     }
                 }
-
-
-
-
 
                    response.StatusCode = 200;
                    response.Message = $" {result} Succesfully! ";

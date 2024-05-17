@@ -67,11 +67,9 @@ namespace FHP.Controllers.FHP
 
                     if (model.JobPosting == Constants.JobPosting.Submitted)
                     {
-
                         if (token != null)
                         {
                             string body = "Dear Admin,A new job post has been created.Please review the details and take any necessary actions.";
-
                             await _sendNotificationService.SendNotification("New Job Post ", body, token.TokenFCM);
                         }
                     }

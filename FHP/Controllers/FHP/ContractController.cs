@@ -63,19 +63,19 @@ namespace FHP.Controllers.FHP
                     var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
                     var token = adminToken.OrderByDescending(a => a.Id).FirstOrDefault();
 
-                    var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
-                    var tokens = employeeToken.OrderByDescending(e => e.Id).FirstOrDefault(); 
-
                     if (token != null)
                     {
-                        string adminMessage = "Hello, A new contract has been created singed.";
+                        string adminMessage = "Hello, A contract has been created and singed by employer.";
                         await _sendNotificationService.SendNotification("Contract created", adminMessage, token.TokenFCM);
                     }
 
+                    var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
+                    var tokens = employeeToken.OrderByDescending(e => e.Id).FirstOrDefault(); 
+
                     if (tokens != null)
                     {
-                        string employeeMessage = "Hello A contract has been signed by employee. please signed contract for further process.";
-                        await _sendNotificationService.SendNotification("cContract created", employeeMessage, tokens.TokenFCM);
+                        string employeeMessage = "Hello, A contract has been created. please signed contract for further process.";
+                        await _sendNotificationService.SendNotification("Contract created", employeeMessage, tokens.TokenFCM);
                     }
 
 
@@ -125,6 +125,18 @@ namespace FHP.Controllers.FHP
                 {
                     // Edit the Contract model asynchronously.
                     await _manager.Edit(model);
+
+
+                    var employertoken = await _fCMTokenManager.FcmTokenByRole("employer");
+
+                    var token = employertoken.OrderByDescending(e => e.Id).FirstOrDefault();
+
+                    if (token != null && !string.IsNullOrEmpty(model.EmployeeSignature))
+                    {
+                        string employerMessage = "A contract has been signed by employee.";
+                        await _sendNotificationService.SendNotification("contract signed", employerMessage, token.TokenFCM);
+                    }
+
 
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
