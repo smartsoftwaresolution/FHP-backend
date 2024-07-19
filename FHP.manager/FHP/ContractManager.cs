@@ -47,6 +47,9 @@ namespace FHP.manager.FHP
             await _repository.DeleteAsync(id);
         }
 
-      
+        /*public async Task ContactSend(PostContractModel model)
+        {
+            await _repository.ContractSend(model);  
+        }*/
     }
 }

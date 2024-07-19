@@ -34,6 +34,8 @@ namespace FHP.factories.FHP
             return data;
         }
 
+        
+
         public static void Update(Contract entity,AddContractModel model)
         {
             entity.EmployeeId = model.EmployeeId;   

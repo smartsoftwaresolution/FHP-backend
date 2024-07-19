@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 namespace FHP.utilities
 {
 
-    public class ActivityMsgResponse
+    public class MsgResponse
         {
             public string title { get; set; }
             public string desc { get; set; }
@@ -236,35 +236,35 @@ namespace FHP.utilities
                 return srcs;
             }
 
-            public static ActivityMsgResponse NotiticationBody(string Type, string ContactName, DateTime date, string activityTitle)
+            public static MsgResponse NotiticationBody(string Type, string ContactName)
             {
-                ActivityMsgResponse response = new ActivityMsgResponse();
+                MsgResponse response = new MsgResponse();
                 switch (Type)
                 {
                     case "Call":
                         response.title = "Call Reminder";
-                        response.desc = "Your have call with" + " " + ContactName + " at " + " " + date;
+                        response.desc = "Your have call with" + " " + ContactName ;
                         break;
 
                     case "Appointment":
                         response.title = "Appointment Reminder";
-                        response.desc = "Your have Appointment with" + " " + ContactName + " at " + " " + date;
+                    response.desc = "Your have Appointment with" + " " + ContactName;
                         break;
 
                     case "Task":
                         response.title = "Task Reminder";
-                        response.desc = activityTitle;
+                        response.desc = "";
                         break;
 
                     case "Email":
                         response.title = "Email Reminder";
-                        response.desc = activityTitle;
+                        response.desc = "activityTitle";
                         break;
 
 
                     case "FollowUp":
                         response.title = "FollowUp Reminder";
-                        response.desc = activityTitle;
+                        response.desc = "activityTitle";
                         break;
 
                     default:
