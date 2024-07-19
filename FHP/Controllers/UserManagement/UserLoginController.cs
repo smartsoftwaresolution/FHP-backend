@@ -230,6 +230,7 @@ namespace FHP.Controllers.UserManagement
                             CreatedOn = utilities.Utility.GetDateTime(),
                             Status = Constants.RecordStatus.Active
                         };
+
                         await _manager.AddFCMToken(fcmdata);
                     }
 

@@ -15,7 +15,7 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext= dataContext;
         }
 
-        public async Task AddAsync(UserRole entity)
+        public async Task  AddAsync(UserRole entity)
         {
             await _dataContext.UserRole.AddAsync(entity);
             await _dataContext.SaveChangesAsync();

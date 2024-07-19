@@ -1,15 +1,9 @@
 ﻿using FHP.datalayer.EntityConfiguration.UserManagement;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FHP.entity.UserManagement;
 using FHP.entity.FHP;
 using FHP.datalayer.EntityConfiguration.FHP;
-using System.Security.Policy;
 
 namespace FHP.datalayer
 {

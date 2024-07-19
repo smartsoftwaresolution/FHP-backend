@@ -30,7 +30,7 @@ namespace FHP.Controllers.FHP
             _sendNotificationService = sendNotificationService;
             _tokenManager = tokenManager;
         }
-
+        
         //Add EmployeeAvailability
         [HttpPost("add")]  
         public async Task<IActionResult> AddAsync(AddEmployeeAvailabilityModel model)
@@ -63,7 +63,6 @@ namespace FHP.Controllers.FHP
                     }
 
 
-
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
                     response.StatusCode = 200;
@@ -82,7 +81,6 @@ namespace FHP.Controllers.FHP
                 //In case of any exceptions during the process, it rolls back the transaction.
                 await transaction.RollbackAsync(); 
                 return await _exceptionHandleService.HandleException(ex); 
-
             }
         }
 
@@ -204,7 +202,7 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex); 
             }
         }
-
+        
         //GetById EmployeeAvailability
         [HttpGet("getbyid")]  
         public async Task<IActionResult> GetByIdAsync(int id)
@@ -256,8 +254,8 @@ namespace FHP.Controllers.FHP
 
             var response = new BaseResponseAdd();
 
-            try
-            {
+            try{ 
+
                 if(model.EmployeeId <= 0)
                 {
                     // If EmployeeId is not provided or invalid, return a BadRequest response.

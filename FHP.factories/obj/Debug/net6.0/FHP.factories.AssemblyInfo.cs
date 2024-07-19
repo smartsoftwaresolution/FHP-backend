@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FHP.factories")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56a56f4ac39272733fa089770f0161add3f5a556")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8e8e1198235c8a69333c578760015b9529f3126")]
 [assembly: System.Reflection.AssemblyProductAttribute("FHP.factories")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FHP.factories")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

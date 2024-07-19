@@ -34,6 +34,7 @@ namespace FHP.utilities
         public enum RecordStatus { Created, Active, Inactive, Deleted }
         public enum ProcessingStatus { None, ShortListing, InProcess, Reviewing, Hired }
 
+
         public string SessionInfo_Name { get; private set; }
 
     }

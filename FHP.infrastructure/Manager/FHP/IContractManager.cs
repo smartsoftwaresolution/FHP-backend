@@ -14,6 +14,8 @@ namespace FHP.infrastructure.Manager.FHP
         Task Edit(AddContractModel model);
         Task<(List<ContractDetailDto> contract,int totalCount)> GetAllAsync(int page, int pageSize, string? search,int employeeId,int employerId);
         Task<ContractDetailDto> GetByIdAsync(int id);   
-        Task DeleteAsync(int id);   
+        Task DeleteAsync(int id);
+
+        //Task ContactSend(PostContractModel model);
     }
 }

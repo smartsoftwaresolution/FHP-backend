@@ -78,11 +78,14 @@ namespace FHP.Controllers.UserManagement
                     }
 
                     // Adds the new user and retrieves the generated user ID
-                        userid = await _manager.AddAsync(model);
+                    userid = await _manager.AddAsync(model);
 
 
+                   
 
-                      var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
+                    var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
+
+                     
 
                     // Check if tokens exist
                     if (tokens.Any())
@@ -119,8 +122,6 @@ namespace FHP.Controllers.UserManagement
                     response.StatusCode = 200;
                     response.Message = Constants.added;
 
-
-                  
 
 
                     // Returns Ok response with the success message
