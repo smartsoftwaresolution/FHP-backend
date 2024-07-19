@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "4G/u0ybpkKMge2fMiIX3uKhI1DPbIfGvwc684VO+e7hAaryw7d3i4lHt0dHeQ2tfnFSfYXGMQEgiFuCP6cZhLQ==",
+  "dgSpecHash": "tzWPPyp5ORs=",
   "success": true,
   "projectFilePath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.factories\\FHP.factories.csproj",
   "expectedPackageFiles": [
@@ -168,5 +168,16 @@
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.IdentityModel.Tokens.Jwt' 6.12.2 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52",
+      "libraryId": "System.IdentityModel.Tokens.Jwt",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

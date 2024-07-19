@@ -14,19 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FHP.entity")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+974839b7878c0f4fdd42a953d1748c91433f6910")]
->>>>>>> 77f1118c36990a03c86e27edbd24d143601044ed
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a1fe2efc992fb7c8041dbe1506b79b917e9b04f")]
->>>>>>> 326fc653058e6e39a88e5c3d6cbb59221a1d66cd
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f145743452678222f3504b42220f431d8ac5ebc8")]
->>>>>>> 957aaac1f560fb96bc48aa6d8ce9cdd38b20d03c
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3dc36e197ed97516a59e731c93bbb47ceefae53b")]
 [assembly: System.Reflection.AssemblyProductAttribute("FHP.entity")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FHP.entity")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
