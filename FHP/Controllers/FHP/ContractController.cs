@@ -17,18 +17,31 @@ namespace FHP.Controllers.FHP
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISendNotificationService _sendNotificationService;
         private readonly IFCMTokenManager _fCMTokenManager;
+        private readonly IUserManager _userManager;
+        private readonly IEmailService _emailService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly INotificationService _notificationService;
 
         public ContractController(IContractManager manager, 
                                   IExceptionHandleService exceptionHandleService,
                                   IUnitOfWork unitOfWork,
                                   ISendNotificationService sendNotificationService,
-                                  IFCMTokenManager fCMTokenManager)
+                                  IFCMTokenManager fCMTokenManager,
+                                  IUserManager userManager,
+                                  IEmailService emailService,
+                                  IWebHostEnvironment webHostEnvironment,
+                                  INotificationService notificationService)
+                                  
         {
             _manager=manager;
             _exceptionHandleService = exceptionHandleService;
             _unitOfWork = unitOfWork;
             _sendNotificationService = sendNotificationService;
             _fCMTokenManager = fCMTokenManager;
+            _userManager = userManager;
+            _emailService = emailService;
+            _webHostEnvironment = webHostEnvironment;
+            _notificationService = notificationService;
         }
 
 
@@ -58,25 +71,17 @@ namespace FHP.Controllers.FHP
                     // Add the contract model asynchronously.
                     await _manager.AddAsync(model);
 
+                    await _notificationService.SendContractNotificationAsync();
+                    
 
+/*                    var employeeEmail = await _userManager.GetByIdAsync(model.EmployeeId);
 
-                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
-                    var token = adminToken.OrderByDescending(a => a.Id).FirstOrDefault();
-
-                    var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
-                    var tokens = employeeToken.OrderByDescending(e => e.Id).FirstOrDefault(); 
-
-                    if (token != null)
+                    if(employeeEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
                     {
-                        string adminMessage = "Hello, A new contract has been created singed.";
-                        await _sendNotificationService.SendNotification("Contract created", adminMessage, token.TokenFCM);
-                    }
+                        string pdfFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "Attachments", "Docs", "SampleContract-Shuttle.pdf");
 
-                    if (tokens != null)
-                    {
-                        string employeeMessage = "Hello A contract has been signed by employee. please signed contract for further process.";
-                        await _sendNotificationService.SendNotification("cContract created", employeeMessage, tokens.TokenFCM);
-                    }
+                        await _emailService.SendContractEmail(employeeEmail.Email,pdfFilePath);
+                    }*/
 
 
                     // Commit the transaction. 
@@ -125,6 +130,18 @@ namespace FHP.Controllers.FHP
                 {
                     // Edit the Contract model asynchronously.
                     await _manager.Edit(model);
+
+
+                    var employertoken = await _fCMTokenManager.FcmTokenByRole("employer");
+
+                    var token = employertoken.OrderByDescending(e => e.Id).FirstOrDefault();
+
+                    if (token != null && !string.IsNullOrEmpty(model.EmployeeSignature))
+                    {
+                        string employerMessage = "A contract has been signed by employee.";
+                        await _sendNotificationService.SendNotification("contract signed", employerMessage, token.TokenFCM);
+                    }
+
 
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
@@ -261,5 +278,52 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex); 
             }
         }
+
+
+        [HttpPost("contractSend")]
+        public async Task<IActionResult> ContractSend(PostContractModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                var employeeEmail = await _userManager.GetByIdAsync(model.userId);
+
+                if(model.Id == 0 && model.userId != 0 &&
+                    employeeEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
+
+                {
+                  //  await _manager.AddAsync(model);
+                     
+                    await _emailService.SendContractEmail(employeeEmail.Email, employeeEmail.Id);
+
+                    return Ok(new
+                    {
+                        statusCode = 200,
+                        Message = "contract send."
+                    });
+                }
+
+                else
+                {
+                    return Ok(new { badRequest = 404, message = "Eamil Not found."});
+                }
+                
+                
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(_exceptionHandleService.HandleException(ex)); 
+            }
+
+        }
+
     }
+
+        
 }

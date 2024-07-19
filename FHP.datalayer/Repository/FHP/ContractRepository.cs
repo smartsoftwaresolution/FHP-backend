@@ -1,6 +1,7 @@
 ﻿using FHP.dtos.FHP.Contract;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
+using FHP.models.FHP.Contract;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -127,5 +128,14 @@ namespace FHP.datalayer.Repository.FHP
              _dataContext.Update(data);
              await _dataContext.SaveChangesAsync();
         }
+
+       /* public async Task ContractSend(PostContractModel model)
+        {
+            var data = await _dataContext.Contracts.Where(s => s.Id == model.Id && s.EmployeeId == model.employeeId).FirstOrDefaultAsync();
+          
+      
+            await _dataContext.SaveChangesAsync();
+            
+        }*/
     }
 }

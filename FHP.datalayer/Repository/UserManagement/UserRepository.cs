@@ -8,9 +8,6 @@ using FHP.dtos.FHP.JobPosting;
 using System.Linq.Dynamic.Core;
 using FHP.dtos.FHP.EmployeeSkill;
 
-using Microsoft.AspNetCore.Mvc;
-using FHP.entity.FHP;
-
 
 namespace FHP.datalayer.Repository.UserManagement
 {
@@ -425,7 +422,7 @@ namespace FHP.datalayer.Repository.UserManagement
            
             return await (from s in _dataContext.User
                           join t in _dataContext.UserRole
-                         on s.RoleId equals t.Id
+                          on s.RoleId equals t.Id
                           where s.Status != Constants.RecordStatus.Deleted && s.Id == id
 
                           select new UserDetailDto
@@ -448,7 +445,9 @@ namespace FHP.datalayer.Repository.UserManagement
                               MobileNumber =  s.MobileNumber,
                               IsVerifyByAdmin = s.IsVerifyByAdmin,
                               EmploymentType = s.EmploymentType,
-                          }).AsNoTracking().FirstOrDefaultAsync();
+                          })
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync();
 
         }
 

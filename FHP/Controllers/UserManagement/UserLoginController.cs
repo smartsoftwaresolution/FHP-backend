@@ -230,6 +230,7 @@ namespace FHP.Controllers.UserManagement
                             CreatedOn = utilities.Utility.GetDateTime(),
                             Status = Constants.RecordStatus.Active
                         };
+
                         await _manager.AddFCMToken(fcmdata);
                     }
 
@@ -428,8 +429,10 @@ namespace FHP.Controllers.UserManagement
                     // Calls the manager to log out the user asynchronously
                     await _manager.UserLogOut(userId);
 
-
-                    await _manager.RemoveFCMToken(userId, fcmToken);
+                    if(!string.IsNullOrEmpty(fcmToken))
+                    {
+                        await _manager.RemoveFCMToken(userId, fcmToken);
+                    }
 
                     // Sets StatusCode to 200 indicating success
                     response.StatusCode = (int)HttpStatusCode.OK;

@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "J3wDgtj47KQ=",
+=======
+  "dgSpecHash": "guOi6Ov7J+U=",
+>>>>>>> a24c8055a8fc80af05af714287d7e39ccc739218
   "success": true,
   "projectFilePath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj",
   "expectedPackageFiles": [

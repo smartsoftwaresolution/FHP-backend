@@ -10,6 +10,7 @@ using FHP.infrastructure.Service;
 using FHP.manager.FHP;
 using FHP.manager.UserManagement;
 using FHP.services;
+using FHP.services.NotificationServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -93,6 +94,7 @@ namespace FHP.config
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IFileUploadService,FileUploadService>();
             services.AddScoped<ISendNotificationService,SendNotificationService>();
+            services.AddScoped<INotificationService,NotificationService>();
         }
     }
 }

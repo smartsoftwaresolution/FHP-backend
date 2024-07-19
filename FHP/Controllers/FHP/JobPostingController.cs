@@ -17,17 +17,20 @@ namespace FHP.Controllers.FHP
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISendNotificationService _sendNotificationService;
         private readonly IFCMTokenManager _tokenManager;
+        private readonly IUserManager _userManager;
         public JobPostingController(IJobPostingManager manager,
                                     IExceptionHandleService exceptionHandleService,
                                     IUnitOfWork unitOfWork,
                                     ISendNotificationService sendNotificationService,
-                                    IFCMTokenManager tokenManager)
+                                    IFCMTokenManager tokenManager,
+                                    IUserManager userManager)
         {
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
             _unitOfWork = unitOfWork;
             _sendNotificationService = sendNotificationService;
             _tokenManager = tokenManager;
+            _userManager = userManager;
         }
                    
         // API endpoint to add jobposting 
@@ -44,7 +47,9 @@ namespace FHP.Controllers.FHP
             var response = new BaseResponseAdd();
 
             //The method then begins a database transaction to ensure data consistency during  addition.
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+
+
 
             try
             {
@@ -62,19 +67,20 @@ namespace FHP.Controllers.FHP
                     // Adds the job posting asynchronously
                     await _manager.AddAsync(model);
 
+                  
+
                     var admintoken = await _tokenManager.FcmTokenByRole("admin"); 
                     var token = admintoken.OrderByDescending(a => a.Id).FirstOrDefault();
 
                     if (model.JobPosting == Constants.JobPosting.Submitted)
                     {
-
                         if (token != null)
                         {
                             string body = "Dear Admin,A new job post has been created.Please review the details and take any necessary actions.";
-
                             await _sendNotificationService.SendNotification("New Job Post ", body, token.TokenFCM);
                         }
                     }
+
 
 
                     // commit transaction
