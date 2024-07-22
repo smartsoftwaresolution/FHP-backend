@@ -1,4 +1,5 @@
 ﻿using FHP.utilities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace FHP.entity.FHP
         public string Description { get; set; }
         public string EmployeeSignature { get; set; }
         public string EmployerSignature { get; set; }
+        public string pdfFile { get; set; }
         public DateTime? StartContract { get; set; }
         public int? RequestToChangeContract { get; set; }
         public bool IsRequestToChangeAccepted { get; set; }
         public bool IsSignedByEmployee { get; set; }
         public bool IsSignedByEmployer { get; set; }
+       
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public Constants.RecordStatus Status { get; set; }

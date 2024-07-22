@@ -30,29 +30,33 @@ namespace FHP.services
         }
 
 
-        public async Task SendContractEmail(string email, int userId)
+        public async Task SendContractEmail(string email, int userId,string htmlBody, string subject)
         {
 
             MimeMessage message = new MimeMessage();
             message.From.Add(new MailboxAddress("sabeel.softw@gmail.com"));
             message.To.Add(new MailboxAddress(email));
-            message.Subject = "Contract Document";
-            string emailBody = "" + userId;
-            BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = emailBody;
-
-           /* if (File.Exists(pdfFilePath))
+            message.Subject = subject;
+            /* string emailBody = "" + userId;
+             BodyBuilder bodyBuilder = new BodyBuilder();
+             bodyBuilder.HtmlBody = emailBody;*/
+            var bodyBuilder = new BodyBuilder
             {
-                var pdfAttachment = new MimePart("application", "pdf")
-                {
-                    Content = new MimeContent(File.OpenRead(pdfFilePath)),
-                    ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                    ContentTransferEncoding = ContentEncoding.Base64,
-                    FileName = Path.GetFileName(pdfFilePath)
-                };
+                HtmlBody = htmlBody // Set the HTML body
+            };
 
-                bodyBuilder.Attachments.Add(pdfAttachment);
-            }*/
+            /* if (File.Exists(pdfFilePath))
+             {
+                 var pdfAttachment = new MimePart("application", "pdf")
+                 {
+                     Content = new MimeContent(File.OpenRead(pdfFilePath)),
+                     ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                     ContentTransferEncoding = ContentEncoding.Base64,
+                     FileName = Path.GetFileName(pdfFilePath)
+                 };
+
+                 bodyBuilder.Attachments.Add(pdfAttachment);
+             }*/
 
 
 
