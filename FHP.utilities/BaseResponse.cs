@@ -60,7 +60,14 @@ namespace FHP.utilities
             public string Message { get; set; }
          }
 
-         public class  BasePdfResponse
+        public class BaseResponseContractAdd
+        {
+            public int Id { get; set; }
+            public int StatusCode { get; set; }
+
+            public string Message { get; set; }
+        }
+    public class  BasePdfResponse
          {
            public int StatusCode { get; set; }
            public string Message { get; set; }  

@@ -21,10 +21,11 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext=dataContext;
         }
 
-        public async Task AddAsync(Contract entity)
+        public async Task<int> AddAsync(Contract entity)
         {
             await _dataContext.Contracts.AddAsync(entity);  
-            await _dataContext.SaveChangesAsync();  
+            await _dataContext.SaveChangesAsync();
+            return entity.Id;
         }
 
         public void Edit(Contract entity)
