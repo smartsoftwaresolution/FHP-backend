@@ -17,7 +17,7 @@ namespace FHP.infrastructure.Manager.FHP
         Task DeleteAsync(int id);
 
         Task AddPdfFile(int id, string file);
-
-       
+        
+        Task<string> GetPdfUrlByContractIdAsync(int id);
     }
 }

@@ -17,6 +17,32 @@ namespace FHP.services
         {
             _env = env;
         }
+
+        public async Task<bool> DeleteIFormPdfAsync(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return false;
+            }
+
+            try
+            {
+                string fullPath = Path.Combine(_env.WebRootPath, "Attachments", filePath);
+                if (File.Exists(fullPath))
+                {
+                    File.Delete(fullPath);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return false;
+       
+        }
+
         public async Task<string> UploadIFormFileAsync(IFormFile file)
         {
             string uploadsFolder = string.Empty;

@@ -318,7 +318,7 @@ namespace FHP.Controllers.FHP
 
 
         [HttpPatch("upload-pdf")]
-        public async Task<IActionResult> UploadPdfAsync(IFormFile pdffile, int id)
+        public async Task<IActionResult> UploadPdfAsync(int id, IFormFile pdffile)
         {
             if(!ModelState.IsValid)
             {
@@ -342,6 +342,36 @@ namespace FHP.Controllers.FHP
 
                 if(pdffile != null)
                 {
+                    var existsPdfUrl = await _manager.GetPdfUrlByContractIdAsync(id);
+                    if (!string.IsNullOrWhiteSpace(existsPdfUrl))
+                    {
+                        var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existsPdfUrl);
+                        if (!deleteExistsFile)
+                        {
+                            response.StatusCode = 500;
+                            response.Message = "Failed to delete existing PDF file.";
+                            return BadRequest(response);
+                        }
+
+                        pdfUrl = await _fileUploadService.UploadIFormPdfAsync(pdffile);
+
+                        if (string.IsNullOrEmpty(pdfUrl))
+                        {
+                            response.StatusCode = 500;
+                            response.Message = "Failed to upload PDF file.";
+                            return BadRequest(response);
+                        }
+                    }
+                    else
+                    {
+                        response.StatusCode = 404;
+                        response.Message = "No PDF file provided.";
+                        return BadRequest(response);
+                    }
+                }
+
+                /*if(pdffile != null)
+                {
                     pdfUrl = await _fileUploadService.UploadIFormPdfAsync(pdffile);
 
                     if (string.IsNullOrEmpty(pdfUrl))
@@ -357,7 +387,7 @@ namespace FHP.Controllers.FHP
                     response.Message = "No PDF file provided.";
                     return BadRequest(response);
                 }
-
+*/
 
                 await _manager.AddPdfFile(id, pdfUrl);
 
@@ -377,7 +407,5 @@ namespace FHP.Controllers.FHP
             }
         }
 
-    }
-
-        
+    } 
 }
