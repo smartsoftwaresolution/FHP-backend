@@ -10,7 +10,7 @@ namespace FHP.infrastructure.Manager.FHP
 {
     public interface IContractManager
     {
-        Task AddAsync(AddContractModel model);
+        Task<int> AddAsync(AddContractModel model);
         Task Edit(AddContractModel model);
         Task<(List<ContractDetailDto> contract,int totalCount)> GetAllAsync(int page, int pageSize, string? search,int employeeId,int employerId);
         Task<ContractDetailDto> GetByIdAsync(int id);   

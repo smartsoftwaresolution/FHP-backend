@@ -11,7 +11,7 @@ namespace FHP.infrastructure.Repository.FHP
 {
     public interface IContractRepository
     {
-        Task AddAsync(Contract entity);
+        Task<int> AddAsync(Contract entity);
         void Edit(Contract entity);
         Task<Contract> GetAsync(int id);
         Task<(List<ContractDetailDto> contract, int totalCount)> GetAllAsync(int page, int pageSize, string? search, int employeeId, int employerId);

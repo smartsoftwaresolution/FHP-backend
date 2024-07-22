@@ -20,9 +20,9 @@ namespace FHP.manager.FHP
             _repository=repository;
         }
 
-        public async Task AddAsync(AddContractModel model)
+        public async Task<int> AddAsync(AddContractModel model)
         {
-            await _repository.AddAsync(ContractFactory.Create(model, model.pdfFile));
+           return await _repository.AddAsync(ContractFactory.Create(model, model.pdfFile));
         }
 
         public async Task Edit(AddContractModel model)

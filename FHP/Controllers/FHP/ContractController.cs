@@ -1,4 +1,5 @@
-﻿using FHP.infrastructure.DataLayer;
+﻿using FHP.entity.FHP;
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
@@ -46,7 +47,7 @@ namespace FHP.Controllers.FHP
             _fileUploadService = fileUploadService;
         }
 
-
+          
         // API endpoint to add Contract
         [HttpPost("add")]   
         public async Task<IActionResult> AddAsync(AddContractModel model)
@@ -57,7 +58,7 @@ namespace FHP.Controllers.FHP
                 return BadRequest(ModelState.GetErrorList()); 
             }
 
-            var response = new BaseResponseAdd();
+            var response = new BaseResponseContractAdd();
 
             //The method then begins a database transaction to ensure data consistency during  addition.
             await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
@@ -71,19 +72,10 @@ namespace FHP.Controllers.FHP
 
                 {
                     // Add the contract model asynchronously.
-                    await _manager.AddAsync(model);
+                   var data =  await _manager.AddAsync(model);
 
                     await _notificationService.SendContractNotificationAsync();
                     
-
-/*                    var employeeEmail = await _userManager.GetByIdAsync(model.EmployeeId);
-
-                    if(employeeEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
-                    {
-                        string pdfFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "Attachments", "Docs", "SampleContract-Shuttle.pdf");
-
-                        await _emailService.SendContractEmail(employeeEmail.Email,pdfFilePath);
-                    }*/
 
 
                     // Commit the transaction. 
@@ -91,9 +83,10 @@ namespace FHP.Controllers.FHP
                     await transaction.CommitAsync();  
                     response.StatusCode = 200;
                     response.Message = Constants.added;
+                    response.Id = data;
                     return Ok(response);
                 }
-
+                
                 // If necessary fields are not provided in the model, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
