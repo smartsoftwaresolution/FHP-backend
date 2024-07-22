@@ -3,11 +3,6 @@ using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP.Contract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.manager.FHP
 {
@@ -52,6 +47,9 @@ namespace FHP.manager.FHP
             await _repository.AddPdfFile(id, file);
         }
 
-
+        public async Task<string> GetPdfUrlByContractIdAsync(int id)
+        {
+           return await _repository.GetPdfUrlByContractIdAsync(id);
+        }
     }
 }

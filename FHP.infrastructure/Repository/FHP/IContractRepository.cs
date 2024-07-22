@@ -18,5 +18,6 @@ namespace FHP.infrastructure.Repository.FHP
         Task<ContractDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
         Task AddPdfFile(int id, string file);
+        Task<string> GetPdfUrlByContractIdAsync(int id);
     }
 }
