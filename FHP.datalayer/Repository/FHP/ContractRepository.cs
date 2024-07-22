@@ -129,13 +129,12 @@ namespace FHP.datalayer.Repository.FHP
              await _dataContext.SaveChangesAsync();
         }
 
-       /* public async Task ContractSend(PostContractModel model)
+        public async Task AddPdfFile(int id, string file)
         {
-            var data = await _dataContext.Contracts.Where(s => s.Id == model.Id && s.EmployeeId == model.employeeId).FirstOrDefaultAsync();
-          
-      
-            await _dataContext.SaveChangesAsync();
-            
-        }*/
+            var data = await _dataContext.Contracts.Where(s => s.Id == id).FirstOrDefaultAsync();
+            data.pdfFile = file;
+            _dataContext.Update(data);
+            await _dataContext.SaveChangesAsync(); 
+        }
     }
 }

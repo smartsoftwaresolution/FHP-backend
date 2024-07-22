@@ -16,6 +16,8 @@ namespace FHP.infrastructure.Manager.FHP
         Task<ContractDetailDto> GetByIdAsync(int id);   
         Task DeleteAsync(int id);
 
-        //Task ContactSend(PostContractModel model);
+        Task AddPdfFile(int id, string file);
+
+       
     }
 }

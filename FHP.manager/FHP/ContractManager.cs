@@ -22,7 +22,7 @@ namespace FHP.manager.FHP
 
         public async Task AddAsync(AddContractModel model)
         {
-            await _repository.AddAsync(ContractFactory.Create(model));
+            await _repository.AddAsync(ContractFactory.Create(model, model.pdfFile));
         }
 
         public async Task Edit(AddContractModel model)
@@ -47,9 +47,11 @@ namespace FHP.manager.FHP
             await _repository.DeleteAsync(id);
         }
 
-        /*public async Task ContactSend(PostContractModel model)
+        public async Task AddPdfFile(int id, string file)
         {
-            await _repository.ContractSend(model);  
-        }*/
+            await _repository.AddPdfFile(id, file);
+        }
+
+
     }
 }
