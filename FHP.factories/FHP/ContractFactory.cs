@@ -11,7 +11,7 @@ namespace FHP.factories.FHP
 {
     public class ContractFactory
     {
-        public static Contract Create(AddContractModel model)
+        public static Contract Create(AddContractModel model,string pdfFile)
         {
             var data = new Contract
             {
@@ -27,6 +27,7 @@ namespace FHP.factories.FHP
                 IsRequestToChangeAccepted=model.IsRequestToChangeAccepted,
                 IsSignedByEmployee=model.IsSignedByEmployee,
                 IsSignedByEmployer=model.IsSignedByEmployer,
+                pdfFile = pdfFile ?? "",
                 CreatedOn=Utility.GetDateTime(),
                 Status=Constants.RecordStatus.Active,
                 Title = model.Title,

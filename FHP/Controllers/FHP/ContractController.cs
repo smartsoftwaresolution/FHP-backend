@@ -21,7 +21,7 @@ namespace FHP.Controllers.FHP
         private readonly IEmailService _emailService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly INotificationService _notificationService;
-
+        private readonly IFileUploadService _fileUploadService;
         public ContractController(IContractManager manager, 
                                   IExceptionHandleService exceptionHandleService,
                                   IUnitOfWork unitOfWork,
@@ -30,7 +30,8 @@ namespace FHP.Controllers.FHP
                                   IUserManager userManager,
                                   IEmailService emailService,
                                   IWebHostEnvironment webHostEnvironment,
-                                  INotificationService notificationService)
+                                  INotificationService notificationService,
+                                  IFileUploadService fileUploadService)
                                   
         {
             _manager=manager;
@@ -42,6 +43,7 @@ namespace FHP.Controllers.FHP
             _emailService = emailService;
             _webHostEnvironment = webHostEnvironment;
             _notificationService = notificationService;
+            _fileUploadService = fileUploadService;
         }
 
 
@@ -206,7 +208,7 @@ namespace FHP.Controllers.FHP
 
         }
 
-
+          
         // Get By Id Contract 
         [HttpGet("getbyid")] 
         public async Task<IActionResult> GetByIdAsync(int id)
@@ -296,22 +298,20 @@ namespace FHP.Controllers.FHP
 
                 if(model.Id == 0 && model.userId != 0 &&
                     employeeEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
-
                 {
-                  //  await _manager.AddAsync(model);
-                     
-                    await _emailService.SendContractEmail(employeeEmail.Email, employeeEmail.Id);
+                  
+                    await _emailService.SendContractEmail(employeeEmail.Email, employeeEmail.Id,model.HtmlContext,model.Subject);
 
                     return Ok(new
                     {
                         statusCode = 200,
-                        Message = "contract send."
+                        Message = "send."
                     });
                 }
 
                 else
                 {
-                    return Ok(new { badRequest = 404, message = "Eamil Not found."});
+                    return Ok(new { badRequest = 404, message = "Email Not found."});
                 }
                 
                 
@@ -321,6 +321,67 @@ namespace FHP.Controllers.FHP
                 return BadRequest(_exceptionHandleService.HandleException(ex)); 
             }
 
+        }
+
+
+        [HttpPatch("upload-pdf")]
+        public async Task<IActionResult> UploadPdfAsync(IFormFile pdffile, int id)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());   
+            }
+
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+
+            var response = new BasePdfResponse();
+
+            try
+            {
+                if(id < 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = Constants.provideValues;
+                    return BadRequest(response);
+                }
+
+                string pdfUrl = string.Empty;
+
+                if(pdffile != null)
+                {
+                    pdfUrl = await _fileUploadService.UploadIFormPdfAsync(pdffile);
+
+                    if (string.IsNullOrEmpty(pdfUrl))
+                    {
+                        response.StatusCode = 500;
+                        response.Message = "Failed to upload PDF file.";
+                        return BadRequest(response);
+                    }
+                }
+                else
+                {
+                    response.StatusCode = 400;
+                    response.Message = "No PDF file provided.";
+                    return BadRequest(response);
+                }
+
+
+                await _manager.AddPdfFile(id, pdfUrl);
+
+                await transaction.CommitAsync();
+
+                response.StatusCode = 200;
+                response.Message = "Pdf save sucessfully!";
+                response.PdfUrl = pdfUrl ;
+                return Ok(response);
+
+            }
+            catch(Exception ex)
+            {
+                await transaction.RollbackAsync();
+
+                return await _exceptionHandleService.HandleException(ex);   
+            }
         }
 
     }

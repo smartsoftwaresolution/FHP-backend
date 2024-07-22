@@ -59,9 +59,18 @@ namespace FHP.utilities
            
             public string Message { get; set; }
          }
+
+         public class  BasePdfResponse
+         {
+           public int StatusCode { get; set; }
+           public string Message { get; set; }  
+           public string PdfUrl { get; set; }
+
+         }
+
         public class BaseResponseAddResponse<T>
         {
-            public int StatusCode { get; set; }
+           public int StatusCode { get; set; }
             public string Message { get; set; }
             public T Data { get; set; }
         }

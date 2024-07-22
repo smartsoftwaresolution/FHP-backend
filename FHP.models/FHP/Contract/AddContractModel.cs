@@ -9,13 +9,13 @@ namespace FHP.models.FHP.Contract
     public class AddContractModel
     {
         public int Id { get; set; }
-        public int userId { get; set; }
         public int EmployeeId { get; set; }
         public int JobId { get; set; }
         public int EmployerId { get; set; }
         public string Description { get; set; }
         public string EmployeeSignature { get; set; }
         public string EmployerSignature { get; set; }
+        public string pdfFile { get;set; }
         public int? RequestToChangeContract { get; set; }
         public bool IsRequestToChangeAccepted { get; set; }
         public bool IsSignedByEmployee { get; set; }
