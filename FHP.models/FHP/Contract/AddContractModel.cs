@@ -9,7 +9,6 @@ namespace FHP.models.FHP.Contract
     public class AddContractModel
     {
         public int Id { get; set; }
-        public int userId { get; set; }
         public int EmployeeId { get; set; }
         public int JobId { get; set; }
         public int EmployerId { get; set; }
