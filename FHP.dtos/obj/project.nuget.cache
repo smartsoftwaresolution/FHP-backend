@@ -1,10 +1,6 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "OaQhK6rxHvA=",
-=======
-  "dgSpecHash": "otjzfuvmdKk=",
->>>>>>> a24c8055a8fc80af05af714287d7e39ccc739218
   "success": true,
   "projectFilePath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.dtos\\FHP.dtos.csproj",
   "expectedPackageFiles": [

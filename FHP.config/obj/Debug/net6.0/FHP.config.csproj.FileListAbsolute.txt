@@ -55,7 +55,6 @@ C:\Working\FHP\BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.Genera
 C:\Working\FHP\BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.AssemblyInfoInputs.cache
 C:\Working\FHP\BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.AssemblyInfo.cs
 C:\Working\FHP\BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.csproj.CoreCompileInputs.cache
-C:\Working\FHP\BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.csproj.CopyComplete
 C:\Working\FHP\BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\refint\FHP.config.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.pdb
@@ -92,3 +91,5 @@ D:\FHP-BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.dll
 D:\FHP-BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\refint\FHP.config.dll
 D:\FHP-BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.pdb
 D:\FHP-BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\ref\FHP.config.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.sourcelink.json
+C:\Working\FHP\BackEnd\FHP-backend\FHP.config\obj\Debug\net6.0\FHP.config.csproj.Up2Date

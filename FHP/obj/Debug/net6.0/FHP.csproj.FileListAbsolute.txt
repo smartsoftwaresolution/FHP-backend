@@ -181,7 +181,6 @@ C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\staticwebassets.pack.jso
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\staticwebassets.build.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\staticwebassets.development.json
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\scopedcss\bundle\FHP.styles.css
-C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.csproj.CopyComplete
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\refint\FHP.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.pdb
@@ -401,3 +400,5 @@ C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Grpc.Core.Api.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Grpc.Net.Client.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\Grpc.Net.Common.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP\bin\Debug\net6.0\System.Linq.Async.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.sourcelink.json
+C:\Working\FHP\BackEnd\FHP-backend\FHP\obj\Debug\net6.0\FHP.csproj.Up2Date

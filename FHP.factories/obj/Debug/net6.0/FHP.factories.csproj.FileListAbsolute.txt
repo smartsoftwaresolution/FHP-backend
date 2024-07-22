@@ -35,7 +35,6 @@ C:\Working\FHP\BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.factories.
 C:\Working\FHP\BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.factories.AssemblyInfoInputs.cache
 C:\Working\FHP\BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.factories.AssemblyInfo.cs
 C:\Working\FHP\BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.factories.csproj.CoreCompileInputs.cache
-C:\Working\FHP\BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.factories.csproj.CopyComplete
 C:\Working\FHP\BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.factories.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\refint\FHP.factories.dll
 C:\Working\FHP\BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.factories.pdb
@@ -62,3 +61,5 @@ D:\FHP-BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.factories.dll
 D:\FHP-BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\refint\FHP.factories.dll
 D:\FHP-BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.factories.pdb
 D:\FHP-BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\ref\FHP.factories.dll
+C:\Working\FHP\BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.factories.sourcelink.json
+C:\Working\FHP\BackEnd\FHP-backend\FHP.factories\obj\Debug\net6.0\FHP.fact.1932825D.Up2Date
