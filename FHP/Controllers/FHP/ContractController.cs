@@ -374,27 +374,7 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                /*  var file = await _manager.GetPdfUrlByContractIdAsync(id);
-
-                  if (pdffile != null)
-                  {
-                      file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
-
-                      if (string.IsNullOrEmpty(file))
-                      {
-                          response.StatusCode = 500;
-                          response.Message = "Failed to upload PDF file.";
-                          return BadRequest(response);
-                      }
-                  }
-                  else
-                  {
-                      response.StatusCode = 400;
-                      response.Message = "No PDF file provided.";
-                      return BadRequest(response);
-                  }*/
-
-
+                
                 await _manager.AddPdfFile(id, file);
 
                 await transaction.CommitAsync();
