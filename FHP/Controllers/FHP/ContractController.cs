@@ -35,7 +35,7 @@ namespace FHP.Controllers.FHP
                                   IFileUploadService fileUploadService)
                                   
         {
-            _manager=manager;
+            _manager = manager;
             _exceptionHandleService = exceptionHandleService;
             _unitOfWork = unitOfWork;
             _sendNotificationService = sendNotificationService;
@@ -338,57 +338,61 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                //string pdfUrl = string.Empty;
-                /* var file = await _manager.GetPdfUrlByContractIdAsync(id);
-                 if (pdffile != null)
-                 {
-                     var existsPdfUrl = await _manager.GetPdfUrlByContractIdAsync(id);
-                     if (!string.IsNullOrWhiteSpace(existsPdfUrl))
-                     {
-                         var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existsPdfUrl);
-                         if (!deleteExistsFile)
-                         {
-                             response.StatusCode = 500;
-                             response.Message = "Failed to delete existing PDF file.";
-                             return BadRequest(response);
-                         }
-
-                         file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
-
-                         if (string.IsNullOrEmpty(file))
-                         {
-                             response.StatusCode = 500;
-                             response.Message = "Failed to upload PDF file.";
-                             return BadRequest(response);
-                         }
-                     }
-                     else
-                     {
-                         response.StatusCode = 404;
-                         response.Message = "No PDF file provided.";
-                         return BadRequest(response);
-                     }
-                 }*/
-
-                var file = await _manager.GetPdfUrlByContractIdAsync(id);
-
-                if (pdffile != null)
+                
+                var contractExists = await _manager.GetByIdAsync(id);
+                if (contractExists == null)
                 {
-                    file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
-
-                    if (string.IsNullOrEmpty(file))
-                    {
-                        response.StatusCode = 500;
-                        response.Message = "Failed to upload PDF file.";
-                        return BadRequest(response);
-                    }
+                    response.StatusCode = 404;
+                    response.Message = "Contract not found.";
+                    return NotFound(response);
                 }
-                else
+
+                if (pdffile == null)
                 {
                     response.StatusCode = 400;
                     response.Message = "No PDF file provided.";
                     return BadRequest(response);
                 }
+
+                var existingPdfUrl = await _manager.GetPdfUrlByContractIdAsync(id);
+                if (!string.IsNullOrWhiteSpace(existingPdfUrl))
+                {
+                    var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existingPdfUrl);
+                    if (!deleteExistsFile)
+                    {
+                        response.StatusCode = 500;
+                        response.Message = "Failed to delete existing PDF file.";
+                        return BadRequest(response);
+                    }
+                }
+
+                var file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
+                if (string.IsNullOrEmpty(file))
+                {
+                    response.StatusCode = 500;
+                    response.Message = "Failed to upload PDF file.";
+                    return BadRequest(response);
+                }
+
+                /*  var file = await _manager.GetPdfUrlByContractIdAsync(id);
+
+                  if (pdffile != null)
+                  {
+                      file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
+
+                      if (string.IsNullOrEmpty(file))
+                      {
+                          response.StatusCode = 500;
+                          response.Message = "Failed to upload PDF file.";
+                          return BadRequest(response);
+                      }
+                  }
+                  else
+                  {
+                      response.StatusCode = 400;
+                      response.Message = "No PDF file provided.";
+                      return BadRequest(response);
+                  }*/
 
 
                 await _manager.AddPdfFile(id, file);
