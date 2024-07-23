@@ -338,43 +338,45 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                string pdfUrl = string.Empty;
+                //string pdfUrl = string.Empty;
+                /* var file = await _manager.GetPdfUrlByContractIdAsync(id);
+                 if (pdffile != null)
+                 {
+                     var existsPdfUrl = await _manager.GetPdfUrlByContractIdAsync(id);
+                     if (!string.IsNullOrWhiteSpace(existsPdfUrl))
+                     {
+                         var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existsPdfUrl);
+                         if (!deleteExistsFile)
+                         {
+                             response.StatusCode = 500;
+                             response.Message = "Failed to delete existing PDF file.";
+                             return BadRequest(response);
+                         }
 
-                if(pdffile != null)
+                         file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
+
+                         if (string.IsNullOrEmpty(file))
+                         {
+                             response.StatusCode = 500;
+                             response.Message = "Failed to upload PDF file.";
+                             return BadRequest(response);
+                         }
+                     }
+                     else
+                     {
+                         response.StatusCode = 404;
+                         response.Message = "No PDF file provided.";
+                         return BadRequest(response);
+                     }
+                 }*/
+
+                var file = await _manager.GetPdfUrlByContractIdAsync(id);
+
+                if (pdffile != null)
                 {
-                    var existsPdfUrl = await _manager.GetPdfUrlByContractIdAsync(id);
-                    if (!string.IsNullOrWhiteSpace(existsPdfUrl))
-                    {
-                        var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existsPdfUrl);
-                        if (!deleteExistsFile)
-                        {
-                            response.StatusCode = 500;
-                            response.Message = "Failed to delete existing PDF file.";
-                            return BadRequest(response);
-                        }
+                    file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
 
-                        pdfUrl = await _fileUploadService.UploadIFormPdfAsync(pdffile);
-
-                        if (string.IsNullOrEmpty(pdfUrl))
-                        {
-                            response.StatusCode = 500;
-                            response.Message = "Failed to upload PDF file.";
-                            return BadRequest(response);
-                        }
-                    }
-                    else
-                    {
-                        response.StatusCode = 404;
-                        response.Message = "No PDF file provided.";
-                        return BadRequest(response);
-                    }
-                }
-
-                /*if(pdffile != null)
-                {
-                    pdfUrl = await _fileUploadService.UploadIFormPdfAsync(pdffile);
-
-                    if (string.IsNullOrEmpty(pdfUrl))
+                    if (string.IsNullOrEmpty(file))
                     {
                         response.StatusCode = 500;
                         response.Message = "Failed to upload PDF file.";
@@ -387,15 +389,15 @@ namespace FHP.Controllers.FHP
                     response.Message = "No PDF file provided.";
                     return BadRequest(response);
                 }
-*/
 
-                await _manager.AddPdfFile(id, pdfUrl);
+
+                await _manager.AddPdfFile(id, file);
 
                 await transaction.CommitAsync();
 
                 response.StatusCode = 200;
                 response.Message = "Pdf save sucessfully!";
-                response.PdfUrl = pdfUrl ;
+                response.PdfUrl = file;
                 return Ok(response);
 
             }
