@@ -27,7 +27,7 @@ namespace FHP.services
 
             try
             {
-                string fullPath = Path.Combine(_env.WebRootPath, "Attachments", filePath);
+                string fullPath = Path.Combine(_env.WebRootPath, "Attachments","pdfuploads", filePath);
                 if (File.Exists(fullPath))
                 {
                     File.Delete(fullPath);
@@ -105,7 +105,7 @@ namespace FHP.services
 
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
 
-                string directoryPath = Path.Combine(_env.WebRootPath, "Attachments", uploadsFolder);
+                string directoryPath = Path.Combine(_env.WebRootPath, "Attachments","pdfuploads" ,uploadsFolder);
                 Directory.CreateDirectory(directoryPath); // Ensure directory exists
 
                 string filePath = Path.Combine(directoryPath, uniqueFileName);

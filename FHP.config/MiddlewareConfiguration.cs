@@ -56,6 +56,7 @@ namespace FHP.config
             services.AddScoped<IOfferManager,OfferManager>();
             services.AddScoped<IGlobalNotificationManager,GlobalNotificationManager>();
             services.AddScoped<IReportManager, ReportManager>();
+            services.AddScoped<IEmployerDashboardManager,EmployerDashboardManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -85,6 +86,7 @@ namespace FHP.config
             services.AddScoped<IOfferRepository, OfferRepository>();    
             services.AddScoped<IGlobalNotificationRepository, GlobalNotificationRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();  
+            services.AddScoped<IEmployerDashboardRepository,EmployerDashboardRepository>();
         }
 
 
