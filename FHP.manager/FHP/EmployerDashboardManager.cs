@@ -11,7 +11,7 @@ namespace FHP.manager.FHP
             _empRepository = empRepository;
         }
 
-      
+        
         public async Task<int> GetAllDraftPost()
         {
             return await _empRepository.GetAllDraftPost();

@@ -355,15 +355,15 @@ namespace FHP.Controllers.FHP
                 }
 
                 var existingPdfUrl = await _manager.GetPdfUrlByContractIdAsync(id);
-                if (!string.IsNullOrWhiteSpace(existingPdfUrl))
+                if (!string.IsNullOrEmpty(existingPdfUrl))
                 {
-                    var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existingPdfUrl);
+                   /* var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existingPdfUrl);
                     if (!deleteExistsFile)
                     {
                         response.StatusCode = 500;
                         response.Message = "Failed to delete existing PDF file.";
                         return BadRequest(response);
-                    }
+                    }*/
                 }
 
                 var file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
