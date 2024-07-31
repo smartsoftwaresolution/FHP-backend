@@ -275,7 +275,7 @@ namespace FHP.Controllers.FHP
                     if (token != null)
                     {
                         string adminMessage = "An employee is succesfully accepted job requested for this job.";
-                        await _sendNotificationService.SendNotification("Job request accepted", adminMessage,token.TokenFCM);
+                        await _sendNotificationService.SendNotification("Job request accepted", adminMessage, token.TokenFCM);
                     }
                 }
 

@@ -2,6 +2,7 @@
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
+using FHP.manager.UserManagement;
 using FHP.models.FHP.JobPosting;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -67,10 +68,9 @@ namespace FHP.Controllers.FHP
                     // Adds the job posting asynchronously
                     await _manager.AddAsync(model);
 
-                  
 
-                    var admintoken = await _tokenManager.FcmTokenByRole("admin"); 
-                    var token = admintoken.OrderByDescending(a => a.Id).FirstOrDefault();
+                    var admintoken = await _tokenManager.FcmTokenByRole("admin");
+                    var token = admintoken.OrderByDescending(e => e.Id).FirstOrDefault();
 
                     if (model.JobPosting == Constants.JobPosting.Submitted)
                     {
@@ -80,7 +80,6 @@ namespace FHP.Controllers.FHP
                             await _sendNotificationService.SendNotification("New Job Post ", body, token.TokenFCM);
                         }
                     }
-
 
 
                     // commit transaction

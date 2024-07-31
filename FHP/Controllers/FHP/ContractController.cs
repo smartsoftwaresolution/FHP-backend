@@ -286,12 +286,13 @@ namespace FHP.Controllers.FHP
             try
             {
                 var employeeEmail = await _userManager.GetByIdAsync(model.userId);
+                var employerEmail = await _userManager.GetByIdAsync(model.employerId);
 
-                if(model.Id == 0 && model.userId != 0 &&
-                    employeeEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
+                if (model.Id == 0 && model.userId != 0 &&
+                    employeeEmail != null && employerEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
                 {
                   
-                    await _emailService.SendContractEmail(employeeEmail.Email, employeeEmail.Id,model.HtmlContext,model.Subject);
+                    await _emailService.SendContractEmail(employeeEmail.Email, employerEmail.Email,employeeEmail.Id, employerEmail.Id,model.HtmlContext,model.Subject);
 
                     return Ok(new
                     {
