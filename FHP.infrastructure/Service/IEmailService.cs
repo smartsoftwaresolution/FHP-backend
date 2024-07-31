@@ -11,5 +11,7 @@ namespace FHP.infrastructure.Service
         Task SendverificationEmail(string email,int userId);
 
         Task SendContractEmail(string email,int userId, string htmlBody,string subject);
+
+       
     }
 }

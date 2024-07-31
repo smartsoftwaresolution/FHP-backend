@@ -426,8 +426,12 @@ namespace FHP.Controllers.UserManagement
                 // Checks if a valid user ID is provided
                 if (userId >= 0)
                 {
+
                     // Calls the manager to log out the user asynchronously
-                    await _manager.UserLogOut(userId);
+                    if (userId != null)
+                    {
+                      await _manager.UserLogOut(userId);
+                    }
 
                     if(!string.IsNullOrEmpty(fcmToken))
                     {

@@ -1,11 +1,6 @@
 ﻿using FHP.entity.FHP;
 using FHP.models.FHP.Contract;
 using FHP.utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.factories.FHP
 {
@@ -49,8 +44,8 @@ namespace FHP.factories.FHP
             entity.StartContract=Utility.GetDateTime();
             entity.RequestToChangeContract = model.RequestToChangeContract;
             entity.IsRequestToChangeAccepted = model.IsRequestToChangeAccepted;
-            entity.IsSignedByEmployee=model.IsSignedByEmployee;
-            entity.IsSignedByEmployer = model.IsSignedByEmployer;
+            entity.IsSignedByEmployee = model.IsSignedByEmployee ? true : false;
+            entity.IsSignedByEmployer = model.IsSignedByEmployer ? true : false;
             entity.UpdatedOn=Utility.GetDateTime();
             entity.Title = model.Title;
         }

@@ -101,11 +101,11 @@ namespace FHP.services
                     throw new ArgumentException("Only PDF files are allowed.");
                 }
 
-                uploadsFolder = "pdfuploads"; // You can customize this
+                uploadsFolder = "pdfuploads";
 
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
 
-                string directoryPath = Path.Combine(_env.WebRootPath, "Attachments","pdfuploads" ,uploadsFolder);
+                string directoryPath = Path.Combine(_env.WebRootPath, "Attachments" ,uploadsFolder);
                 Directory.CreateDirectory(directoryPath); // Ensure directory exists
 
                 string filePath = Path.Combine(directoryPath, uniqueFileName);
