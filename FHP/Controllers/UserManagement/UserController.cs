@@ -18,6 +18,7 @@ namespace FHP.Controllers.UserManagement
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISendNotificationService _sendNotificationService;
         private readonly IFCMTokenManager _fCMTokenManager;
+       
 
         public UserController(IUserManager manager,
                               IExceptionHandleService exceptionHandleService,
@@ -25,7 +26,8 @@ namespace FHP.Controllers.UserManagement
                               IFileUploadService  fileUploadService,
                               IUnitOfWork unitOfWork,
                               ISendNotificationService sendNotificationService,
-                              IFCMTokenManager fCMTokenManager)
+                              IFCMTokenManager fCMTokenManager
+                             )
                               
         {
             _manager = manager;
@@ -35,6 +37,7 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
             _sendNotificationService = sendNotificationService;
             _fCMTokenManager = fCMTokenManager;
+            
         }
 
         // API Endpoint for add user
@@ -81,11 +84,9 @@ namespace FHP.Controllers.UserManagement
                     userid = await _manager.AddAsync(model);
 
 
-                   
+
 
                     var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
-
-                     
 
                     // Check if tokens exist
                     if (tokens.Any())
@@ -106,12 +107,14 @@ namespace FHP.Controllers.UserManagement
                         }
 
                         // Send notification using the first token found in the list
-                        var token = tokens.FirstOrDefault();
+                        var token = tokens.OrderByDescending(e => e.Id).FirstOrDefault();
+                        // var token = tokens.FirstOrDefault();
                         if (token != null)
                         {
                             await _sendNotificationService.SendNotification(Title, body, token.TokenFCM);
                         }
                     }
+
 
 
                     // Sends a verification email to the user

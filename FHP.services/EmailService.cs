@@ -45,22 +45,6 @@ namespace FHP.services
                 HtmlBody = htmlBody // Set the HTML body
             };
 
-            /* if (File.Exists(pdfFilePath))
-             {
-                 var pdfAttachment = new MimePart("application", "pdf")
-                 {
-                     Content = new MimeContent(File.OpenRead(pdfFilePath)),
-                     ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                     ContentTransferEncoding = ContentEncoding.Base64,
-                     FileName = Path.GetFileName(pdfFilePath)
-                 };
-
-                 bodyBuilder.Attachments.Add(pdfAttachment);
-             }*/
-
-
-
-
             message.Body = bodyBuilder.ToMessageBody();
 
             using (var client = new MailKit.Net.Smtp.SmtpClient())

@@ -74,11 +74,9 @@ namespace FHP.Controllers.FHP
                     // Add the contract model asynchronously.
                    var data =  await _manager.AddAsync(model);
 
-                    await _notificationService.SendContractNotificationAsync();
+                   await _notificationService.SendContractNotificationAsync();
                     
-
-
-                    // Commit the transaction. 
+                   // Commit the transaction. 
 
                     await transaction.CommitAsync();  
                     response.StatusCode = 200;
@@ -338,7 +336,6 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                
                 var contractExists = await _manager.GetByIdAsync(id);
                 if (contractExists == null)
                 {
@@ -354,10 +351,12 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
+
+
                 var existingPdfUrl = await _manager.GetPdfUrlByContractIdAsync(id);
                 if (!string.IsNullOrEmpty(existingPdfUrl))
                 {
-                   /* var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existingPdfUrl);
+                    /*var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existingPdfUrl);
                     if (!deleteExistsFile)
                     {
                         response.StatusCode = 500;
@@ -366,7 +365,10 @@ namespace FHP.Controllers.FHP
                     }*/
                 }
 
+
+
                 var file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
+
                 if (string.IsNullOrEmpty(file))
                 {
                     response.StatusCode = 500;
@@ -374,7 +376,6 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                
                 await _manager.AddPdfFile(id, file);
 
                 await transaction.CommitAsync();
