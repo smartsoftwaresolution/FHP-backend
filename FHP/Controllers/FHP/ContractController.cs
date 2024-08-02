@@ -1,5 +1,4 @@
-﻿using FHP.entity.FHP;
-using FHP.infrastructure.DataLayer;
+﻿using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
@@ -89,7 +88,7 @@ namespace FHP.Controllers.FHP
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
-            }
+            } 
             catch (Exception ex)
             {
                 // In case of any exceptions during the process, roll back the transaction.
@@ -124,17 +123,7 @@ namespace FHP.Controllers.FHP
                     // Edit the Contract model asynchronously.
                     await _manager.Edit(model);
 
-
-                    var employertoken = await _fCMTokenManager.FcmTokenByRole("employer");
-
-                    var token = employertoken.OrderByDescending(e => e.Id).FirstOrDefault();
-
-                    if (token != null && !string.IsNullOrEmpty(model.EmployeeSignature))
-                    {
-                        string employerMessage = "A contract has been signed by employee.";
-                        await _sendNotificationService.SendNotification("contract signed", employerMessage, token.TokenFCM);
-                    }
-
+                    await _notificationService.EditContractNotificationAsync(model);
 
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
@@ -286,12 +275,13 @@ namespace FHP.Controllers.FHP
             try
             {
                 var employeeEmail = await _userManager.GetByIdAsync(model.userId);
+                var employerEmail = await _userManager.GetByIdAsync(model.employerId);
 
-                if(model.Id == 0 && model.userId != 0 &&
-                    employeeEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
+                if (model.Id == 0 && model.userId != 0 &&
+                    employeeEmail != null && employerEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
                 {
                   
-                    await _emailService.SendContractEmail(employeeEmail.Email, employeeEmail.Id,model.HtmlContext,model.Subject);
+                    await _emailService.SendContractEmail(employeeEmail.Email, employerEmail.Email,employeeEmail.Id, employerEmail.Id,model.HtmlContext,model.Subject);
 
                     return Ok(new
                     {

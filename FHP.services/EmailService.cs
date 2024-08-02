@@ -30,12 +30,13 @@ namespace FHP.services
         }
 
 
-        public async Task SendContractEmail(string email, int userId,string htmlBody, string subject)
+        public async Task SendContractEmail(string email,string employerEmail, int userId, int employerId,string htmlBody, string subject)
         {
 
             MimeMessage message = new MimeMessage();
             message.From.Add(new MailboxAddress("sabeel.softw@gmail.com"));
             message.To.Add(new MailboxAddress(email));
+            message.To.Add(new MailboxAddress(employerEmail));
             message.Subject = subject;
             /* string emailBody = "" + userId;
              BodyBuilder bodyBuilder = new BodyBuilder();
