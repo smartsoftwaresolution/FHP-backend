@@ -59,7 +59,7 @@ namespace FHP.services
 
                 
                 return true;
-            }
+            } 
             catch (FirebaseException ex)
             {
                 // Handle Firebase-related exceptions

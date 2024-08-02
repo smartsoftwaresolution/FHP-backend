@@ -87,7 +87,6 @@ namespace FHP.datalayer.Repository.UserManagement
                           select new PermissionDetailDto
                           {
                               Id = s.Id,
-                           
                               Permissions = s.Permissions,
                               PermissionDescription = s.PermissionDescription,
                               PermissionCode = s.PermissionCode,
@@ -98,7 +97,9 @@ namespace FHP.datalayer.Repository.UserManagement
                               CreatedOn = s.CreatedOn,
                               UpdatedOn = s.UpdatedOn,
                               CreatedBy = s.CreatedBy,
-                          }).AsNoTracking().FirstOrDefaultAsync();
+                          })
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -109,6 +110,5 @@ namespace FHP.datalayer.Repository.UserManagement
             await _dataContext.SaveChangesAsync();
         }
 
-        
     }
 }

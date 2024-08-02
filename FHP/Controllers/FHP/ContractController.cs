@@ -17,21 +17,36 @@ namespace FHP.Controllers.FHP
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISendNotificationService _sendNotificationService;
         private readonly IFCMTokenManager _fCMTokenManager;
-
+        private readonly IUserManager _userManager;
+        private readonly IEmailService _emailService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly INotificationService _notificationService;
+        private readonly IFileUploadService _fileUploadService;
         public ContractController(IContractManager manager, 
                                   IExceptionHandleService exceptionHandleService,
                                   IUnitOfWork unitOfWork,
                                   ISendNotificationService sendNotificationService,
-                                  IFCMTokenManager fCMTokenManager)
+                                  IFCMTokenManager fCMTokenManager,
+                                  IUserManager userManager,
+                                  IEmailService emailService,
+                                  IWebHostEnvironment webHostEnvironment,
+                                  INotificationService notificationService,
+                                  IFileUploadService fileUploadService)
+                                  
         {
-            _manager=manager;
+            _manager = manager;
             _exceptionHandleService = exceptionHandleService;
             _unitOfWork = unitOfWork;
             _sendNotificationService = sendNotificationService;
             _fCMTokenManager = fCMTokenManager;
+            _userManager = userManager;
+            _emailService = emailService;
+            _webHostEnvironment = webHostEnvironment;
+            _notificationService = notificationService;
+            _fileUploadService = fileUploadService;
         }
 
-
+          
         // API endpoint to add Contract
         [HttpPost("add")]   
         public async Task<IActionResult> AddAsync(AddContractModel model)
@@ -42,7 +57,7 @@ namespace FHP.Controllers.FHP
                 return BadRequest(ModelState.GetErrorList()); 
             }
 
-            var response = new BaseResponseAdd();
+            var response = new BaseResponseContractAdd();
 
             //The method then begins a database transaction to ensure data consistency during  addition.
             await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
@@ -56,42 +71,24 @@ namespace FHP.Controllers.FHP
 
                 {
                     // Add the contract model asynchronously.
-                    await _manager.AddAsync(model);
+                   var data =  await _manager.AddAsync(model);
 
-
-
-                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
-                    var token = adminToken.OrderByDescending(a => a.Id).FirstOrDefault();
-
-                    if (token != null)
-                    {
-                        string adminMessage = "Hello, A contract has been created and singed by employer.";
-                        await _sendNotificationService.SendNotification("Contract created", adminMessage, token.TokenFCM);
-                    }
-
-                    var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
-                    var tokens = employeeToken.OrderByDescending(e => e.Id).FirstOrDefault(); 
-
-                    if (tokens != null)
-                    {
-                        string employeeMessage = "Hello, A contract has been created. please signed contract for further process.";
-                        await _sendNotificationService.SendNotification("Contract created", employeeMessage, tokens.TokenFCM);
-                    }
-
-
-                    // Commit the transaction. 
+                   await _notificationService.SendContractNotificationAsync();
+                    
+                   // Commit the transaction. 
 
                     await transaction.CommitAsync();  
                     response.StatusCode = 200;
                     response.Message = Constants.added;
+                    response.Id = data;
                     return Ok(response);
                 }
-
+                
                 // If necessary fields are not provided in the model, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
-            }
+            } 
             catch (Exception ex)
             {
                 // In case of any exceptions during the process, roll back the transaction.
@@ -126,17 +123,7 @@ namespace FHP.Controllers.FHP
                     // Edit the Contract model asynchronously.
                     await _manager.Edit(model);
 
-
-                    var employertoken = await _fCMTokenManager.FcmTokenByRole("employer");
-
-                    var token = employertoken.OrderByDescending(e => e.Id).FirstOrDefault();
-
-                    if (token != null && !string.IsNullOrEmpty(model.EmployeeSignature))
-                    {
-                        string employerMessage = "A contract has been signed by employee.";
-                        await _sendNotificationService.SendNotification("contract signed", employerMessage, token.TokenFCM);
-                    }
-
+                    await _notificationService.EditContractNotificationAsync(model);
 
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
@@ -201,7 +188,7 @@ namespace FHP.Controllers.FHP
 
         }
 
-
+          
         // Get By Id Contract 
         [HttpGet("getbyid")] 
         public async Task<IActionResult> GetByIdAsync(int id)
@@ -273,5 +260,129 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex); 
             }
         }
-    }
+
+
+        [HttpPost("contractSend")]
+        public async Task<IActionResult> ContractSend(PostContractModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAdd();
+
+            try
+            {
+                var employeeEmail = await _userManager.GetByIdAsync(model.userId);
+                var employerEmail = await _userManager.GetByIdAsync(model.employerId);
+
+                if (model.Id == 0 && model.userId != 0 &&
+                    employeeEmail != null && employerEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
+                {
+                  
+                    await _emailService.SendContractEmail(employeeEmail.Email, employerEmail.Email,employeeEmail.Id, employerEmail.Id,model.HtmlContext,model.Subject);
+
+                    return Ok(new
+                    {
+                        statusCode = 200,
+                        Message = "send."
+                    });
+                }
+
+                else
+                {
+                    return Ok(new { badRequest = 404, message = "Email Not found."});
+                }
+                
+                
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(_exceptionHandleService.HandleException(ex)); 
+            }
+
+        }
+
+
+        [HttpPatch("upload-pdf")]
+        public async Task<IActionResult> UploadPdfAsync(int id, IFormFile pdffile)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());   
+            }
+
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+
+            var response = new BasePdfResponse();
+
+            try
+            {
+                if(id < 0)
+                {
+                    response.StatusCode = 400;
+                    response.Message = Constants.provideValues;
+                    return BadRequest(response);
+                }
+
+                var contractExists = await _manager.GetByIdAsync(id);
+                if (contractExists == null)
+                {
+                    response.StatusCode = 404;
+                    response.Message = "Contract not found.";
+                    return NotFound(response);
+                }
+
+                if (pdffile == null)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "No PDF file provided.";
+                    return BadRequest(response);
+                }
+
+
+
+                var existingPdfUrl = await _manager.GetPdfUrlByContractIdAsync(id);
+                if (!string.IsNullOrEmpty(existingPdfUrl))
+                {
+                    /*var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existingPdfUrl);
+                    if (!deleteExistsFile)
+                    {
+                        response.StatusCode = 500;
+                        response.Message = "Failed to delete existing PDF file.";
+                        return BadRequest(response);
+                    }*/
+                }
+
+
+
+                var file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
+
+                if (string.IsNullOrEmpty(file))
+                {
+                    response.StatusCode = 500;
+                    response.Message = "Failed to upload PDF file.";
+                    return BadRequest(response);
+                }
+
+                await _manager.AddPdfFile(id, file);
+
+                await transaction.CommitAsync();
+
+                response.StatusCode = 200;
+                response.Message = "Pdf save sucessfully!";
+                response.PdfUrl = file;
+                return Ok(response);
+
+            }
+            catch(Exception ex)
+            {
+                await transaction.RollbackAsync();
+
+                return await _exceptionHandleService.HandleException(ex);   
+            }
+        }
+
+    } 
 }

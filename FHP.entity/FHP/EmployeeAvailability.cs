@@ -20,7 +20,5 @@ namespace FHP.entity.FHP
             public string AdminJobDescription { get; set; }
             public string CancelReasons { get; set; }
             public DateTime? UpdatedOn { get; set; }
-
-
     }
 }

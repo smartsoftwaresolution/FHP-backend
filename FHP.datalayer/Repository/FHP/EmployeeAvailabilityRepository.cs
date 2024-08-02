@@ -26,8 +26,8 @@ namespace FHP.datalayer.Repository.FHP
                 EmployeeId = employeeId,
                 CreatedOn = Utility.GetDateTime(),
                 Status = Constants.RecordStatus.Active,
-                AdminJobTitle = model.AdminjobTitle,
-                AdminJobDescription = model.AdminJobDescription,
+                AdminJobTitle = model.AdminjobTitle ?? null,
+                AdminJobDescription = model.AdminJobDescription ?? null,
             }).ToList();
 
             await _dataContext.EmployeeAvailabilities.AddRangeAsync(employeeAvailability);

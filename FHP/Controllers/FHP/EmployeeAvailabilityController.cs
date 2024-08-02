@@ -17,26 +17,29 @@ namespace FHP.Controllers.FHP
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISendNotificationService _sendNotificationService;
         private readonly IFCMTokenManager _tokenManager;
-
+        private readonly INotificationService _notificationService;
+         
         public EmployeeAvailabilityController(IEmployeeAvailabilityManager manager,
                                               IExceptionHandleService exceptionHandleService,
                                               IUnitOfWork unitOfWork,
                                               ISendNotificationService sendNotificationService,
-                                              IFCMTokenManager tokenManager)
+                                              IFCMTokenManager tokenManager,
+                                              INotificationService notificationService)
         {
             _manager=manager;
             _exceptionHandleService=exceptionHandleService;
             _unitOfWork=unitOfWork;
             _sendNotificationService = sendNotificationService;
             _tokenManager = tokenManager;
+            _notificationService=notificationService;
         }
-
+        
         //Add EmployeeAvailability
         [HttpPost("add")]  
         public async Task<IActionResult> AddAsync(AddEmployeeAvailabilityModel model)
         {
             if (!ModelState.IsValid)
-            {
+            {  
                 //it returns a BadRequest response with a list of errors.
                 return BadRequest(ModelState.GetErrorList()); 
             }
@@ -53,16 +56,8 @@ namespace FHP.Controllers.FHP
                     // Add the EmployeeAvailability model asynchronously.
                     await _manager.AddAsync(model);
 
-                    var admintoken = await _tokenManager.FcmTokenByRole("employee");
-                    var token = admintoken.OrderByDescending(e => e.Id).FirstOrDefault();
 
-                    if(token != null)
-                    {
-                        string employeeMessage = "Congratulation you have received job request.";
-                        await _sendNotificationService.SendNotification("Job request.", employeeMessage, token.TokenFCM);
-                    }
-
-
+                 //   await _notificationService.JobRequestNotificationAsync();
 
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
@@ -82,7 +77,6 @@ namespace FHP.Controllers.FHP
                 //In case of any exceptions during the process, it rolls back the transaction.
                 await transaction.RollbackAsync(); 
                 return await _exceptionHandleService.HandleException(ex); 
-
             }
         }
 
@@ -204,7 +198,7 @@ namespace FHP.Controllers.FHP
                 return await _exceptionHandleService.HandleException(ex); 
             }
         }
-
+        
         //GetById EmployeeAvailability
         [HttpGet("getbyid")]  
         public async Task<IActionResult> GetByIdAsync(int id)
@@ -256,8 +250,8 @@ namespace FHP.Controllers.FHP
 
             var response = new BaseResponseAdd();
 
-            try
-            {
+            try{ 
+
                 if(model.EmployeeId <= 0)
                 {
                     // If EmployeeId is not provided or invalid, return a BadRequest response.
@@ -269,18 +263,7 @@ namespace FHP.Controllers.FHP
                 // Call the manager method to set Employee availability for the job.
                 string result = await _manager.SetEmployeeAvalibility(model);
 
-                var adminToken = await _tokenManager.FcmTokenByRole("admin");
-                var token = adminToken.OrderByDescending(a => a.Id).FirstOrDefault();
-
-                if (model.EmployeeAvailability == Constants.EmployeeAvailability.Available)
-                {
-                    if (token != null)
-                    {
-                        string adminMessage = "An employee is succesfully accepted job requested for this job.";
-                        await _sendNotificationService.SendNotification("Job request accepted", adminMessage,token.TokenFCM);
-                    }
-                }
-
+                await _notificationService.EmployeeAcceptJobRequestNotificationAsync(model);
 
                 response.StatusCode = 200;
                 response.Message = $"Employee {result} Now!!"; 
@@ -333,7 +316,7 @@ namespace FHP.Controllers.FHP
             }
         }
 
-        //delete EmployeeAvalibility
+        //delete EmployeeAvalibility  
         [HttpDelete("delete/{id}")] 
         public async Task<IActionResult> DeleteAsync(int id)
         {

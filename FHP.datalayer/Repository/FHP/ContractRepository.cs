@@ -1,13 +1,9 @@
-﻿using FHP.dtos.FHP.Contract;
+﻿using DocumentFormat.OpenXml.InkML;
+using FHP.dtos.FHP.Contract;
 using FHP.entity.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.datalayer.Repository.FHP
 {
@@ -20,10 +16,11 @@ namespace FHP.datalayer.Repository.FHP
             _dataContext=dataContext;
         }
 
-        public async Task AddAsync(Contract entity)
+        public async Task<int> AddAsync(Contract entity)
         {
             await _dataContext.Contracts.AddAsync(entity);  
-            await _dataContext.SaveChangesAsync();  
+            await _dataContext.SaveChangesAsync();
+            return entity.Id;
         }
 
         public void Edit(Contract entity)
@@ -79,6 +76,7 @@ namespace FHP.datalayer.Repository.FHP
                 EmployeeSignature = s.contract.EmployeeSignature,
                 EmployerSignature = s.contract.EmployerSignature,
                 StartContract = s.contract.StartContract,
+                pdfFile = s.contract.pdfFile,
                 RequestToChangeContract = s.contract.RequestToChangeContract,
                 IsRequestToChangeAccepted = s.contract.IsRequestToChangeAccepted,
                 IsSignedByEmployee = s.contract.IsSignedByEmployee,
@@ -109,6 +107,7 @@ namespace FHP.datalayer.Repository.FHP
                        EmployeeSignature = s.EmployeeSignature,
                        EmployerSignature = s.EmployerSignature,
                        StartContract = s.StartContract,
+                       pdfFile = s.pdfFile,
                        RequestToChangeContract = s.RequestToChangeContract,   
                        IsRequestToChangeAccepted = s.IsRequestToChangeAccepted,
                        IsSignedByEmployee = s.IsSignedByEmployee,
@@ -126,6 +125,19 @@ namespace FHP.datalayer.Repository.FHP
              data.Status = Constants.RecordStatus.Deleted;
              _dataContext.Update(data);
              await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task AddPdfFile(int id, string file)
+        {
+            var data = await _dataContext.Contracts.Where(s => s.Id == id).FirstOrDefaultAsync();
+            data.pdfFile = file;
+            _dataContext.Update(data);
+            await _dataContext.SaveChangesAsync(); 
+        }
+        public async Task<string> GetPdfUrlByContractIdAsync(int id)
+        {
+            var contract = await _dataContext.Contracts.FindAsync(id);
+            return contract?.pdfFile;
         }
     }
 }
