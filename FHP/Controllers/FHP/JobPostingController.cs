@@ -2,13 +2,12 @@
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
-using FHP.manager.UserManagement;
 using FHP.models.FHP.JobPosting;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHP.Controllers.FHP
-{ 
+{
     [Route("api/[controller]")]
     [ApiController]
     public class JobPostingController : ControllerBase
@@ -19,12 +18,14 @@ namespace FHP.Controllers.FHP
         private readonly ISendNotificationService _sendNotificationService;
         private readonly IFCMTokenManager _tokenManager;
         private readonly IUserManager _userManager;
+        private readonly INotificationService _notificationService;
         public JobPostingController(IJobPostingManager manager,
                                     IExceptionHandleService exceptionHandleService,
                                     IUnitOfWork unitOfWork,
                                     ISendNotificationService sendNotificationService,
                                     IFCMTokenManager tokenManager,
-                                    IUserManager userManager)
+                                    IUserManager userManager,
+                                    INotificationService notificationService)
         {
             _manager = manager;
             _exceptionHandleService = exceptionHandleService;
@@ -32,6 +33,7 @@ namespace FHP.Controllers.FHP
             _sendNotificationService = sendNotificationService;
             _tokenManager = tokenManager;
             _userManager = userManager;
+            _notificationService = notificationService;
         }
                    
         // API endpoint to add jobposting 
@@ -69,18 +71,7 @@ namespace FHP.Controllers.FHP
                     await _manager.AddAsync(model);
 
 
-                    var admintoken = await _tokenManager.FcmTokenByRole("admin");
-                    var token = admintoken.OrderByDescending(e => e.Id).FirstOrDefault();
-
-                    if (model.JobPosting == Constants.JobPosting.Submitted)
-                    {
-                        if (token != null)
-                        {
-                            string body = "Dear Admin,A new job post has been created.Please review the details and take any necessary actions.";
-                            await _sendNotificationService.SendNotification("New Job Post ", body, token.TokenFCM);
-                        }
-                    }
-
+                    await _notificationService.SendJobPostingNotifcationAsync(model);
 
                     // commit transaction
                     await transaction.CommitAsync();
