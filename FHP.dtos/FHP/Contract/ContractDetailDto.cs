@@ -17,6 +17,7 @@ namespace FHP.dtos.FHP.Contract
         public string Description { get; set; }
         public string EmployeeSignature { get; set; }
         public string EmployerSignature { get; set; }
+        public string pdfFile { get; set; }
         public DateTime? StartContract { get; set; }
         public int? RequestToChangeContract { get; set; }
         public bool IsRequestToChangeAccepted { get; set; }

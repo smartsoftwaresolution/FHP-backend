@@ -10,6 +10,7 @@ using FHP.infrastructure.Service;
 using FHP.manager.FHP;
 using FHP.manager.UserManagement;
 using FHP.services;
+using FHP.services.NotificationServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -55,6 +56,7 @@ namespace FHP.config
             services.AddScoped<IOfferManager,OfferManager>();
             services.AddScoped<IGlobalNotificationManager,GlobalNotificationManager>();
             services.AddScoped<IReportManager, ReportManager>();
+            services.AddScoped<IEmployerDashboardManager,EmployerDashboardManager>();
         }
 
         public static void ConfigureRepository(IServiceCollection services)
@@ -84,6 +86,7 @@ namespace FHP.config
             services.AddScoped<IOfferRepository, OfferRepository>();    
             services.AddScoped<IGlobalNotificationRepository, GlobalNotificationRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();  
+            services.AddScoped<IEmployerDashboardRepository,EmployerDashboardRepository>();
         }
 
 
@@ -93,6 +96,7 @@ namespace FHP.config
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IFileUploadService,FileUploadService>();
             services.AddScoped<ISendNotificationService,SendNotificationService>();
+            services.AddScoped<INotificationService,NotificationService>();
         }
     }
 }

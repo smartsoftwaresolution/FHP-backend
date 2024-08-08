@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FHP.utilities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace FHP.models.FHP.AdminSelectEmployee
         public int EmployerId { get; set; }
         public List<int> EmployeeId { get; set; }
         public bool InProbationCancel { get; set; }
-        public bool IsSelected { get; set; }
+        public Constants.AcceptRejectStatus IsSelected { get; set; }
 
     }
 }

@@ -18,6 +18,7 @@ namespace FHP.Controllers.UserManagement
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISendNotificationService _sendNotificationService;
         private readonly IFCMTokenManager _fCMTokenManager;
+        private readonly INotificationService _notificationService;
 
         public UserController(IUserManager manager,
                               IExceptionHandleService exceptionHandleService,
@@ -25,7 +26,9 @@ namespace FHP.Controllers.UserManagement
                               IFileUploadService  fileUploadService,
                               IUnitOfWork unitOfWork,
                               ISendNotificationService sendNotificationService,
-                              IFCMTokenManager fCMTokenManager)
+                              IFCMTokenManager fCMTokenManager,
+                              INotificationService notificationService
+                             )
                               
         {
             _manager = manager;
@@ -35,6 +38,8 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
             _sendNotificationService = sendNotificationService;
             _fCMTokenManager = fCMTokenManager;
+            _notificationService = notificationService;
+            
         }
 
         // API Endpoint for add user
@@ -53,7 +58,9 @@ namespace FHP.Controllers.UserManagement
             var response = new BaseResponseAdd();
 
             // Begin a database transaction to ensure data consistency during addition.
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+
+           
 
             try
             {
@@ -78,38 +85,10 @@ namespace FHP.Controllers.UserManagement
                     }
 
                     // Adds the new user and retrieves the generated user ID
-                        userid = await _manager.AddAsync(model);
+                    userid = await _manager.AddAsync(model);
 
 
-
-                      var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
-
-                    // Check if tokens exist
-                    if (tokens.Any())
-                    {
-                        string body = "";
-                        string Title = "";
-
-                        if (model.RoleName.ToLower().Contains("employee"))
-                        {
-                            body = "A new employee has joined the platform.Kindly review their information and greet them warmly";
-                            Title = "A new employee has joined";
-                        }
-
-                        else if (model.RoleName.ToLower().Contains("employer"))
-                        {
-                            body = "A new employer has joined the platform.Kindly review their information and greet them warmly";
-                            Title = "A new employer has joined";
-                        }
-
-                        // Send notification using the first token found in the list
-                        var token = tokens.FirstOrDefault();
-                        if (token != null)
-                        {
-                            await _sendNotificationService.SendNotification(Title, body, token.TokenFCM);
-                        }
-                    }
-
+                    await _notificationService.AddUserRegistrationNotificationAsync(model); 
 
                     // Sends a verification email to the user
                     await _emailService.SendverificationEmail(model.Email, userid);
@@ -119,8 +98,6 @@ namespace FHP.Controllers.UserManagement
                     response.StatusCode = 200;
                     response.Message = Constants.added;
 
-
-                  
 
 
                     // Returns Ok response with the success message

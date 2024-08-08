@@ -125,8 +125,8 @@ namespace FHP.datalayer.Migrations
                     b.Property<bool>("InProbationCancel")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsSelected")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsSelected")
+                        .HasColumnType("int");
 
                     b.Property<int>("JobId")
                         .HasColumnType("int");
@@ -197,6 +197,9 @@ namespace FHP.datalayer.Migrations
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("pdfFile")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

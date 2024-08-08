@@ -3,11 +3,6 @@ using FHP.factories.FHP;
 using FHP.infrastructure.Manager.FHP;
 using FHP.infrastructure.Repository.FHP;
 using FHP.models.FHP.Contract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.manager.FHP
 {
@@ -20,9 +15,9 @@ namespace FHP.manager.FHP
             _repository=repository;
         }
 
-        public async Task AddAsync(AddContractModel model)
+        public async Task<int> AddAsync(AddContractModel model)
         {
-            await _repository.AddAsync(ContractFactory.Create(model));
+           return await _repository.AddAsync(ContractFactory.Create(model, model.pdfFile));
         }
 
         public async Task Edit(AddContractModel model)
@@ -47,6 +42,14 @@ namespace FHP.manager.FHP
             await _repository.DeleteAsync(id);
         }
 
-      
+        public async Task AddPdfFile(int id, string file)
+        {
+            await _repository.AddPdfFile(id, file);
+        }
+
+        public async Task<string> GetPdfUrlByContractIdAsync(int id)
+        {
+           return await _repository.GetPdfUrlByContractIdAsync(id);
+        }
     }
 }

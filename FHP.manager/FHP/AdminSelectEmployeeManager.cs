@@ -49,9 +49,9 @@ namespace FHP.manager.FHP
             return await _repository.GetAllJobEmployeeAsync(jobId);
         }
 
-        public async Task<string> AcceptRejectAsync(int jobId, int employeeId)
+        public async Task<string> AcceptRejectAsync(EmployerAcceptRejectModel model)
         {
-            return await _repository.AcceptRejectAsync(jobId, employeeId);
+            return await _repository.AcceptRejectAsync(model);
         }
 
         public async Task<string> SetStatus(SetAdminSelectEmployeeModel model)

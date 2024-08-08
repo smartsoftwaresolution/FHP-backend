@@ -9,6 +9,7 @@ namespace FHP.models.FHP.AdminSelectEmployee
 {
     public class SetAdminSelectEmployeeModel
     {
+        
         public int JobId { get; set; }
         public int EmployeeId { get; set; } 
         public Constants.ProcessingStatus ProcessingStatus { get; set; }
