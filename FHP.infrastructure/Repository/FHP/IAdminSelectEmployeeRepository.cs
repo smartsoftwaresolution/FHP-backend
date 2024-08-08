@@ -12,12 +12,11 @@ namespace FHP.infrastructure.Repository.FHP
         void Edit(AdminSelectEmployee entity);
         Task<AdminSelectEmployee> GetAsync(int id);
         Task<(List<AdminSelectEmployeeDetailDto> adminSelect, int totalCount)> GetAllAsync(int page, int pageSize,int jobId, string? search, Constants.ProcessingStatus? status);
-
         Task<AdminSelectEmployeeDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
         Task<(List<UserDetailDto> adminSelect, int totalCount)> GetAllJobEmployeeAsync(int jobId);
         Task AddAsync(AddAdminSelectEmployeeModel model);
-        Task<string> AcceptRejectAsync(int jobId,int employeeId);
+        Task<string> AcceptRejectAsync(EmployerAcceptRejectModel model);
         Task<string> SetStatus(SetAdminSelectEmployeeModel model);
     }
 }

@@ -233,7 +233,7 @@ namespace FHP.Controllers.FHP
               
         }
 
-        //API Endpoint for deleting an employee by ID
+        //API Endpoint for deleting an employee by ID  
         [HttpDelete("delete/{id}")]   
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -326,7 +326,7 @@ namespace FHP.Controllers.FHP
 
         //API Endpoint to Accept Reject 
         [HttpPost("EmployerAcceptReject")]
-        public async Task<IActionResult> EmployerAcceptReject(int jobId, int employeeId)
+        public async Task<IActionResult> EmployerAcceptReject(EmployerAcceptRejectModel model)
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)
@@ -338,19 +338,19 @@ namespace FHP.Controllers.FHP
             var response = new BaseResponseAdd();
 
             try
-            {
-               if(employeeId <= 0 || jobId <= 0)
+            {  
+               if(model.EmployeeId <= 0 || model.JobId <= 0)
                {
                     response.StatusCode = 400;
                     response.Message = "Id Required";
                     return BadRequest(response);
                }
-
-                string result = await _manager.AcceptRejectAsync(jobId, employeeId);
+                
+                string result = await _manager.AcceptRejectAsync(model);
 
                 var adminToken = await _tokenManager.FcmTokenByRole("admin");
 
-                var employeeToken = await _tokenManager.FcmTokenByRole("employee");
+                var employeeToken = await _tokenManager.FcmTokenByRole("employee"); 
 
                 if (result == "Accepted")
                 {
@@ -361,7 +361,6 @@ namespace FHP.Controllers.FHP
                         string adminMessage = "Dear Admin,We wanted to inform you that the request has been accepted by the employer. Please take note of this for your records and any further necessary action.";
                         await _sendNotificationService.SendNotification("employment acceptance", adminMessage, adminTokens.TokenFCM);
                     }
-
 
                     var employeeTokens = employeeToken.OrderByDescending(e => e.Id).FirstOrDefault();
 

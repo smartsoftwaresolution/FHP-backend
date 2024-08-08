@@ -18,9 +18,7 @@ namespace FHP.infrastructure.Service
         Task EditContractNotificationAsync(AddContractModel model);
         Task JobRequestNotificationAsync();
         Task EmployeeAcceptJobRequestNotificationAsync(SetEmployeeAvailabilityModel model);
-
         Task ShortlistNotificationAsync();
-
-      
+        
     }
 }

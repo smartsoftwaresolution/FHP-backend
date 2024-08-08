@@ -56,22 +56,52 @@ namespace FHP.services.NotificationServices
 
         public async Task EditContractNotificationAsync(AddContractModel model)
         {
-            var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
-
-            var token = adminToken.FirstOrDefault();
-
-            if (token != null && (model.IsSignedByEmployee == true))
+            if(model.IsSignedByEmployee == true)
             {
-                string adminMsg = "A contract has been signed by employee.";
-                await _sendNotificationService.SendNotification("contract signed", adminMsg, token.TokenFCM);
+                var adminToken1 = await _fCMTokenManager.FcmTokenByRole("admin");
+                var token1 = adminToken1.OrderByDescending(e => e.Id).FirstOrDefault();
+
+                if(token1 != null) 
+                {
+                    string adminMsg = "A contract has been signed by employee.";
+                    await _sendNotificationService.SendNotification("contract signed", adminMsg, token1.TokenFCM);
+                }
+
+                var employerToken1 = await _fCMTokenManager.FcmTokenByRole("employer");
+                var token2 = employerToken1.OrderByDescending(e => e.Id).FirstOrDefault();  
+
+                if(token2 != null)
+                {
+                    string empMsg = "A contract has been signed by employee.";
+                    await _sendNotificationService.SendNotification("contract signed", empMsg, token2.TokenFCM);
+                }
             }
 
-            if (token != null && (model.IsSignedByEmployer == true))
+
+            if (model.IsSignedByEmployer == true)
             {
-                string adminMsg = "A contract has been signed by employer.";
-                await _sendNotificationService.SendNotification("contract signed", adminMsg, token.TokenFCM);
+                var adminToken1 = await _fCMTokenManager.FcmTokenByRole("admin");
+                var token1 = adminToken1.OrderByDescending(e => e.Id).FirstOrDefault();
+
+                if (token1 != null)
+                {
+                    string adminMsg = "A contract has been signed by employer.";
+                    await _sendNotificationService.SendNotification("contract signed", adminMsg, token1.TokenFCM);
+                }
+
+                var employeeToken1 = await _fCMTokenManager.FcmTokenByRole("employee");
+                var token2 = employeeToken1.OrderByDescending(e => e.Id).FirstOrDefault();
+
+                if (token2 != null)
+                {
+                    string empMsg = "A contract has been signed by employer.";
+                    await _sendNotificationService.SendNotification("contract signed", empMsg, token2.TokenFCM);
+                }
             }
+
         }
+
+
 
         public async Task EmployeeAcceptJobRequestNotificationAsync(SetEmployeeAvailabilityModel model)
         {
@@ -103,15 +133,24 @@ namespace FHP.services.NotificationServices
 
         public async Task SendContractNotificationAsync()
         {
-            var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
-            var tokens = employeeToken.OrderByDescending(s => s.Id).FirstOrDefault();
-           
+                var employeeToken = await _fCMTokenManager.FcmTokenByRole("employee");
+                var tokens = employeeToken.OrderByDescending(s => s.Id).FirstOrDefault();
+
                 if (tokens != null)
                 {
                     string employeeMessage = "A contract has been created. please signed contract for further process.";
                     await _sendNotificationService.SendNotification("Contract", employeeMessage, tokens.TokenFCM);
                 }
-            
+
+                var employerToken = await _fCMTokenManager.FcmTokenByRole("employer");
+                var token = employerToken.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                if (token != null)
+                {
+                    string employerMessage = "A contract has been created. please signed contract for further process.";
+                    await _sendNotificationService.SendNotification("Contract", employerMessage, token.TokenFCM);
+                }
+
         }
 
         public async Task SendJobPostingNotifcationAsync(AddJobPostingModel model)
@@ -133,7 +172,6 @@ namespace FHP.services.NotificationServices
         public async Task ShortlistNotificationAsync()
         {
             var employeetoken = await _fCMTokenManager.FcmTokenByRole("employee");
-
             var token = employeetoken.OrderByDescending(e => e.Id).FirstOrDefault();
 
             if (token != null)
@@ -141,6 +179,15 @@ namespace FHP.services.NotificationServices
                 string message = "Congratulation you are shortlisted for the job.";
 
                 await _sendNotificationService.SendNotification("Shortlisted", message, token.TokenFCM);
+            }
+
+            var employerToken = await _fCMTokenManager.FcmTokenByRole("employer");
+            var tokens = employerToken.OrderByDescending(e => e.Id).FirstOrDefault();
+
+            if (tokens != null)
+            {
+                string msg = "candidate is shortlisted";
+                await _sendNotificationService.SendNotification("shortlist", msg, tokens.TokenFCM);
             }
         }
     }

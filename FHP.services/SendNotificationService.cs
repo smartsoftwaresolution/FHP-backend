@@ -20,7 +20,7 @@ namespace FHP.services
             _env = env;
         }
 
-        public async Task<bool> SendNotification( string title, string body, string token)
+        public async Task<bool> SendNotification(string title, string body, string token)
         {
             try
             {

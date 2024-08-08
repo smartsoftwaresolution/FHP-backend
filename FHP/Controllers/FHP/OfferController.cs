@@ -332,7 +332,7 @@ namespace FHP.Controllers.FHP
 
                     string result = await _manager.OfferAcceptRejectAsync(model);
 
-                    var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
+              /*      var adminToken = await _fCMTokenManager.FcmTokenByRole("admin");
 
                     var employerToken = await _fCMTokenManager.FcmTokenByRole("employer");
 
@@ -354,7 +354,7 @@ namespace FHP.Controllers.FHP
                         await _sendNotificationService.SendNotification("Offer Accept", employerMessage, tokens.TokenFCM);
                     }
                 }
-
+*/
 
                 response.StatusCode = 200;
                 response.Message = $"Offer {result} Succesfully!!";

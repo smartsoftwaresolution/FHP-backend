@@ -73,7 +73,7 @@ namespace FHP.Controllers.FHP
                     // Add the contract model asynchronously.
                    var data =  await _manager.AddAsync(model);
 
-                   await _notificationService.SendContractNotificationAsync();
+                   await  _notificationService.SendContractNotificationAsync();
                     
                    // Commit the transaction. 
 
@@ -92,7 +92,7 @@ namespace FHP.Controllers.FHP
             catch (Exception ex)
             {
                 // In case of any exceptions during the process, roll back the transaction.
-                await transaction.RollbackAsync();
+                 await transaction.RollbackAsync();
 
                 // Handle the exception using the provided exception handling service.
                 return await _exceptionHandleService.HandleException(ex);  
@@ -149,7 +149,7 @@ namespace FHP.Controllers.FHP
         }
 
         // Get All Contract with Pagination and search filter
-        [HttpGet("getall-pagination")] 
+        [HttpGet("getall-pagination")]  
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int employeeId,int employerId)
          {
             if (!ModelState.IsValid)

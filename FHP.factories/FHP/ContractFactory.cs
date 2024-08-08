@@ -10,8 +10,8 @@ namespace FHP.factories.FHP
         {
             var data = new Contract
             {
-                EmployeeId= model.EmployeeId,
-                JobId= model.JobId,
+                EmployeeId= model.EmployeeId, 
+                JobId= model.JobId, 
                 EmployerId= model.EmployerId,   
                 Duration=Utility.GetDateTime(),
                 Description=model.Description,
@@ -21,7 +21,7 @@ namespace FHP.factories.FHP
                 RequestToChangeContract=model.RequestToChangeContract,  
                 IsRequestToChangeAccepted=model.IsRequestToChangeAccepted,
                 IsSignedByEmployee=model.IsSignedByEmployee,
-                IsSignedByEmployer=model.IsSignedByEmployer,
+                IsSignedByEmployer=model.IsSignedByEmployer,  
                 pdfFile = pdfFile ?? "",
                 CreatedOn=Utility.GetDateTime(),
                 Status=Constants.RecordStatus.Active,

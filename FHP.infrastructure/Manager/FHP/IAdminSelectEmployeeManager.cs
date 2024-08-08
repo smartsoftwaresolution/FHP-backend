@@ -21,7 +21,7 @@ namespace FHP.infrastructure.Manager.FHP
         Task<AdminSelectEmployeeDetailDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
         Task<(List<UserDetailDto> adminSelect, int totalCount)> GetAllJobEmployeeAsync(int jobId);
-        Task<string> AcceptRejectAsync(int jobId,int employeeId);
+        Task<string> AcceptRejectAsync(EmployerAcceptRejectModel model);
         Task<string> SetStatus(SetAdminSelectEmployeeModel model);
 
     }

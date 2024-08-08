@@ -14,7 +14,7 @@ namespace FHP.entity.FHP
         public int JobId { get; set; }
         public int EmployeeId { get; set; }
         public bool InProbationCancel { get; set; }
-        public bool IsSelected { get; set; }
+        public Constants.AcceptRejectStatus IsSelected { get; set; }
         public Constants.ProcessingStatus Status { get; set; }
         public DateTime CreatedOn { get; set; }
 

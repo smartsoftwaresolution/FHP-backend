@@ -170,20 +170,27 @@ namespace FHP.datalayer.Repository.FHP
             return (data, totalcount);
         }
 
-        public async Task<string> AcceptRejectAsync(int jobId, int employeeId)
+        public async Task<string> AcceptRejectAsync(EmployerAcceptRejectModel model)
         {
             string result = string.Empty;
-            var data = await _dataContext.AdminSelectEmployees.Where(s => s.EmployeeId == employeeId && s.JobId == jobId).FirstOrDefaultAsync();
 
-            if(data.IsSelected == false)
+            var data = await _dataContext.AdminSelectEmployees.Where(s => s.EmployeeId == model.EmployeeId && s.JobId == model.JobId).FirstOrDefaultAsync();
+
+            if(model.IsSelected == Constants.AcceptRejectStatus.Accepted)
             {
-                data.IsSelected = true;
+                data.IsSelected = Constants.AcceptRejectStatus.Accepted;
                 result = "Accepted";
             }
+            else if(model.IsSelected == Constants.AcceptRejectStatus.Rejected)
+            {
+                data.IsSelected = Constants.AcceptRejectStatus.Rejected;
+                result = "Rejected";
+            }
+
             else
             {
-                data.IsSelected = false;
-                result = "Reject";
+                data.IsSelected = Constants.AcceptRejectStatus.Pending;
+                result = "Pending";
             }
 
             _dataContext.AdminSelectEmployees.Update(data);
