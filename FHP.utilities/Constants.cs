@@ -33,6 +33,7 @@ namespace FHP.utilities
         public enum JobProcessingStatus { None,ShortListing, InProcess, Reviewing,Hired }
         public enum RecordStatus { Created, Active, Inactive, Deleted }
         public enum ProcessingStatus { None, ShortListing, InProcess, Reviewing, Hired }
+        public enum AcceptRejectStatus { Pending, Accepted, Rejected };
 
 
         public string SessionInfo_Name { get; private set; }

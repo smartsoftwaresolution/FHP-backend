@@ -21,7 +21,7 @@ namespace FHP.Controllers.FHP
          
         public EmployeeAvailabilityController(IEmployeeAvailabilityManager manager,
                                               IExceptionHandleService exceptionHandleService,
-                                              IUnitOfWork unitOfWork,
+                                               IUnitOfWork unitOfWork,
                                               ISendNotificationService sendNotificationService,
                                               IFCMTokenManager tokenManager,
                                               INotificationService notificationService)
@@ -57,7 +57,7 @@ namespace FHP.Controllers.FHP
                     await _manager.AddAsync(model);
 
 
-                 //   await _notificationService.JobRequestNotificationAsync();
+                    await _notificationService.JobRequestNotificationAsync();
 
                     // Commit the transaction.
                     await transaction.CommitAsync(); 

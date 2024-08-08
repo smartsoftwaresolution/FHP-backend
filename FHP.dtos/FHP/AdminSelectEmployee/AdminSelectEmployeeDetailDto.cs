@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FHP.utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace FHP.dtos.FHP.AdminSelectEmployee
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public bool InProbationCancel { get; set; }
-        public bool IsSelected { get; set; }
+        public Constants.AcceptRejectStatus IsSelected { get; set; }
         public string ProfileImg { get; set; }
         public DateTime CreatedOn { get; set; }
         public string Mobilenumber { get; set; }

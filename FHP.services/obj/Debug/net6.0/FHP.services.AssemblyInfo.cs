@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FHP.services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ffac8e8b7015653b30096e856313249b42d99864")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e18e3cf3152ab8842f084ad0e87831e0aa85f7bb")]
 [assembly: System.Reflection.AssemblyProductAttribute("FHP.services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FHP.services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -20,7 +20,7 @@ namespace FHP.services
             _env = env;
         }
 
-        public async Task<bool> SendNotification( string title, string body, string token)
+        public async Task<bool> SendNotification(string title, string body, string token)
         {
             try
             {
@@ -34,11 +34,11 @@ namespace FHP.services
                     {
                         Credential = GoogleCredential.FromFile(path)
                         
-                    }, "testing-45eba") ;
+                    }, "rigupnew-c74eb") ;
                 }
                 catch(Exception ex)
                 {
-                    app = FirebaseApp.GetInstance("testing-45eba");
+                    app = FirebaseApp.GetInstance("rigupnew-c74eb");
                 }
 
                 var fcm = FirebaseAdmin.Messaging.FirebaseMessaging.GetMessaging(app);
