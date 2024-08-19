@@ -35,5 +35,8 @@ namespace FHP.infrastructure.Repository.UserManagement
         Task<double> CalculateEmployeeEducationalDetailPercentage(int userId);
         Task<double> CalculateEmployeeProfessionalDetailPercentage(int userId);
         Task<double> CalculateEmployeeSkillDetailPercentage(int userId);
+
+        Task<UserDetailDto> GetByUserId(int userId);
+
     }
 }

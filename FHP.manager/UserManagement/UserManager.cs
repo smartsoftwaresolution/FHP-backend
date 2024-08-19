@@ -135,5 +135,10 @@ namespace FHP.manager.UserManagement
 
             return overallPercentage;
         }
+
+        public async Task<UserDetailDto> GetByUserId(int userId)
+        {
+            return await _repository.GetByUserId(userId);
+        }
     }
 }

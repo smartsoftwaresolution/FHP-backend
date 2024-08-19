@@ -58,7 +58,7 @@ namespace FHP.Controllers.FHP
                     await _manager.AddAsync(model);
 
 
-                    var admintoken = await _fCMTokenManager.FcmTokenByRole("admin");
+                 /*   var admintoken = await _fCMTokenManager.FcmTokenByRole("admin");
                     var token = admintoken.OrderByDescending(s => s.Id).FirstOrDefault();
 
 
@@ -76,6 +76,7 @@ namespace FHP.Controllers.FHP
                         string employeebody = "An offer has been sent successfully!";
                         await _sendNotificationService.SendNotification("Offer", employeebody, token1.TokenFCM);
                     }
+*/
 
                     // Commit the transaction.
                     await transaction.CommitAsync();
@@ -355,6 +356,8 @@ namespace FHP.Controllers.FHP
                     }
                 }
 */
+
+
 
                 response.StatusCode = 200;
                 response.Message = $"Offer {result} Succesfully!!";
