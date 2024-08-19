@@ -42,7 +42,7 @@ namespace FHP.datalayer.Repository.UserManagement
 
 
 
-        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName, bool isAscending,List<int> ids, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities, string? employmentType)
+        public async Task<(List<UserDetailDto> user, int totalCount)> GetAllAsync(int page, int pageSize, string? search, string? roleName, bool isAscending,List<int> ids, string? employmentStatus, string? experience, string? jobTitle, string? rolesAndResponsibilities, string? employmentType) 
         {
             var query = from s in _dataContext.User.Include( i=> i.SkillDetails).Include(t=> t.ProfessionalDetails)
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
@@ -105,8 +105,11 @@ namespace FHP.datalayer.Repository.UserManagement
                     .Select(user => user.Id)
                     .ToListAsync();
 
-                // Filter the main query based on the retrieved user IDs
-                query = query.Where(join => userIdsWithMatchingSkills.Contains(join.user.Id));
+                if (userIdsWithMatchingSkills.Any())
+                {
+                    // Filter the main query based on the retrieved user IDs
+                    query = query.Where(join => userIdsWithMatchingSkills.Contains(join.user.Id));
+                }
 
                 /* var skillIds = await _dataContext.SkillsDetails
                                                              .Where(skill => ids.Contains(skill.Id))
@@ -655,6 +658,25 @@ namespace FHP.datalayer.Repository.UserManagement
               await _dataContext.SaveChangesAsync();
                 
             }
+        }
+
+        public async Task<UserDetailDto> GetByUserId(int userId)
+        {
+            return await (from u in _dataContext.User
+                          join r in _dataContext.UserRole on u.RoleId equals r.Id
+                          where u.Status != Constants.RecordStatus.Deleted &&
+                          u.Id == userId
+
+                          select new UserDetailDto
+                          {
+                              Id = u.Id,
+                              RoleId = u.RoleId,
+                              RoleName = r.RoleName,
+                              FirstName = u.FirstName,
+                              LastName = u.LastName,
+                          })
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync();
         }
     }
 }

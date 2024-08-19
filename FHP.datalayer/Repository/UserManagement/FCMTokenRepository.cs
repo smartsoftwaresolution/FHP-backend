@@ -18,6 +18,23 @@ namespace FHP.datalayer.Repository.UserManagement
             _dataContext = dataContext;
         }
 
+        public async Task<FcmTokenDetailDto> FcmTokenByEmployeeId(int employeeId)
+        {
+            return await (from s in _dataContext.FCMTokens
+                          where s.Id == employeeId
+                          select new FcmTokenDetailDto
+                          {
+                              Id = s.Id,
+                              UserId = s.UserId,
+                              TokenFCM = s.TokenFCM,
+                              Status = s.Status,
+                              CreatedOn = s.CreatedOn,
+                              UpdatedOn = s.UpdatedOn,
+                          })
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync();
+        }
+
         public async Task<List<FcmTokenDetailDto>> FcmTokenByRole(string roleName)
         {
             return await (from s in _dataContext.FCMTokens

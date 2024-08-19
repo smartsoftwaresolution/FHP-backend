@@ -1,9 +1,12 @@
-﻿using FHP.infrastructure.DataLayer;
+﻿
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.User;
+using FHP.services;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace FHP.Controllers.UserManagement
 {
@@ -543,5 +546,39 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        [HttpGet("getby-UserId")]
+        public async Task<IActionResult> GetByUserIdAsync(int userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+                var data = await _manager.GetByUserId(userId);
+
+                if(data != null)
+                {
+                    response.StatusCode = 200;
+                    response.Data = data;
+                    return Ok(response);
+                }
+
+                response.StatusCode = 404;
+                response.Message = Constants.error;
+                return BadRequest(response);
+            }
+            catch(Exception ex) 
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
     }
+
+    
 }

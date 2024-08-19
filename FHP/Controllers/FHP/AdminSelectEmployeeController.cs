@@ -63,7 +63,6 @@ namespace FHP.Controllers.FHP
 
 
                     await _notificationService.ShortlistNotificationAsync();
-                    
 
                     // Commit the transaction.
                     await transaction.CommitAsync();
