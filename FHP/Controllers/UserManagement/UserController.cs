@@ -47,7 +47,7 @@ namespace FHP.Controllers.UserManagement
 
         // API Endpoint for add user
         [HttpPost("add")]  
-        public async Task<IActionResult> AddAsync(AddUserModel model)
+        public async Task<IActionResult> AddAsync(AddUserModel model,string origin)
         
         {
             // Checks if the model state is valid
@@ -94,7 +94,7 @@ namespace FHP.Controllers.UserManagement
                     await _notificationService.AddUserRegistrationNotificationAsync(model); 
 
                     // Sends a verification email to the user
-                    await _emailService.SendverificationEmail(model.Email, userid);
+                    await _emailService.SendverificationEmail(model.Email, userid,origin);
 
                     // Commits the transaction as all operations are successful
                     await transaction.CommitAsync();

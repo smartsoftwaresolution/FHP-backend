@@ -7,13 +7,13 @@ namespace FHP.services
     public class EmailService : IEmailService
     {
        
-        public async Task SendverificationEmail(string email,int userId)
+        public async Task SendverificationEmail(string email,int userId, string origin)
         {
             MimeMessage message = new MimeMessage();
             message.From.Add(new MailboxAddress("sabeel.softw@gmail.com"));
             message.To.Add(new MailboxAddress(email));
             message.Subject = "Email Verfication";
-            string emailBody = "https://www.contactaholic.com:6766/" + userId;
+            string emailBody = $"{origin}" + userId;
             BodyBuilder bodyBuilder = new BodyBuilder();
             bodyBuilder.HtmlBody = emailBody;
 
