@@ -7,6 +7,7 @@ using FHP.dtos.FHP.EmployeeDetail;
 using FHP.dtos.FHP.JobPosting;
 using System.Linq.Dynamic.Core;
 using FHP.dtos.FHP.EmployeeSkill;
+using System.Linq;
 
 
 namespace FHP.datalayer.Repository.UserManagement
@@ -46,15 +47,15 @@ namespace FHP.datalayer.Repository.UserManagement
         {
             var query = from s in _dataContext.User.Include( i=> i.SkillDetails).Include(t=> t.ProfessionalDetails)
                         join t in _dataContext.UserRole on s.RoleId equals t.Id
-
-                        /*join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
-                        from ed in empDetails.DefaultIfEmpty()*/
-                      /*  join j in _dataContext.JobPostings on s.Id equals j.UserId into jobPosting
-                        from jd in jobPosting.DefaultIfEmpty()*/
+                   /*join e in _dataContext.EmployeeProfessionalDetails on s.Id equals e.UserId into empDetails
+                                     from ed in empDetails.DefaultIfEmpty()*/
+                   /*  join j in _dataContext.JobPostings on s.Id equals j.UserId into jobPosting
+                                       from jd in jobPosting.DefaultIfEmpty()*/
 
                         where s.Status != Constants.RecordStatus.Deleted
                         select new { user = s, t,job = s.JobPosts,professional = s.ProfessionalDetails/*, employeedetail = ed*/ };
-            
+
+
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -79,6 +80,8 @@ namespace FHP.datalayer.Repository.UserManagement
 
             }
 
+
+            var query1 = query;
             
             /*if (skills != null)
             {
@@ -97,6 +100,8 @@ namespace FHP.datalayer.Repository.UserManagement
 
            /* List<int> ids = new List<int>();*/
 
+
+
             if (ids != null && ids.Count > 0)
             {
                 // Get the IDs of users having EmployeeSkillDetails with the provided IDs
@@ -108,7 +113,8 @@ namespace FHP.datalayer.Repository.UserManagement
                 if (userIdsWithMatchingSkills.Any())
                 {
                     // Filter the main query based on the retrieved user IDs
-                    query = query.Where(join => userIdsWithMatchingSkills.Contains(join.user.Id));
+                    query1 = query.Where(join => userIdsWithMatchingSkills.Contains(join.user.Id));
+
                 }
 
                 /* var skillIds = await _dataContext.SkillsDetails
@@ -126,55 +132,63 @@ namespace FHP.datalayer.Repository.UserManagement
                 /* query = query.Where(s => ids.Any(id => s.user.SkillDetails.Any(detail => detail.SkillId == id)));*/
             }
 
+            
+
             if (employmentStatus != null)
             {
-                query = query.Where(s => s.user.ProfessionalDetails.Any(y => y.EmploymentStatus == employmentStatus));
+                var ProfessionalDetailsQuery = query.Where(s => s.user.ProfessionalDetails.Any(y => y.EmploymentStatus == employmentStatus));
+                if(ProfessionalDetailsQuery != null)
+                {
+                    query1 = query.Union(ProfessionalDetailsQuery);
+
+                }
             }
 
             if (experience != null)
             {
-                query = query.Where(s => /*s.job.Experience == experience */  s.user.JobPosts.Any(t => t.Experience == experience));
+                var expQuery = query.Where(s => s.user.JobPosts.Any(y => y.Experience == experience));
+                if (expQuery != null)
+                {
+                    query1 = query.Union(expQuery);
+                }
             }
 
-            /*if (employmentStatus != null)
-            {
-                query = query.Where(s => s.employeedetail.EmploymentStatus == employmentStatus);
-            }*/
+        
 
             if (jobTitle != null)
             {
-                query = query.Where(s => /*s.job.JobTitle == jobTitle &&*/ s.user.JobPosts.Any(t => t.JobTitle == jobTitle));
+                query1 = query.Union(query.Where(s => s.user.JobPosts.Any(t => t.JobTitle == jobTitle)));
             }
 
             if (rolesAndResponsibilities != null)
             {
-                query = query.Where(s => /*s.job.RolesAndResponsibilities == rolesAndResponsibilities &&*/ s.user.JobPosts.Any(t => t.RolesAndResponsibilities == rolesAndResponsibilities));
+                query1 = query.Union(query.Where(s => s.user.JobPosts.Any(t => t.RolesAndResponsibilities == rolesAndResponsibilities)));
             }
 
             if(employmentType != null)
             {
-                query = query.Where(s => s.user.EmploymentType == employmentType);
+                query1 = query.Union(query.Where(s => s.user.EmploymentType == employmentType));
             }
 
             var totalCount = await query.CountAsync();
 
             if (isAscending == true)
             {
-                query = query.OrderBy(s => s.user.Id);
+                query1 = query.OrderBy(s => s.user.Id);
             }
             else
             {
-                query = query.OrderByDescending(s => s.user.Id);
+                query1 = query.OrderByDescending(s => s.user.Id);
             }
 
             if (page > 0 && pageSize > 0)
             {
-                query = query.Skip((page - 1) * pageSize).Take(pageSize);
+                query1 = query.Skip((page - 1) * pageSize).Take(pageSize);
             }
 
           
 
-            var data = await query.Select(s => new UserDetailDto
+            var data = await query1.Select(s => new UserDetailDto
             {
                 Id = s.user.Id,
                 RoleId = s.user.RoleId,
