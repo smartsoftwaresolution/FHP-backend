@@ -13,7 +13,7 @@ namespace FHP.services
             message.From.Add(new MailboxAddress("sabeel.softw@gmail.com"));
             message.To.Add(new MailboxAddress(email));
             message.Subject = "Email Verfication";
-            string emailBody = "http://localhost:3000/email-verification/" + userId;
+            string emailBody = "https://www.contactaholic.com:6766/" + userId;
             BodyBuilder bodyBuilder = new BodyBuilder();
             bodyBuilder.HtmlBody = emailBody;
 
