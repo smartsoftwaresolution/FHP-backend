@@ -1,11 +1,6 @@
 ﻿using FHP.entity.FHP;
 using FHP.models.FHP.EmployerContractConfirmation;
 using FHP.utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.factories.FHP
 {

@@ -17,6 +17,32 @@ namespace FHP.services
         {
             _env = env;
         }
+
+        public async Task<bool> DeleteIFormPdfAsync(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return false;
+            }
+
+            try
+            {
+                string fullPath = Path.Combine(_env.WebRootPath, "Attachments","pdfuploads", filePath);
+                if (File.Exists(fullPath))
+                {
+                    File.Delete(fullPath);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return false;
+       
+        }
+
         public async Task<string> UploadIFormFileAsync(IFormFile file)
         {
             string uploadsFolder = string.Empty;
@@ -75,11 +101,11 @@ namespace FHP.services
                     throw new ArgumentException("Only PDF files are allowed.");
                 }
 
-                uploadsFolder = "pdfuploads"; // You can customize this
+                uploadsFolder = "pdfuploads";
 
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
 
-                string directoryPath = Path.Combine(_env.WebRootPath, "Attachments", uploadsFolder);
+                string directoryPath = Path.Combine(_env.WebRootPath, "Attachments" ,uploadsFolder);
                 Directory.CreateDirectory(directoryPath); // Ensure directory exists
 
                 string filePath = Path.Combine(directoryPath, uniqueFileName);

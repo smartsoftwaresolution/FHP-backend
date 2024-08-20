@@ -24,5 +24,8 @@ namespace FHP.infrastructure.Manager.UserManagement
         Task AddFCMToken(FCMToken entity);
         Task RemoveFCMToken(int userId,string fcmToken);
         Task<double> ProfilePercentage(int userId);
+
+        Task<UserDetailDto> GetByUserId(int userId);
+
     }
 }

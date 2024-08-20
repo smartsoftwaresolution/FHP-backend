@@ -7,13 +7,13 @@ namespace FHP.services
     public class EmailService : IEmailService
     {
        
-        public async Task SendverificationEmail(string email,int userId)
+        public async Task SendverificationEmail(string email,int userId, string origin)
         {
             MimeMessage message = new MimeMessage();
             message.From.Add(new MailboxAddress("sabeel.softw@gmail.com"));
             message.To.Add(new MailboxAddress(email));
             message.Subject = "Email Verfication";
-            string emailBody = "http://localhost:3000/email-verification/" + userId;
+            string emailBody = $"{origin}" + userId;
             BodyBuilder bodyBuilder = new BodyBuilder();
             bodyBuilder.HtmlBody = emailBody;
 
@@ -30,12 +30,13 @@ namespace FHP.services
         }
 
 
-        public async Task SendContractEmail(string email, int userId,string htmlBody, string subject)
+        public async Task SendContractEmail(string email,string employerEmail, int userId, int employerId,string htmlBody, string subject)
         {
 
             MimeMessage message = new MimeMessage();
             message.From.Add(new MailboxAddress("sabeel.softw@gmail.com"));
             message.To.Add(new MailboxAddress(email));
+            message.To.Add(new MailboxAddress(employerEmail));
             message.Subject = subject;
             /* string emailBody = "" + userId;
              BodyBuilder bodyBuilder = new BodyBuilder();
@@ -44,22 +45,6 @@ namespace FHP.services
             {
                 HtmlBody = htmlBody // Set the HTML body
             };
-
-            /* if (File.Exists(pdfFilePath))
-             {
-                 var pdfAttachment = new MimePart("application", "pdf")
-                 {
-                     Content = new MimeContent(File.OpenRead(pdfFilePath)),
-                     ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                     ContentTransferEncoding = ContentEncoding.Base64,
-                     FileName = Path.GetFileName(pdfFilePath)
-                 };
-
-                 bodyBuilder.Attachments.Add(pdfAttachment);
-             }*/
-
-
-
 
             message.Body = bodyBuilder.ToMessageBody();
 

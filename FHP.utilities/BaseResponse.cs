@@ -60,9 +60,16 @@ namespace FHP.utilities
             public string Message { get; set; }
          }
 
+        public class BaseResponseContractAdd
+        {
+            public int Id { get; set; }
+            public int StatusCode { get; set; }
+
+            public string Message { get; set; }
+        }
          public class  BasePdfResponse
          {
-           public int StatusCode { get; set; }
+           public int StatusCode {  get; set; }
            public string Message { get; set; }  
            public string PdfUrl { get; set; }
 
@@ -80,10 +87,14 @@ namespace FHP.utilities
         {
             public int StatusCode { get; set; }
             public string Message { get; set; }
-            public int TotalCount { get; set; }
+            public int JobPost { get; set; }
+            public int DraftPost { get; set; }
+            public int TotalContract { get; set; } 
+            public int TotalJobRequest { get; set; }
+
         }
 
-        public class ResponseDashboardCounts<T>
+    public class ResponseDashboardCounts<T>
         {
 
             public int StatusCode { get; set; }

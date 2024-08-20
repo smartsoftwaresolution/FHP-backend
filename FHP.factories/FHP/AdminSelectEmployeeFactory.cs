@@ -13,7 +13,7 @@ namespace FHP.factories.FHP
                 JobId = model.JobId,
              // EmployeeId = model.EmployeeId,
                 InProbationCancel = model.InProbationCancel,
-                IsSelected = model.IsSelected,
+                IsSelected = Constants.AcceptRejectStatus.Pending,
                 Status = Constants.ProcessingStatus.InProcess,
                 CreatedOn = Utility.GetDateTime()
             };

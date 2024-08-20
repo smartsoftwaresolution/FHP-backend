@@ -123,7 +123,7 @@ namespace FHP.datalayer.Repository.FHP
                 Status = s.jobPosting.Status,
                 JobStatus = s.jobPosting.JobStatus,
                 EmployeeId = s.employer.Id,
-                EmployerName = s.employer.FirstName + " " + s.employer.LastName,
+                EmployerName = s.employer.ContactName,
                 JobProcessingStatus = s.jobPosting.JobProcessingStatus,
                 EmploymentType=s.jobPosting.EmploymentType,
                 JobSkillDetails = s.jobPosting.JobSkillDetails
@@ -152,9 +152,12 @@ namespace FHP.datalayer.Repository.FHP
         public async Task<JobPostingDetailDto> GetByIdAsync(int id)
         {
             return  await (from s in _dataContext.JobPostings
-                           join e in _dataContext.User on s.UserId equals e.Id
-                          where s.Status != Constants.RecordStatus.Deleted 
-                          && s.Id == id
+                           join e in _dataContext.User on s.UserId equals e.Id 
+                           where s.Status != Constants.RecordStatus.Deleted 
+                           && s.Id == id
+
+
+
                           select new JobPostingDetailDto
                           {
                               Id=s.Id,
@@ -173,7 +176,7 @@ namespace FHP.datalayer.Repository.FHP
                               UpdatedOn=s.UpdatedOn,
                               Status=s.Status,
                               JobStatus = s.JobStatus,
-                              EmployerName = e.FirstName + " " + e.LastName,
+                              EmployerName = e.ContactName,
                               JobProcessingStatus = s.JobProcessingStatus,
                               EmploymentType=s.EmploymentType,
                               JobSkillDetails = s.JobSkillDetails

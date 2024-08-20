@@ -18,20 +18,22 @@ namespace FHP.Controllers.FHP
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISendNotificationService _sendNotificationService;
         private readonly IFCMTokenManager _tokenManager;
+        private readonly INotificationService _notificationService;
 
         public AdminSelectEmployeeController(IAdminSelectEmployeeManager manager,
                                              IExceptionHandleService exceptionHandleService,
                                              IUnitOfWork unitOfWork,
                                              ISendNotificationService sendNotificationService,
                                              IFileUploadService fileUploadService,
-                                             IFCMTokenManager tokenManager
-                                             )
+                                             IFCMTokenManager tokenManager,
+                                             INotificationService notificationService)
         {
             _manager = manager;
             _exceptionHandleService= exceptionHandleService;
             _unitOfWork= unitOfWork;
             _sendNotificationService = sendNotificationService;
             _tokenManager = tokenManager;
+            _notificationService = notificationService;
         }
 
 
@@ -60,18 +62,7 @@ namespace FHP.Controllers.FHP
                     await _manager.AddAsync(model);
 
 
-                    var employeetoken = await _tokenManager.FcmTokenByRole("employee");
-
-                    var token = employeetoken.OrderByDescending(e => e.Id).FirstOrDefault();
-
-                    if (token != null)
-                    {
-                        string message = "Congratulation you are shortlisted for the job.";
-
-                        await _sendNotificationService.SendNotification("Shortlisted", message, token.TokenFCM);
-                    }
-
-
+                    await _notificationService.ShortlistNotificationAsync();
 
                     // Commit the transaction.
                     await transaction.CommitAsync();
@@ -241,7 +232,7 @@ namespace FHP.Controllers.FHP
               
         }
 
-        //API Endpoint for deleting an employee by ID
+        //API Endpoint for deleting an employee by ID  
         [HttpDelete("delete/{id}")]   
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -334,7 +325,7 @@ namespace FHP.Controllers.FHP
 
         //API Endpoint to Accept Reject 
         [HttpPost("EmployerAcceptReject")]
-        public async Task<IActionResult> EmployerAcceptReject(int jobId, int employeeId)
+        public async Task<IActionResult> EmployerAcceptReject(EmployerAcceptRejectModel model)
         {
             // Checks if the model state is valid
             if (!ModelState.IsValid)
@@ -346,37 +337,36 @@ namespace FHP.Controllers.FHP
             var response = new BaseResponseAdd();
 
             try
-            {
-               if(employeeId <= 0 || jobId <= 0)
+            {  
+               if(model.EmployeeId <= 0 || model.JobId <= 0)
                {
                     response.StatusCode = 400;
                     response.Message = "Id Required";
                     return BadRequest(response);
                }
+                
+                string result = await _manager.AcceptRejectAsync(model);
 
-                   string result = await _manager.AcceptRejectAsync(jobId, employeeId);
-                  
-                   var adminToken = await _tokenManager.FcmTokenByRole("admin");
+                var adminToken = await _tokenManager.FcmTokenByRole("admin");
 
-                   var employeeToken = await _tokenManager.FcmTokenByRole("employee");
+                var employeeToken = await _tokenManager.FcmTokenByRole("employee"); 
 
                 if (result == "Accepted")
                 {
                     var adminTokens = adminToken.OrderByDescending(a => a.Id).FirstOrDefault();
-                   
+
                     if (adminTokens != null)
                     {
                         string adminMessage = "Dear Admin,We wanted to inform you that the request has been accepted by the employer. Please take note of this for your records and any further necessary action.";
-                        await _sendNotificationService.SendNotification("Acknowledgement of employment acceptance", adminMessage, adminTokens.TokenFCM);
+                        await _sendNotificationService.SendNotification("employment acceptance", adminMessage, adminTokens.TokenFCM);
                     }
-
 
                     var employeeTokens = employeeToken.OrderByDescending(e => e.Id).FirstOrDefault();
 
                     if (employeeTokens != null)
                     {
                         string employeeMessage = "We're pleased to inform you that your request has been accepted by the employer.";
-                        await _sendNotificationService.SendNotification("Acknowledgement of employment acceptance", employeeMessage, employeeTokens.TokenFCM);
+                        await _sendNotificationService.SendNotification("employment acceptance", employeeMessage, employeeTokens.TokenFCM);
                     }
                 }
 

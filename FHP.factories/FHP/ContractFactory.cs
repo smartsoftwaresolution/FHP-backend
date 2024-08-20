@@ -1,11 +1,6 @@
 ﻿using FHP.entity.FHP;
 using FHP.models.FHP.Contract;
 using FHP.utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FHP.factories.FHP
 {
@@ -15,8 +10,8 @@ namespace FHP.factories.FHP
         {
             var data = new Contract
             {
-                EmployeeId= model.EmployeeId,
-                JobId= model.JobId,
+                EmployeeId= model.EmployeeId, 
+                JobId= model.JobId, 
                 EmployerId= model.EmployerId,   
                 Duration=Utility.GetDateTime(),
                 Description=model.Description,
@@ -26,7 +21,7 @@ namespace FHP.factories.FHP
                 RequestToChangeContract=model.RequestToChangeContract,  
                 IsRequestToChangeAccepted=model.IsRequestToChangeAccepted,
                 IsSignedByEmployee=model.IsSignedByEmployee,
-                IsSignedByEmployer=model.IsSignedByEmployer,
+                IsSignedByEmployer=model.IsSignedByEmployer,  
                 pdfFile = pdfFile ?? "",
                 CreatedOn=Utility.GetDateTime(),
                 Status=Constants.RecordStatus.Active,
@@ -49,8 +44,8 @@ namespace FHP.factories.FHP
             entity.StartContract=Utility.GetDateTime();
             entity.RequestToChangeContract = model.RequestToChangeContract;
             entity.IsRequestToChangeAccepted = model.IsRequestToChangeAccepted;
-            entity.IsSignedByEmployee=model.IsSignedByEmployee;
-            entity.IsSignedByEmployer = model.IsSignedByEmployer;
+            entity.IsSignedByEmployee = model.IsSignedByEmployee ? true : false;
+            entity.IsSignedByEmployer = model.IsSignedByEmployer ? true : false;
             entity.UpdatedOn=Utility.GetDateTime();
             entity.Title = model.Title;
         }

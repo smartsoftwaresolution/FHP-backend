@@ -10,5 +10,6 @@ namespace FHP.infrastructure.Manager.UserManagement
     public interface IFCMTokenManager
     {
         Task<List<FcmTokenDetailDto>> FcmTokenByRole(string roleName);
+        Task<FcmTokenDetailDto> FcmTokenByEmployeeId(int employeeId);
     }
 }

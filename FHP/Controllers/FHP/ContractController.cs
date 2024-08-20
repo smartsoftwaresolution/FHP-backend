@@ -34,7 +34,7 @@ namespace FHP.Controllers.FHP
                                   IFileUploadService fileUploadService)
                                   
         {
-            _manager=manager;
+            _manager = manager;
             _exceptionHandleService = exceptionHandleService;
             _unitOfWork = unitOfWork;
             _sendNotificationService = sendNotificationService;
@@ -46,7 +46,7 @@ namespace FHP.Controllers.FHP
             _fileUploadService = fileUploadService;
         }
 
-
+          
         // API endpoint to add Contract
         [HttpPost("add")]   
         public async Task<IActionResult> AddAsync(AddContractModel model)
@@ -57,7 +57,7 @@ namespace FHP.Controllers.FHP
                 return BadRequest(ModelState.GetErrorList()); 
             }
 
-            var response = new BaseResponseAdd();
+            var response = new BaseResponseContractAdd();
 
             //The method then begins a database transaction to ensure data consistency during  addition.
             await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
@@ -71,38 +71,28 @@ namespace FHP.Controllers.FHP
 
                 {
                     // Add the contract model asynchronously.
-                    await _manager.AddAsync(model);
+                   var data =  await _manager.AddAsync(model);
 
-                    await _notificationService.SendContractNotificationAsync();
+                   await  _notificationService.SendContractNotificationAsync();
                     
-
-/*                    var employeeEmail = await _userManager.GetByIdAsync(model.EmployeeId);
-
-                    if(employeeEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
-                    {
-                        string pdfFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "Attachments", "Docs", "SampleContract-Shuttle.pdf");
-
-                        await _emailService.SendContractEmail(employeeEmail.Email,pdfFilePath);
-                    }*/
-
-
-                    // Commit the transaction. 
+                   // Commit the transaction. 
 
                     await transaction.CommitAsync();  
                     response.StatusCode = 200;
                     response.Message = Constants.added;
+                    response.Id = data;
                     return Ok(response);
                 }
-
+                
                 // If necessary fields are not provided in the model, return a BadRequest response.
                 response.StatusCode = 400;
                 response.Message = Constants.provideValues;
                 return BadRequest(response);
-            }
+            } 
             catch (Exception ex)
             {
                 // In case of any exceptions during the process, roll back the transaction.
-                await transaction.RollbackAsync();
+                 await transaction.RollbackAsync();
 
                 // Handle the exception using the provided exception handling service.
                 return await _exceptionHandleService.HandleException(ex);  
@@ -133,17 +123,7 @@ namespace FHP.Controllers.FHP
                     // Edit the Contract model asynchronously.
                     await _manager.Edit(model);
 
-
-                    var employertoken = await _fCMTokenManager.FcmTokenByRole("employer");
-
-                    var token = employertoken.OrderByDescending(e => e.Id).FirstOrDefault();
-
-                    if (token != null && !string.IsNullOrEmpty(model.EmployeeSignature))
-                    {
-                        string employerMessage = "A contract has been signed by employee.";
-                        await _sendNotificationService.SendNotification("contract signed", employerMessage, token.TokenFCM);
-                    }
-
+                    await _notificationService.EditContractNotificationAsync(model);
 
                     // Commit the transaction.
                     await transaction.CommitAsync(); 
@@ -169,7 +149,7 @@ namespace FHP.Controllers.FHP
         }
 
         // Get All Contract with Pagination and search filter
-        [HttpGet("getall-pagination")] 
+        [HttpGet("getall-pagination")]  
         public async Task<IActionResult> GetAllAsync(int page,int pageSize,string? search,int employeeId,int employerId)
          {
             if (!ModelState.IsValid)
@@ -295,12 +275,13 @@ namespace FHP.Controllers.FHP
             try
             {
                 var employeeEmail = await _userManager.GetByIdAsync(model.userId);
+                var employerEmail = await _userManager.GetByIdAsync(model.employerId);
 
-                if(model.Id == 0 && model.userId != 0 &&
-                    employeeEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
+                if (model.Id == 0 && model.userId != 0 &&
+                    employeeEmail != null && employerEmail != null && !string.IsNullOrEmpty(employeeEmail.Email))
                 {
                   
-                    await _emailService.SendContractEmail(employeeEmail.Email, employeeEmail.Id,model.HtmlContext,model.Subject);
+                    await _emailService.SendContractEmail(employeeEmail.Email, employerEmail.Email,employeeEmail.Id, employerEmail.Id,model.HtmlContext,model.Subject);
 
                     return Ok(new
                     {
@@ -325,7 +306,7 @@ namespace FHP.Controllers.FHP
 
 
         [HttpPatch("upload-pdf")]
-        public async Task<IActionResult> UploadPdfAsync(IFormFile pdffile, int id)
+        public async Task<IActionResult> UploadPdfAsync(int id, IFormFile pdffile)
         {
             if(!ModelState.IsValid)
             {
@@ -345,20 +326,15 @@ namespace FHP.Controllers.FHP
                     return BadRequest(response);
                 }
 
-                string pdfUrl = string.Empty;
-
-                if(pdffile != null)
+                var contractExists = await _manager.GetByIdAsync(id);
+                if (contractExists == null)
                 {
-                    pdfUrl = await _fileUploadService.UploadIFormPdfAsync(pdffile);
-
-                    if (string.IsNullOrEmpty(pdfUrl))
-                    {
-                        response.StatusCode = 500;
-                        response.Message = "Failed to upload PDF file.";
-                        return BadRequest(response);
-                    }
+                    response.StatusCode = 404;
+                    response.Message = "Contract not found.";
+                    return NotFound(response);
                 }
-                else
+
+                if (pdffile == null)
                 {
                     response.StatusCode = 400;
                     response.Message = "No PDF file provided.";
@@ -366,13 +342,37 @@ namespace FHP.Controllers.FHP
                 }
 
 
-                await _manager.AddPdfFile(id, pdfUrl);
+
+                var existingPdfUrl = await _manager.GetPdfUrlByContractIdAsync(id);
+                if (!string.IsNullOrEmpty(existingPdfUrl))
+                {
+                    /*var deleteExistsFile = await _fileUploadService.DeleteIFormPdfAsync(existingPdfUrl);
+                    if (!deleteExistsFile)
+                    {
+                        response.StatusCode = 500;
+                        response.Message = "Failed to delete existing PDF file.";
+                        return BadRequest(response);
+                    }*/
+                }
+
+
+
+                var file = await _fileUploadService.UploadIFormPdfAsync(pdffile);
+
+                if (string.IsNullOrEmpty(file))
+                {
+                    response.StatusCode = 500;
+                    response.Message = "Failed to upload PDF file.";
+                    return BadRequest(response);
+                }
+
+                await _manager.AddPdfFile(id, file);
 
                 await transaction.CommitAsync();
 
                 response.StatusCode = 200;
                 response.Message = "Pdf save sucessfully!";
-                response.PdfUrl = pdfUrl ;
+                response.PdfUrl = file;
                 return Ok(response);
 
             }
@@ -384,7 +384,5 @@ namespace FHP.Controllers.FHP
             }
         }
 
-    }
-
-        
+    } 
 }

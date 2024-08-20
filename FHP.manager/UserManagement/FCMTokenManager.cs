@@ -12,10 +12,16 @@ namespace FHP.manager.UserManagement
             _repository = repository;
         }
 
+        public async Task<FcmTokenDetailDto> FcmTokenByEmployeeId(int employeeId)
+        {
+            return await _repository.FcmTokenByEmployeeId(employeeId);
+        }
+
         public async Task<List<FcmTokenDetailDto>> FcmTokenByRole(string roleName)
         {
             return await _repository.FcmTokenByRole(roleName);
         }
+
 
     }
 }

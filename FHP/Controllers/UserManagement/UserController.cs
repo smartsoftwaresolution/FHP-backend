@@ -1,9 +1,12 @@
-﻿using FHP.infrastructure.DataLayer;
+﻿
+using FHP.infrastructure.DataLayer;
 using FHP.infrastructure.Manager.UserManagement;
 using FHP.infrastructure.Service;
 using FHP.models.UserManagement.User;
+using FHP.services;
 using FHP.utilities;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace FHP.Controllers.UserManagement
 {
@@ -18,6 +21,7 @@ namespace FHP.Controllers.UserManagement
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISendNotificationService _sendNotificationService;
         private readonly IFCMTokenManager _fCMTokenManager;
+        private readonly INotificationService _notificationService;
 
         public UserController(IUserManager manager,
                               IExceptionHandleService exceptionHandleService,
@@ -25,7 +29,9 @@ namespace FHP.Controllers.UserManagement
                               IFileUploadService  fileUploadService,
                               IUnitOfWork unitOfWork,
                               ISendNotificationService sendNotificationService,
-                              IFCMTokenManager fCMTokenManager)
+                              IFCMTokenManager fCMTokenManager,
+                              INotificationService notificationService
+                             )
                               
         {
             _manager = manager;
@@ -35,11 +41,13 @@ namespace FHP.Controllers.UserManagement
             _unitOfWork = unitOfWork;
             _sendNotificationService = sendNotificationService;
             _fCMTokenManager = fCMTokenManager;
+            _notificationService = notificationService;
+            
         }
 
         // API Endpoint for add user
         [HttpPost("add")]  
-        public async Task<IActionResult> AddAsync(AddUserModel model)
+        public async Task<IActionResult> AddAsync(AddUserModel model,string origin)
         
         {
             // Checks if the model state is valid
@@ -53,7 +61,9 @@ namespace FHP.Controllers.UserManagement
             var response = new BaseResponseAdd();
 
             // Begin a database transaction to ensure data consistency during addition.
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(); 
+            await using var transaction = await _unitOfWork.BeginTransactionAsync();
+
+           
 
             try
             {
@@ -81,41 +91,10 @@ namespace FHP.Controllers.UserManagement
                     userid = await _manager.AddAsync(model);
 
 
-                   
-
-                    var tokens = await _fCMTokenManager.FcmTokenByRole("admin");
-
-                     
-
-                    // Check if tokens exist
-                    if (tokens.Any())
-                    {
-                        string body = "";
-                        string Title = "";
-
-                        if (model.RoleName.ToLower().Contains("employee"))
-                        {
-                            body = "A new employee has joined the platform.Kindly review their information and greet them warmly";
-                            Title = "A new employee has joined";
-                        }
-
-                        else if (model.RoleName.ToLower().Contains("employer"))
-                        {
-                            body = "A new employer has joined the platform.Kindly review their information and greet them warmly";
-                            Title = "A new employer has joined";
-                        }
-
-                        // Send notification using the first token found in the list
-                        var token = tokens.FirstOrDefault();
-                        if (token != null)
-                        {
-                            await _sendNotificationService.SendNotification(Title, body, token.TokenFCM);
-                        }
-                    }
-
+                    await _notificationService.AddUserRegistrationNotificationAsync(model); 
 
                     // Sends a verification email to the user
-                    await _emailService.SendverificationEmail(model.Email, userid);
+                    await _emailService.SendverificationEmail(model.Email, userid,origin);
 
                     // Commits the transaction as all operations are successful
                     await transaction.CommitAsync();
@@ -567,5 +546,39 @@ namespace FHP.Controllers.UserManagement
             }
         }
 
+
+        [HttpGet("getby-UserId")]
+        public async Task<IActionResult> GetByUserIdAsync(int userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorList());
+            }
+
+            var response = new BaseResponseAddResponse<object>();
+
+            try
+            {
+                var data = await _manager.GetByUserId(userId);
+
+                if(data != null)
+                {
+                    response.StatusCode = 200;
+                    response.Data = data;
+                    return Ok(response);
+                }
+
+                response.StatusCode = 404;
+                response.Message = Constants.error;
+                return BadRequest(response);
+            }
+            catch(Exception ex) 
+            {
+                return await _exceptionHandleService.HandleException(ex);
+            }
+        }
+
     }
+
+    
 }

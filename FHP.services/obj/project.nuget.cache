@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "GZ0+DOBenAo=",
+=======
+  "dgSpecHash": "0nAhYL9r8oo=",
+>>>>>>> eaadc8126a63df4b3b3417597bd78b4bf7268efe
   "success": true,
   "projectFilePath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.services\\FHP.services.csproj",
   "expectedPackageFiles": [

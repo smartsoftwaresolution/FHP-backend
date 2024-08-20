@@ -8,8 +8,10 @@ namespace FHP.infrastructure.Service
 {
     public interface IEmailService
     {
-        Task SendverificationEmail(string email,int userId);
+        Task SendverificationEmail(string email,int userId, string origin);
 
-        Task SendContractEmail(string email,int userId, string htmlBody,string subject);
+        Task SendContractEmail(string email,string employerEmail,int userId, int employerId,string htmlBody,string subject);
+
+       
     }
 }
