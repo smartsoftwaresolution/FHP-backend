@@ -1,10 +1,6 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "J3wDgtj47KQ=",
-=======
-  "dgSpecHash": "frhyno0/EfE=",
->>>>>>> eaadc8126a63df4b3b3417597bd78b4bf7268efe
   "success": true,
   "projectFilePath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.datalayer\\FHP.datalayer.csproj",
   "expectedPackageFiles": [
@@ -221,6 +217,12 @@
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.datalayer\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
     {
       "code": "NU1902",
       "level": "Warning",

@@ -1,10 +1,6 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "YmBdR8pWfkk=",
-=======
-  "dgSpecHash": "i9JrdU3Ljrw=",
->>>>>>> eaadc8126a63df4b3b3417597bd78b4bf7268efe
   "success": true,
   "projectFilePath": "C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\FHP.models.csproj",
   "expectedPackageFiles": [
@@ -167,5 +163,12 @@
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Working\\FHP\\BackEnd\\FHP-backend\\FHP.models\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
