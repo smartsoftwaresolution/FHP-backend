@@ -214,43 +214,45 @@ namespace FHP.datalayer.Repository.FHP
         {
 
             var query = from s in _dataContext.EmployeeAvailabilities
+                        join t in _dataContext.JobPostings on s.JobId equals t.Id
                         where s.Status != Constants.RecordStatus.Deleted 
-                        select s;
+                        select new { user = s, employer = t };
 
 
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(s => s.EmployeeId.ToString().Contains(search));
+                query = query.Where(s => s.user.EmployeeId.ToString().Contains(search));
             }
 
 
             if (employeeId > 0)
             {
-                query = query.Where(s => s.EmployeeId == employeeId);
+                query = query.Where(s => s.user.EmployeeId == employeeId);
             }
 
             if (IsAvailable != null)
             {
-                query = query.Where(s => s.IsAvailable == IsAvailable);
+                query = query.Where(s => s.user.IsAvailable == IsAvailable);
             }
 
 
             var totalCount = await query.CountAsync();
 
-            query = query.OrderByDescending(s => s.Id);
+            query = query.OrderByDescending(s => s.user.Id);
 
             var data = await query.Select(s => new EmployeeAvailabilityDetailDto
             {
-                Id = s.Id,
-                UserId = s.UserId,
-                JobId = s.JobId,
-                EmployeeId = s.EmployeeId,
-                IsAvailable = s.IsAvailable,
-                CreatedOn = s.CreatedOn,
-                Status = s.Status,
-                AdminjobTitle = s.AdminJobTitle,
-                AdminJobDescription = s.AdminJobDescription,
-                UpdatedOn = s.UpdatedOn,
+                Id = s.user.Id,
+                UserId = s.user.UserId,
+                JobId = s.user.JobId,
+                EmployeeId = s.user.EmployeeId,
+                IsAvailable = s.user.IsAvailable,
+                CreatedOn = s.user.CreatedOn,
+                Status = s.user.Status,
+                EmployerId = s.employer.UserId,
+                AdminjobTitle = s.user.AdminJobTitle,
+                AdminJobDescription = s.user.AdminJobDescription,
+                UpdatedOn = s.user.UpdatedOn,
             }).AsNoTracking().ToListAsync();
 
             return data;
