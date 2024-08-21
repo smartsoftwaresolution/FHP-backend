@@ -26,7 +26,7 @@ namespace FHP.dtos.FHP.EmployeeAvailability
         public string AdminjobTitle { get; set; }
         public string AdminJobDescription { get; set; }
 
-       
+        public int EmployerId { get; set; }
         public string JobTitle { get; set; }
         public string Description { get; set; }
         public string Experience { get; set; }
